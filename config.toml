@@ -11,5 +11,8 @@ pygmentsstyle = "xcode"
   name = "Home"
   url = "/"
   [[menu.main]]
+  name = "修订"
+  url = "/edit-history"
+  [[menu.main]]
   name = "关于"
-  url = "/about/"
+  url = "/about"
