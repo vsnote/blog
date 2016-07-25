@@ -3,6 +3,7 @@ title: 读书
 author: 陈 三
 layout: page
 date: 2013-01-28T14:35:31+00:00
+url: /read
 views:
   - 707
 dsq_thread_id:
