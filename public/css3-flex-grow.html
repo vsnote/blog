@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>CSS3 flex-grow - 陈三</title>
+<meta property="og:title" content="CSS3 flex-grow - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">CSS3 flex-grow</h1>
+
+    
+    <span class="article-date">July 7, 2014</span>
+    
+
+    <div class="article-content">
+      <p>CSS3弹性盒模型中，有两类元素：</p>
+
+<ol>
+<li>flex container</li>
+<li>flex item</li>
+</ol>
+
+<p>如下图<sup class="footnote-ref" id="fnref:13063-1"><a rel="footnote" href="#fn:13063-1">1</a></sup>：</p>
+
+<p><img src="https://dev.w3.org/csswg/css-flexbox/images/flex-direction-terms.svg" alt="css3 flexible box model" /></p>
+
+<p>flex container通过声明元素的<code>display</code>属性为<code>flex</code>或<code>inline-flex</code>定义，flex container的子元素无需声明，直接就是flex item。</p>
+
+<p><code>flex-grow</code>是flex item的CSS属性，默认值为0。</p>
+
+<p>简单说，它是flex item分配flex container剩余空间的规则。</p>
+
+<p>如下例：</p>
+
+<p><a href="http://jsbin.com/wiluco/2/embed?output">CSS3 flex-grow属性</a>{.jsbin-embed}</p>
+
+<p>未设置<code>flex-grow</code>前，红色部分文字宽度是403px，蓝色部分文字宽度是27px，包含块宽度是630px。所以包含块还剩下200px空间可以给它的flex item分配。</p>
+
+<p>因为红色部分的<code>flex-grow</code>值为1，蓝色部分的<code>flex-grow</code>值为2，所以200px分三份，红色占一份，即66.6666666667px，蓝色占两份，即133.333333333px。</p>
+
+<p>最后计算结果，红色的长度为403+66.6666666667=470px，绿色的长度为27+133.333333333=160px。</p>
+
+<p>而如果flex container没有空间剩余，则<code>flex-grow</code>值不管设置成什么都不会有影响。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:13063-1">图片来自<a href="http://dev.w3.org/csswg/css-flexbox/#box-model">W3</a>
+ <a class="footnote-return" href="#fnref:13063-1"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

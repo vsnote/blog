@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>The Ruby openssl extension was not compiled. Missing the OpenSSL lib? - 陈三</title>
+<meta property="og:title" content="The Ruby openssl extension was not compiled. Missing the OpenSSL lib? - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">The Ruby openssl extension was not compiled. Missing the OpenSSL lib?</h1>
+
+    
+    <span class="article-date">November 11, 2013</span>
+    
+
+    <div class="article-content">
+      <p>我试图通过 <a href="https://github.com/sstephenson/rbenv">rbenv</a> 安装 Ruby，但失败了，错误如标题所示。</p>
+
+<p><a href="https://github.com/sstephenson/ruby-build/issues/377">Ruby-build</a> 上有人报告类似的错误，作者也在 wiki 上给出相应的<a href="https://github.com/sstephenson/ruby-build/wiki#suggested-build-environment">环境要求</a>说明。但里面并没有提到 openSUSE 系统。</p>
+
+<p>依他们的思路，我查找了 openSUSE 下的相应 openssl 包：</p>
+
+<pre><code>$ zypper se openssl
+</code></pre>
+
+<p>找到的有 libopenssl-devel 等，</p>
+
+<pre><code>$ sudo zypper in libopenssl-devel
+</code></pre>
+
+<p>之后再通过 rbenv 安装：</p>
+
+<pre><code>$ rben install 2.0.0-p353
+</code></pre>
+
+<p>结果是：</p>
+
+<blockquote>
+<p>Installed ruby-2.0.0-p353 to /home/sam/.rbenv/versions/2.0.0-p353</p>
+</blockquote>
+
+<p>不再报错，成功安装 Ruby 2.0.0-p353。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

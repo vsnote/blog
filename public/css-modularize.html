@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>模块化 CSS - 陈三</title>
+<meta property="og:title" content="模块化 CSS - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">模块化 CSS</h1>
+
+    
+    <span class="article-date">June 6, 2015</span>
+    
+
+    <div class="article-content">
+      <p>CSS 是失控的。</p>
+
+<p>我们无妨把 CSS 想象成一头野马，我们所有的 CSS 命名规范上的尝试，无论是 <a href="https://suitcss.github.io/">SUITCSS</a> 还是 <a href="https://en.bem.info/">BEM</a>、<a href="https://smacss.com/">SMACSS</a> 或是<a href="http://www.zfanw.com/blog/css-worst-practice-complex-tag-selectors.html">其它</a>，都是打算给 CSS 套上缰绳，但我们只是往正确的方向走了一小步。命名规范只是一种约定，如果开发者有意或无意地忽视，哪怕只是代码中的一小部分，也会给以后埋下问题。</p>
+
+<p>所以我们可以看到，在 JavaScript 模块化非常成熟、各类工具齐全的今天，前端界开始往 CSS 模块化方向努力。</p>
+
+<p>我最早了解到的这方面努力是 <a href="https://github.com/ebryn/ember-component-css">ember-component-css</a>，比如 <code>app/my-component/styles.css</code> 文件内容如下：</p>
+
+<pre><code>&amp; {
+  padding: 2px;
+}
+.urgent {
+  color: red;
+}
+</code></pre>
+
+<p>构建后的 CSS 如下：</p>
+
+<pre><code>.my-component-a34fba {
+  padding: 2px;
+}
+.my-component-a34fba .urgent {
+  color: red;
+}
+</code></pre>
+
+<p>构建后的 CSS 作用域不再是全局，而是限定在<strong>这个</strong>组件中，我们把 CSS 关进模块化的笼子。我们不用担心它的作用会渗透到其他代码，我们现在对我们的代码作用范围非常有信心 &#8211; 它现在更像是狙击枪，而不是手榴弹。</p>
+
+<p>接下来，我在用 <a href="http://www.zfanw.com/blog/jspm-systemjs.html">JSPM</a> 时也看到<a href="https://github.com/systemjs/plugin-css/issues/30">模块化 CSS 的努力</a>。</p>
+
+<p>然后是 webpack 的 <a href="https://github.com/webpack/css-loader/#module-mode">CSS Module mode</a>，开发这块功能的这位甚至宣布了<a href="https://medium.com/seek-ui-engineering/the-end-of-global-css-90d2a4a06284">全局 CSS 的终结</a>。</p>
+
+<p>从上面的简单介绍中可以看到，CSS 的模块化依赖于特定工具，比如 ember-cli、webpack、jspm，如果我们不用这类工具的话，就基本无法对 CSS 做模块化，这样移植性似乎差了点，而且因为没有标准规范，所以它们的实施也不尽相同。可是这年头，不用这类工具辅助的代码，恐怕代码在可维护性、可扩展方面都会很糟糕吧。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

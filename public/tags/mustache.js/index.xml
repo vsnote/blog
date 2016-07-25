@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mustache.Js on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/mustache/index.js/</link>
+    <description>Recent content in Mustache.Js on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 15 Aug 2014 05:09:16 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/mustache.js/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Mustache 嵌套数组</title>
+      <link>https://www.zfanw.com/blog/mustache-nested-array.html</link>
+      <pubDate>Fri, 15 Aug 2014 05:09:16 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/mustache-nested-array.html</guid>
+      <description>&lt;p&gt;如果观察Mustache&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:13336-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:13336-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;模板的填充数据，会发现最深层的通常是一个对象，对象的&lt;code&gt;key&lt;/code&gt;在mustache模板中占位，&lt;code&gt;value&lt;/code&gt;值则显示在key所占的位置。&lt;/p&gt;
+
+&lt;p&gt;如下模板：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; * {{name}}
+ * {{age}}
+ * {{place}}
+ * {{{place}}}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;数据：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  &amp;quot;name&amp;quot;: &amp;quot;陈三&amp;quot;,
+  &amp;quot;place&amp;quot;: &amp;quot;&amp;lt;b&amp;gt;福州平潭&amp;lt;/b&amp;gt;&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;渲染结果：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; * 陈三
+ *
+ * &amp;amp;lt;b&amp;amp;gt;福州平潭&amp;amp;lt;/b&amp;amp;gt;
+ * &amp;lt;b&amp;gt;福州平潭&amp;lt;/b&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上示例十分直观。但碰到value是数组时，Mustache模板就显得委婉。&lt;/p&gt;
+
+&lt;p&gt;它引入一个Section(块)的概念，从&lt;code&gt;{{#key}}&lt;/code&gt;开始，以&lt;code&gt;{{/key}}&lt;/code&gt;结尾。Section会根据value值的情况渲染出一个或多个Section中包含的代码。&lt;/p&gt;
+
+&lt;p&gt;如下模板：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{{#person}}
+  &amp;lt;p&amp;gt;{{name}}&amp;lt;/p&amp;gt;
+{{/person}}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;数据：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  person: [
+    &amp;quot;name&amp;quot;: &amp;quot;陈三&amp;quot;,
+    &amp;quot;name&amp;quot;: &amp;quot;陈四&amp;quot;
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;渲染的结果会是：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;陈三&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;陈四&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但我们常常是根据数据来写模板的。&lt;/p&gt;
+
+&lt;p&gt;比如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  person: [
+    &amp;quot;陈三&amp;quot;,
+    &amp;quot;陈四&amp;quot;
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个数据里，value值是一个数组，数组中的单个组成并没有显式的&lt;code&gt;key&lt;/code&gt;存在。这时，模板是这样写的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{{#person}}
+  &amp;lt;p&amp;gt;{{.}}&amp;lt;/p&amp;gt;
+{{/person}}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果你用过Linux系统，会十分清楚，&lt;code&gt;.&lt;/code&gt;号表示当前目录。模板中的&lt;code&gt;.&lt;/code&gt;则表示数据的当前上下文环境，因为value是一个数组，所以Mustache模板在解析时会自动循环输出。&lt;/p&gt;
+
+&lt;p&gt;渲染的结果是：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;陈三&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;陈四&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;再来看一组有嵌套的数据：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  person: [
+    {&#39;lastName&#39;: &#39;陈&#39;, firstName: [&#39;三&#39;, &#39;四&#39;]},
+    {&#39;lastName&#39;: &#39;王&#39;, firstName: [&#39;二&#39;]}
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我希望渲染的结果如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+ &amp;lt;li&amp;gt;陈
+   &amp;lt;ul&amp;gt;
+     &amp;lt;li&amp;gt;三&amp;lt;/li&amp;gt;
+     &amp;lt;li&amp;gt;四&amp;lt;/li&amp;gt;
+   &amp;lt;/ul&amp;gt;
+ &amp;lt;/li&amp;gt;
+ &amp;lt;li&amp;gt;王
+   &amp;lt;ul&amp;gt;
+     &amp;lt;li&amp;gt;二&amp;lt;/li&amp;gt;
+   &amp;lt;/ul&amp;gt;
+ &amp;lt;/li&amp;gt;
+&amp;lt;ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个模板的写法如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+{{#person}}
+  &amp;lt;li&amp;gt;{{lastName}}
+    &amp;lt;ul&amp;gt;
+      {{#firstName}}
+        &amp;lt;li&amp;gt;{{.}}&amp;lt;/li&amp;gt;
+      {{/firstName}}
+    &amp;lt;/ul&amp;gt;
+  &amp;lt;/li&amp;gt;  
+{{/person}}
+&amp;lt;/ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;模板写成这样，我个人觉得，已经颇为失败。因为直观度降了很多，初学者不认真琢磨，恐怕不能一眼看明白。&lt;/p&gt;
+
+&lt;p&gt;另外，如果你想输出数组的索引(index)值，Mustache语法并不支持，Ractive.js&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:13336-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:13336-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;对其做了扩展，甚至支持输出&lt;code&gt;key&lt;/code&gt;本身的值。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:13336-1&#34;&gt;&lt;a href=&#34;https://github.com/janl/mustache.js&#34;&gt;mustache.js&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:13336-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:13336-2&#34;&gt;&lt;a href=&#34;http://docs.ractivejs.org/latest/mustaches#index-references&#34;&gt;Mustaches | Docs | Ractive.js&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:13336-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

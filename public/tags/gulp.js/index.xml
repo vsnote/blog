@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gulp.Js on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/gulp/index.js/</link>
+    <description>Recent content in Gulp.Js on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Thu, 07 May 2015 12:55:32 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/gulp.js/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>jspm &amp; SystemJS 教程</title>
+      <link>https://www.zfanw.com/blog/jspm-systemjs.html</link>
+      <pubDate>Thu, 07 May 2015 12:55:32 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jspm-systemjs.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 包管理器&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 加载器&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#jspm&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; jspm&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    我的经验，前端开发上要解决的问题能简单分为两个阶段：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      开发阶段
+    &lt;/li&gt;
+    &lt;li&gt;
+      部署阶段
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    其中开发阶段要解决：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      第三方包安装、使用、依赖关系的维护
+    &lt;/li&gt;
+    &lt;li&gt;
+      自有代码的依赖关系维护及使用
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    先来聊聊开发阶段的解决方案。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;包管理器&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    最初在 jQuery 站点上，文档可能是这样写的：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      下载 jquery.min.js 文件
+    &lt;/li&gt;
+    &lt;li&gt;
+      保存到 js 目录
+    &lt;/li&gt;
+    &lt;li&gt;
+      在 HTML 文件中使用 &lt;code&gt;script&lt;/code&gt; 标签引用 jquery
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    因为 jQuery 不依赖其它库，所以相对来说，上面的操作还算简单。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但如果碰上有依赖关系的，比如 Bootstrap 依赖于 jQuery，我们可能就需要分开下载 Bootstrap 与 jQuery。好在这一类第三方库通常都在下载文件中打包好依赖了。但这样又有一个问题，如果另一个库也同样打包一个 jQuery，并且版本与 Bootstrap 里打包的不一致呢。可以想像，这样的情况并不少见，我们的开发目录最终容易失控 &amp;#8211; 添加包很容易，删除就难了。另外，手工来做这件事，效率太低。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    包管理器的意义就在这里。它封装了细节，自动化处理我们的需求。我们只需要提问题，它们提供答案：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      我要使用 jQuery &amp;#8211; 好，&lt;code&gt;bower install jquery&lt;/code&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      我要使用 Bootstrap &amp;#8211; 好， &lt;code&gt;bower install bootstrap&lt;/code&gt;，顺便会把依赖 jQuery 一起安装了
+    &lt;/li&gt;
+    &lt;li&gt;
+      我想了想，还是删除 Bootstrap 吧 &amp;#8211; 好， &lt;code&gt;bower uninstall bootstrap&lt;/code&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    包管理器会维护一个依赖清单，个中关系一目了然。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当然，以上只是用 &lt;a href=&#34;http://bower.io/&#34; title=&#34;bower 官网&#34;&gt;bower&lt;/a&gt; 举例，市面上同类产品还非常多，比如 &lt;a href=&#34;http://duojs.org/&#34; title=&#34;doujs 官网&#34;&gt;duojs&lt;/a&gt;，本文的主角 &lt;a href=&#34;http://jspm.io/&#34; title=&#34;jspm 官网&#34;&gt;jspm&lt;/a&gt; 也是一个，甚至 npm 都算。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;加载器&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    包管理器解决了我们管理各种模块的需求。接下来，我们要利用这些模块来开发，那么就会碰上如何使用这些模块的问题了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    目前 ES6 模块的标准还没在浏览器中得到完全落实，过渡期间我们有许多规范或不规范的模块：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://www.commonjs.org/&#34; title=&#34;commonjs 官网&#34;&gt;CommonJS&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://github.com/amdjs/amdjs-api/wiki/AMD&#34; title=&#34;托管在 github 上的 AMD 说明&#34;&gt;AMD&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://wiki.ecmascript.org/doku.php?id=harmony:modules&#34; title=&#34;ecmacript 上的 modules 文档&#34;&gt;ES6 Modules&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      命名空间方式定义
+    &lt;/li&gt;
+    &lt;li&gt;
+      其它
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    如果只使用单一规范，比如针对 AMD，我们可能会用 &lt;a href=&#34;http://requirejs.org/&#34; title=&#34;requirejs 官网&#34;&gt;RequireJS&lt;/a&gt;；ES6 的模块，我们可能会用到 &lt;a href=&#34;https://github.com/ModuleLoader/es6-module-loader&#34; title=&#34;es6-module-loader 的 github 库&#34;&gt;ES6 Module Loader Polyfill&lt;/a&gt;；CommonJS 规范的模块，我们可能用 &lt;a href=&#34;https://github.com/systemjs/systemjs&#34; title=&#34;systemJS 的 github 库&#34;&gt;SystemJS&lt;/a&gt; &amp;#8211; 它同样可用于加载 AMD/ES6 模块。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    CSS 加载器？？
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    上面提及的加载器，通常是针对 JavaScript 模块的，CSS 并没有严格意义的模块，那它怎么管理？我们的包管理器当然会连着包的 CSS 文件一同管理。那我们该如何使用这些模块中的 CSS 呢？举 SystemJS 来说，我们可以通过它的插件执行 &lt;code&gt;import&lt;/code&gt; 命令动态插入 CSS。打包的时候，SystemJS 默认会把整个 CSS 文件打包入 JS 文件中。当然，我们也可以借助 bower 与 gulp.js 及 &lt;a href=&#34;https://github.com/taptapship/wiredep&#34; title=&#34;wiredep 插件&#34;&gt;gulp.js 的 wiredep 插件&lt;/a&gt; 这样的组合实现在页面上「主动」插入 &lt;code&gt;link&lt;/code&gt; 标签 &amp;#8211; 但这需要搭配 gulp.js 等工具。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    走完开发阶段，我们来看看部署阶段要解决的几个明显问题：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      CSS 文件合并、压缩等
+    &lt;/li&gt;
+    &lt;li&gt;
+      JavaScript 文件合并、压缩、混淆等
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    不过，还是先正式介绍 jspm 与 SystemJS 的用法。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;jspm&#34;&gt;jspm&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyjspm&#34; href=&#34;#jspm&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如前所说的，jspm 是一个浏览器端包管理器。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    安装 jspm
+  &lt;/h3&gt;
+  
+  &lt;pre&gt;&lt;code&gt;npm install jspm -g
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    初始化目录
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    在安装完 jspm 后，我们在命令行下就有一个 &lt;code&gt;jspm&lt;/code&gt; 命令可用。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    创建一个目录，执行 &lt;code&gt;jspm init&lt;/code&gt; 即可在该目录下初始化开发环境：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;Package.json file does not exist, create it? [yes]: 
+Would you like jspm to prefix the jspm package.json properties under jspm? [yes]: 
+Enter server baseURL (public folder path) [.]: 
+Enter jspm packages folder [./jspm_packages]: 
+Enter config file path [./config.js]: 
+Configuration file config.js doesn&#39;t exist, create it? [yes]:
+Enter client baseURL (public folder URL) [/]: 
+Which ES6 transpiler would you like to use, Traceur or Babel? [traceur]:
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    如果你用过 &lt;a href=&#34;http://yeoman.io/&#34; title=&#34;yeoman 官网&#34;&gt;yeoman&lt;/a&gt; 一类工具，对这类提示应该非常熟悉。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    安装第三方库
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    比如要安装 jQuery：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;jspm install jquery
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这条命令会从 github:components/jquery 上读取下载。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    还可以从 npm 上下载安装：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;jspm install npm:jquery
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    创建 HTML 文件
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    创建一个 index.html 文件如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt; &amp;lt;!doctype html&amp;gt;
+  &amp;lt;script src=&#34;jspm_packages/system.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;script src=&#34;config.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;script&amp;gt;
+    System.import(&#39;app&#39;);
+  &amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    首先我们需要引用 &lt;code&gt;jspm_packages/system.js&lt;/code&gt;，这个是 jspm 提供的万用加载器。之后是 &lt;code&gt;config.js&lt;/code&gt; 文件，我们安装的各种包、依赖等信息都在这个文件中维护，之后我们用全局的 &lt;code&gt;System.import&lt;/code&gt; 执行 index.html 同一目录下的 app.js 文件。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在 app.js 文件中，我们使用 ES6 语法：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;import $ from &#39;jquery&#39;;
+$(function() {
+  console.log($);
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    假定我们要在 index.html 中使用 Bootstrap，那么先通过 &lt;code&gt;jspm&lt;/code&gt; 安装：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;jspm install bootstrap
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后把 app.js 文件修改如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;import bootstrap from &#39;bootstrap&#39;;
+
+$(function() {
+    console.log($);
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    我们并没有 &lt;code&gt;import&lt;/code&gt; jQuery，这是因为 jspm 维护有 bootstrap 的依赖，会自动加载 jQuery，不需要我们再手动 &lt;code&gt;import&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;import bootstrap from &#39;bootstrap&#39;&lt;/code&gt; 一行是加载了 Bootstrap 的 js 模块。那么，Bootstrap 的 CSS 部分如何加载呢？我们需要用到 &lt;a href=&#34;https://github.com/jspm/jspm-cli/wiki/Plugins#css&#34; title=&#34;plugin css 说明&#34;&gt;jspm 的 CSS 插件&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先，安装 jspm 的 css 插件：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;jspm install css
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后在 app.js 中添加一行：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;import &#39;bootstrap/css/bootstrap.css!&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;strong&gt;!&lt;/strong&gt; 表示这会经过插件处理。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这时如果在本地服务器上打开 index.html 文件，借助浏览器的开发者工具查看：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [resp_image id=&amp;#8217;16028&amp;#8242; caption=&amp;#8221; ]
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Wow，请求有点多 &amp;#8211; 但这只是开发阶段。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    打包 JavaScript
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    我们终于说到 JavaScript 的打包了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    jspm 里，js 文件的打包非常简单，举上面的例子说，如果我们只有一个 js 入口的话，则执行：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;jspm bundle-sfx app build.js --minify
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    就可以将所有需要的 js 文件包括 CSS 文件打包到一个 build.js 文件中。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    之后修改 index.html 文件中 script 部分如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;!--    &amp;lt;script src=&#34;jspm_packages/system.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script src=&#34;config.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script&amp;gt;
+        System.import(&#39;app&#39;);
+    &amp;lt;/script&amp;gt;--&amp;gt;
+    &amp;lt;script src=&#34;build.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这时打开 index.html 页面，就只剩下 index.html 与 build.js 两个请求了。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    打包 CSS
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    在上在一个步骤中，我们把 CSS 文件连着一起打包进了 js 中，这可能并不是多数人想要的结果。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我们可以通过定义 &lt;a href=&#34;https://github.com/jspm/jspm-cli/wiki/Plugins#css-builds&#34; title=&#34;jspm config.js 构建配置&#34;&gt;config.js 文件&lt;/a&gt;改变这种行为。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    打开 config.js 文件，添加 &lt;code&gt;seperateCSS: true&lt;/code&gt;：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;System.config({
+  &#34;baseURL&#34;: &#34;/&#34;,
+  &#34;separateCSS&#34;: true
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    再次执行 &lt;code&gt;jspm bundle-sfx app build.js --minify&lt;/code&gt;，会在 index.html 同级目录下生成一个 build.js 与 build.css，在 index.html 中引用 build.css 文件即可。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    对比 gulp.js 或 grunt.js 等工具，jspm 给我的体验非常好，解决了开发阶段、部署阶段的几个重要难题，目前只有 ember-cli 这样的环境能给我同样的感受。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gulp.js watch错误处理</title>
+      <link>https://www.zfanw.com/blog/gulp-js-watch-error-handle.html</link>
+      <pubDate>Thu, 01 May 2014 19:47:17 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/gulp-js-watch-error-handle.html</guid>
+      <description>
+
+&lt;p&gt;这是最近使用&lt;a href=&#34;http://zedapp.org/&#34;&gt;Zed&lt;/a&gt;编辑CoffeeScript文件经常碰上的一个问题。&lt;/p&gt;
+
+&lt;p&gt;如下gulpfile.js文件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var gulp = require(&#39;gulp&#39;),
+  coffee = require(&#39;gulp-coffee&#39;),
+  path = {
+    scripts: [&#39;coffee/**/*.coffee&#39;]
+  };
+gulp.task(&#39;coffee&#39;, function() {
+  return gulp.src(path.scripts)
+    .pipe(coffee())
+    .pipe(gulp.dest(&#39;js&#39;));
+});
+gulp.task(&#39;watch&#39;, function() {
+  gulp.watch(path.scripts, [&#39;coffee&#39;]);
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;命令行下执行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;gulp watch
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;gulp watch命令监控.coffee文件变化，并自动编译成js文件。&lt;/p&gt;
+
+&lt;p&gt;问题是，Zed有自动保存文件的功能，CoffeeScript语句输入一半，切换到其他窗口做点其他事情，Zed就把文件保存好了。gulp watch监测到文件变化，试图编译.coffee文件，但因为语句仅有一半，于是gulp报错并强制退出。&lt;/p&gt;
+
+&lt;p&gt;这么一来，我不时就要重启gulp watch命令。&lt;/p&gt;
+
+&lt;h2 id=&#34;解决办法&#34;&gt;解决办法&lt;/h2&gt;
+
+&lt;p&gt;一个最简单的解决办法，是利用gutil.log捕捉错误，而不是任由错误被抛出：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var gulp = require(&#39;gulp&#39;),
+  coffee = require(&#39;gulp-coffee&#39;),
+  gutil = require(&#39;gulp-util&#39;),
+  path = {
+    scripts: [&#39;coffee/**/*.coffee&#39;]
+  };
+gulp.task(&#39;coffee&#39;, function() {
+  return gulp.src(path.scripts)
+    .pipe(coffee())
+    .on(&#39;error&#39;, gutil.log) // 在这里捕捉编译错误
+    .pipe(gulp.dest(&#39;js&#39;));
+});
+gulp.task(&#39;watch&#39;, function() {
+  gulp.watch(path.scripts, [&#39;coffee&#39;]);
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是，这种处理方式，gulp watch在碰上错误时虽然不再强制退出，但也不再继续。gulp watch命令名存实亡，这时对.coffee文件做的修改，并不能被编译。&lt;/p&gt;
+
+&lt;p&gt;更美好的处理方式是使用gulp-plumber&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:12539-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:12539-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;npm install gulp-plumber --save
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;新的gulpfile.js文件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var gulp = require(&#39;gulp&#39;),
+  coffee = require(&#39;gulp-coffee&#39;),
+  plumber = require(&#39;gulp-plumber&#39;),
+  path = {
+    scripts: [&#39;coffee/**/*.coffee&#39;]
+  };
+gulp.task(&#39;coffee&#39;, function() {
+  return gulp.src(path.scripts)
+    .pipe(plumber()) //plumber给pipe打补丁
+    .pipe(coffee())
+    .pipe(gulp.dest(&#39;js&#39;));
+});
+gulp.task(&#39;watch&#39;, function() {
+  gulp.watch(path.scripts, [&#39;coffee&#39;]);
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样哪怕编译错误，gulp watch命令也能正常工作。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:12539-1&#34;&gt;&lt;a href=&#34;https://gist.github.com/floatdrop/8269868&#34;&gt;Error management in gulp&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:12539-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gulp.js</title>
+      <link>https://www.zfanw.com/blog/gulp-js.html</link>
+      <pubDate>Sun, 12 Jan 2014 16:08:44 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/gulp-js.html</guid>
+      <description>&lt;p&gt;好像突然间，就看到 twitter 上到处在聊 gulp.js &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11402-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11402-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;了，还拿来跟 grunt.js &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11402-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11402-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;作对比，说它的语法更简洁，说它的速度更快&amp;#8230;&amp;#8230;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;：&lt;em&gt;gulp 在2013.7.18推出0.1版本，grunt 在两年前推出&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;grunt.js 下，加载插件是这样写的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;grunt.loadNpmTasks(&#39;grunt-contrib-uglify&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;gulp.js 下，则是这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var uglify = require(&#39;gulp-uglify&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;gulp 加载插件的语法有点 Node.js 的意思，就我个人喜好说，确实会喜欢 &lt;code&gt;require&lt;/code&gt; 的方式多一点。&lt;/p&gt;
+
+&lt;p&gt;再来看定义任务。&lt;/p&gt;
+
+&lt;p&gt;gulp 下是这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;gulp.task(&#39;scripts&#39;, function() {// 定义一个脚本任务
+  // 最小化、混淆 js 目录下不包括 vendor 子目录的所有 js 文件，并将结果保存到 build/js 目录下
+  return gulp.src([&#39;js/**/*.js&#39;, &#39;!js/vendor/**&#39;])
+    .pipe(uglify()) // pipe 是一个管道，可以连接不同部分
+    .pipe(rename({ // 重命名文件
+        ext: &amp;quot;.min.js&amp;quot;
+    }))
+    .pipe(gulp.dest(&#39;build/js&#39;));
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个任务在 grunt 下写的话：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;uglify: { 
+      build: {
+      files: [
+        {
+          expand: true,     
+          cwd: &#39;js/&#39;,      
+          src: [&#39;**/*.js&#39;, !js/vendor/**], 
+          dest: &#39;build/js&#39;,   
+          ext: &#39;.min.js&#39;,   
+        }
+      }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我觉得 gulp 的 pipe 用法确实要比 grunt 更漂亮。因为很多任务间常常要有联系，比如检查语法后（jshint）后要最小化混淆（uglify）处理，gulp 可以用 pipe 实现，直观明了，grunt 要定义两个任务，一个 jshint，一个 uglify，然后在 uglify 任务中把 &lt;code&gt;src&lt;/code&gt; 设置为 jshint 任务的结果，比如 &lt;code&gt;&amp;lt;%= jshint.all.dest %&amp;gt;&lt;/code&gt; 这样，任务一多，可能就有点乱。&lt;/p&gt;
+
+&lt;p&gt;最后再来看注册任务。&lt;/p&gt;
+
+&lt;p&gt;gulp 下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;gulp.task(&#39;default&#39;, function() {
+  gulp.run(&#39;scripts&#39;, &#39;images&#39;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;grunt 下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;grunt.registerTask(&#39;default&#39;, [&#39;scripts&#39;, &#39;images&#39;]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;一番比较下来，gulp 的语法确实要更讨人喜欢。不过&lt;strong&gt;我猜&lt;/strong&gt; grunt 的插件支持目前应该要更多些。至于 gulp.js &lt;q&gt;速度更快&lt;/q&gt;一说，除非项目很大，否则比较的意义并不大。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:11402-1&#34;&gt;&lt;a href=&#34;http://gulpjs.com/&#34;&gt;gulp.js &amp;#8211; the streaming build system&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11402-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11402-2&#34;&gt;&lt;a href=&#34;http://www.zfanw.com/blog/gruntjs.html&#34;&gt;Gruntjs – 陈三&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11402-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

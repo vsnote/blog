@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Twitter on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/twitter/</link>
+    <description>Recent content in Twitter on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 20 Dec 2014 16:02:37 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/twitter/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>t – twitter 的命令行界面客户端</title>
+      <link>https://www.zfanw.com/blog/t-a-command-line-power-tool-for-twitter.html</link>
+      <pubDate>Sat, 20 Dec 2014 16:02:37 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/t-a-command-line-power-tool-for-twitter.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_t&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 安装 t&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_t-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 认证 t&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Twitter_App&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 创建 Twitter App&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    这篇讲 Twitter 的 CLI（command-line interface） 应用 &lt;strong&gt;t&lt;/strong&gt;，是我安装使用中碰上的问题总结。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_t&#34;&gt;安装 t&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_t&#34; href=&#34;#_t&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    t&lt;fnref target=&#34;14785.1&#34; /&gt; 是一个 gem 包，所以你需要事先安装 Ruby 和 RubyGems。准备就绪后：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ sudo gem install t
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_t-2&#34;&gt;认证 t&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_t-2&#34; href=&#34;#_t-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ t authorize -d
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    问题
+  &lt;/h3&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        &lt;code&gt;t: command not found&lt;/code&gt;
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        因为 gem 安装路径的问题，你可能碰上 t 命令找不到的情况。可以使用 &lt;code&gt;gem env&lt;/code&gt; 查看 gem 安装路径，然后直接切换到 t 的路径执行 &lt;code&gt;./t authorize&lt;/code&gt;。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        关于 &lt;code&gt;-d&lt;/code&gt; 参数
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        上面使用了 &lt;code&gt;-d&lt;/code&gt; 参数，这是因为我的 openSUSE 13.2　里，t 在命令行下无法打开浏览器网页的缘故，它会报一个错&lt;fnref target=&#34;14785.2&#34; /&gt;：
+      &lt;/p&gt;
+      
+      &lt;blockquote&gt;
+        &lt;p&gt;
+          xprop: unable to open display &amp;#8221;
+        &lt;/p&gt;
+      &lt;/blockquote&gt;
+      
+      &lt;p&gt;
+        使用 &lt;code&gt;-d&lt;/code&gt; 参数可以在终端里生成 URL 地址，以便拷贝到浏览器中。
+      &lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Twitter_App&#34;&gt;创建 Twitter App&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Twitter_App&#34; href=&#34;#_Twitter_App&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    你需要根据提示，在 Twitter Application Management&lt;fnref target=&#34;14785.3&#34; /&gt; 创建一个 app，生成 t 需要的 API Key 及 API Secret。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    验证后期，还会需要一个 PIN 码。正常情况下，t 会打开一个 twitter 网址，非正常情况，就需要你手动拷贝那个认证 URL 到浏览器，生成一个 PIN 码，然后根据 t 的要求填入，即可完成认证。
+  &lt;/p&gt;
+  
+  &lt;footnotes&gt;
+    &lt;fn name=&#34;14785.1&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;https://github.com/sferik/t&#34;&gt;sferik/t 源代码&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;14785.2&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;https://github.com/sferik/t/issues/216&#34;&gt;认证时无法打开浏览器 · Issue #216 · sferik/t&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;14785.3&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;https://apps.twitter.com&#34;&gt;Twitter Application Management&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+  &lt;/footnotes&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>星球的脉动</title>
+      <link>https://www.zfanw.com/blog/twitter-global-pluse-chinese.html</link>
+      <pubDate>Thu, 30 Jun 2011 08:54:17 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/twitter-global-pluse-chinese.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 个人往来的信息&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 信息的传播&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    Twitter 官方博客上发了篇 &lt;a href=&#34;http://blog.twitter.com/2011/06/global-pulse.html&#34;&gt;Global pluse&lt;/a&gt;，演示日本大地震前后 Twitter 上信息的传播情况。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    以下内容即译自该博客：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    人们在经历大事件时，使用 Twitter 跟朋友、家人、全球各地的 followers 分享信息、想法。从一个地方发出的信息，通过Retweets、@replies 和 Direct Messages 在全球迅速传播。我们能够从每个这样的事件中看到类似行为，体育活动比如世界杯，大范围实时播放的新闻事件比如皇家婚礼，再如大灾难，比如日本 3 月 11 号的地震。在日本地震发生后，海啸随继爆发，每秒发送的 Tweets 数量有五次峰值超过 5000。下面的视频展示了这次事件中全球信息流动的样子。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;个人往来的信息&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    日本地震发生后，人们在 Twitter 上联系朋友、家人、爱人，然后我们看到，从日本发出的 Tweets，比平时增长了 500%。下面的视频展示了地震发生前后，进出日本的 @replies 的数目。粉色的表示回复给日本境内用户的信息，黄色表示从日本境内回复给其他地方的信息。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;信息的传播&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    下面的短片显示了世界范围内，地震前后一小时，日本发出的 Tweets 被 retweet (转发)的情况。发送者的原始推文以红色显示，他们的 followers 转发的 Tweets 用绿色显示。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

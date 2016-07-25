@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>CoffeeScript 里 setTimeout 写法 - 陈三</title>
+<meta property="og:title" content="CoffeeScript 里 setTimeout 写法 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">CoffeeScript 里 setTimeout 写法</h1>
+
+    
+    <span class="article-date">April 4, 2014</span>
+    
+
+    <div class="article-content">
+      <p>CoffeeScript 中，要给一个函数传递参数并执行，可以用括号，也可以省略括号：</p>
+
+<pre><code>run = (a, b) -&gt; # 定义 run 函数
+  // code hear
+
+run 1, 2 # 传递参数1、2给 run 函数并执行，省略了括号
+
+run(1, 2) # 传递参数1、2给 run 函数并执行，带括号
+</code></pre>
+
+<p>当然，你还可以将参数换行写，比如：</p>
+
+<pre><code>run 1,
+2
+
+run 1
+, 2
+
+run(1,
+2)
+
+run(1
+, 2)
+</code></pre>
+
+<p>只要有带上逗号，你想怎么写都可以，CoffeeScript 的编译器都会识别出你的用意。</p>
+
+<p>假如要在 CoffeeScript 定义一个 <code>setTimeout</code> 函数，可以这么写：</p>
+
+<pre><code>setTimeout  -&gt;
+  console.log a, b
+, 1000
+</code></pre>
+
+<p>编译出的结果是：</p>
+
+<pre><code>setTimeout(function() {
+  return console.log(a, b);
+}, 1000);
+</code></pre>
+
+<p>还有一种可行的写法，是把第一个参数用括号包起来：</p>
+
+<pre><code>setTimeout  (-&gt;
+  console.log a, b
+), 1000
+</code></pre>
+
+<p>这种写法要更明白。</p>
+
+<p>不过最明白的，肯定是把函数定义在其他地方，然后给 setTimeout 传递函数名：</p>
+
+<pre><code>func = -&gt;
+  console.log 'code'
+setTimeout(func, 1000)
+</code></pre>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

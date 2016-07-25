@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sass on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/sass/</link>
+    <description>Recent content in Sass on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 07 Oct 2013 05:55:48 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/sass/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Sass</title>
+      <link>https://www.zfanw.com/blog/sass.html</link>
+      <pubDate>Mon, 07 Oct 2013 05:55:48 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/sass.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#CSS&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; CSS 类命名&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Sass&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; Sass 变量&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 扩展阅读&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    现在为止，我还坚持一个看法，就是，如果我们对 CSS 模块化、&lt;a href=&#34;http://www.zfanw.com/blog/css-architecture.html&#34;&gt;架构&lt;/a&gt;等没有一个全局把握，那么，任何 CSS 预处理器，不管它是 LESS，还是 &lt;a href=&#34;http://sass-lang.com/&#34;&gt;Sass&lt;/a&gt; 或者 Stylus，带来的好处只会小于它们带来的坏处。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但我终于想写一篇关于 Sass 的内容。一来是上一篇写 &lt;a href=&#34;http://www.zfanw.com/blog/compass-sprite.html&#34;&gt;Compass 与 CSS 贴图定位&lt;/a&gt;时其实已经用到 Sass，二来自身对 CSS 架构有些了解，夸张地说，就是想试一下身手。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;CSS&#34;&gt;CSS 类命名&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyCSS&#34; href=&#34;#CSS&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    还是先来聊一下 CSS 类命名。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    页面上有一 A 块，它的 margin-top 值为20px，从类的可复用性出发，我们可能这样给它命名：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;.mt-20 {
+    margin-top:20px;
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    在 HTML 代码中应用到 A 块则是如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;p id=&#34;A&#34; class=&#34;mt-20&#34;&amp;gt;&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    假如 B、C、D 也一样的 margin-top 值，那么我们的 HTML 代码会出现如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;p id=&#34;B&#34; class=&#34;mt-20&#34;&amp;gt;&amp;lt;/p&amp;gt;
+&amp;lt;p id=&#34;C&#34; class=&#34;mt-20&#34;&amp;gt;&amp;lt;/p&amp;gt;
+&amp;lt;p id=&#34;D&#34; class=&#34;mt-20&#34;&amp;gt;&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    一旦数值20发生变化，比如说要微调成21,那么，上面的代码中，我们要改 CSS 文件中2处、HTML 文件中4处。显然，情况糟透了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    以前，我曾尝试过上述命名方法，并且见到有人鼓励这样的命名方式，但随后就发现问题不少。那么，怎样的命名方式会更合理？
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    从 font-size 的可能取值里我们可以得到启发：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;font-size: xx-small
+font-size: x-small
+font-size: small
+font-size: medium
+font-size: large
+font-size: x-large
+font-size: xx-large
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    是的，我们的 .mt-20 可以考虑命名成 .mt-large，这样我们就脱离了具体的数值，也让 CSS 类名更有语义。bootstrap 的&lt;a href=&#34;http://getbootstrap.com/css/#grid-options&#34;&gt;网格系统&lt;/a&gt;命名则是 .col-xs-、.col-sm-、.col-md-、.col-lg- 这样。更进一步缩减代码。Yahoo &lt;a href=&#34;https://github.com/chenxsan/HTML5Boilerplate/blob/master/css/helper.css&#34;&gt;走得更远&lt;/a&gt;，它的 CSS 里是这样写的：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;.mt-l {
+    margin-top: 20px;
+}
+.mr-l {
+    margin-right: 20px;
+}
+.mb-l {
+    margin-bottom: 20px;
+}
+.ml-l {
+    margin-left: 20px;
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这也是我现在采用的命名。(Yahoo 的页面里，其实有很多 &lt;a href=&#34;http://oocss.org/&#34;&gt;oocss&lt;/a&gt; 的影子，上面的命名只不过是一个体现。)
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在拟定上述的命名方法后，再来说 Sass 在其中的应用。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Sass&#34;&gt;Sass 变量&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heySass&#34; href=&#34;#Sass&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在上面代码中，我们定义 large 值为20px，假如后期需要微调，比如降成19px，这下我们又要修改起码4处的值，对的，我们又在干重复的事情。代码一旦出现重复，就会容易出错。Sass 可以解决这个问题。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在 .scss 文件中，我们事先定义一个 $large 变量，然后在定义类时使用该变量：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$large: 20px;
+
+.mt-l{margin-top: $large;}
+.mr-l{margin-right: $large;}
+.mb-l{margin-bottom: $large;}
+.ml-l{margin-left: $large;}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样，后期 large 值出现变化，我们也只要修改一处。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;扩展阅读&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://ianstormtaylor.com/oocss-plus-sass-is-the-best-way-to-css/&#34;&gt;OOCSS + Sass = The best way to CSS&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

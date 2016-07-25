@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Byobu 的启动问题 - 陈三</title>
+<meta property="og:title" content="Byobu 的启动问题 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Byobu 的启动问题</h1>
+
+    
+    <span class="article-date">November 11, 2014</span>
+    
+
+    <div class="article-content">
+      <p>在我的 openSUSE 13.1 上启动 Byobu 后：</p>
+
+<blockquote>
+<p>Have a lot of fun&#8230;</p>
+
+<p>/usr/lib/byobu/include/common:27: command not found: command -v</p>
+</blockquote>
+
+<p>检查该路径下的 <em>common</em> 文件第 27 行：</p>
+
+<pre><code>    for BYOBU_TEST in &quot;command -v&quot; &quot;type&quot; &quot;which&quot;; do
+        $BYOBU_TEST &gt;/dev/null &amp;&amp; break || true
+    done
+</code></pre>
+
+<p>虽然我不懂 Bash 编程，但大致明白，这是在检查三个 bash 内建的命令 <code>command -v</code>、<code>type</code>、<code>which</code>。</p>
+
+<p>比如我们可以输入：</p>
+
+<pre><code>which command
+</code></pre>
+
+<p>显示的结果是：</p>
+
+<blockquote>
+<p>command: shell built-in command</p>
+</blockquote>
+
+<p>所以问题是出在 <code>command -v</code> 这一条，Byobu 在启动过程中，未检查到该命令。</p>
+
+<p><strong>快速解决办法</strong>是，修改 <code>command -v</code> 为 <code>command</code>，据我的使用，并没有什么问题。</p>
+
+<p>当然，放任这个错误信息的话，也不影响使用。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

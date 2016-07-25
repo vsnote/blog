@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Zencoding.Vim on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/zencoding/index.vim/</link>
+    <description>Recent content in Zencoding.Vim on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 04 Jul 2012 05:12:26 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/zencoding.vim/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Emmet-vim 使用错误</title>
+      <link>https://www.zfanw.com/blog/zencoding-vim-error.html</link>
+      <pubDate>Wed, 04 Jul 2012 05:12:26 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/zencoding-vim-error.html</guid>
+      <description>&lt;p&gt;估计是我运气不好，经常在使用 Emmet-vim 中出现各种小错误。&lt;/p&gt;
+
+&lt;p&gt;这次是在 Ubuntu 系统使用 &lt;code&gt;git pull&lt;/code&gt; 更新 Emmet-vim，因为我使用 pathogen.vim 管理 vim 插件，所以只是在 .vim/bundle 目录下更新了源，没有其他动作。&lt;/p&gt;
+
+&lt;p&gt;接着启动 vim 键入 &amp;#8216;html:5&amp;#8217;，然后按触发键 &lt;kbd&gt;&lt;c-y&gt;,&lt;/kbd&gt;，结果出现错误：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Not enough arguments for function:zencoding#expandAbbr&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;换到 Windows 7 系统，同样更新了源，却没有上述错误出现。&lt;/p&gt;
+
+&lt;p&gt;后来想想 Emmet-vim 会在 .vimrc 配置文件里生成内容，比如键的映射等，试着将其清除掉后，再次启动 vim，没有任何错误出现，一切正常使用。&lt;/p&gt;
+
+&lt;p&gt;鸣谢：这次还是有跑 twitter 上咨询作者 &lt;a href=&#34;https://twitter.com/#!/mattn_jp&#34;&gt;@mattn_jp&lt;/a&gt;。&lt;/p&gt;
+
+&lt;div class=&#39;timeline&#39;&gt;
+  &lt;h2&gt;
+    修订历史
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;span itemprop=&#39;dateModified&#39;&gt;2015-06-17&lt;/span&gt;：修改 zencoding.vim 为 emmet-vim。
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Emmet.vim 教程</title>
+      <link>https://www.zfanw.com/blog/zencoding-vim-tutorial-chinese.html</link>
+      <pubDate>Thu, 31 May 2012 10:03:03 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/zencoding-vim-tutorial-chinese.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Emmetvim&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 下载 Emmet.vim&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Emmetvim-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 安装 Emmet.vim&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Emmetvim-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 使用 Emmet.vim&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 余话&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    Emmet 项目原来叫 Zen Coding。由俄罗斯前端开发工程师 Sergey Chikuyonok 开发，后来在 Google Code 上释出 &lt;a href=&#34;http://code.google.com/p/zen-coding/&#34;&gt;Zen Coding 项目&lt;/a&gt;。2012年的时候，项目启用新名称 &lt;a href=&#34;http://emmet.io/&#34;&gt;Emmet&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Emmet 官方支持&lt;a href=&#34;http://emmet.io/download/&#34;&gt;很多软件&lt;/a&gt;，比如 Sublime Text、Notepad++、Dreamweaver、Eclipse、Adobe Brackets 等。&lt;a href=&#34;https://github.com/mattn/emmet-vim/&#34;&gt;Emmet.vim&lt;/a&gt; 并非 Emmet 亲生，它由日本 &lt;a href=&#34;http://mattn.kaoriya.net/&#34;&gt;Yasuhiro Matsumoto&lt;/a&gt; 开发。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Emmetvim&#34;&gt;下载 Emmet.vim&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Emmetvim&#34; href=&#34;#_Emmetvim&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    你可以从两个地址下载，一是 &lt;a href=&#34;http://www.vim.org/scripts/script.php?script_id=2981&#34;&gt;Vim 插件站点&lt;/a&gt;，一是 &lt;a href=&#34;https://github.com/mattn/emmet-vim/&#34;&gt;Github&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Emmetvim-2&#34;&gt;安装 Emmet.vim&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Emmetvim-2&#34; href=&#34;#_Emmetvim-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    将下载的压缩包解压到 .vim 目录下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;cd ~/.vim
+unzip emmet-vim.zip
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    如果你使用 &lt;a href=&#34;http://www.vim.org/scripts/script.php?script_id=2332&#34;&gt;pathogen.vim&lt;/a&gt; 管理 Vim 插件：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;cd ~/.vim/bundle
+unzip /path/to/emmet-vim.zip
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    或者直接从 Github 库克隆一份：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;cd ~/.vim/bundle
+git clone http://github.com/mattn/emmet-vim.git
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    个人建议通过 Pathogen 或 &lt;a href=&#34;http://www.zfanw.com/blog/vundle-vim-plugin-management.html&#34;&gt;Vundle&lt;/a&gt; 来安装管理 Vim 插件。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Emmetvim-3&#34;&gt;使用 Emmet.vim&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Emmetvim-3&#34; href=&#34;#_Emmetvim-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    以下内容译自 &lt;a href=&#34;https://github.com/mattn/emmet-vim/blob/master/TUTORIAL&#34;&gt;Emmet.vim tutorial&lt;/a&gt;，感谢&lt;a href=&#34;http://twitter.com/mattn_jp&#34;&gt;作者&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    1. 展开缩略词
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    键入缩略词组 &lt;code&gt;div&amp;gt;p#foo$*3&amp;gt;a&lt;/code&gt; 然后按快捷键 &lt;kbd&gt;&lt;c-y&gt;,&lt;/kbd&gt; &amp;#8211; 指按 &lt;&lt;strong&gt;Ctrl-y&lt;/strong&gt;&gt; 后再按&lt;strong&gt;逗号&lt;/strong&gt;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
+    &amp;lt;p id=&#34;foo1&#34;&amp;gt;
+        &amp;lt;a href=&#34;&#34;&amp;gt;&amp;lt;/a&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p id=&#34;foo2&#34;&amp;gt;
+        &amp;lt;a href=&#34;&#34;&amp;gt;&amp;lt;/a&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p id=&#34;foo3&#34;&amp;gt;
+        &amp;lt;a href=&#34;&#34;&amp;gt;&amp;lt;/a&amp;gt;
+    &amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    2. 包入
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    如下内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;test1
+test2
+test3
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    按大写的 &lt;code&gt;V&lt;/code&gt; 进入 Vim 可视模式，“行选取”上面三行内容，然后按键 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;,&lt;/kbd&gt;&amp;#8216;，这时 Vim 的命令行会提示 &lt;code&gt;Tags:&lt;/code&gt;，键入&lt;code&gt;ul&amp;gt;li*&lt;/code&gt;，然后按 &lt;kbd&gt;Enter&lt;/kbd&gt;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+    &amp;lt;li&amp;gt;test1&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;test2&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;test3&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    而假如输入的 tag 是 &amp;#8216;blockquote&amp;#8217;，则结果会变成下面这样。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;blockquote&amp;gt;
+    test1
+    test2
+    test3
+&amp;lt;/blockquote&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    3.插入模式下根据光标位置选中整个标签
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;d&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    4.插入模式下根据光标位置选中整个标签内容
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;D&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    5.跳转到下一个编辑点
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    插入模式下按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;n&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    6.跳转到上一个编辑点
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    插入模式下按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;N&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    7.更新图片大小
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    移动光标到 img 标签。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;img src=&#34;foo.png&#34; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;i&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;img src=&#34;foo.png&#34; width=&#34;32&#34; height=&#34;48&#34; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    注：这个据个人使用经历，仅适用本地图片，互联网上的图片并无法取得其大小。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    8.合并行
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    选择包含 &amp;#8216;&lt;li&gt;&amp;#8217; 的行
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+    &amp;lt;li class=&#34;list1&#34;&amp;gt;&amp;lt;/li&amp;gt;
+    &amp;lt;li class=&#34;list2&#34;&amp;gt;&amp;lt;/li&amp;gt;
+    &amp;lt;li class=&#34;list3&#34;&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;m&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+    &amp;lt;li class=&#34;list1&#34;&amp;gt;&amp;lt;/li&amp;gt;&amp;lt;li class=&#34;list2&#34;&amp;gt;&amp;lt;/li&amp;gt;&amp;lt;li class=&#34;list3&#34;&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    9.移除标签对
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    移动光标到块中
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#34;foo&#34;&amp;gt;
+    &amp;lt;a&amp;gt;cursor is here&amp;lt;/a&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    在插入模式下按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;k&lt;/kbd&gt;&amp;#8216;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#34;foo&#34;&amp;gt;
+
+&amp;lt;/div&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    再次按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;k&lt;/kbd&gt;&amp;#8216; 则上述连 div 标签块都没了。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    10.分割/合并标签
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    移动光标到块中
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#34;foo&#34;&amp;gt;
+    cursor is here
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    在插入模式下按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;j&lt;/kbd&gt;&amp;#8216;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#34;foo&#34;/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    再次按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;j&lt;/kbd&gt;&amp;#8216;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#34;foo&#34;&amp;gt;
+
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    11.切换注释
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    移动光标到块中
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
+    hello world
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    插入模式中按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;/&lt;/kbd&gt;&amp;#8216;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;!-- &amp;lt;div&amp;gt;
+    hello world
+&amp;lt;/div&amp;gt; --&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    再按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;/&lt;/kbd&gt;&amp;#8216;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
+    hello world
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    12.从 URL 地址生成锚
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    将光标移至 URL
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;http://www.google.com/
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;a&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;a href=&#34;http://www.google.com&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    13.从 URL 地址生成引用文本
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    移动光标到 URL
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;http://github.com/
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;A&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;blockquote class=&#34;quote&#34;&amp;gt;
+    &amp;lt;a href=&#34;http://github.com/&#34;&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;br /&amp;gt;
+    &amp;lt;p&amp;gt;...&amp;lt;/p&amp;gt;
+    &amp;lt;cite&amp;gt;http://github.com/&amp;lt;/cite&amp;gt;
+&amp;lt;/blockquote&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    14.安装 Emmet.vim
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    见文章头部。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    15.为你所用的语言启用 Emmet.vim
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    你可以为你用的语言自定义行为。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;# cat &amp;gt;&amp;gt; ~/.vimrc
+let g:user_emmet_settings = {
+\ &#39;php&#39; : {
+\ &#39;extends&#39; : &#39;html&#39;,
+\ &#39;filters&#39; : &#39;c&#39;,
+\ },
+\ &#39;xml&#39; : {
+\ &#39;extends&#39; : &#39;html&#39;,
+\ },
+\ &#39;haml&#39; : {
+\ &#39;extends&#39; : &#39;html&#39;,
+\ },
+\}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;余话&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    除开以上帮助，你还可以按&lt;strong&gt;冒号&lt;/strong&gt;进入 Vim 命令行模式，然后输入 &lt;code&gt;help emmet&lt;/code&gt; 在新窗口中调用 Emmet 的帮助内容。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Emmet 在其他编辑器的触发快捷键一般是 &lt;kbd&gt;Tab&lt;/kbd&gt; 或 &lt;kbd&gt;Ctrl+e&lt;/kbd&gt;，如果你更习惯它们，也可以在 .vimrc 文件中加入下一行命令来修改它的触发快捷键：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;let g:user_emmet_expandabbr_key = &#39;&amp;lt;Tab&amp;gt;&#39;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样就可以按 &lt;kbd&gt;Tab&lt;/kbd&gt; 来扩展了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;strong&gt;附&lt;/strong&gt;:
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://zen-coding.googlecode.com/files/ZenCodingCheatSheet.pdf&#34;&gt;ZenCoding cheatsheet&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Emmet-vim CSS 写法</title>
+      <link>https://www.zfanw.com/blog/zencoding-vim-html-css.html</link>
+      <pubDate>Fri, 22 Jul 2011 01:46:44 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/zencoding-vim-html-css.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 附录&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 修订历史&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    Emmet（原来叫 Zen Coding） 通过按键触发来展开缩写词。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在 Vim 下，使用 &lt;a href=&#34;https://github.com/mattn/emmet-vim&#34; title=&#34;emmet for vim 代码库&#34;&gt;Emmet-vim&lt;/a&gt; 编辑 CSS 文件，首先需要检查文件类型，
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:set ft?
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    如果显示结果不是 &lt;code&gt;filetype=css&lt;/code&gt;，则需要先设定文件类型：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:set ft=css
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后你就可以开始写 CSS 规则。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    比如要给 &lt;code&gt;body&lt;/code&gt; 写一个 &lt;code&gt;margin-right:10px;&lt;/code&gt;，则可以在 Vim 输入：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;mr10
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后按触发键，默认为 &lt;kbd&gt;Ctrl+y,&lt;/kbd&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    又或者要给 &lt;code&gt;div&lt;/code&gt; 块加一个 &lt;code&gt;position:absolute;&lt;/code&gt;，则可以输入：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;pos:a
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后按触发键。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接下来要给 &lt;code&gt;div&lt;/code&gt; 增加 &lt;code&gt;top:20px;right:10px;&lt;/code&gt;，
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;t20+r10
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后按触发键。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    很简单吧。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;附录&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      Zen Coding 站上的 &lt;a href=&#34;https://zen-coding.googlecode.com/files/ZenCodingCheatSheet.pdf&#34;&gt;Cheatsheet&lt;/a&gt; 提供有更多缩略词列表
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://docs.emmet.io/css-abbreviations/&#34;&gt;Emmet 上关于 CSS 扩展的说明&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;div class=&#39;timeline&#39;&gt;
+    &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+      &lt;span id=&#34;i-2&#34;&gt;修订历史&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+    &lt;/h2&gt;
+    
+    &lt;ol&gt;
+      &lt;li&gt;
+        &lt;span itemprop=&#39;dateModified&#39;&gt;2015-06-17&lt;/span&gt;：修改 zencoding.vim 为 emmet-vim。
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

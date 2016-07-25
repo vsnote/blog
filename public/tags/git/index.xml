@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Git on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/git/</link>
+    <description>Recent content in Git on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 16 Sep 2014 22:44:55 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Github 最佳实践</title>
+      <link>https://www.zfanw.com/blog/best-practice-contribute-on-github.html</link>
+      <pubDate>Tue, 16 Sep 2014 22:44:55 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/best-practice-contribute-on-github.html</guid>
+      <description>&lt;p&gt;标题写的是「最佳实践」，但其实是作者自己的标准，并非绝对意义。&lt;/p&gt;
+
+&lt;p&gt;另外，这个「最佳实践」限定在 Github 上贡献代码。&lt;/p&gt;
+
+&lt;p&gt;我用 Git 的时间，估计有一两年，但因为都是自嗨，许多命令根本用不到。直到后来在 Github 上提交过几回 pull request，犯过错，就开始手忙脚乱，查各种资料，实验，实践，总结，才渐渐知道，大概是怎样一个思路。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;长话短说版本&lt;/strong&gt;（以下内容假定你熟悉 Git 的各种基本命令）：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;fork 开源库 &lt;a href=&#34;https://github.com/google/WebFundamentals.git&#34;&gt;A&lt;/a&gt; 到自己的 github，假设为库 &lt;a href=&#34;https://github.com/chenxsan/WebFundamentals&#34;&gt;B&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;从库 B clone 一份到本地，假设目录为 fundamentals&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git clone git@github.com:chenxsan/WebFundamentals.git fundamentals
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;给本地库配置上游&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git remote add upstream https://github.com/google/WebFundamentals.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;从本地 master 分支分出一个 dev 分支&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git checkout -b dev
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在 dev 分支上出力&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git add -u
+$ git commit -m &#39;我做出贡献了&#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;将 dev 分支 &lt;code&gt;push&lt;/code&gt; 到 github&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git push origin dev:dev
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; &lt;code&gt;:&lt;/code&gt; 前是本地的分支名，&lt;code&gt;:&lt;/code&gt; 后是远程的分支名。远程的分支名任你取。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;从 github 上的 dev 分支提交 pull request 给上游库 A&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;不幸被拒绝，上游库所有者要求你再补点东西；然后上游库有新的 commit&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;本地 master 分支更新上游库 A 的代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git stash
+$ git checkout master
+$ git pull --rebase upstream master
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;本地 dev 分支重新基于 master 来过&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git checkout dev
+$ git rebase master
+$ git stash pop
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;（如果你的 dev 分支是公开且有人使用，请谨慎使用 &lt;code&gt;rebase&lt;/code&gt;，因为它会改成公开的历史）&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;继续修改 dev 分支，改完后重复上面的 commit 动作，然后 push 到 github 上再提交 pull request&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git push --force origin dev
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之所以要加 &lt;code&gt;--force&lt;/code&gt;，是因为 github 上的 dev 分支已经跟本地的 dev 有过分歧。git 会提示你先 pull 然后 merge，但那样会一片混乱，所以粗暴点用上 &lt;code&gt;--force&lt;/code&gt;。当然，更好的建议是，没事别乱推送到 Github，等确定要提 pull request 时再推送。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在 pull request 被合并后，删除本地、远程的 dev 分支&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git push origin --delete dev # 删除远程 dev 分支
+$ git branch -D dev # 删除本地 dev 分支
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;因为 dev 分支只是出于一时目的使用，所以在 pull request 被合并后，就可以通过命令删除它。也可以在被合并的 pull request 页面上删除，Github 提供有删除按钮。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;将本地 master 分支与上游库同步&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git pull --rebase upstream master
+$ git push
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这里有几个重点。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;一个&lt;/strong&gt;是保持 master 分支干净，不在 master 分支上 commit。这一条建议来自 jQuery&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:13490-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:13490-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;。目的是给自己方便：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;This is really only for your own convenience: it&amp;#8217;s easy for the maintainer of a project to accept your pull request from your master branch, but it&amp;#8217;s problematic for your fork when you want to pull the changes back and your master branch has diverged from upstream.&lt;/p&gt;
+
+&lt;p&gt;这纯是为了你自己方便：对项目维护者来说，接受来自你 master 分支的 pull request 是很简单的事，但对你的分支来说，这会是个问题，比如你要从上游分支拉回修改，但是你的 master 分支却已经分道扬镳。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;整个过程中，我们 fork 的 master 分支只是为同步上游库的内容而存在。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;另一个&lt;/strong&gt;是保持 commit 历史干净&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:13490-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:13490-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;。所以上面的流程中，拉回上游库的修改用了 &lt;code&gt;--rebase&lt;/code&gt;，而不是先 fetch 再 merge。更多请看文末的链接2。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:13490-1&#34;&gt;&lt;a href=&#34;http://contribute.jquery.org/commits-and-pull-requests/#never-commit-on-master&#34;&gt;Commits and Pull Requests | Contribute to jQuery&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:13490-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:13490-2&#34;&gt;&lt;a href=&#34;http://ginsys.eu/git-and-github-keeping-a-feature-branch-updated-with-upstream/&#34;&gt;Git and Github: keeping a feature branch updated with upstream?&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:13490-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

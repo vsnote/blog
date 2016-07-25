@@ -1,0 +1,1186 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ember.Js on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/ember/index.js/</link>
+    <description>Recent content in Ember.Js on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 20 Apr 2015 14:22:08 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/ember.js/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>ember-cli 静态资源压缩</title>
+      <link>https://www.zfanw.com/blog/ember-cli-assets-compilation.html</link>
+      <pubDate>Mon, 20 Apr 2015 14:22:08 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-cli-assets-compilation.html</guid>
+      <description>&lt;p&gt;ember-cli 文档中的 &lt;a href=&#34;http://www.ember-cli.com/#asset-compilation&#34;&gt;assets compilation 一节中&lt;/a&gt;提到静态资源如 CSS/JS 等的混淆压缩，让我们在 Brocfile.js 文件中加如下代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;minifyCSS: {
+  enabled: false
+},
+minifyJS: {
+  enabled: false
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;语焉不详，我第一回看见，不知道这段代码究竟往哪里加。&lt;/p&gt;
+
+&lt;p&gt;当然，我们可以看 ember-app.js 文件的代码注释：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+  EmberApp is the main class Ember CLI uses to manage the Brocolli trees
+  for your application. It is very tightly integrated with Brocolli and has
+  an `toTree()` method you can use to get the entire tree for your application.
+
+  Available init options:
+    - es3Safe, defaults to `true`,
+    - storeConfigInMeta, defaults to `true`,
+    - autoRun, defaults to `true`,
+    - outputPaths, defaults to `{}`,
+    - minifyCSS, defaults to `{enabled: !!isProduction,options: { relativeTo: &#39;app/styles&#39; }},
+    - minifyJS, defaults to `{enabled: !!isProduction},
+    - loader, defaults to this.bowerDirectory + &#39;/loader.js/loader.js&#39;,
+    - sourcemaps, defaults to `{}`,
+    - trees, defaults to `{},`
+    - jshintrc, defaults to `{},`
+    - vendorFiles, defaults to `{}`
+
+  @class EmberApp
+  @constructor
+  @param {Object} options Configuration options
+*/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;打开 Brocfile.js 文件，默认有一行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var app = new EmberApp();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们给 &lt;code&gt;new EmberApp&lt;/code&gt; 传递参数即可：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var app = new EmberApp({
+  minifyCSS: {
+    enabled: true
+  },
+  minifyJS: {
+    enabled: false
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HTMLBars 语法</title>
+      <link>https://www.zfanw.com/blog/htmlbars-syntax.html</link>
+      <pubDate>Thu, 12 Mar 2015 12:33:58 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/htmlbars-syntax.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 属性可直接绑定&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 变量可任意位置使用&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#if&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; if 可行内使用&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 参考&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    HTMLBars 是 Ember.js 的新模板语言，基于 handlebars.js，但更为强大、直观。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;属性可直接绑定&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    原先我们要给 HTML 标签绑定属性需要借助 &lt;code&gt;bind-attr&lt;/code&gt;：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;a {{bind-attr href=url}}&amp;gt;点我&amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    现在可以这样写：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;a href={{url}}&amp;gt;点我&amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    更加直观，明了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;变量可任意位置使用&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    借由上一步的功能，我们现在可以在模板的任意位置中使用变量：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;a href=&#34;http://www.zfanw.com/blog/{{name}}&#34;&amp;gt;陈三&amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    又比如：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;a style=&#34;color: {{linkColor}}&#34;&amp;gt;陈三&amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;if&#34;&gt;&lt;code&gt;if&lt;/code&gt; 可行内使用&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyif&#34; href=&#34;#if&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;if&lt;/code&gt; 判断语句可以在行内使用：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;a href=&#34;http://www.zfanw.com/blog/{{if name &#39;陈三&#39; &#39;不认识&#39;}}&#34;&amp;gt;陈三&amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    不必以下这种写法：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{{#if name}}
+&#39;陈三&#39;
+{{else}}
+&#39;不认识&#39;
+{{/if}}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;参考&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://talks.erikbryn.com/htmlbars-emberconf/#/&#34;&gt;HTMLBars: The Next-Generation of Templating in Ember.js&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ember.js 里配置 BootStrap 的当前菜单</title>
+      <link>https://www.zfanw.com/blog/ember-js-bootstrap-navbar-current.html</link>
+      <pubDate>Mon, 09 Feb 2015 14:23:49 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-js-bootstrap-navbar-current.html</guid>
+      <description>&lt;p&gt;如果在 ember.js 里使用 bootstrap 的导航菜单（navbar），&lt;code&gt;.hbs&lt;/code&gt; 的模板代码通常是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul class=&amp;quot;nav navbar-nav&amp;quot;&amp;gt;
+  &amp;lt;li&amp;gt;{{#link-to &#39;index&#39; title=&#39;首页&#39;}}首页{{/link-to}}&amp;lt;/li&amp;gt;
+  &amp;lt;li&amp;gt;{{#link-to &#39;login&#39; title=&#39;登录&#39;}}登录{{/link-to}}&amp;lt;/li&amp;gt;
+  &amp;lt;li&amp;gt;{{#link-to &#39;signup&#39; title=&#39;注册&#39;}}注册{{/link-to}}&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ember.js 1.10 里生成的 HTML 代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul class=&amp;quot;nav navbar-nav&amp;quot;&amp;gt;
+  &amp;lt;li&amp;gt;&amp;lt;a title=&amp;quot;首页&amp;quot; href=&amp;quot;/&amp;quot; class=&amp;quot;ember-view&amp;quot; id=&amp;quot;ember313&amp;quot;&amp;gt;首页&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+  &amp;lt;li&amp;gt;&amp;lt;a title=&amp;quot;登录&amp;quot; href=&amp;quot;/login&amp;quot; class=&amp;quot;ember-view&amp;quot; id=&amp;quot;ember314&amp;quot;&amp;gt;登录&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+  &amp;lt;li&amp;gt;&amp;lt;a title=&amp;quot;注册&amp;quot; href=&amp;quot;/signup&amp;quot; class=&amp;quot;ember-view active&amp;quot; id=&amp;quot;ember315&amp;quot;&amp;gt;注册&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果我们点击&lt;code&gt;首页&lt;/code&gt;，则 ember.js 会给该链接增加一个 &lt;code&gt;active&lt;/code&gt; 类：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;li&amp;gt;&amp;lt;a title=&amp;quot;首页&amp;quot; href=&amp;quot;/&amp;quot; class=&amp;quot;ember-view active&amp;quot; id=&amp;quot;ember313&amp;quot;&amp;gt;首页&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是，bootstrap 的当前菜单的 &lt;code&gt;active&lt;/code&gt; 类是添加在 &lt;code&gt;li&lt;/code&gt; 元素上的，而不是 &lt;code&gt;a&lt;/code&gt; 元素。&lt;/p&gt;
+
+&lt;p&gt;解决办法非常简单，直接把 &lt;code&gt;{{#link-to}}&lt;/code&gt; 写到 &lt;code&gt;li&lt;/code&gt; 上：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{{#link-to &#39;index&#39; tagName=&#39;li&#39;}}
+  &amp;lt;a title=&#39;首页&#39; href=&#39;#&#39;&amp;gt;首页&amp;lt;/a&amp;gt;
+{{/link-to}}
+{{#link-to &#39;login&#39; tagName=&#39;li&#39;}}
+  &amp;lt;a title=&#39;登录&#39; href=&#39;#&#39;&amp;gt;登录&amp;lt;/a&amp;gt;
+{{/link-to}}
+{{#link-to &#39;signup&#39; tagName=&#39;li&#39;}}
+  &amp;lt;a title=&#39;注册&#39; href=&#39;#&#39;&amp;gt;注册&amp;lt;/a&amp;gt;
+{{/link-to}}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样生成了 HTML 代码后，点击时 &lt;code&gt;active&lt;/code&gt; 类会添加到 &lt;code&gt;li&lt;/code&gt; 元素上，只是说 &lt;code&gt;a&lt;/code&gt; 元素的 &lt;code&gt;href&lt;/code&gt; 属性变成没有意义的 &amp;#8216;#&amp;#8217; 了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ember.js 设置页面标题</title>
+      <link>https://www.zfanw.com/blog/ember-js-set-document-title.html</link>
+      <pubDate>Mon, 09 Feb 2015 12:34:43 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-js-set-document-title.html</guid>
+      <description>&lt;p&gt;ember.js 原生代码中，没有根据路由&lt;a href=&#34;https://github.com/emberjs/ember.js/pull/3689&#34;&gt;设置页面标题&lt;/a&gt;的方法，但可以扩展。&lt;/p&gt;
+
+&lt;p&gt;使用 &lt;a href=&#34;http://www.ember-cli.com/&#34;&gt;ember-cli&lt;/a&gt; 安装 [ember.js 原生代码中，没有根据路由&lt;a href=&#34;https://github.com/emberjs/ember.js/pull/3689&#34;&gt;设置页面标题&lt;/a&gt;的方法，但可以扩展。&lt;/p&gt;
+
+&lt;p&gt;使用 &lt;a href=&#34;http://www.ember-cli.com/&#34;&gt;ember-cli&lt;/a&gt; 安装]&lt;a href=&#34;https://github.com/paddle8/ember-document-title&#34;&gt;3&lt;/a&gt; ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ember install:npm ember-document-title
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后在代码中使用 &lt;code&gt;title&lt;/code&gt; 即可：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;App.ApplicationRoute = Ember.Route.extend({
+  title: &amp;quot;我的应用&amp;quot;
+});
+
+App.UsersRoute.extend({
+  title: &amp;quot;用户&amp;quot;
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样路由切换时，页面的标题就会自动变换。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ember.js复选框</title>
+      <link>https://www.zfanw.com/blog/ember-js-checkbox.html</link>
+      <pubDate>Mon, 28 Apr 2014 22:30:49 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-js-checkbox.html</guid>
+      <description>&lt;p&gt;Ember.js提供的内建的视图(view)里包括了复选框(checkbox)&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:12510-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:12510-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;。我们可以按照它的教程中的示例使用：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;label&amp;gt;
+  {{view Ember.Checkbox checked=model.isDone}}
+  {{model.title}}
+&amp;lt;/label&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但还有一种写法：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{{input type=&amp;quot;checkbox&amp;quot; checked=isDone}}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但不管哪种用法，checked 的值都与控制器属性或模型属性做了双向绑定，所以，根据复选框的勾选情况，isDone 的取值有两个：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;true&lt;/li&gt;
+&lt;li&gt;false&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;取值结果可以通过&lt;code&gt;get&lt;/code&gt;方法取得：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;this.get(&#39;isDone&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;结果的类型是布尔值。但经由HTTP请求传递后，PHP后端取得的数据类型会变成字符串型，这点需要稍加注意。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:12510-1&#34;&gt;&lt;a href=&#34;http://emberjs.com/guides/views/built-in-views/&#34;&gt;Ember.js &amp;#8211; Views: Built-in Views&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:12510-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ember.js 里 model 与 content 属性的区别</title>
+      <link>https://www.zfanw.com/blog/ember-js-difference-between-model-and-content.html</link>
+      <pubDate>Tue, 08 Apr 2014 22:37:43 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-js-difference-between-model-and-content.html</guid>
+      <description>&lt;p&gt;&lt;em&gt;Note：本文基于 Ember.js 1.4.0&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Ember.js 里，路由(route)通过 &lt;strong&gt;setupController&lt;/strong&gt; 方法设置控制器(controller)属性：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;App.ApplicationRoute = Ember.Route.extend({
+  model: function() {
+    return {&#39;user&#39;: &#39;陈三&#39;, &#39;blog&#39;: &#39;http://www.zfanw.com/blog/&#39;};
+  },
+  setupController: function(controller, model) {
+    controller.set(&#39;model&#39;, model); // &amp;lt;- 这里，我们把 model 内容指派给控制器的 model 属性
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;前端模板里，可以直接引用对象的属性：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script type=&amp;quot;text/x-handlebars&amp;quot;&amp;gt;
+  用户{{user}}的博客地址是{{blog}}
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;页面的渲染结果为&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:12159-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:12159-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;用户陈三的博客地址是&lt;a href=&#34;http://www.zfanw.com/blog/&#34;&gt;http://www.zfanw.com/blog/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;但如果用 Ember.js Inspector &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:12159-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:12159-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;检查 ApplicationController 的属性，如下图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2014/04/emberjs-inspector-result.png&#34; alt=&#34;ember.js 检查器&#34; width=&#34;477&#34; height=&#34;144&#34; class=&#34;alignnone size-full wp-image-12169&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2014/04/emberjs-inspector-result.png 477w, https://www.zfanw.com/blog/wp-content/uploads/2014/04/emberjs-inspector-result-300x90.png 300w, https://www.zfanw.com/blog/wp-content/uploads/2014/04/emberjs-inspector-result-150x45.png 150w, https://www.zfanw.com/blog/wp-content/uploads/2014/04/emberjs-inspector-result-100x30.png 100w&#34; sizes=&#34;(max-width: 477px) 100vw, 477px&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;我们并没有看到一个叫 &lt;code&gt;model&lt;/code&gt; 的属性，相反，有一个 &lt;code&gt;content&lt;/code&gt; 的属性包含着我们指派给 &lt;code&gt;model&lt;/code&gt; 的内容。&lt;/p&gt;
+
+&lt;p&gt;如果在 setupController 里把 &lt;code&gt;model&lt;/code&gt; 换成 &lt;code&gt;content&lt;/code&gt; 如何？&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;App.ApplicationRoute = Ember.Route.extend({
+  model: function() {
+    return {&#39;user&#39;: &#39;陈三&#39;, &#39;blog&#39;: &#39;http://www.zfanw.com/blog/&#39;};
+  },
+  setupController: function(controller, model) {
+    controller.set(&#39;content&#39;, model); // &amp;lt;- 这回，我们把 model 内容指派给控制器的 content 属性
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;实践证明，&lt;code&gt;content&lt;/code&gt; 与 &lt;code&gt;model&lt;/code&gt; 属性是等效的。&lt;/p&gt;
+
+&lt;p&gt;更准确的说，&lt;code&gt;model&lt;/code&gt; 只是 &lt;code&gt;content&lt;/code&gt; 通过 &lt;code&gt;Ember.computed.alias&lt;/code&gt; &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:12159-3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:12159-3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;设置的一个别名&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:12159-4&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:12159-4&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;model: Ember.computed.alias(&amp;#8216;content&amp;#8217;),&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;至于为什么要设置这样一个别名，可以看 Github 上的一个讨论&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:12159-5&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:12159-5&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:12159-1&#34;&gt;&lt;a href=&#34;http://jsbin.com/poxaw&#34;&gt;本篇代码的 demo&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:12159-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:12159-2&#34;&gt;&lt;a href=&#34;https://github.com/emberjs/ember-inspector&#34;&gt;ember 检查器&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:12159-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:12159-3&#34;&gt;&lt;a href=&#34;http://emberjs.com/api/#method_computed_alias&#34;&gt;Ember.computed.alias 方法&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:12159-3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:12159-4&#34;&gt;&lt;a href=&#34;https://github.com/emberjs/ember.js/blob/d60c6c059bfb4ccf69d4a2eb98563ef2519d5f60/packages/ember-runtime/lib/controllers/controller.js#L63&#34;&gt;ember.js 控制器源代码&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:12159-4&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:12159-5&#34;&gt;&lt;a href=&#34;https://github.com/emberjs/ember.js/issues/2007&#34;&gt;The way we set a controller&amp;#8217;s content and model is a bit baroque · Issue #2007 · emberjs/ember.js&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:12159-5&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ember.js 一个模型包含多种对象</title>
+      <link>https://www.zfanw.com/blog/ember-js-one-model-multi-object.html</link>
+      <pubDate>Sun, 06 Apr 2014 04:44:09 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-js-one-model-multi-object.html</guid>
+      <description>&lt;p&gt;&lt;em&gt;Note：本文基于 Ember.js 1.4.0&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;如果看 Ember.js 教程&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:12105-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:12105-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;，可以发现，一个路由对应的模型里，对象是只有一种的，比如这样&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:12105-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:12105-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;App.PersonRoute = Ember.Route.extend({
+  model: function() {
+    return App.Person.findAll();
+  },
+  setupController: function(controller, model) {
+    controller.set(&#39;model&#39;, model);
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;应该说，这是 Ember.js 框架适用的情景。&lt;/p&gt;
+
+&lt;p&gt;但某些情况下，你希望 model 不仅仅是一种对象，而是多种对象集合，则可以有两种选择：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;放弃 Ember.js，因为它已经不太适用这种较传统的页面&lt;/li&gt;
+&lt;li&gt;已经用了 Ember.js，骑虎难下&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;项目做到一半结果要放弃整个框架，只能说前期对 Ember.js 的适用情形了解不足。但走到这一步，要砍掉重来却不现实。&lt;/p&gt;
+
+&lt;p&gt;Ember.js 提供有 &lt;strong&gt;Ember.RSVP.hash&lt;/strong&gt; 方法&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:12105-3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:12105-3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;，用法如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;App.PersonRoute = Ember.Route.extend({
+  model: function() {
+    return Ember.RSVP.hash({ // 这里 model 对象包含两种子对象 allPerson 与 task
+      allPerson: App.Person.findAll(),
+      task: $.get(&#39;http://www.zfanw.com/api/task&#39;)
+    });
+  },
+  setupController: function(controller, model) {
+    controller.set(&#39;model&#39;, model);
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;模板里使用调用 &lt;code&gt;model.allPerson&lt;/code&gt; 与 &lt;code&gt;model.task&lt;/code&gt; 即可。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:12105-1&#34;&gt;&lt;a href=&#34;http://emberjs.com/guides/&#34;&gt;Ember.js &amp;#8211; Guides and Tutorials: Ember.js Guides&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:12105-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:12105-2&#34;&gt;&lt;a href=&#34;http://www.zfanw.com/blog/ember-js-model-without-ember-data.html&#34;&gt;Ember.js 不用 Ember Data 如何创建模型&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:12105-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:12105-3&#34;&gt;&lt;a href=&#34;http://emberjs.com/api/classes/Ember.RSVP.html#method_hash&#34;&gt;Ember.js &amp;#8211; Ember.RSVP&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:12105-3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ember.js 在 IE 下渲染问题</title>
+      <link>https://www.zfanw.com/blog/ember-js-not-render-in-ie.html</link>
+      <pubDate>Tue, 25 Mar 2014 21:10:25 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-js-not-render-in-ie.html</guid>
+      <description>&lt;p&gt;&lt;em&gt;Note：本文基于 Ember.js 1.4.0&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Google Chrome、Firefox 下，Ember.js 页面均正常渲染，但 IE9 里，却出现页面无法渲染的问题 &amp;#8211; 尤其是在使用国产某所谓极速浏览器下，从 IE9 内核切换到 Chrome 内核，再来回切换几次，就很容易爆出该问题。&lt;/p&gt;
+
+&lt;p&gt;根据 Ember.js 最近的一篇博客&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:12010-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:12010-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;说明，IE 浏览器里，它是&lt;strong&gt;支持 IE8 以上&lt;/strong&gt;的，&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Despite the imminent End of Life status of Windows XP, we will continue supporting Internet Explorer 8. We know many Ember.js users still need to target enterprise and education customers, who will be on IE8 for some time.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;再来看 Fiddler2 的抓包结果，一切请求均正常，没有丢失或请求失败的情形。初时以为代码逻辑有问题，但找来找去都没有结果。后来灵光一现：&lt;strong&gt;IE 低版本里，以前曾碰上过因为代码里带 &lt;code&gt;console.log()&lt;/code&gt; 引起的问题&lt;/strong&gt;。于是把 app.js 中所有 &lt;code&gt;console.log&lt;/code&gt; 命令全部注释掉，再开 IE9 测试，莫名地恢复正常渲染 &amp;#8211; 但我仍不敢确定，问题是不是真的因 console.log 而起。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:12010-1&#34;&gt;&lt;a href=&#34;http://emberjs.com/blog/2013/12/17/whats-coming-in-ember-in-2014.html&#34;&gt;Ember.js &amp;#8211; What&amp;#8217;s Coming in Ember in 2014&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:12010-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ember.js 实现  jQuery ready 事件</title>
+      <link>https://www.zfanw.com/blog/ember-js-jquery-ready.html</link>
+      <pubDate>Mon, 24 Mar 2014 12:24:09 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-js-jquery-ready.html</guid>
+      <description>&lt;p&gt;&lt;em&gt;Note：本文基于 Ember.js 1.4.0&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;jQuery 下，要在 DOM 准备就绪后绑定事件，可以写在 ready &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11987-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11987-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;里：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$( document ).ready(function() {
+  // 事件绑定代码写在这里
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但 Ember.js 里我们不那么写，因为 jQuery 定义的 ready 触发时，也许 Ember.js 视图还没渲染完成，那个时候要给元素绑定事件，元素可能还不存在；你可能考虑用事件委托，但其实不必，因为 Ember.js 提供了一个更方便的事件：didInsertElement&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11987-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11987-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Called when the element of the view has been inserted into the DOM or after the view was re-rendered. Override this function to do any set up that requires an element in the document body.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;「在视图层的元素插入 DOM 或视图重新渲染后触发」。&lt;/p&gt;
+
+&lt;p&gt;假定我们有一个模板，名称为 &lt;code&gt;user&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script type=&amp;quot;text/x-handlebars&amp;quot; data-template-name=&amp;quot;user&amp;quot;&amp;gt;
+  &amp;lt;button class=&amp;quot;js-submit&amp;quot;&amp;gt;提交&amp;lt;/button&amp;gt;
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们希望在点击&lt;code&gt;提交&lt;/code&gt;按钮后 alert 一个消息，则这样写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;App.UserView = Ember.View.extend({
+  didInsertElement: function(){
+    $(&#39;.js-submit&#39;).on(&#39;click&#39;, function(){
+      alert(&#39;我点击了提交按钮&#39;);
+    });
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这下我们就不需要担心绑定时 &lt;code&gt;.js-submit&lt;/code&gt; 元素是不是存在 DOM 中。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:11987-1&#34;&gt;&lt;a href=&#34;http://api.jquery.com/ready/&#34;&gt;.ready() | jQuery API Documentation&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11987-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11987-2&#34;&gt;&lt;a href=&#34;http://emberjs.com/api/classes/Ember.View.html#event_didInsertElement&#34;&gt;Ember.js &amp;#8211; Ember.View&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11987-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ember.js 模板预编译</title>
+      <link>https://www.zfanw.com/blog/ember-js-template-precompile.html</link>
+      <pubDate>Wed, 19 Mar 2014 22:07:25 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-js-template-precompile.html</guid>
+      <description>&lt;p&gt;&lt;em&gt;Note：本文基于 Ember.js 1.4.0&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Ember.js 里，如果把模板直接写在 index.html 文件里，你可以这样写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script type=&amp;quot;text/x-handlebars&amp;quot; data-template-name=&amp;quot;application&amp;quot;&amp;gt; // 最顶级的模板
+...
+{{outlet}} 
+&amp;lt;/script&amp;gt;
+
+&amp;lt;script type=&amp;quot;text/x-handlebars&amp;quot; data-template-name=&amp;quot;index&amp;quot;&amp;gt;
+...
+&amp;lt;/script&amp;gt;
+
+&amp;lt;script type=&amp;quot;text/x-handlebars&amp;quot; data-template-name=&amp;quot;user&amp;quot;&amp;gt;
+...
+{{outlet}}
+&amp;lt;/script&amp;gt;
+
+&amp;lt;script type=&amp;quot;text/x-handlebars&amp;quot; data-template-name=&amp;quot;user/index&amp;quot;&amp;gt;
+...
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;打开 index.html 网页时，Handlebars.js 会即时编译&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11923-16&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11923-16&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;模板内容。但你希望提高应用响应速度，则可以把模板文件分离出去，然后预编译。&lt;/p&gt;
+
+&lt;p&gt;我们建一个 templates 目录，专门放置 handlebars 模板。以上面的代码说，模板从主页面分离如下：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;application.hbs&lt;/li&gt;
+&lt;li&gt;index.hbs&lt;/li&gt;
+&lt;li&gt;user.hbs&lt;/li&gt;
+&lt;li&gt;user/index.hbs&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;需要注意！！，第四个 index.hbs 是放在 user 子目录下，.hbs 文件中也不需要 &lt;code&gt;&amp;lt;script&amp;gt;...&amp;lt;/script&amp;gt;&lt;/code&gt; 这样的标签，只需把 script 标签对之间的内容拷入 .hbs 文件。&lt;/p&gt;
+
+&lt;p&gt;预编译的工作可以交给 &lt;a href=&#34;https://github.com/dgeb/grunt-ember-templates&#34;&gt;grunt ember templates&lt;/a&gt; ，相应的 Gruntfile.js 配置部分如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;emberTemplates: {
+  compile: {
+    options: {
+      templateBasePath: &#39;app/templates/&#39;
+    },
+    files: {
+      &#39;app/scripts/templates.js&#39;: &#39;app/templates/**/*.hbs&#39; // 将 tempaltes 目录下所有的 hbs 文件一同编译到 scripts/templates.js 文件中
+    }
+  }
+},
+watch: {
+  emberTemplates: {
+    files: &#39;app/templates/**/*.hbs&#39;,
+    tasks: [&#39;emberTemplates&#39;]
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;命令行下运行 &lt;code&gt;grunt emberTemplates&lt;/code&gt; 就可以预编译，之后在 index.html 文件中引用 templates.js 文件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;scripts/templates.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:11923-16&#34;&gt;&lt;a href=&#34;http://www.zfanw.com/blog/handlebars-js-precompilation.html&#34;&gt;Handlebars.js 预编译&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11923-16&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ember.js 计算的属性</title>
+      <link>https://www.zfanw.com/blog/ember-js-computed-properties.html</link>
+      <pubDate>Fri, 14 Mar 2014 23:57:59 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-js-computed-properties.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 计算的属性&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 宏指令&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Handlebars&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; Handlebars 助手&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    &lt;i&gt;Note：本文基于 Ember.js 1.4.0&lt;/i&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在 Ember.js 里，模型对象的属性多数很简洁，可以把它理解为数据库里的字段。比如一个定义 person 对象&lt;fnref target=&#34;11865.1&#34; /&gt;的类：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;App.Person = Ember.Object.extend({
+  id: null,
+  firstName: null,
+  lastName: null,
+  age: null,
+  gender: null
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    在 handlebars 模板里使用：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;我的名字叫{{firstName}}{{lastName}}，{{gender}}性，今年{{age}}岁。
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    假定我还想根据 age 的值来划分「幼年」、「少年」、「青年」、「壮年」、「老年」又如何？
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;计算的属性&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Ember.js 提供的&lt;strong&gt;计算的属性&lt;/strong&gt;可以很方便地解决这种问题，只需要给 Person 类增加一个属性 &amp;#8211; 区别是，这个属性不是静态的，而是动态的一个函数，函数中返回值：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;App.Person = Ember.Object.extend({
+  id: null,
+  firstName: null,
+  lastName: null,
+  age: null,
+  gender: null,
+  ageClass: function() { // &amp;lt;- 这就是我们要定义的计算属性，在函数体中可以做逻辑判断
+    var age = this.get(&#39;age&#39;);
+    switch (true) {
+      case age &amp;gt; 0 &amp;&amp; age &amp;lt; 6:
+        return &#39;幼年&#39;;
+        break;
+      case age &amp;gt;= 6 &amp;&amp; age &amp;lt; 18:
+        return &#39;少年&#39;;
+        break;
+      case age &amp;gt;= 18 &amp;&amp; age &amp;lt; 30:
+        return &#39;青年&#39;;
+        break;
+      case age &amp;gt;= 30 &amp;&amp; age &amp;lt; 60:
+        return &#39;壮年&#39;;
+        break;
+      case age &amp;gt;= 60:
+        return &#39;老年&#39;;
+        break;
+  }.property(&#39;age&#39;) // &amp;lt;- 这个是计算的属性与普通属性的一个区别
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    注意函数后紧跟着的 &lt;code&gt;property&lt;/code&gt;，它声明该计算的属性依赖其他属性。age 值如果有变化，它的值会自动更新。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    创建对象实例时，我们不需要给计算的属性传参数，
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;App.Person.create({
+  id: 1,
+  firstName: &#39;三&#39;,
+  lastName: &#39;陈&#39;,
+  age: 18,
+  gender: &#39;男&#39;
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    Ember.js 会自动生成 &lt;code&gt;ageClass&lt;/code&gt;，可直接在前端模板上使用：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;我的名字叫{{firstName}}{{lastName}}，{{gender}}性，今年{{age}}岁，据称还属于{{ageClass}}。
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    渲染后的内容为：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      我的名字叫三陈，男性，今年18岁，据称还属于青年。
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;宏指令&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    除开上面的用法，Ember.js 还提供宏&lt;fnref target=&#34;11865.3&#34; /&gt;指令&lt;fnref target=&#34;11865.4&#34; /&gt;，用于一些简单的真假判断，以及复杂的过滤(filter)、映射(map)等。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    仍以上面的模型为例子，比如我要在前端显示所有年纪小于25的人，第一感觉模板代码是这样写的：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{{#if age &amp;lt; 25}}
+...
+{{/if}}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    但这是错的，Handlebars.js 不允许在 if 里做逻辑判断。我们可以考虑增加一个计算的属性，但这次是由计算的属性宏指令来构成函数体的：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;App.Person = Ember.Object.extend({
+  id: null,
+  firstName: null,
+  lastName: null,
+  age: null,
+  gender: null,
+  isYoung: Ember.computed.lt(&#39;age&#39;, 25) // &amp;lt;- 如果 age 小于25则 isYoung 值为 true
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后模板这样写：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{{#if isYoung}}
+...
+{{/if}}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    在我们使用宏指令时，并不需要添加 &lt;code&gt;property()&lt;/code&gt; 这样的方法，代码会更干净，更清楚。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Handlebars&#34;&gt;Handlebars 助手&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyHandlebars&#34; href=&#34;#Handlebars&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    类似的问题，除了以上两种方法，我们还可以用 Handlebars 助手&lt;fnref target=&#34;11865.2&#34; /&gt;，
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;Ember.Handlebars.helper(&#39;isYoung&#39;, function(age) { // 定义模板助手
+  return age &amp;lt; 25 ? true : false;
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后模板文件里这样写：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{{#if isYoung age}}
+...
+{{/if}}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;footnotes&gt;
+    &lt;fn name=&#34;11865.1&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://www.zfanw.com/blog/ember-js-model-without-ember-data.html&#34;&gt;Ember.js 不用 Ember Data 如何创建模型&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;11865.3&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://eviltrout.com/2013/07/07/computed-property-macros.html&#34;&gt;Computed Property Macros &amp;#8211; Evil Trout&amp;#8217;s Blog&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;11865.4&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://emberjs.com/api/classes/Ember.html&#34;&gt;请查看 api 中 computed. 开头的方法&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;11865.2&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://emberjs.com/guides/templates/writing-helpers/&#34;&gt;Ember.js &amp;#8211; Templates: Writing Helpers&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+  &lt;/footnotes&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ember.js 不用 Ember Data 如何创建模型</title>
+      <link>https://www.zfanw.com/blog/ember-js-model-without-ember-data.html</link>
+      <pubDate>Thu, 13 Mar 2014 13:26:32 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-js-model-without-ember-data.html</guid>
+      <description>&lt;p&gt;&lt;em&gt;Note：本文基于 Ember.js 1.4.0&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Ember.js 的文档中，Model(模型)部分&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11824-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11824-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;赫然是围绕 Ember Data &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11824-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11824-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;写的。这就让人产生一个疑问，如果不用 Ember Data 会怎样？毕竟我可能出于以下各种理由拒绝使用它：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;不喜欢它&lt;/li&gt;
+&lt;li&gt;它还不稳定&lt;/li&gt;
+&lt;li&gt;后端开发的 RESTful &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11824-3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11824-3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;API 风格不够正，Ember Data 不适用&lt;/li&gt;
+&lt;li&gt;其他&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;当然，不用它并不会怎样，因为我们还有许多轻量的替代品&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11824-4&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11824-4&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;，要是这些也都不喜欢，我们还可以手写 &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11824-5&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11824-5&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;ajax 来创建 Ember.js 的模型部分&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11824-6&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11824-6&#34;&gt;6&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;window.App = Ember.Application.create(); // 创建 App 实例
+
+App.Router.map(function() {
+  this.route(&#39;person&#39;);
+});
+
+App.Model = Ember.Object.extend({}); // 定义一个 Model 类，所有 Model 都继承自它
+
+App.Person = App.Model.extend({
+  firstName: null,
+  lastName: null,
+  age: null,
+  gender: null
+}); // 定义一个 Person 类
+
+// 假定取得所有 person 的 api 接口为 http://www.zfanw.com/api/person.php
+// 返回的数据结构是 {&amp;quot;people&amp;quot;: [{&amp;quot;firstName&amp;quot;: &amp;quot;Sam&amp;quot;, &amp;quot;lastName&amp;quot;: &amp;quot;Chen&amp;quot;, &amp;quot;age&amp;quot;: 18, &amp;quot;gender&amp;quot;: &amp;quot;male&amp;quot;},{&amp;quot;firstName&amp;quot;: &amp;quot;Jane&amp;quot;, &amp;quot;lastName&amp;quot;: &amp;quot;White&amp;quot;, &amp;quot;age&amp;quot;: 18, &amp;quot;gender&amp;quot;: &amp;quot;female&amp;quot;}]}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;接下来用 reopenClass &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11824-7&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11824-7&#34;&gt;7&lt;/a&gt;&lt;/sup&gt;给 Person 类增加一个方法，这个方法用于返回所有的 Person 实例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;App.Person.reopenClass({ 
+  findAll: function() {
+    return $.get(&#39;http://www.zfanw.com/api/person.php&#39;).then(
+      function(response) {
+        return response.people.map(function(person) { // map 是 JavaScript 的方法
+          return App.Person.create(person);
+        });
+      }
+    );
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样，在 Route 里我们就可以设置 Model 了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;App.PersonRoute = Ember.Route.extend({
+  model: function() {
+    return App.Person.findAll();
+  },
+  setupController: function(controller, model) {
+    controller.set(&#39;model&#39;, model);
+    // 也可以写成 controller.set(&#39;content&#39;, model)
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后可以在 Handlebars.js 模板里使用模型数据了&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11824-8&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11824-8&#34;&gt;8&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;table class=table&amp;gt;
+&amp;lt;thead&amp;gt;
+  &amp;lt;tr&amp;gt;
+    &amp;lt;th&amp;gt;姓名&amp;lt;/th&amp;gt;
+    &amp;lt;th&amp;gt;年龄&amp;lt;/th&amp;gt;
+    &amp;lt;th&amp;gt;性别&amp;lt;/th&amp;gt;
+  &amp;lt;/tr&amp;gt;
+&amp;lt;/thead&amp;gt;
+&amp;lt;tbody&amp;gt;
+{{#each}}
+  &amp;lt;tr&amp;gt;
+    &amp;lt;td&amp;gt;{{firstName}} {{lastName}}&amp;lt;/td&amp;gt;
+    &amp;lt;td&amp;gt;{{age}}&amp;lt;/td&amp;gt;
+    &amp;lt;td&amp;gt;{{gender}}&amp;lt;/td&amp;gt;
+  &amp;lt;/tr&amp;gt;
+{{/each}}
+&amp;lt;/tbody&amp;gt;
+&amp;lt;/table&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:11824-1&#34;&gt;&lt;a href=&#34;http://emberjs.com/guides/models/&#34;&gt;Ember.js &amp;#8211; Models: Introduction&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11824-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11824-2&#34;&gt;&lt;a href=&#34;https://github.com/emberjs/data&#34;&gt;emberjs/data&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11824-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11824-3&#34;&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Representational_state_transfer&#34;&gt;Representational state transfer &amp;#8211; Wikipedia, the free encyclopedia&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11824-3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11824-4&#34;&gt;&lt;a href=&#34;http://blog.emberwatch.com/2013/06/19/alternatives-ember-data.html&#34;&gt;Alternatives to Ember Data&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11824-4&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11824-5&#34;&gt;&lt;a href=&#34;http://eviltrout.com/2013/03/23/ember-without-data.html&#34;&gt;Ember without Ember Data &amp;#8211; Evil Trout&amp;#8217;s Blog&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11824-5&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11824-6&#34;&gt;&lt;a href=&#34;http://twbrandt.github.io/2013/02/11/Ember-Quick_Start_Guide/&#34;&gt;Getting Started with Ember.js | Tom Brandt&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11824-6&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11824-7&#34;&gt;&lt;a href=&#34;http://emberjs.com/guides/object-model/reopening-classes-and-instances/&#34;&gt;Ember.js &amp;#8211; The Object Model: Reopening Classes and Instances&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11824-7&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11824-8&#34;&gt;&lt;a href=&#34;http://jsbin.com/karopaxe/1&#34;&gt;本文代码在 Jsbin 上的 Demo&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11824-8&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ember.js ajax 加载中效果</title>
+      <link>https://www.zfanw.com/blog/ember-js-ajax-loading-indicator.html</link>
+      <pubDate>Tue, 11 Mar 2014 22:16:46 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-js-ajax-loading-indicator.html</guid>
+      <description>&lt;p&gt;&lt;em&gt;Note：本文基于 Ember.js 1.4.0&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Ember.js 里，需要大量处理 ajax 请求，又因为是单页面应用，「ajax 正在加载」就更需要视觉上的反馈 &amp;#8211; 否则用户会简单地认为他点击了却没有反应。&lt;/p&gt;
+
+&lt;p&gt;譬如我有这样一个页面：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;App.Router.map(function() {
+  this.resource(&#39;user&#39;, function() {
+    this.route(&#39;info&#39;);
+  };
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;从 &lt;code&gt;/user/index&lt;/code&gt; 路由(点击链接)到 &lt;code&gt;/user/info&lt;/code&gt;，info 页面需要处理大量 ajax 请求，请求由 &lt;code&gt;UserInfoRoute&lt;/code&gt; 的 &lt;code&gt;model&lt;/code&gt; 勾子发出，在 ajax 返回前，&lt;code&gt;user/info&lt;/code&gt; 模板不会渲染，从视觉上说，就好像点击了链接却没有反应 &amp;#8211; 但其实 ajax 正在加载中。&lt;/p&gt;
+
+&lt;p&gt;为了给用户视觉反馈，Ember.js 提供了 &lt;code&gt;loading&lt;/code&gt; &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11794-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11794-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;事件勾子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;App.UserInfoRoute = Ember.Route.extend({
+  model: function() {
+    //some promise here
+    //return $.get(&#39;http://www.zfanw.com/blog/&#39;);
+  },
+  actions: {
+    loading: function(transition, originRoute) {
+      // 在这里，我可以提供一种 ajax 正在加载中的指示
+    }
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;就我个人来说，我不十分喜欢上面的处理方法，因为每个你要进入的路由，需要视觉反馈的话，都要定义一个 &lt;code&gt;loading&lt;/code&gt; 事件勾子。&lt;/p&gt;
+
+&lt;p&gt;Ember.js 还提供一个方法，默认的 &lt;code&gt;loading&lt;/code&gt;。譬如上面的路由定义里，其实默认允许以下 &lt;code&gt;loading&lt;/code&gt; 路由：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;user.loading&lt;/li&gt;
+&lt;li&gt;loading&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;我只需要定义一个统一的 &lt;code&gt;user/loading&lt;/code&gt; 模板：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script type=&#39;text/x-handlebars&#39; data-template-name=&#39;user/loading&#39;&amp;gt;
+// 把 ajax 加载中的效果样式定义在这里
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后从 &lt;code&gt;/user/index&lt;/code&gt; 路由到 &lt;code&gt;/user/info&lt;/code&gt; 里，如果后者需要处理大量 ajax 数据而未能马上返回，Ember.js 会帮我们暂时切换到 &lt;code&gt;/user/loading&lt;/code&gt; 中 &amp;#8211; 这里就是我们定义的视觉反馈。ajax 请求数据返回后，我们就自动进入 &lt;code&gt;/user/info&lt;/code&gt;。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:11794-1&#34;&gt;&lt;a href=&#34;http://emberjs.com/guides/routing/loading-and-error-substates/&#34;&gt;Ember.js &amp;#8211; Routing: Loading / Error Substates&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11794-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ember.js 表单验证</title>
+      <link>https://www.zfanw.com/blog/ember-js-validate-form-input.html</link>
+      <pubDate>Sun, 02 Mar 2014 04:22:50 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-js-validate-form-input.html</guid>
+      <description>&lt;p&gt;&lt;em&gt;Note：本文基于 Ember.js 1.4.0&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Ember.js 里，一件事常常有多种做法。虽说灵活，但对新手来说，我认为反是件坏事，因为选择太多。&lt;/p&gt;
+
+&lt;p&gt;比如一个表单元素 input 输入框，用于用户注册时填写用户名，则据我了解到的资料，至少可有以下几种写法：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;handlebars.js 模板&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11691-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11691-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{{input type=&#39;text&#39; placeholder=&amp;quot;请输入用户名&amp;quot; value=username}}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Ember.TextField&lt;/p&gt;
+
+&lt;p&gt;Ember.TextField 是 Ember.js 内建的一个 View 类&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11691-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11691-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//template
+{{view Ember.TextField valueBinding=&amp;quot;username&amp;quot; placeholder=&amp;quot;请输入用户名&amp;quot;}}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;扩展 Ember.TextField 类&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// js
+App.UsernameTextField = Ember.TextField.extend({}); 
+
+// template
+{{view App.UsernameTextField valueBinding=&amp;quot;value&amp;quot; placeholder=&amp;quot;请输入用户名&amp;quot;}}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;我的需求&lt;/strong&gt;很简单，对 input 里填写的用户名，发起 ajax 请求到服务器，验证该用户名是否可用。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;触发验证的时机&lt;/strong&gt;我选在输入框失焦时。在 Ember.js 里，该事件为 foucusOut。&lt;/p&gt;
+
+&lt;p&gt;一个最快的解决办法是，直接把事件绑定给 View 类的属性(下面一段代码基于上面的第三种写法)&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11691-3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11691-3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;App.UsernameTextField = Ember.TextField.extend({
+  focusOut: function(evt){
+    var username = this.get(&#39;value&#39;); // 注意，上面的模板中之所以写成 valueBinding=&#39;value&#39; 是因为写成其他的话，本类中会无法取得 username 的值
+    console.log(username);
+    //这里我用 jQuery 发起 ajax 请求远程服务器进行表单验证
+    $.post(&#39;http://www.example.com/api/user&#39;, {username: username}, function(response) {
+      console.log(response);
+    });
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;因为我们在模板里对 &lt;code&gt;value&lt;/code&gt; 做了双向绑定&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11691-4&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11691-4&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;，所以 View 里可以通过 &lt;code&gt;this.get(&#39;value&#39;)&lt;/code&gt; 取得当前输入框的值。这样，在输入框失去焦点后，就可以将取得的用户名通过 ajax 发送到服务器要求验证。&lt;/p&gt;
+
+&lt;p&gt;但我的实践里，上面这种做法虽快，但不方便。一个更灵活的方法是把表单验证过程写在控制器里(Controller)，这样可以直接在控制器修改程序状态值(Application state)，而不必在 View 里通过 &lt;code&gt;this.get(&#39;controller&#39;).send()&lt;/code&gt; 这种方式。&lt;/p&gt;
+
+&lt;p&gt;模板部分如下&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11691-5&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11691-5&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;，样式基于 Twitter Bootstrap：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;label for=&amp;quot;username&amp;quot; class=&amp;quot;col-sm-2 control-label&amp;quot;&amp;gt;用户名&amp;lt;/label&amp;gt;
+&amp;lt;div {{bind-attr class=&amp;quot;:col-sm-10 usernameExist:has-error&amp;quot; }}&amp;gt;
+  {{view Ember.TextField name=&#39;username&#39; value=username type=&#39;text&#39; class=&#39;form-control&#39; title=&#39;请填写用户名&#39; focus-out=&amp;quot;validateUsername&amp;quot;}} &amp;lt;!-- 输入框失去焦点时触发 validateUsername 动作，动作定义在控制器中 --&amp;gt;
+  &amp;lt;p {{bind-attr class=&amp;quot;:text-muted usernameExist:hidden&amp;quot; }}&amp;gt;用来登录网站&amp;lt;/p&amp;gt;
+  &amp;lt;p {{bind-attr class=&#39;:text-error usernameExist::hidden&#39; }}&amp;gt;该用户名已被人注册&amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;控制器部分代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;App.RegisterController = Ember.Controller.extend({ // 注册页面 controller
+    username: &#39;&#39;,
+    usernameExist: false,
+    actions: {
+        validateUsername: function() {
+            var username = this.get(&#39;username&#39;),
+                self = this;// 这个 this 指 controller
+            if (username !== &#39;&#39;) { // 如果输入框中内容不为空，则发起 POST 请求
+                 $.post(&#39;http://www.example.com/user/register&#39;, {username: username}, function(response) {
+                    var response = JSON.parse(response);
+                    if (&#39;feedback_negative&#39; in response) { // feedback_negative 键名表示该用户名已经被注册
+                        self.set(&#39;usernameExist&#39;, true); // 修改 usernameExist 值来影响模板中 CSS 类的显示与隐藏
+                    }
+                });
+            }
+        }
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这种方法里，我可以很方便地给 input 绑定各种事件&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11691-6&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11691-6&#34;&gt;6&lt;/a&gt;&lt;/sup&gt;，并且模板代码十分直观 &amp;#8211; 一眼就能看出某事件绑定了什么事件处理器。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:11691-1&#34;&gt;&lt;a href=&#34;http://emberjs.com/guides/templates/input-helpers/&#34;&gt;Ember.js &amp;#8211; Templates: Input Helpers&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11691-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11691-2&#34;&gt;&lt;a href=&#34;http://emberjs.com/guides/views/built-in-views/&#34;&gt;Ember.js &amp;#8211; Views: Built-in Views&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11691-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11691-3&#34;&gt;&lt;a href=&#34;http://jsbin.com/pahiwote&#34;&gt;Ember.js 表单验证 &amp;#8211; Demo&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11691-3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11691-4&#34;&gt;&lt;a href=&#34;http://emberjs.com/api/classes/Ember.Binding.html&#34;&gt;Ember.js &amp;#8211; Ember.Binding&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11691-4&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11691-5&#34;&gt;&lt;a href=&#34;http://emberjs.com/guides/templates/binding-element-class-names/&#34;&gt;Ember.js &amp;#8211; Templates: Binding Element Class Names&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11691-5&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11691-6&#34;&gt;&lt;a href=&#34;http://emberjs.com/api/classes/Ember.View.html#toc_event-names&#34;&gt;Ember.js &amp;#8211; Ember.View 事件名称清单&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11691-6&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ember.js 模板添加 HTML5 属性</title>
+      <link>https://www.zfanw.com/blog/ember-js-template-add-html5-attribute.html</link>
+      <pubDate>Thu, 27 Feb 2014 14:25:59 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ember-js-template-add-html5-attribute.html</guid>
+      <description>&lt;p&gt;&lt;em&gt;Note：本文基于 Ember.js 1.4.0&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;最近开发一个 Chrome 扩展，因为基于 Chrome 浏览器，所以就放心大胆地用各种新技术，比如&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11663-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11663-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;form&amp;gt;
+  &amp;lt;label for=email&amp;gt;邮箱：&amp;lt;/label&amp;gt;
+  &amp;lt;input type=email required=required title=请输入邮箱地址 name=email placeholder=请输入邮箱地址&amp;gt;
+  &amp;lt;input type=submit&amp;gt;
+&amp;lt;/form&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;required&lt;/code&gt; &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11663-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11663-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;是 HTML5 增加的元素属性，应用于表单中 input、select、textarea 元素，表示它们是必须项，用户需要填写才能提交。如果提交空内容，浏览器就会显示原生的错误消息，比如：请填写此字段。&lt;/p&gt;
+
+&lt;p&gt;在 Ember.js 下，上面的 Email 输入框代码会是这样写的&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11663-3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11663-3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{{view Ember.TextField name=&#39;email&#39; valueBinding=&#39;email&#39; type=&#39;email&#39; placeholder=&#39;请输入邮箱地址&#39; required=&#39;required&#39; title=&#39;请输入邮箱地址&#39;}}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;检查 Ember.js 生成的 HTML 代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;input id=&amp;quot;ember218&amp;quot; class=&amp;quot;ember-view ember-text-field&amp;quot; placeholder=&amp;quot;请输入邮箱地址&amp;quot; name=&amp;quot;email&amp;quot; type=&amp;quot;email&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看到，&lt;code&gt;required&lt;/code&gt; 与 &lt;code&gt;title&lt;/code&gt; 两个属性被抛掉，这是因为 Ember.TextField &lt;a href=&#34;http://emberjs.com/api/classes/Ember.Handlebars.helpers.html#toc_use-as-text-field&#34;&gt;原生支持的 HTML 属性&lt;/a&gt;有限。但 HTML5 里，像 &lt;code&gt;data-*&lt;/code&gt; 这样的属性是经常出现的，&lt;code&gt;required&lt;/code&gt; 也很常见。不能因为 Ember.js 原生不支持这样的属性就不用。&lt;/p&gt;
+
+&lt;p&gt;Ember.js 提供了一个非常简单的 reopen 方法&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11663-4&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11663-4&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;，直接扩展 Ember.TextField 类的实例方法和实例属性：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Ember.TextField.reopen({
+  attributeBindings: [&#39;required&#39;, &#39;title&#39;]
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;再检查 Ember.js 生成的 HTML 代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;input id=&amp;quot;ember219&amp;quot; class=&amp;quot;ember-view ember-text-field&amp;quot; placeholder=&amp;quot;请输入邮箱地址&amp;quot; name=&amp;quot;email&amp;quot; required=&amp;quot;required&amp;quot; title=&amp;quot;请输入邮箱地址&amp;quot; type=&amp;quot;email&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;已经成功地给 Ember.js 模板加入 HTML5 属性了。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:11663-1&#34;&gt;&lt;a href=&#34;http://jsbin.com/teducawu&#34;&gt;demo &amp;#8211; html5 输入框&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11663-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11663-2&#34;&gt;&lt;a href=&#34;http://www.w3.org/wiki/HTML5_form_additions#required&#34;&gt;required&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11663-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11663-3&#34;&gt;&lt;a href=&#34;http://jsbin.com/buluyoka&#34;&gt;demo &amp;#8211; ember.js view&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11663-3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11663-4&#34;&gt;&lt;a href=&#34;http://emberjs.com/guides/object-model/reopening-classes-and-instances/&#34;&gt;reopen 方法&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11663-4&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

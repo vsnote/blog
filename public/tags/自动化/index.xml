@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>自动化 on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/</link>
+    <description>Recent content in 自动化 on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 12 Jul 2013 15:15:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Gruntjs</title>
+      <link>https://www.zfanw.com/blog/gruntjs.html</link>
+      <pubDate>Fri, 12 Jul 2013 15:15:00 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/gruntjs.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Gruntjs&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 安装 Gruntjs&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_packagejson&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 配置 package.json&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Gruntfilejs&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 配置 Gruntfile.js&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    在前端开发中，有很多琐碎要做，比如检查代码语法、压缩 CSS、最小化混淆 JavaScript 代码、优化图片大小等等，如果要一个个处理，会非常耗时，重要的是，会比较无聊。于是就出现 Grunt.js&lt;fnref target=&#34;9479.1&#34; /&gt; 这样的工具，流程化、自动化处理这一系列前端需求。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Gruntjs&#34;&gt;安装 Gruntjs&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Gruntjs&#34; href=&#34;#_Gruntjs&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    首先需要安装 Node.js，因为 Grunt 及其插件通过 NPM 管理。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    安装完 Node.js 后，打开命令行窗口安装 grunt-cli 工具：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;npm install -g grunt-cli
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    如果在 Linux 系统下，一般还需要 &lt;code&gt;sudo&lt;/code&gt; 权限。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    之后我们就可以在命令行下执行 &lt;code&gt;grunt&lt;/code&gt; 命令了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但是如果要 Grunt 运转，还需配置两个文件，package.json 与 Gruntfile.js。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_packagejson&#34;&gt;配置 package.json&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_packagejson&#34; href=&#34;#_packagejson&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    package.json 文件结构如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{
+  &#34;name&#34;: &#34;Hello&#34;,
+  &#34;version&#34;: &#34;0.1.0&#34;,
+  &#34;devDependencies&#34;: {
+    &#34;grunt&#34;: &#34;~0.4.1&#34;,
+    &#34;grunt-contrib-csslint&#34;: &#34;~0.1.2&#34;,
+    &#34;grunt-contrib-jshint&#34;: &#34;~0.6.0&#34;,
+    &#34;grunt-contrib-imagemin&#34;: &#34;~0.1.4&#34;,
+    &#34;grunt-contrib-concat&#34;: &#34;~0.1.3&#34;,
+    &#34;grunt-contrib-cssmin&#34;: &#34;~0.6.1&#34;
+    &#34;grunt-contrib-uglify&#34;: &#34;~0.2.2&#34;,
+    &#34;grunt-contrib-watch&#34;: &#34;~0.2.2&#34;,
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    它定义当前项目的许多信息，比如名称、版本、版权声明，当然还有当前项目依赖的 npm 模块。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    该文件有几种生成方法：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;code&gt;npm init&lt;/code&gt; 命令，命令会问几个问题，我们只要回答或选择默认答案，就可以创建基本的 json 文件
+    &lt;/li&gt;
+    &lt;li&gt;
+      使用某些模板带的
+    &lt;/li&gt;
+    &lt;li&gt;
+      手写
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    我通常更喜欢前端两种。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    不过第一种方法生成的 package.json 文件很简单，只能作为一个起步，在它的基础上依自己的需求再定义。比如，执行下面的命令就会在 package.json 文件的 devDependencies 部分增加 grunt-contrib-jshint 一项：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;npm install grunt-contrib-jshint --save-dev
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    第二种办法，比如使用 &lt;code&gt;grunt-init&lt;/code&gt;&lt;fnref target=&#34;9479.2&#34; /&gt; 来搭脚手架，这样很多东西马上就可用，比较省事。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在创建完 package.json 文件后，命令行中输入：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;npm install
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    会在当前目录下安装所有未安装的依赖模块。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Gruntfilejs&#34;&gt;配置 Gruntfile.js&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Gruntfilejs&#34; href=&#34;#_Gruntfilejs&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在准备好需要的模块后，我们可以开始根据项目的需要来配置任务，这是 Gruntfile.js 起的作用：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;module.exports = function(grunt) {
+
+  // 针对当前项目的配置
+  grunt.initConfig({
+    pkg: grunt.file.readJSON(&#39;package.json&#39;),// 从 package.json 文件读入数据
+    uglify: { //定义任务做什么
+      options: { // 这里，我们可以修改任务的许多行为
+        banner: &#39;/*! &amp;lt;%= pkg.name %&amp;gt; &amp;lt;%= grunt.template.today(&#34;yyyy-mm-dd&#34;) %&amp;gt; */\n&#39;
+      },
+      build: {
+        src: &#39;src/&amp;lt;%= pkg.name %&amp;gt;.js&#39;, // 定义要处理的文件位置
+        dest: &#39;build/&amp;lt;%= pkg.name %&amp;gt;.min.js&#39; //定义处理后的文件存放位置
+      }
+    }
+  });
+
+  // 加载插件 任务谁来做
+  grunt.loadNpmTasks(&#39;grunt-contrib-uglify&#39;);
+
+  // 注册一个默认任务
+  grunt.registerTask(&#39;default&#39;, [&#39;uglify&#39;]);
+
+};
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    Gruntfile.js 的结构还是蛮简单的。我们在其中定义任务（registerTask），这个任务由各个小任务（比如上面代码中的 uglify）组成，小任务里还可以细分出任务目标（比如 uglify 中的 build）。至于各个任务的执行，由相应插件完成，这就需要载入插件 （loadNpmTasks）。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    根据需求完成配置后，命令行下运行：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;grunt
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    就会执行默认任务。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当然，我们也可以指定执行某个任务甚至目标：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;grunt uglify:build
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;footnotes&gt;
+    &lt;fn name=&#34;9479.1&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://gruntjs.com/&#34;&gt;Grunt: The JavaScript Task Runner&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;9479.2&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://gruntjs.com/project-scaffolding&#34;&gt;Project Scaffolding &amp;#8211; Grunt: The JavaScript Task Runner&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+  &lt;/footnotes&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Z Index on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/z-index/</link>
+    <description>Recent content in Z Index on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 18 Aug 2013 12:48:27 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/z-index/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>IE6、7下的 z-index 问题</title>
+      <link>https://www.zfanw.com/blog/ie6-7-z-index-bug.html</link>
+      <pubDate>Sun, 18 Aug 2013 12:48:27 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ie6-7-z-index-bug.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_z-index&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 现代浏览器下 z-index 值比较&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#IE67_z-index&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; IE6、7下 z-index 值比较&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 调试、解决&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    一般在使用 z-index 时，哪怕我们不十分清楚 z-index 概念，也很少会碰上问题。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但 IE6、7 对 z-index 层叠上下文(stacking context) 生成条件有点误会，会对现实应用造成困扰，也就是常见的 z-index 失效问题。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    看一个别人的 &lt;a href=&#34;http://therealcrisp.xs4all.nl/meuk/IE-zindexbug.html&#34;&gt;demo&lt;/a&gt;。Demo 中，IE6、7 下， &lt;code&gt;position:relative&lt;/code&gt; 也生成一个上下文。而根据 &lt;a href=&#34;http://www.w3.org/TR/CSS21/visuren.html#z-index&#34;&gt;W3C 规范&lt;/a&gt;，这是错误的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    且按照 IE6、7 的错误理解，来分析下 z-index 是怎么比较大小的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Demo 的 HTML 代码如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div id=&#34;container&#34;&amp;gt;
+    &amp;lt;div id=&#34;box1&#34;&amp;gt;This box should be on top&amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+
+&amp;lt;div id=&#34;box2&#34;&amp;gt;This box should not be on top; IE however seems to create a new stacking context for positioned elements, even when the computed z-index of that element is &#39;auto&#39;.&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    CSS 代码：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;#container {
+    position: relative;
+}
+#box1 {
+    background-color: yellow;
+    height: 200px;
+    left: 510px;
+    position: absolute;
+    top: 100px;
+    width: 200px;
+    z-index: 20;
+}
+#box2 {
+    background-color: lime;
+    height: 200px;
+    left: 460px;
+    position: absolute;
+    top: 50px;
+    width: 200px;
+    z-index: 10;
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_z-index&#34;&gt;现代浏览器下 z-index 值比较&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_z-index&#34; href=&#34;#_z-index&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在现代浏览器中，绝对定位的 #box1 与 #box2 元素均参照初始包含块比较 z-index 值，假定初始包含块 z-index 值为0：
+  &lt;/p&gt;
+  
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        #box1
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        #box2
+      &lt;/th&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        html
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        自身
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        20
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        10
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  
+  &lt;p&gt;
+    如果我们也按 CSS 规则的权重排列来理解上面的值：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;#box1 - 0,20
+#box2 - 0,10
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    显然，#box1 要排在 #box2 上面，即黄色块在绿色块上。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;IE67_z-index&#34;&gt;IE6、7下 z-index 值比较&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyIE67_z-index&#34; href=&#34;#IE67_z-index&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    因为 &lt;code&gt;position:relative&lt;/code&gt; 也生成了一个上下文，于是上面的表格会变成：
+  &lt;/p&gt;
+  
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        #box1
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        #box2
+      &lt;/th&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        html
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &amp;#35;container
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        &amp;#8211;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        自身
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        20
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        10
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  
+  &lt;p&gt;
+    对比如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;#box1 - 0,0,20
+#box2 - 0,10
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样，#box2 变成在 #box1 上面。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    解决办法是给 &lt;code&gt;#container&lt;/code&gt; 元素设置一个大于10的 z-index 值：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;#box1 - 0,11,20
+#box2 - 0,10
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    你可能想问设置为10为什么不行，因为同一个 z-index 值，后绘制的与之前的内容如果有交叉区域，则会覆盖之前的内容 &amp;#8211; 这是我的理解。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;调试、解决&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    当给一个元素设置 &lt;code&gt;z-index:9999&lt;/code&gt; 时，IE6、7 下元素层叠还是无效，则可以按上面所描述的，从初始包含块开始，找出所有层叠上下文，然后对比 z-index 值。一旦 z-index 链路明确，也就知道该在哪个节点下手。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

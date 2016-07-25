@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Mustache 嵌套数组 - 陈三</title>
+<meta property="og:title" content="Mustache 嵌套数组 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Mustache 嵌套数组</h1>
+
+    
+    <span class="article-date">August 8, 2014</span>
+    
+
+    <div class="article-content">
+      <p>如果观察Mustache<sup class="footnote-ref" id="fnref:13336-1"><a rel="footnote" href="#fn:13336-1">1</a></sup>模板的填充数据，会发现最深层的通常是一个对象，对象的<code>key</code>在mustache模板中占位，<code>value</code>值则显示在key所占的位置。</p>
+
+<p>如下模板：</p>
+
+<pre><code> * {{name}}
+ * {{age}}
+ * {{place}}
+ * {{{place}}}
+</code></pre>
+
+<p>数据：</p>
+
+<pre><code>{
+  &quot;name&quot;: &quot;陈三&quot;,
+  &quot;place&quot;: &quot;&lt;b&gt;福州平潭&lt;/b&gt;&quot;
+}
+</code></pre>
+
+<p>渲染结果：</p>
+
+<pre><code> * 陈三
+ *
+ * &amp;lt;b&amp;gt;福州平潭&amp;lt;/b&amp;gt;
+ * &lt;b&gt;福州平潭&lt;/b&gt;
+</code></pre>
+
+<p>以上示例十分直观。但碰到value是数组时，Mustache模板就显得委婉。</p>
+
+<p>它引入一个Section(块)的概念，从<code>{{#key}}</code>开始，以<code>{{/key}}</code>结尾。Section会根据value值的情况渲染出一个或多个Section中包含的代码。</p>
+
+<p>如下模板：</p>
+
+<pre><code>{{#person}}
+  &lt;p&gt;{{name}}&lt;/p&gt;
+{{/person}}
+</code></pre>
+
+<p>数据：</p>
+
+<pre><code>{
+  person: [
+    &quot;name&quot;: &quot;陈三&quot;,
+    &quot;name&quot;: &quot;陈四&quot;
+  ]
+}
+</code></pre>
+
+<p>渲染的结果会是：</p>
+
+<pre><code>&lt;p&gt;陈三&lt;/p&gt;
+&lt;p&gt;陈四&lt;/p&gt;
+</code></pre>
+
+<p>但我们常常是根据数据来写模板的。</p>
+
+<p>比如：</p>
+
+<pre><code>{
+  person: [
+    &quot;陈三&quot;,
+    &quot;陈四&quot;
+  ]
+}
+</code></pre>
+
+<p>这个数据里，value值是一个数组，数组中的单个组成并没有显式的<code>key</code>存在。这时，模板是这样写的：</p>
+
+<pre><code>{{#person}}
+  &lt;p&gt;{{.}}&lt;/p&gt;
+{{/person}}
+</code></pre>
+
+<p>如果你用过Linux系统，会十分清楚，<code>.</code>号表示当前目录。模板中的<code>.</code>则表示数据的当前上下文环境，因为value是一个数组，所以Mustache模板在解析时会自动循环输出。</p>
+
+<p>渲染的结果是：</p>
+
+<pre><code>&lt;p&gt;陈三&lt;/p&gt;
+&lt;p&gt;陈四&lt;/p&gt;
+</code></pre>
+
+<p>再来看一组有嵌套的数据：</p>
+
+<pre><code>{
+  person: [
+    {'lastName': '陈', firstName: ['三', '四']},
+    {'lastName': '王', firstName: ['二']}
+  ]
+}
+</code></pre>
+
+<p>我希望渲染的结果如下：</p>
+
+<pre><code>&lt;ul&gt;
+ &lt;li&gt;陈
+   &lt;ul&gt;
+     &lt;li&gt;三&lt;/li&gt;
+     &lt;li&gt;四&lt;/li&gt;
+   &lt;/ul&gt;
+ &lt;/li&gt;
+ &lt;li&gt;王
+   &lt;ul&gt;
+     &lt;li&gt;二&lt;/li&gt;
+   &lt;/ul&gt;
+ &lt;/li&gt;
+&lt;ul&gt;
+</code></pre>
+
+<p>这个模板的写法如下：</p>
+
+<pre><code>&lt;ul&gt;
+{{#person}}
+  &lt;li&gt;{{lastName}}
+    &lt;ul&gt;
+      {{#firstName}}
+        &lt;li&gt;{{.}}&lt;/li&gt;
+      {{/firstName}}
+    &lt;/ul&gt;
+  &lt;/li&gt;  
+{{/person}}
+&lt;/ul&gt;
+</code></pre>
+
+<p>模板写成这样，我个人觉得，已经颇为失败。因为直观度降了很多，初学者不认真琢磨，恐怕不能一眼看明白。</p>
+
+<p>另外，如果你想输出数组的索引(index)值，Mustache语法并不支持，Ractive.js<sup class="footnote-ref" id="fnref:13336-2"><a rel="footnote" href="#fn:13336-2">2</a></sup>对其做了扩展，甚至支持输出<code>key</code>本身的值。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:13336-1"><a href="https://github.com/janl/mustache.js">mustache.js</a>
+ <a class="footnote-return" href="#fnref:13336-1"><sup>[return]</sup></a></li>
+<li id="fn:13336-2"><a href="http://docs.ractivejs.org/latest/mustaches#index-references">Mustaches | Docs | Ractive.js</a>
+ <a class="footnote-return" href="#fnref:13336-2"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

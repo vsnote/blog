@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jspm on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/jspm/</link>
+    <description>Recent content in Jspm on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 26 Jun 2015 12:35:17 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/jspm/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>JSPM 模块化 CSS</title>
+      <link>https://www.zfanw.com/blog/jspm-css-modularize.html</link>
+      <pubDate>Fri, 26 Jun 2015 12:35:17 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jspm-css-modularize.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_jspm-loader-css&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 安装 jspm-loader-css&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_CSS&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 模块 CSS 规则&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_CSS-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 使用 CSS 模块&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    之前我写过两篇模块化 CSS 的内容：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://www.zfanw.com/blog/css-modularize.html&#34; title=&#34;模块化 CSS&#34;&gt;当下前端界在模块化 CSS 上的种种尝试&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://www.zfanw.com/blog/react-js-modular-css.html&#34; title=&#34;react.js 模块化 css&#34;&gt;React.js 中内联 CSS 的问题&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    其中提到 &lt;a href=&#34;https://github.com/systemjs/plugin-css/issues/30&#34; title=&#34;github systemjs plugin-css&#34;&gt;jspm 在模块化 CSS 上的尝试&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    现在，jspm 贡献者已经完成&lt;a href=&#34;https://github.com/geelen/jspm-loader-css&#34;&gt;这一功能&lt;/a&gt;，只待整合进 jspm。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    来看看，jspm 里，要怎么使用这个功能。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_jspm-loader-css&#34;&gt;安装 jspm-loader-css&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_jspm-loader-css&#34; href=&#34;#_jspm-loader-css&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在命令行下运行命令：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;jspm install css=npm:jspm-loader-css
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    jspm 默认使用的 CSS 加载器是 &lt;a href=&#34;https://github.com/systemjs/plugin-css&#34;&gt;plugin-css&lt;/a&gt;，上一条命令让 jspm-loader-css 取代 plugin-css，安装完成后，config.js 文件中 &lt;code&gt;System.config&lt;/code&gt; 里的 &lt;code&gt;map&lt;/code&gt; 下 &lt;code&gt;css&lt;/code&gt; 条目变成：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&#34;css&#34;: &#34;npm:jspm-loader-css@0.1.4&#34;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_CSS&#34;&gt;模块 CSS 规则&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_CSS&#34; href=&#34;#_CSS&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    假设模块保存在 Components/book 目录下，
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;- Components
+  - book
+    + book.js
+    + book.css
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    在 book.css 文件中，我们这样定义 CSS 模块：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:local(.book) { color: red; }
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;:local()&lt;/code&gt; 指定该样式类为局域样式。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当然，旧的写法仍然支持：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;.test { color: red; }
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这条规则表示 &lt;code&gt;.test&lt;/code&gt; 在全局环境中均可以使用。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_CSS-2&#34;&gt;使用 CSS 模块&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_CSS-2&#34; href=&#34;#_CSS-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在 book.js 文件中：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;import styles from &#39;./book.css!css&#39;;
+import React from &#39;react&#39;;
+
+export default class extends React.Component {
+    render() {
+        return (
+            &amp;lt;li className={styles.book}&amp;gt;
+
+            &amp;lt;/li&amp;gt;
+            );
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这是一个 React.js 项目文件。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    查看生成的页面，生成的 &lt;code&gt;li&lt;/code&gt; 的 class 类名是 &lt;code&gt;_Components_book_book__book&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    如果嫌 CSS 中总写 &lt;code&gt;:local&lt;/code&gt; 麻烦，则可以使用另一个 CSS 加载器 &lt;a href=&#34;https://github.com/geelen/jspm-loader-css-modules&#34;&gt;jspm-loader-css-module&lt;/a&gt;，这个加载器默认所有的 CSS 类名是局域的，而非全局，使用它就不需要写 &lt;code&gt;:local&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;strong&gt;最值得提及的一点是&lt;/strong&gt;，jspm-loader-css 默认启用 autoprefixer，实际上，因为 jspm-loader-css 依赖 &lt;a href=&#34;https://github.com/css-modules/css-modules-loader-core&#34;&gt;css-modules/css-modules-loader-core&lt;/a&gt;，而后者又是基于 &lt;a href=&#34;https://github.com/postcss/postcss&#34; title=&#34;postcss 库&#34;&gt;postcss&lt;/a&gt;，所以 postcss 的插件，我们都可以使用，&lt;a href=&#34;https://github.com/geelen/jspm-loader-css#customize-your-own-loader&#34; title=&#34;jspm-loader-css 配置 postcss 插件&#34;&gt;具体用法见文档说明&lt;/a&gt;。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>模块化 React.js CSS</title>
+      <link>https://www.zfanw.com/blog/react-js-modular-css.html</link>
+      <pubDate>Tue, 09 Jun 2015 09:22:51 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/react-js-modular-css.html</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://facebook.github.io/react/&#34; title=&#34;react.js 官网&#34;&gt;React.js&lt;/a&gt; 的法国开发者 Christopher Chedeau &lt;a href=&#34;https://speakerdeck.com/vjeux/react-css-in-js&#34; title=&#34;演示稿&#34;&gt;分享过一期 react css in js&lt;/a&gt;，里面罗列他们如何解决 CSS 中的七个难题：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;CSS 天然的全局命名空间导致的命名冲突&lt;/li&gt;
+&lt;li&gt;依赖&lt;/li&gt;
+&lt;li&gt;无用代码清理&lt;/li&gt;
+&lt;li&gt;命名压缩，比如 &lt;code&gt;.button&lt;/code&gt; -&amp;gt; &lt;code&gt;.ifd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;共享规则&lt;/li&gt;
+&lt;li&gt;不确定的解析&lt;/li&gt;
+&lt;li&gt;代码分离&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;React 最后解决这些问题的方法是用 JavaScript 写 CSS 规则，并&lt;a href=&#34;https://facebook.github.io/react/tips/inline-styles.html&#34; title=&#34;react 官网的样式文档&#34;&gt;内联样式&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;但内联样式一样存在问题：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;:hover&lt;/code&gt;、&lt;code&gt;:active&lt;/code&gt; 这些伪类无法使用&lt;/li&gt;
+&lt;li&gt;媒体查询无法使用&lt;/li&gt;
+&lt;li&gt;样式代码也会出现大量重复&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;诚然我们有&lt;a href=&#34;http://projects.formidablelabs.com/radium/&#34; title=&#34;radium 用法&#34;&gt;各种&lt;/a&gt; &lt;a href=&#34;https://github.com/js-next/react-style&#34; title=&#34;react-style 库&#34;&gt;workarounds&lt;/a&gt; 解决伪类、媒体查询等问题，但我有些担心它们的可用性、可维护性 &amp;#8211; 说到底，它们只是 workaround。&lt;/p&gt;
+
+&lt;p&gt;还是回到 CSS 命名约定上。&lt;/p&gt;
+
+&lt;p&gt;Google 工程师 &lt;a href=&#34;http://philipwalton.com/&#34; title=&#34;Philip Walton 个人站点&#34;&gt;Philip Walton&lt;/a&gt; 一直推荐 BEM，因为 BEM 可以很好地解决我们的 CSS 模块化问题，在 BEM 的定义里，我们可以把模块样式写在&lt;a href=&#34;https://en.bem.info/method/filesystem/&#34; title=&#34;BEM 中文件系统的使用&#34;&gt;以模块名命名的 CSS 文件&lt;/a&gt;中，注意，我们的操作系统不允许同一目录下存在同名 CSS 文件，于是我们就巧妙地绕过了 CSS 命名冲突的问题 &amp;#8211; 我承认，项目庞大的话，后面可能出现「行者孙、孙行者、者行孙」这样的奇怪命名。把 BEM 的这个思路应用到 React 上，则我们解决了模块化问题，也不会碰上 React 内联样式里伪类、媒体查询无法使用的问题。&lt;/p&gt;
+
+&lt;p&gt;但是，如果把 CSS 文件分散到各个 CSS 文件中，我们就会碰上合并、打包 CSS 的问题。不过 BEM 是成套的，我们最常说及的只是它的命名约定，围绕命名约定，它还提供&lt;a href=&#34;https://en.bem.info/tools/bem/bem-tools/&#34;&gt;整套的工具&lt;/a&gt;。又或者，如果你跟我一样，也在使用 &lt;a href=&#34;http://www.zfanw.com/blog/tag/jspm&#34; title=&#34;本博客 jspm 相关内容&#34;&gt;jspm&lt;/a&gt;，则它已经可以解决 CSS 的合并、打包问题。&lt;/p&gt;
+
+&lt;p&gt;比如我的一个业余项目，样式表结构如下：&lt;/p&gt;
+
+&lt;p&gt;[resp_image id=&amp;#8217;16505&amp;#8242; caption=&amp;#8221; ]&lt;/p&gt;
+
+&lt;p&gt;在执行 &lt;code&gt;jspm bundle-sfx script/app --minify&lt;/code&gt; 命令后，所有 CSS 文件就被打包到一个 build.css 中了。&lt;/p&gt;
+
+&lt;p&gt;当然，使用命名规范并不能解决前面罗列的全部问题。技术常常是一种取舍，世间并没有银子弹。&lt;/p&gt;
+
+&lt;div class=&#39;timeline&#39;&gt;
+  &lt;h2&gt;
+    修订历史
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;span itemprop=&#39;dateModified&#39;&gt;2015.06.10 今天恰巧看到一篇&lt;a href=&#34;http://keithjgrant.com/posts/against-css-in-js.html&#34; title=&#34;打开文章链接&#34;&gt;反对 React 的 CSS 用法的文章&lt;/a&gt;&lt;/li&gt; &lt;/ol&gt; &lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jspm-server 自动刷新页面</title>
+      <link>https://www.zfanw.com/blog/jspm-live-reload.html</link>
+      <pubDate>Fri, 05 Jun 2015 10:41:09 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jspm-live-reload.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#jspm-server&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; jspm-server 用法&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 热重载&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    我在 &lt;a href=&#34;http://www.zfanw.com/blog/jspm-systemjs.html&#34; title=&#34;jspm 用法&#34;&gt;JSPM 环境下开发&lt;/a&gt;时，页面修改由 &lt;a href=&#34;http://www.browsersync.io/&#34; title=&#34;访问 Browsersync 官网&#34;&gt;Browsersync&lt;/a&gt; 监控并自动刷新：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;browser-sync start --server --files &#39;*.html, style/**, script/**&#39;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    BrowserSync 的好处是，如果多个浏览器中测试同一个页面地址，则页面修改会同步到多个浏览器中。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    后来想，gulp.js、webpack、grunt.js 等都内置了自动刷新页面的功能，jspm 或许也会有。找了资料，没有，但有个 &lt;a href=&#34;https://github.com/geelen/jspm-server&#34; title=&#34;访问 Github 上 jspm-server 库&#34;&gt;jspm-server&lt;/a&gt;，这是 &lt;a href=&#34;https://github.com/tapio/live-server&#34; title=&#34;访问 Github 上 live-server 库&#34;&gt;live-server&lt;/a&gt; 的一个分支，针对 jspm 做了处理。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;jspm-server&#34;&gt;jspm-server 用法&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyjspm-server&#34; href=&#34;#jspm-server&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        全局安装 jspm-server
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;npm install -g jspm-server
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        启动 jspm-server
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        切换到项目目录，执行：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;jspm-server
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        默认开启的地址是 &lt;code&gt;http://127.0.0.1:8080/&lt;/code&gt;，我们可以通过 &lt;code&gt;--port&lt;/code&gt; 参数指定端口：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;jspm-server --port=9999
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    与 Browsersync 类似，jspm-server 在 v0.1.6 版本后，同样可以同步刷新多个浏览器中打开的页面。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;热重载&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如果你开发过 react，就会发现，它的大小模块非常多，如果每次修改一个小模块，就要整个页面重载 &amp;#8211; 加载上百个小模块的话，则至少需要 1、2 秒的时间，这会降低我们的开发效率。所以 react 社区里出了一个 &lt;a href=&#34;https://github.com/gaearon/react-hot-loader&#34; title=&#34;react hot loader github 库&#34;&gt;react-hot-loader&lt;/a&gt;，可以只重载我们修改过的模块 &amp;#8211; 即热重载，大幅提高我们的开发效率。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    jspm-server 同样具备热重载的功能，条件有二：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      在 index.html 中设置 &lt;code&gt;System.trace = true;&lt;/code&gt;，当然，也可以在 config.js 文件中配置
+    &lt;/li&gt;
+    &lt;li&gt;
+      在能够热重载的 ES6 模块中添加 &lt;code&gt;export let __hotReload = true&lt;/code&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    关于第二步，可以借助浏览器的开发者工具，我的经验，有关联的模块都需要增加该语句。另外，CSS 文件默认能够自动热重载，不需要我们额外处理。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    效果见下图：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [resp_image id=&amp;#8217;16987&amp;#8242; caption=&amp;#8221; ]
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>SystemJS 加载 CSS</title>
+      <link>https://www.zfanw.com/blog/systemjs-import-css.html</link>
+      <pubDate>Sat, 09 May 2015 01:25:42 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/systemjs-import-css.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_css&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 重命名 css 目录名称&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_paths&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 配置 paths&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_map_key&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 修改 map 中定义的 key&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_CSS&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 远程 CSS&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    &lt;strong&gt;说明&lt;/strong&gt;：SystemJS &amp; jspm 仍在开发中，所以各种接口可能会出现变化。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    上一篇曾经介绍过，&lt;a href=&#34;http://www.zfanw.com/blog/jspm-systemjs.html#i-2&#34;&gt;SystemJS 可以使用 css 插件加载 bootstrap 的 NPM 包中的 CSS 文件&lt;/a&gt;。那么，如果是我们自己写的 CSS 文件，比如 css 目录下的 app.css 文件，SystemJS 里要怎么​加载？
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这里有个 SystemJS 的&lt;a href=&#34;https://github.com/systemjs/plugin-css/issues/34&#34;&gt;说不上是 bug 的 bug&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先，css plugin 安装完后，在 config.js 里的 &lt;code&gt;map&lt;/code&gt; 中是这样定义的：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&#34;css&#34;: &#34;github:systemjs/plugin-css@0.1.10&#34;,
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这里，&lt;code&gt;css&lt;/code&gt; 是模块名称，可以在我们的代码中使用，&lt;code&gt;github:systemjs/plugin-css@0.1.10&lt;/code&gt; 是目录，指向 &lt;code&gt;jspm_packages/github/systemjs/plugin-css@0.1.10&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    如果我在 &lt;code&gt;index.html&lt;/code&gt; 文件中这样加载 &lt;code&gt;app.css&lt;/code&gt; 文件：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;System.import(&#39;css/app.css!css&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这个加载路径会指向 &lt;code&gt;http://localhost:3001/jspm_packages/github/systemjs/plugin-css@0.1.10/app.css&lt;/code&gt;。Oooops，&lt;code&gt;import&lt;/code&gt; 语句里的第一个 &lt;code&gt;css&lt;/code&gt; 被解析为 &lt;code&gt;map&lt;/code&gt; 中定义的路径了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    目前来看，在开发者推出更佳解决办法前，只有用 workaround 了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_css&#34;&gt;重命名 &lt;code&gt;css&lt;/code&gt; 目录名称&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_css&#34; href=&#34;#_css&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    把 &lt;code&gt;css&lt;/code&gt; 目录名改成其它，比如 &lt;code&gt;mycss&lt;/code&gt;，记住，不要跟 &lt;code&gt;map&lt;/code&gt; 里定义的任何模块名称冲突，否则又会出现上面的情况，然后在 &lt;code&gt;index.html&lt;/code&gt; 中 &lt;code&gt;import&lt;/code&gt;：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;System.import(&#39;mycss/app.css!css&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_paths&#34;&gt;配置 &lt;code&gt;paths&lt;/code&gt;&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_paths&#34; href=&#34;#_paths&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    我们可以在 &lt;code&gt;config.js&lt;/code&gt; 文件中配置一个 &lt;code&gt;paths&lt;/code&gt;&lt;fnref target=&#34;16048.1&#34; /&gt;：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;// 配置 CSS 文件路径
+System.paths[&#34;mycss/*&#34;] = &#34;css/*.css&#34;;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    注意，在 config.js 中，模块定义的路径，都是相对于 &lt;code&gt;baseURL&lt;/code&gt; 的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    之后在 &lt;code&gt;index.html&lt;/code&gt; 文件中加载：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;System.import(&#39;mycss/app!css&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;!css&lt;/code&gt; 表示该文件通过 css 插件加载，SystemJS 可以通过文件扩展名自动判断使用哪个插件 &amp;#8211; 但建议指定使用的插件名称。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    刷新页面，我们的 app.css 已经动态插入 &lt;code&gt;head&lt;/code&gt; 部分了：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [resp_image id=&amp;#8217;16084&amp;#8242; caption=&amp;#8221; ]
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_map_key&#34;&gt;修改 &lt;code&gt;map&lt;/code&gt; 中定义的 key&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_map_key&#34; href=&#34;#_map_key&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    这一个方法，拿 &lt;code&gt;config.js&lt;/code&gt; 里的 &lt;code&gt;map&lt;/code&gt; 开刀。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    把如下代码：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&#34;css&#34;: &#34;github:systemjs/plugin-css@0.1.10&#34;,
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    改成:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&#34;style&#34;: &#34;github:systemjs/plugin-css@0.1.10&#34;,
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后在 &lt;code&gt;index.html&lt;/code&gt; 中加载：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;System.import(&#39;css/app.css!style&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    上面三种折衷办法中，最推荐第一个。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_CSS&#34;&gt;远程 CSS&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_CSS&#34; href=&#34;#_CSS&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    除了加载自有 CSS，我们还会加载 CDN 上的外部 CSS。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    同样的，我们可以在 config.js 中预先定义一个 &lt;code&gt;paths&lt;/code&gt;：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;System.paths[&#34;purecss&#34;] = &#34;http://yui.yahooapis.com/pure/0.6.0/pure-min.css&#34;;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后就可以在 &lt;code&gt;index.html&lt;/code&gt; 文件中 &lt;code&gt;import&lt;/code&gt; 了：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;System.import(&#39;purecss!css)&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    不过需要注意，从 CDN 上加载的文件，目前在跑 &lt;code&gt;jspm bundle&lt;/code&gt; 时会报错。
+  &lt;/p&gt;
+  
+  &lt;footnotes&gt;
+    &lt;fn name=&#34;16048.1&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;https://github.com/systemjs/systemjs/wiki/Configuration-Options#paths-unstable&#34;&gt;SystemJS 路径配置项&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+  &lt;/footnotes&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jspm 安装使用 Bootstrap 与 jQuery</title>
+      <link>https://www.zfanw.com/blog/jspm-bootstrap-jquery.html</link>
+      <pubDate>Fri, 08 May 2015 00:35:15 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jspm-bootstrap-jquery.html</guid>
+      <description>&lt;p&gt;你可能知道，bootstrap 依赖于 jQuery，并且，是依赖全局的 jQuery，即页面的 &lt;code&gt;window&lt;/code&gt; 对象下应该有个 &lt;code&gt;window.jQuery&lt;/code&gt; 或 &lt;code&gt;window.$&lt;/code&gt; 属性。&lt;/p&gt;
+
+&lt;p&gt;我在上一篇 &lt;a href=&#34;http://www.zfanw.com/blog/jspm-systemjs.html&#34;&gt;jspm 与 SystemJS 用法&lt;/a&gt; 中提到，jspm 默认安装 &lt;code&gt;github:components/jquery&lt;/code&gt; 上定义的 jQuery&lt;del&gt;，这个&lt;a href=&#34;https://github.com/components/jquery&#34;&gt;库的维护并不及时&lt;/a&gt;，譬如现在 jQuery 最新版本是 1.11.3 与 2.1.4，而 components/jquery 上仍是 1.11.2 与 2.1.3 版本&lt;/del&gt;。&lt;/p&gt;
+
+&lt;p&gt;对于第三方库，某些版本虽然只是小更新，但也许修复的 &lt;a href=&#34;http://blog.jquery.com/2015/04/28/jquery-1-11-3-and-2-1-4-released-ios-fail-safe-edition/&#34;&gt;bug 比较要命&lt;/a&gt;，所以我通常都喜欢用最新版本。&lt;/p&gt;
+
+&lt;p&gt;但如果在 jspm 里使用 npm 上的 jQuery，会导致 Bootstrap 无法加载 jQuery。&lt;/p&gt;
+
+&lt;p&gt;整个流程如下：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;安装 npm 上的最新版本 jQuery&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;jspm install npm:jquery
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改 config.js 中 bootstrap 的依赖&lt;/p&gt;
+
+&lt;p&gt;打开 config.js，修改 bootstrap 部分如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;System.config({
+  &amp;quot;map&amp;quot;: {
+     &amp;quot;jquery&amp;quot;: &amp;quot;npm:jquery@2.1.4&amp;quot;, // 这一行是 jspm install 时自动配置的
+     &amp;quot;github:twbs/bootstrap@3.3.4&amp;quot;: {
+       &amp;quot;jquery&amp;quot;: &amp;quot;npm:jquery@2.1.4&amp;quot; // 我们要改的是这一行，将 bootstrap 的 jquery 依赖指向 npm/jquery@2.1.4
+      }
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这时，&lt;code&gt;import bootstrap from &#39;bootstrap&#39;&lt;/code&gt; 就会报如下的错误：&lt;/p&gt;
+
+&lt;p&gt;[resp_image id=&amp;#8217;16059&amp;#8242; caption=&amp;#8221; ]&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这个错误的原因在于，Bootstrap 需要全局 &lt;code&gt;jQuery&lt;/code&gt; 或 &lt;code&gt;$&lt;/code&gt;，但是 jspm 从 npm 上安装的 jQuery 是 CommonJS 规范的，我们的 &lt;code&gt;window&lt;/code&gt; 对象下并没有 &lt;code&gt;jQuery&lt;/code&gt; 或 &lt;code&gt;$&lt;/code&gt; 属性，结果就报错。&lt;/p&gt;
+
+&lt;p&gt;所以目前，如果要在 jspm 中用 Bootstrap，就只能用 github:components/jquery 上的 jQuery 了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jspm &amp; SystemJS 教程</title>
+      <link>https://www.zfanw.com/blog/jspm-systemjs.html</link>
+      <pubDate>Thu, 07 May 2015 12:55:32 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jspm-systemjs.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 包管理器&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 加载器&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#jspm&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; jspm&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    我的经验，前端开发上要解决的问题能简单分为两个阶段：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      开发阶段
+    &lt;/li&gt;
+    &lt;li&gt;
+      部署阶段
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    其中开发阶段要解决：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      第三方包安装、使用、依赖关系的维护
+    &lt;/li&gt;
+    &lt;li&gt;
+      自有代码的依赖关系维护及使用
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    先来聊聊开发阶段的解决方案。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;包管理器&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    最初在 jQuery 站点上，文档可能是这样写的：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      下载 jquery.min.js 文件
+    &lt;/li&gt;
+    &lt;li&gt;
+      保存到 js 目录
+    &lt;/li&gt;
+    &lt;li&gt;
+      在 HTML 文件中使用 &lt;code&gt;script&lt;/code&gt; 标签引用 jquery
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    因为 jQuery 不依赖其它库，所以相对来说，上面的操作还算简单。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但如果碰上有依赖关系的，比如 Bootstrap 依赖于 jQuery，我们可能就需要分开下载 Bootstrap 与 jQuery。好在这一类第三方库通常都在下载文件中打包好依赖了。但这样又有一个问题，如果另一个库也同样打包一个 jQuery，并且版本与 Bootstrap 里打包的不一致呢。可以想像，这样的情况并不少见，我们的开发目录最终容易失控 &amp;#8211; 添加包很容易，删除就难了。另外，手工来做这件事，效率太低。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    包管理器的意义就在这里。它封装了细节，自动化处理我们的需求。我们只需要提问题，它们提供答案：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      我要使用 jQuery &amp;#8211; 好，&lt;code&gt;bower install jquery&lt;/code&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      我要使用 Bootstrap &amp;#8211; 好， &lt;code&gt;bower install bootstrap&lt;/code&gt;，顺便会把依赖 jQuery 一起安装了
+    &lt;/li&gt;
+    &lt;li&gt;
+      我想了想，还是删除 Bootstrap 吧 &amp;#8211; 好， &lt;code&gt;bower uninstall bootstrap&lt;/code&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    包管理器会维护一个依赖清单，个中关系一目了然。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当然，以上只是用 &lt;a href=&#34;http://bower.io/&#34; title=&#34;bower 官网&#34;&gt;bower&lt;/a&gt; 举例，市面上同类产品还非常多，比如 &lt;a href=&#34;http://duojs.org/&#34; title=&#34;doujs 官网&#34;&gt;duojs&lt;/a&gt;，本文的主角 &lt;a href=&#34;http://jspm.io/&#34; title=&#34;jspm 官网&#34;&gt;jspm&lt;/a&gt; 也是一个，甚至 npm 都算。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;加载器&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    包管理器解决了我们管理各种模块的需求。接下来，我们要利用这些模块来开发，那么就会碰上如何使用这些模块的问题了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    目前 ES6 模块的标准还没在浏览器中得到完全落实，过渡期间我们有许多规范或不规范的模块：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://www.commonjs.org/&#34; title=&#34;commonjs 官网&#34;&gt;CommonJS&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://github.com/amdjs/amdjs-api/wiki/AMD&#34; title=&#34;托管在 github 上的 AMD 说明&#34;&gt;AMD&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://wiki.ecmascript.org/doku.php?id=harmony:modules&#34; title=&#34;ecmacript 上的 modules 文档&#34;&gt;ES6 Modules&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      命名空间方式定义
+    &lt;/li&gt;
+    &lt;li&gt;
+      其它
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    如果只使用单一规范，比如针对 AMD，我们可能会用 &lt;a href=&#34;http://requirejs.org/&#34; title=&#34;requirejs 官网&#34;&gt;RequireJS&lt;/a&gt;；ES6 的模块，我们可能会用到 &lt;a href=&#34;https://github.com/ModuleLoader/es6-module-loader&#34; title=&#34;es6-module-loader 的 github 库&#34;&gt;ES6 Module Loader Polyfill&lt;/a&gt;；CommonJS 规范的模块，我们可能用 &lt;a href=&#34;https://github.com/systemjs/systemjs&#34; title=&#34;systemJS 的 github 库&#34;&gt;SystemJS&lt;/a&gt; &amp;#8211; 它同样可用于加载 AMD/ES6 模块。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    CSS 加载器？？
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    上面提及的加载器，通常是针对 JavaScript 模块的，CSS 并没有严格意义的模块，那它怎么管理？我们的包管理器当然会连着包的 CSS 文件一同管理。那我们该如何使用这些模块中的 CSS 呢？举 SystemJS 来说，我们可以通过它的插件执行 &lt;code&gt;import&lt;/code&gt; 命令动态插入 CSS。打包的时候，SystemJS 默认会把整个 CSS 文件打包入 JS 文件中。当然，我们也可以借助 bower 与 gulp.js 及 &lt;a href=&#34;https://github.com/taptapship/wiredep&#34; title=&#34;wiredep 插件&#34;&gt;gulp.js 的 wiredep 插件&lt;/a&gt; 这样的组合实现在页面上「主动」插入 &lt;code&gt;link&lt;/code&gt; 标签 &amp;#8211; 但这需要搭配 gulp.js 等工具。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    走完开发阶段，我们来看看部署阶段要解决的几个明显问题：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      CSS 文件合并、压缩等
+    &lt;/li&gt;
+    &lt;li&gt;
+      JavaScript 文件合并、压缩、混淆等
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    不过，还是先正式介绍 jspm 与 SystemJS 的用法。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;jspm&#34;&gt;jspm&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyjspm&#34; href=&#34;#jspm&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如前所说的，jspm 是一个浏览器端包管理器。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    安装 jspm
+  &lt;/h3&gt;
+  
+  &lt;pre&gt;&lt;code&gt;npm install jspm -g
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    初始化目录
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    在安装完 jspm 后，我们在命令行下就有一个 &lt;code&gt;jspm&lt;/code&gt; 命令可用。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    创建一个目录，执行 &lt;code&gt;jspm init&lt;/code&gt; 即可在该目录下初始化开发环境：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;Package.json file does not exist, create it? [yes]: 
+Would you like jspm to prefix the jspm package.json properties under jspm? [yes]: 
+Enter server baseURL (public folder path) [.]: 
+Enter jspm packages folder [./jspm_packages]: 
+Enter config file path [./config.js]: 
+Configuration file config.js doesn&#39;t exist, create it? [yes]:
+Enter client baseURL (public folder URL) [/]: 
+Which ES6 transpiler would you like to use, Traceur or Babel? [traceur]:
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    如果你用过 &lt;a href=&#34;http://yeoman.io/&#34; title=&#34;yeoman 官网&#34;&gt;yeoman&lt;/a&gt; 一类工具，对这类提示应该非常熟悉。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    安装第三方库
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    比如要安装 jQuery：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;jspm install jquery
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这条命令会从 github:components/jquery 上读取下载。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    还可以从 npm 上下载安装：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;jspm install npm:jquery
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    创建 HTML 文件
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    创建一个 index.html 文件如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt; &amp;lt;!doctype html&amp;gt;
+  &amp;lt;script src=&#34;jspm_packages/system.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;script src=&#34;config.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;script&amp;gt;
+    System.import(&#39;app&#39;);
+  &amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    首先我们需要引用 &lt;code&gt;jspm_packages/system.js&lt;/code&gt;，这个是 jspm 提供的万用加载器。之后是 &lt;code&gt;config.js&lt;/code&gt; 文件，我们安装的各种包、依赖等信息都在这个文件中维护，之后我们用全局的 &lt;code&gt;System.import&lt;/code&gt; 执行 index.html 同一目录下的 app.js 文件。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在 app.js 文件中，我们使用 ES6 语法：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;import $ from &#39;jquery&#39;;
+$(function() {
+  console.log($);
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    假定我们要在 index.html 中使用 Bootstrap，那么先通过 &lt;code&gt;jspm&lt;/code&gt; 安装：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;jspm install bootstrap
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后把 app.js 文件修改如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;import bootstrap from &#39;bootstrap&#39;;
+
+$(function() {
+    console.log($);
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    我们并没有 &lt;code&gt;import&lt;/code&gt; jQuery，这是因为 jspm 维护有 bootstrap 的依赖，会自动加载 jQuery，不需要我们再手动 &lt;code&gt;import&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;import bootstrap from &#39;bootstrap&#39;&lt;/code&gt; 一行是加载了 Bootstrap 的 js 模块。那么，Bootstrap 的 CSS 部分如何加载呢？我们需要用到 &lt;a href=&#34;https://github.com/jspm/jspm-cli/wiki/Plugins#css&#34; title=&#34;plugin css 说明&#34;&gt;jspm 的 CSS 插件&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先，安装 jspm 的 css 插件：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;jspm install css
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后在 app.js 中添加一行：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;import &#39;bootstrap/css/bootstrap.css!&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;strong&gt;!&lt;/strong&gt; 表示这会经过插件处理。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这时如果在本地服务器上打开 index.html 文件，借助浏览器的开发者工具查看：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [resp_image id=&amp;#8217;16028&amp;#8242; caption=&amp;#8221; ]
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Wow，请求有点多 &amp;#8211; 但这只是开发阶段。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    打包 JavaScript
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    我们终于说到 JavaScript 的打包了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    jspm 里，js 文件的打包非常简单，举上面的例子说，如果我们只有一个 js 入口的话，则执行：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;jspm bundle-sfx app build.js --minify
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    就可以将所有需要的 js 文件包括 CSS 文件打包到一个 build.js 文件中。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    之后修改 index.html 文件中 script 部分如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;!--    &amp;lt;script src=&#34;jspm_packages/system.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script src=&#34;config.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script&amp;gt;
+        System.import(&#39;app&#39;);
+    &amp;lt;/script&amp;gt;--&amp;gt;
+    &amp;lt;script src=&#34;build.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这时打开 index.html 页面，就只剩下 index.html 与 build.js 两个请求了。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    打包 CSS
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    在上在一个步骤中，我们把 CSS 文件连着一起打包进了 js 中，这可能并不是多数人想要的结果。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我们可以通过定义 &lt;a href=&#34;https://github.com/jspm/jspm-cli/wiki/Plugins#css-builds&#34; title=&#34;jspm config.js 构建配置&#34;&gt;config.js 文件&lt;/a&gt;改变这种行为。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    打开 config.js 文件，添加 &lt;code&gt;seperateCSS: true&lt;/code&gt;：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;System.config({
+  &#34;baseURL&#34;: &#34;/&#34;,
+  &#34;separateCSS&#34;: true
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    再次执行 &lt;code&gt;jspm bundle-sfx app build.js --minify&lt;/code&gt;，会在 index.html 同级目录下生成一个 build.js 与 build.css，在 index.html 中引用 build.css 文件即可。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    对比 gulp.js 或 grunt.js 等工具，jspm 给我的体验非常好，解决了开发阶段、部署阶段的几个重要难题，目前只有 ember-cli 这样的环境能给我同样的感受。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

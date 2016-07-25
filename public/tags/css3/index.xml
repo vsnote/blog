@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Css3 on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/css3/</link>
+    <description>Recent content in Css3 on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 15 Jul 2014 12:02:26 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/css3/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>CSS3 flex-shrink</title>
+      <link>https://www.zfanw.com/blog/css3-flex-shrink.html</link>
+      <pubDate>Tue, 15 Jul 2014 12:02:26 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/css3-flex-shrink.html</guid>
+      <description>&lt;p&gt;&lt;code&gt;flex-grow&lt;/code&gt;控制flex container有多余空间的时候怎么分配，默认值为0，即所有的flex items都不分配。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;flex-shrink&lt;/code&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:13081-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:13081-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;则控制flex container空间不足以包含flex items时，flex items怎样缩小所占空间，来防止溢出container。其默认值为1，flex items们根据自身的&lt;code&gt;flex-basis&lt;/code&gt;值做相应调整。&lt;/p&gt;
+
+&lt;p&gt;看一个示例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#39;example-Grid&#39;&amp;gt;
+  &amp;lt;div class=&#39;example-first&#39;&amp;gt;汇成一道道光的流河&amp;lt;/div&amp;gt;
+  &amp;lt;div class=&#39;example-last&#39;&amp;gt;我曾在天上见过地的繁华&amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;style&amp;gt;
+.example-Grid{
+  display: flex;
+  border: 2px solid black;
+  width: 250px;
+}
+.example-first{
+  background: red;
+  flex-basis: 150px;
+  flex-shrink: 1;
+}
+.example-last{
+  background:orange;
+  flex-basis: 200px;
+  flex-shrink:1;
+}
+&amp;lt;/style&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#39;example-Grid&#39;&gt;
+  &lt;div class=&#39;example-first&#39;&gt;
+    汇成一道道光的流河
+  &lt;/div&gt;
+  
+
+&lt;p&gt;&lt;div class=&#39;example-last&#39;&gt;
+    我曾在天上见过地的繁华
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;在上面的代码中，flex container宽度为250px，而两个flex item宽度加起来有350px，所以要腾100px空间出来。&lt;/p&gt;
+
+&lt;p&gt;计算的方式是，每个flex item的&lt;code&gt;flex-basis&lt;/code&gt;值乘以&lt;code&gt;flex-shrink&lt;/code&gt;值求积，求和所有flex items的乘积，然后求占比，再乘以要腾出的空间。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;.example-first: (150 * 1) / ((200 * 1) + (150 * 1)) * 100 = 42.8571428571&lt;/p&gt;
+
+&lt;p&gt;.exampel-last: (200 * 1) / ((200 * 1) + (150 * 1)) * 100 = 57.1428571429&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;所以.example-first的宽度为150 &amp;#8211; 42.8571428571 = 107px，.example-last的宽度为200 &amp;#8211; 57.1428571429 = 143px。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:13081-1&#34;&gt;&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink&#34;&gt;flex-shrink &amp;#8211; CSS | MDN&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:13081-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>CSS3 flex-basis</title>
+      <link>https://www.zfanw.com/blog/css3-flex-basis.html</link>
+      <pubDate>Sun, 13 Jul 2014 04:32:46 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/css3-flex-basis.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 计算值&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 百分比&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    WebPlatform&lt;fnref target=&#34;13071.1&#34; /&gt;上对&lt;code&gt;flex-basis&lt;/code&gt;的解释是：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      The flex-basis CSS property describes the initial main size of the flex item before any free space is distributed according to the flex factors described in the flex property (flex-grow and flex-shrink).
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    在flex container分配剩余空间前，&lt;code&gt;flex-basis&lt;/code&gt;决定flex item在主方向上的大小。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    它的取值有两种&lt;fnref target=&#34;13071.2&#34; /&gt;：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      Percentages refer to the flex container&amp;#8217;s inner main size
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Computed value as specified, with lengths made absolute
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      百分比 &amp;#8211; 根据flex container的主方向大小计算
+    &lt;/li&gt;
+    &lt;li&gt;
+      计算值 &amp;#8211; 绝对数
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;计算值&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;flex-grow&lt;/code&gt;跟&lt;code&gt;flex-shrink&lt;/code&gt;取默认值时，计算值的&lt;code&gt;flex-basis&lt;/code&gt;类似&lt;code&gt;max-width&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在flex-container主方向大小不足以容纳flex items的&lt;code&gt;flex-basis&lt;/code&gt;总和时，浏览器会自动缩小它们。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    举一段代码说明：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#39;Grid&#39;&amp;gt;
+  &amp;lt;div class=&#39;first&#39;&amp;gt;我曾在天上见过地的繁华&amp;lt;/div&amp;gt;
+  &amp;lt;div class=&#39;last&#39;&amp;gt;陈三说的&amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;style&amp;gt;
+.example-Grid{
+  color: white;
+  display: flex;
+  width: 400px;
+  border: 1px solid red;
+}
+.example-first{
+  background: green;
+  flex-basis: 400px;
+}
+.example-last{
+  background: orange;
+  flex-basis:200px;
+}
+&amp;lt;/style&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    样式结果如下：
+  &lt;/p&gt;
+  
+  &lt;div class=&#39;example-Grid&#39;&gt;
+    &lt;div class=&#39;example-first&#39;&gt;
+      我曾在天上见过地的繁华
+    &lt;/div&gt;
+    
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#39;example-last&#39;&amp;gt;
+  陈三说的
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;p&gt;
+  &lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;p&gt;
+    这里，.example-first的宽度是267px，.example-last的宽度是133px，它们是这样计算的：
+  &lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;blockquote&gt;
+    &lt;p&gt;
+      .example-first(宽度) = 400 * (400 / (400 + 200)) = 266.666666667
+    &lt;/p&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;
+  .example-last(宽度) = 400 * (200 / (400 + 200)) = 133.333333333
+&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/blockquote&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;p&gt;
+    也就是说，flex container按比例分配flex items的大小。
+  &lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;百分比&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;p&gt;
+    百分比的情况与计算值是一样的，如果flex container足够包含flex items的&lt;code&gt;flex-basis&lt;/code&gt;总值，则10%的意思就是flex container在主方向的大小乘以10%。
+  &lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;p&gt;
+    如果flex container不足以包含flex items的&lt;code&gt;flex-basis&lt;/code&gt;总值，比如：
+  &lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&amp;ldquo;example2-Grid&amp;rdquo;&amp;gt;
+ &amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;
+ &amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;
+ &amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;
+ &amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;style&amp;gt;
+.example2-Grid{
+     border: 3px solid black;
+     display: flex;
+     height: 200px;
+}
+.example2-Grid div:nth-of-type(1){
+     background: rgb(0, 137, 250);
+     flex-basis: 100%;
+}
+.example2-Grid div:nth-of-type(2){
+     background: rgb(105, 0, 88);
+     flex-basis: 20%;
+}
+.example2-Grid div:nth-of-type(3){
+     background: rgb(255, 59, 0);
+     flex-basis: 30%;
+}
+.example2-Grid div:nth-of-type(4){
+     background: rgb(0, 197, 73);
+     flex-basis: 40%;
+}
+&amp;lt;/style&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;p&gt;
+    代码的样式如下：
+  &lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;example2-Grid&#34;&gt;
+    &lt;div&gt;
+      陈
+    &lt;/div&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
+  三
+&amp;lt;/div&amp;gt;
+
+&amp;lt;div&amp;gt;
+  是
+&amp;lt;/div&amp;gt;
+
+&amp;lt;div&amp;gt;
+  人
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;p&gt;
+  &lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;p&gt;
+    其中第一个flex item的&lt;code&gt;flex-basis&lt;/code&gt;取值为100%，则计算时，它的main size占比是：
+  &lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;blockquote&gt;
+    &lt;p&gt;
+      100% / (100% + 20% + 30% + 40%) = 52.631578947%
+    &lt;/p&gt;
+  &lt;/blockquote&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;p&gt;
+    真正设计或实现页面时，我们通常不可能做这样的计算，但了解计算过程的话，心里有底，碰上问题，就知道怎么解决。
+  &lt;/p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;footnotes&gt;
+    &lt;fn name=&#34;13071.1&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://docs.webplatform.org/wiki/css/properties/flex-basis&#34;&gt;flex-basis · css · WPD · WebPlatform.org&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;fn name=&amp;quot;13071.2&amp;quot;&amp;gt;
+  &amp;lt;p&amp;gt;
+    &amp;lt;a href=&amp;quot;https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis&amp;quot;&amp;gt;flex-basis &amp;amp;#8211; CSS | MDN&amp;lt;/a&amp;gt;
+  &amp;lt;/p&amp;gt;
+&amp;lt;/fn&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/footnotes&gt;
+&lt;/div&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>CSS3 flex-grow</title>
+      <link>https://www.zfanw.com/blog/css3-flex-grow.html</link>
+      <pubDate>Fri, 11 Jul 2014 05:59:19 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/css3-flex-grow.html</guid>
+      <description>&lt;p&gt;CSS3弹性盒模型中，有两类元素：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;flex container&lt;/li&gt;
+&lt;li&gt;flex item&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;如下图&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:13063-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:13063-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://dev.w3.org/csswg/css-flexbox/images/flex-direction-terms.svg&#34; alt=&#34;css3 flexible box model&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;flex container通过声明元素的&lt;code&gt;display&lt;/code&gt;属性为&lt;code&gt;flex&lt;/code&gt;或&lt;code&gt;inline-flex&lt;/code&gt;定义，flex container的子元素无需声明，直接就是flex item。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;flex-grow&lt;/code&gt;是flex item的CSS属性，默认值为0。&lt;/p&gt;
+
+&lt;p&gt;简单说，它是flex item分配flex container剩余空间的规则。&lt;/p&gt;
+
+&lt;p&gt;如下例：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://jsbin.com/wiluco/2/embed?output&#34;&gt;CSS3 flex-grow属性&lt;/a&gt;{.jsbin-embed}&lt;/p&gt;
+
+&lt;p&gt;未设置&lt;code&gt;flex-grow&lt;/code&gt;前，红色部分文字宽度是403px，蓝色部分文字宽度是27px，包含块宽度是630px。所以包含块还剩下200px空间可以给它的flex item分配。&lt;/p&gt;
+
+&lt;p&gt;因为红色部分的&lt;code&gt;flex-grow&lt;/code&gt;值为1，蓝色部分的&lt;code&gt;flex-grow&lt;/code&gt;值为2，所以200px分三份，红色占一份，即66.6666666667px，蓝色占两份，即133.333333333px。&lt;/p&gt;
+
+&lt;p&gt;最后计算结果，红色的长度为403+66.6666666667=470px，绿色的长度为27+133.333333333=160px。&lt;/p&gt;
+
+&lt;p&gt;而如果flex container没有空间剩余，则&lt;code&gt;flex-grow&lt;/code&gt;值不管设置成什么都不会有影响。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:13063-1&#34;&gt;图片来自&lt;a href=&#34;http://dev.w3.org/csswg/css-flexbox/#box-model&#34;&gt;W3&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:13063-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>媒体查询与图片</title>
+      <link>https://www.zfanw.com/blog/media-queries-image-resize.html</link>
+      <pubDate>Thu, 15 Nov 2012 10:35:57 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/media-queries-image-resize.html</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;http://www.w3.org/standards/history/css3-mediaqueries&#34;&gt;Media Queries&lt;/a&gt;（&lt;strong&gt;媒体查询&lt;/strong&gt;） 是 CSS3 中加入的模块，可以用于设计&lt;a href=&#34;http://en.wikipedia.org/wiki/Responsive_Web_Design&#34;&gt;自适应设备的网页&lt;/a&gt;，这样页面会根据设备屏幕的大小自动调整页面布局，而无需针对每个屏幕大小分别设计页面布局。&lt;/p&gt;
+
+&lt;p&gt;在优化页面速度时，&lt;a href=&#34;https://developers.google.com/speed/pagespeed/insights&#34;&gt;Google PageSpeed&lt;/a&gt; 有这样一条关于&lt;a href=&#34;https://developers.google.com/speed/docs/best-practices/rendering#SpecifyImageDimensions&#34;&gt;明确图片大小的建议&lt;/a&gt;：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Specifying a width and height for all images allows for faster rendering by eliminating the need for unnecessary reflows and repaints.&lt;/p&gt;
+
+&lt;p&gt;To prevent reflows, specify the width and height of all images, either in the HTML &lt;img&gt; tag, or in CSS.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;大概的意思是，建议给图片明确大小，无论是通过 img 属性还是 CSS 代码，这样可以减少页面渲染过程中不必要的重排。比如这样的 HTML 语句：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;img src=&amp;quot;......&amp;quot; width=&amp;quot;500&amp;quot; height=&amp;quot;500&amp;quot;/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;因为图片的宽高值被固定下来，就需要我们在设计自适应页面时，对图片进行某种处理，否则会导致图片在小屏幕上超出屏幕范围。&lt;/p&gt;
+
+&lt;p&gt;如下 CSS 语句可以让图片大小（宽高）根据屏幕大小自动调整：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@media only screen and (max-width: 480px){
+    img { 
+                width: 100%;
+                height:auto;
+           }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当然，还要记得在 head 部分加入类似如下的语句，否则上述的 CSS 不能起作用：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1, maximum-scale=1&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;http://dev.opera.com/articles/view/an-introduction-to-meta-viewport-and-viewport/&#34;&gt;An introduction to meta viewport&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

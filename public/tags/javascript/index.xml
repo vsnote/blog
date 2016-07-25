@@ -1,0 +1,1400 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Javascript on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/javascript/</link>
+    <description>Recent content in Javascript on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 06 May 2015 04:15:33 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>JavaScript setTimeout 居然立即执行了</title>
+      <link>https://www.zfanw.com/blog/javascript-settimeout-fire-immediately.html</link>
+      <pubDate>Wed, 06 May 2015 04:15:33 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/javascript-settimeout-fire-immediately.html</guid>
+      <description>&lt;p&gt;在我的经历里，有过类似以下的一段代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;setTimeout(function() { console.log(&#39;sam chen&#39;); }, 2591700000);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ooooooops，立即执行了。而不是我们所预想的，会在至少 2591700000ms 后触发。&lt;/p&gt;
+
+&lt;p&gt;原因是这样的&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:15918-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:15918-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Timeout values too big to fit into a signed 32-bit integer may cause overflow in FF, Safari, and Chrome, resulting in the timeout being scheduled immediately. It makes more sense simply not to schedule these timeouts, since 24.8 days is beyond a reasonable expectation for the browser to stay open.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code&gt;setTimeout&lt;/code&gt; 的第二个参数 timeout 的最大值是 2147483647&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:15918-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:15918-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;，我们的设定值超过它，回调函数就会立即执行。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:15918-1&#34;&gt;&lt;a href=&#34;https://code.google.com/p/closure-library/source/browse/closure/goog/timer/timer.js?r=7205c0d2f9ef6e079ba626e3c83d93dddf65de67#79&#34;&gt;closure timer.js &amp;#8211; code.google.com&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:15918-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:15918-2&#34;&gt;&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout#Minimum.2Fmaximum_delay_and_timeout_nesting&#34;&gt;最大/最小延迟值 &amp;#8211; MDN&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:15918-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>你不知道 setTimeout 是怎么回事</title>
+      <link>https://www.zfanw.com/blog/you-dont-know-settimeout-in-js.html</link>
+      <pubDate>Mon, 04 May 2015 11:54:52 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/you-dont-know-settimeout-in-js.html</guid>
+      <description>&lt;p&gt;在我查找 JavaScript setTimeout 相关资料时，看到这一段测试代码&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:15831-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:15831-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;setTimeout(function(){console.log(&#39;a&#39;);},5);
+var then = (new Date()).getTime(), now;
+do { now = (new Date()).getTime(); } while (now &amp;lt; (then + 5));
+setTimeout(function(){console.log(&#39;b&#39;);},0);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果照 JavaScript 单线程的思路看，则 log 的顺序应该是：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;a&lt;/li&gt;
+&lt;li&gt;b&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;在 Safari 8.0.5（Mac） 与 Google Chrome 42.0.2311.135 (64-bit)（Mac）上确实如此。&lt;/p&gt;
+
+&lt;p&gt;但让人吃惊的是，Firefox 37.0.2 上 log 出的顺序却是相反的：&lt;/p&gt;
+
+&lt;p&gt;[resp_image id=&amp;#8217;15892&amp;#8242; caption=&amp;#8221; ]&lt;/p&gt;
+
+&lt;p&gt;测试过 IE11 上的表现是跟 Firefox 一样的。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:15831-1&#34;&gt;&lt;a href=&#34;https://mail.mozilla.org/pipermail/es-discuss/2011-March/013276.html&#34;&gt;Bringing setTimeout to ECMAScript&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:15831-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 按值传递还是按引用传递</title>
+      <link>https://www.zfanw.com/blog/javascript-pass-by-reference-or-value.html</link>
+      <pubDate>Tue, 28 Apr 2015 12:00:27 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/javascript-pass-by-reference-or-value.html</guid>
+      <description>&lt;p&gt;​今天下午碰到的一个 JavaScript 问题，着实让我大吃一惊。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var obj = { age: 5 };
+
+function changeObj(o) {
+  o = { age: 6 };
+}
+
+changeObj(obj);
+
+console.log(obj.age);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面 log 出的结果是 &lt;strong&gt;5&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;再看另一段代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var obj = { age: 5 };
+
+function changeObj(o) {
+  o.age = 6;
+}
+
+changeObj(obj);
+
+console.log(obj.age);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这段代码 log 出来是 &lt;strong&gt;6&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;我们可以确定的一点是，函数的参数如果是原始类型，则它们是按值传递的，比如传递字符串、数值，函数会对它们的值做一个拷贝，函数内部对参数的修改不会影响传递给函数的变量。&lt;/p&gt;
+
+&lt;p&gt;但上面两段代码的参数是对象。&lt;/p&gt;
+
+&lt;p&gt;JavaScript 权威指南一书里有一段：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;A function can use the reference to modify properties of the object or elements of the array. But if the function overwrites the reference with a reference to a new object or array, that modification is not visible outside of the function.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://stackoverflow.com/questions/518000/is-javascript-a-pass-by-reference-or-pass-by-value-language&#34;&gt;StackOverflow&lt;/a&gt; 上同样一大段讨论。&lt;/p&gt;
+
+&lt;p&gt;跟一个&lt;a href=&#34;http://doller.io/&#34;&gt;前同事&lt;/a&gt;聊了下，大致可以这样理解：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;第一段代码中，&lt;code&gt;o&lt;/code&gt; 是函数内的一个变量 &amp;#8211; 确实，我们未曾显式声明，但因为它是函数的参数，所以默认在函数内声明了该变量&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:15694-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:15694-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;。变量 &lt;code&gt;o&lt;/code&gt; 是函数外对象 &lt;code&gt;obj&lt;/code&gt; 的一个引用，之后我们在函数内部把 &lt;code&gt;o&lt;/code&gt; 的引用指向一个新的对象字面量 &lt;code&gt;{ age: 6 }&lt;/code&gt;，所以函数作用域外的 &lt;code&gt;obj&lt;/code&gt; 就没有受到影响。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;而第二段代码中，我们对 &lt;code&gt;obj&lt;/code&gt; 的一个引用直接修改属性，所以就影响到函数作用域外的 &lt;code&gt;obj&lt;/code&gt; 本身了。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:15694-1&#34;&gt;&lt;a href=&#34;http://stackoverflow.com/questions/3057737/local-variable-vs-parameter&#34;&gt;JavaScript 局部变量与参数&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:15694-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HTML Inspector</title>
+      <link>https://www.zfanw.com/blog/html-inspector.html</link>
+      <pubDate>Mon, 20 Apr 2015 13:28:20 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/html-inspector.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 用法&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 定制&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    ​我们写 CSS、写 JavaScript，通常都会用到 CSSLint、JSHint 这类工具，用于辅助​检查我们代码中的错误或糟糕部分。比起人类的粗枝大叶，通常工具要靠谱多了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;https://github.com/philipwalton/html-inspector&#34;&gt;HTML Inspector&lt;/a&gt; 是一个类似的工具，当然，它并不是用来检查我们 HTML 代码书写是否规范、是否标签未关闭这种事情。我们知道，HTML 代码里充斥着各种勾子，CSS 样式化的类名，JavaScript 选择器 ID 等等，HTML Inspector 可以帮忙检查，我们的代码是否符合最佳实践，或者说我们自己定义的最佳实践。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;用法&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在要检查的 HTML 页面中 &lt;code&gt;&amp;lt;/body&amp;gt;&lt;/code&gt; 前引用 HTML Inspector 代码并立即执行：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;script src=&#34;//cdnjs.cloudflare.com/ajax/libs/html-inspector/0.8.2/html-inspector.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script&amp;gt;
+      HTMLInspector.inspect();
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    当然，我也可以使用 npm 或 bower 来安装。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    之后刷新该 HTML 页面，就可以在 console（浏览器控制台）里看到当前 HTML 页面的报告，比如：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;script&gt; elements should appear right before the closing &lt;/body&gt; tag for optimal performance.
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    根据这类提示，我们可以对 HTML 代码做诸多改进。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;定制&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    HTML Inspector 允许你自己定制规则，可以想到，一个团队如果有某些代码上的规范，则可以落实到规则中，这样项目成员都可以自行检测代码中不合规范的部分，保证代码风格统一及规范。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript with 语句</title>
+      <link>https://www.zfanw.com/blog/javascript-with-statement.html</link>
+      <pubDate>Sun, 12 Apr 2015 13:56:12 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/javascript-with-statement.html</guid>
+      <description>&lt;p&gt;​&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with&#34;&gt;ECMAScript 5 里已经不推荐&lt;/a&gt;使用 &lt;code&gt;with&lt;/code&gt; 语句，一个主要原因是，它会产生莫名的副作用，比如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var obj = { a: 3 };
+
+with (obj) {
+  a = 7;
+  b = 5;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里，我们创建了一个全局变量 &lt;code&gt;b&lt;/code&gt;。但一般我们会认为 &lt;code&gt;b&lt;/code&gt; 是 &lt;code&gt;obj&lt;/code&gt; 对象的属性 &amp;#8211; 可惜不是，我们确实创建了一个全局变量。&lt;/p&gt;
+
+&lt;p&gt;我们知道全局变量是魔鬼，尤其是莫名产生的全局变量。所以 ECMAScript 5 里引入 &lt;code&gt;&#39;use strict&#39;;&lt;/code&gt;，解决这类问题。&lt;/p&gt;
+
+&lt;p&gt;如果我们在代码前加入 &lt;code&gt;&#39;use strict&#39;;&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&#39;use strict&#39;;
+var obj = { a: 3 };
+
+with (obj) {
+  b = 5;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行后会报告这样的错误：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;SyntaxError: strict mode code may not contain &amp;#8216;with&amp;#8217; statements&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;严格模式下不允许使用 &lt;code&gt;with&lt;/code&gt;。那就不用吧。&lt;/p&gt;
+
+&lt;p&gt;另一个不用 &lt;code&gt;with&lt;/code&gt; 的原因是，它会&lt;a href=&#34;https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&amp;amp;%20closures/ch2.md#performance&#34;&gt;拖慢代码的运行速度&lt;/a&gt;。通常，JavaScript 引擎会对要运行的 JavaScript 代码做许多优化，但 &lt;code&gt;with&lt;/code&gt;（以及 &lt;code&gt;eval&lt;/code&gt;）的引入会变成《海伯利安》这样的变数，导致引擎无法优化代码。&lt;/p&gt;
+
+&lt;p&gt;简单说，JavaScript 里不要用 &lt;code&gt;with&lt;/code&gt; 了，现在，以后，都没什么必要。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 里判断 null 与 undefined</title>
+      <link>https://www.zfanw.com/blog/javascript-reflect-null-undefined.html</link>
+      <pubDate>Fri, 02 Jan 2015 00:21:00 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/javascript-reflect-null-undefined.html</guid>
+      <description>&lt;p&gt;这里所说的判断，是指判断变量的值是否就是 null 或 undefined。&lt;/p&gt;
+
+&lt;p&gt;如&lt;a href=&#34;http://www.zfanw.com/blog/javascript-difference-between-null-undefined.html&#34;&gt;区别 null 与 undefined 一文&lt;/a&gt;中所讲的，null 与 undefined 是它们所属类型的唯一一个值。所以判断方法非常方便，只要我们使用恒等比较（===）。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;a 即 undefined&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var a;
+a === undefined;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的代码将输出 &lt;code&gt;true&lt;/code&gt;，即 a 为 &lt;code&gt;undefined&lt;/code&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;a 为 null&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var a = null;
+a === null;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的代码将输出 &lt;code&gt;true&lt;/code&gt;，即 a 是 &lt;code&gt;null&lt;/code&gt;。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;当然，恒等比较有一个前提，就是变量已经存在，如果变量尚未声明，引用未声明的变量会抛出错误。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;i === undefined;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上代码执行后会抛出错误：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;ReferenceError: i is not defined&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;所以使用 &lt;code&gt;typeof&lt;/code&gt; 来检查变量是否为 undefined 会更安全：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;typeof i === &#39;undefined&#39;; // 如果 i 未声明，或 i 已声明但未赋值，结果为 true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但 &lt;code&gt;typeof&lt;/code&gt; 检查变量值是否为 null 时，输出结果是 &amp;#8220;object&amp;#8221;，这个结论并不准确。以下方法才是对的且安全的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var a = null;
+Object.prototype.toString.call(a).slice(8, -1);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;它会输出 &lt;code&gt;Null&lt;/code&gt;，表示变量 a 的值是 &lt;code&gt;null&lt;/code&gt;。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 里区别 null 与 undefined</title>
+      <link>https://www.zfanw.com/blog/javascript-difference-between-null-undefined.html</link>
+      <pubDate>Thu, 01 Jan 2015 13:51:45 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/javascript-difference-between-null-undefined.html</guid>
+      <description>&lt;p&gt;&lt;code&gt;null&lt;/code&gt; 与 &lt;code&gt;undefined&lt;/code&gt; 是 JavaScript 的两个类型，类型的值如下：&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;类型&lt;/th&gt;
+&lt;th&gt;值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;null&lt;/td&gt;
+&lt;td&gt;只有一个值 null&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;undefined&lt;/td&gt;
+&lt;td&gt;只有一个值 undefined&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;code&gt;null&lt;/code&gt; 表示变量取值为 &lt;code&gt;null&lt;/code&gt; &amp;#8211; 换句话说，取值即不是字符串也不是数字也不是真假值也不是对象。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;undefined&lt;/code&gt; 表示变量已经声明，但未赋值，或赋值 &lt;code&gt;undefined&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;比如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var a; // 变量已声明，未赋值
+var b = undefined; // 变量已声明，则赋值 undefined
+a === b;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;a === b&lt;/code&gt; 的输出结果是 &lt;code&gt;true&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;所以我们可以简单地区别它们：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;undefined 表示没找到变量的值 &amp;#8211; 找不到值&lt;/li&gt;
+&lt;li&gt;null 表示找到变量的值是 &lt;code&gt;null&lt;/code&gt; &amp;#8211; 找得到值&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>防止布局振荡</title>
+      <link>https://www.zfanw.com/blog/prevent-layout-thrashing.html</link>
+      <pubDate>Sat, 05 Jul 2014 07:15:00 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/prevent-layout-thrashing.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 快速解决办法？&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 现实世界又如何？&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#requestAnimationFrame&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 来认识requestAnimationFrame&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    原文地址：&lt;a href=&#34;http://wilsonpage.co.uk/preventing-layout-thrashing/&#34;&gt;Preventing &amp;#8216;layout thrashing&amp;#8217; | Wilson Page&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    最近接触页面性能的东西，有很多细微又原始的内容，比如浏览器渲染。资料非常多，所以选一些做节译，备忘。
+  &lt;/p&gt;
+  
+  &lt;hr /&gt;
+  
+  &lt;p&gt;
+    JavaScript多次写、读DOM就会发生「布局振荡」，引起文档重排&lt;fnref target=&#34;13021.2&#34; /&gt;(reflow &amp;#8211; the process of constructing a render tree from a DOM tree&lt;fnref target=&#34;13021.1&#34; /&gt;)。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;// 读
+var h1 = element1.clientHeight;
+
+// 写 (布局作废)
+element1.style.height = (h1 * 2) + &#39;px&#39;;
+
+// 读 (触发布局)
+var h2 = element2.clientHeight;
+
+// 写 (布局作废)
+element2.style.height = (h2 * 2) + &#39;px&#39;;
+
+// 读 (触发布局)
+var h3 = element3.clientHeight;
+
+// 写 (布局作废)
+element3.style.height = (h3 * 2) + &#39;px&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    DOM被写时，布局就作废了，需要在某个时间点重排。但浏览器很懒，它想等到当前操作(或说帧)结束前再来重排。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    不过，如果我们在当前操作(或说帧)结束前从DOM中读取几何数值，那么我们就强制浏览器提前重排布局，这就是所谓的「强制同步布局」(forced synchonous layout)，它会要了性能的命。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在现代的桌面浏览器上，布局振荡的副作用可能并不明显；但放到低端移动设备上，问题就很严重了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;快速解决办法？&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在一个理想世界里，我们只要简单地重新排列代码执行顺序，就可以批量读DOM、批量写DOM。这意味着，文档只需一次重排。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;// 读
+var h1 = element1.clientHeight;
+var h2 = element2.clientHeight;
+var h3 = element3.clientHeight;
+
+// 写 (布局作废)
+element1.style.height = (h1 * 2) + &#39;px&#39;;
+element2.style.height = (h2 * 2) + &#39;px&#39;;
+element3.style.height = (h3 * 2) + &#39;px&#39;;
+
+// 文档在帧末重排
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;现实世界又如何？&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    现实中可就没那么简单。大型程序中，代码散播各处，个个都存在这类危险的DOM。我们没法轻松(显然也不应该)把我们漂亮的、解藕的代码揉合一块，就只是为了控制住执行顺序。那么为了优化性能，我们怎样把读和写做批量处理？
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;requestAnimationFrame&#34;&gt;来认识requestAnimationFrame&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyrequestAnimationFrame&#34; href=&#34;#requestAnimationFrame&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;window.requestAnimationFrame&lt;/code&gt;安排一个函数在下一帧执行，类似于&lt;code&gt;setTimout(fn, 0)&lt;/code&gt;。这非常有用，因为我们可以用它来排定所有的DOM写操作在下一帧一同执行，DOM读操作就按现在的顺序同步执行。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;// 读
+var h1 = element1.clientHeight;
+
+// 写
+requestAnimationFrame(function() {
+  element1.style.height = (h1 * 2) + &#39;px&#39;;
+});
+
+// 读
+var h2 = element2.clientHeight;
+
+// 写
+requestAnimationFrame(function() {
+  element2.style.height = (h2 * 2) + &#39;px&#39;;
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &amp;#8230;&amp;#8230;
+  &lt;/p&gt;
+  
+  &lt;footnotes&gt;
+    &lt;fn name=&#34;13021.2&#34;&gt;
+      &lt;p&gt;
+        注意，重排不要理解成中文的「重新排布」，而是「布局」、「布置」的意思，确切说，reflow是webkit的说法，layout是Gecko的说法。
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;13021.1&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://gent.ilcore.com/2011/03/how-not-to-trigger-layout-in-webkit.html&#34;&gt;Fastersite: How (not) to trigger a layout in WebKit&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+  &lt;/footnotes&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript debounce</title>
+      <link>https://www.zfanw.com/blog/javascript-debounce.html</link>
+      <pubDate>Thu, 28 Nov 2013 22:05:50 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/javascript-debounce.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 点击后禁用按钮&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Debounce&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; Debounce&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#throttle&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; throttle&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 扩展阅读&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    页面有一个按钮，点击一次可以触发一个 ajax 请求。如果不做特殊处理，那么，快速点击时就会触发大量多余 ajax 请求。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    处理方法有多种。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;点击后禁用按钮&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    简单粗暴，在用户第一次点击后即禁用按钮。在处理完 ajax 请求后，再启用该按钮。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Debounce&#34;&gt;Debounce&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyDebounce&#34; href=&#34;#Debounce&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    维基上 debounce 译成&lt;a href=&#34;http://zh.wiktionary.org/wiki/debounce&#34;&gt;去除抖動&lt;/a&gt;。我们可以把用户迅速点击造成的大量事件触发看成「信号的抖动」 &amp;#8211; 这时信号还不稳定。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    debounce 的原理是，事件触发时，事件处理器延迟执行(setTimeout)，比如 100 毫秒，如果 100 毫秒内没有再触发事件，则可以认为信号稳定，事件处理器可以在预计的 100 毫秒【当然，这个时间并不准确，有兴趣可以看 &lt;a href=&#34;http://www.zfanw.com/blog/javascript-async-single-thread-queue.html&#34;&gt;JavaScript 异步一篇的说明&lt;/a&gt;】内执行，但如果 100 毫秒内，比如等到 99 毫秒，又进来一个同样的事件，则上一个事件处理器被取消，新的事件处理器替补进来，并且重新开始延迟计时。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    举一个点击按钮提交 ajax 请求的例子&lt;fnref target=&#34;11100.1&#34; /&gt;：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$(&#39;#fav&#39;).on(&#39;click&#39;,function () {
+    var timer = null;
+    return function () {
+        clearTimeout(timer); // 新进入的事件处理器清除上一个定时的事件处理器
+        timer = setTimeout(function () { // 启动新的延时
+            $.ajax({...});
+        }, 100);
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这个方法有一个明显的缺陷，就是用户正常点击时，事件的处理也被无例外地推迟 100 毫秒。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    不过，&lt;a href=&#34;http://underscorejs.org/docs/underscore.html#section-83&#34;&gt;underscore&lt;/a&gt; 等类库提供了另一种 debounce 方式：第一个事件发生时，马上执行我们要执行的函数，第二次函数要想执行，则必须在上一个事件发生 x 秒之后。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;throttle&#34;&gt;throttle&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heythrottle&#34; href=&#34;#throttle&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;https://www.google.com/search?q=define+throttle&amp;ie=utf-8&amp;oe=utf-8&amp;aq=t&amp;rls=org.mozilla:en-US:official&amp;client=firefox-a&#34;&gt;throttle&lt;/a&gt; 的定义是：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      a device controlling the flow of fuel or power to an engine.
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    在这里，可以简单理解成一个控制函数发生频率的机制。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    与 debounce 不同的是，throttle 方法不会延迟第一次事件的处理。它即时处理第一次事件，并记录时间，之后再发生事件，它再计算一个时间值，这个时间值表示，离第一次事件发生过去了多久，如果这个时间值小于设定的时间阀(threshold)，则利用 setTimeout 推迟事件处理，一旦到达时间阀，则即时触发事件处理。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这样，throttle 就控制住密集事件可触发事件处理器的频率，比如每 200 秒仅触发一个事件函数。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;扩展阅读&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;footnotes&gt;
+    &lt;fn name=&#34;11100.1&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;https://css-tricks.com/debouncing-throttling-explained-examples/&#34;&gt;Debouncing and Throttling Explained Through Examples | CSS-Tricks&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+  &lt;/footnotes&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 同源策略</title>
+      <link>https://www.zfanw.com/blog/javascript-same-origin-policy.html</link>
+      <pubDate>Fri, 01 Nov 2013 11:52:58 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/javascript-same-origin-policy.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 同源的定义&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 同源策略的内容&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    最近大量用 ajax，自然要面对跨域问题。什么是跨域？先来定义同源。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;同源的定义&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    同源指两个网页，它们的协议（protocal）、端口（port）和主机（host）一致。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    比如下面这两个网页：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      http://www.example.com/sam.html
+    &lt;/li&gt;
+    &lt;li&gt;
+      https://www.example.com/sam.html
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    它们的协议不一，一个是 &lt;code&gt;http&lt;/code&gt;，一个是 &lt;code&gt;https&lt;/code&gt;，所以不同源。同理可推端口、主机。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;strong&gt;不同源，即跨域。&lt;/strong&gt;
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;同源策略的内容&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    同源策略是出于安全考虑设计的，那么，它具体指什么？
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    MDN 上是&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy&#34;&gt;这样说的&lt;/a&gt;：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      The same-origin policy restricts how a document or script loaded from one origin can interact with a resource from another origin.
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    “同源策略限制了一个域的文档或脚本如何与另一个域的资源交互”。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    啥？我们可以分几种情况说明。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    读取资源
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    我们通常说的跨域，多是针对 XMLHttpRequest &amp;#8211; ajax 技术的基础之一。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    假设我在本地搭建了一个服务器环境，网址是 &lt;code&gt;http://localhost/&lt;/code&gt;，主页 &lt;code&gt;index.html&lt;/code&gt; 中有一段 JavaScript 代码如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$(function(){
+   $.get(&#39;sam.html&#39;,function(data){
+       $(&#39;body&#39;).html(data)
+   })
+})
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;sam.html&lt;/code&gt; 文件位于 &lt;code&gt;index.html&lt;/code&gt; 同一文件夹下。结果显示，我们成功 &lt;code&gt;GET&lt;/code&gt; 到 &lt;code&gt;sam.html&lt;/code&gt; 文件的内容。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    那么再尝试一下，从本地 GET 远程文件如何。这里代码中加入一个对照组：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$(function(){
+   $.get(&#39;http://www.zfanw.com/?12132313232&#39;,function(data){
+       $(&#39;body&#39;).html(data);
+   });
+    $.get(&#39;sam.html&#39;,function(data){
+        console.log(data);
+    })
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    我们看看 Google Chrome 30.0.1599.114 控制台下的情况：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/10/google-chrome-console-log.png&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/10/google-chrome-console-log.png&#34; alt=&#34;google chrome 控制台信息&#34; width=&#34;493&#34; height=&#34;48&#34; class=&#34;alignnone size-full wp-image-10878&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/10/google-chrome-console-log.png 493w, https://www.zfanw.com/blog/wp-content/uploads/2013/10/google-chrome-console-log-300x29.png 300w&#34; sizes=&#34;(max-width: 493px) 100vw, 493px&#34; /&gt;&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Google Chrome 控制台报错了：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      XMLHttpRequest cannot load http://www.zfanw.com/?12132313232. Origin http://127.0.0.1 is not allowed by Access-Control-Allow-Origin.
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    因为 &lt;code&gt;http://localhost&lt;/code&gt; 与 &lt;code&gt;http://www.zfanw.com&lt;/code&gt; 不同源，所以浏览器会禁止来自 localhost 的脚本访问跨域资源。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这很容易理解，你家里当然不会允许陌生人随便进去，要进，得要你邀请了才行。Chrome 控制台中提到的 &lt;code&gt;Access-Control-Allow-Origin&lt;/code&gt;，正是我们邀请其它域的脚本访问的方法，具体用法请看 &lt;a href=&#34;http://enable-cors.org/&#34;&gt;enable cross-origin resource sharing 网站的说明&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    写入
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    跨域写入的情况可以参照读取部分的说明，这也是时下非常常见的，比如我有一个 API 服务器部署在另一个域名下，但我依然可以通过 ajax 请求将数据存储到 API 服务器中，只要我们在 &lt;code&gt;Access-Control-Allow-Origin&lt;/code&gt; 中许可了来自其它源的请求。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    执行
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    出于安全考虑，同源策略默认不允许源 A 的脚本读取源 B 的资源，但却允许执行源 B 的资源。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这个概念也有些拗⼝。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    简单说，我这个博客，调用了 Google CDN 提供的 jQuery，它的源显然与我的博客不同，但我却可以用它来操作我的博客页面 DOM，它也可以读取我的 cookie、localStorage 等。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    假设一个场景，Google CDN 上的 jQuery 被注入了恶意代码，或者被劫持，指向另一个带有恶意代码的 jQuery，则引用它的网站就很危险了，因为这恶意 jQuery 现在可以读取我们网站的内容，并且向其它地方写入。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 的异步、单线程和队列</title>
+      <link>https://www.zfanw.com/blog/javascript-async-single-thread-queue.html</link>
+      <pubDate>Fri, 25 Oct 2013 12:55:50 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/javascript-async-single-thread-queue.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 异步计时函数&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_IO&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 异步 I/O 函数&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 扩展阅读&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    这是我第一次明白 JavaScript 的异步、单线程、队列这几个概念，感谢 &lt;a href=&#34;http://pragprog.com/book/tbajs/async-javascript&#34;&gt;Async JavaScript&lt;/a&gt; 一书。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;异步计时函数&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    首先从异步计时函数 setTimeout 说起：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;var begin = new Date();//代码开始
+setTimeout(function(){
+    var end = new Date();
+    alert(&#39;陈三你好，这个程序已经运行了&#39; + (end - begin) + &#39;毫秒&#39;);
+},1000);//1秒后弹出对话框
+while ((new Date() - begin) &amp;lt; 2000) {}//循环代码持续2秒
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    在 firefox 下，按 &lt;kbd&gt;Shift + F4&lt;/kbd&gt; 调出代码片段速记器，将以上代码拷入，然后 &lt;kbd&gt;Ctrl - R&lt;/kbd&gt; 运行。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我的某次数值是 2019。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这个数值让我大吃一惊，不是说好 1 秒后弹对话框的吗？
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    如果我们是在多线程程序语言下，那我们的期望是对的。但 JavaScript 是单线程，这就与我们的期望有出入。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    单线程是什么意思？
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    JavaScript 从 &lt;code&gt;var begin = new Date();&lt;/code&gt; 执行起，然后解析 setTimout 函数。setTimout 一段代码表示，嘿，请在 1 秒后，把我加入事件队列里。之后回调函数排队等候。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    JavaScript 继续运行下一句 &amp;#8211; 在这个例子中是 while 循环。这个循环要持续2秒。这期间，回调函数继续在排队。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这就是单线程设计下的 JavaScript。队列里的回调函数不会主动发问，它只是被动等待。等 JavaScript 忙完最后一句代码，JavaScript 虚拟机就会朝队列喊话：下一个。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这时，我们的 &lt;code&gt;alert&lt;/code&gt; 终于可以运行了 &amp;#8211; 但时间已经过去 2019 毫秒。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_IO&#34;&gt;异步 I/O 函数&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_IO&#34; href=&#34;#_IO&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    现代常用的 Ajax 操作属于异步 I/O 类型，比如 GET、POST。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$.get(&#39;http://www.zfanw.com/blog/&#39;,function(data){//因为 JavaScript 的同源策略，本地执行本语句其实会失败，仅做示例
+        alert(data);
+    });
+while (true) {}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    JavaScript 在执行到 get 语句时，发起 HTTP 请求，要求返回 http://www.zfanw.com/blog/ 页面，并且定义一个回调函数，将回调加入事件队列，以便 HTTP 响应成功时接收数据，然后 JavaScript 继续执行下一句，即 while，因为 while 条件一直为真，所以程序将永远运行下去，此前定义的回调函数一直在排队，页面呈假死状态。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当然，这个例子有点极端，举一个轻松点的，本地服务器上架设的例子：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$.get(&#39;index.html&#39;,function(data){
+        alert(data);
+    });
+alert(&#39;hey Chen&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    代码执行到 &amp;#8216;hey Chen&amp;#8217; 一句，浏览器弹出对话框窗口。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    且慢关掉对话框窗口，打开 Google Chrome 开发者工具查看 Network 选项卡，get 语句的 &lt;a href=&#34;http://www.w3.org/TR/XMLHttpRequest/#the-statustext-attribute&#34;&gt;Status Text&lt;/a&gt; 字段正处在 Pending 状态中。&lt;a href=&#34;https://developers.google.com/chrome-developer-tools/&#34;&gt;chrome 开发者工具帮助上并没有说明这个词的意思&lt;/a&gt;，但我们可以借助 &lt;a href=&#34;http://www.wireshark.org/&#34;&gt;WireShark&lt;/a&gt; 或 &lt;a href=&#34;http://fiddler2.com/&#34;&gt;Fiddler2&lt;/a&gt; 检查 HTTP 请求的状况：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2013/10/wireshark-log-http.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2013/10/wireshark-log-http.png&#34; alt=&#34;wireshark 抓取 http 数据&#34; width=&#34;631&#34; height=&#34;256&#34; class=&#34;alignnone size-full wp-image-10799&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/10/wireshark-log-http.png 631w, https://www.zfanw.com/blog/wp-content/uploads/2013/10/wireshark-log-http-300x121.png 300w&#34; sizes=&#34;(max-width: 631px) 100vw, 631px&#34; /&gt;&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    上图中可以看到，请求 &amp;#8211; 响应过程是成功的，只是 get 定义的回调未能执行，所以 Chrome 下显示成 Pending 状态。现在我们按下对话框窗口的确定按钮，又或关掉对话框，回调函数就执行了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    以上是 Google Chrome 30.0.1599.114 版本下的情况，即 alert 方法会阻止事件循环，导致回调无法接收数据。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Firefox 24 下的情况略有不同，示例3中的 alert 并不能阻止事件循环，两个 ajax 请求全部执行并且回调也执行了，这样页面上会有三个弹出对话框。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    WireShark 抓取的 Firefox 下 HTTP 数据如图：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2013/10/wireshark-log-http-firefox.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2013/10/wireshark-log-http-firefox.png&#34; alt=&#34;wireshark log firefox http&#34; width=&#34;534&#34; height=&#34;106&#34; class=&#34;alignnone size-full wp-image-10800&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/10/wireshark-log-http-firefox.png 534w, https://www.zfanw.com/blog/wp-content/uploads/2013/10/wireshark-log-http-firefox-300x59.png 300w&#34; sizes=&#34;(max-width: 534px) 100vw, 534px&#34; /&gt;&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当然，浏览器的处理方法不同这种事情实在不值得我大惊小怪，毕竟，我是从 IE6 混战里活过来的(笑。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;扩展阅读&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://msdn.microsoft.com/en-us/hh549259&#34;&gt;Introduction to HTML5 Web Workers&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://stackoverflow.com/questions/7104474/how-does-asynchronous-javascript-execution-happen-and-when-not-to-use-return-st&#34;&gt;How does Asynchronous Javascript Execution happen&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Theseus – JavaScript 调试工具</title>
+      <link>https://www.zfanw.com/blog/theseus-javascript-debugger.html</link>
+      <pubDate>Wed, 23 Oct 2013 14:58:23 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/theseus-javascript-debugger.html</guid>
+      <description>&lt;p&gt;我现在用 &lt;a href=&#34;http://www.brackets.io/&#34;&gt;Adobe Brackets&lt;/a&gt;做前端开发，它有一个扩展 &lt;a href=&#34;https://github.com/adobe-research/theseus&#34;&gt;Theseus&lt;/a&gt;，用于 JavaScript 调试。跟浏览器自带的调试工具不太一样，所以小小介绍下。&lt;/p&gt;
+
+&lt;p&gt;在浏览器中实时预览 HTML 文件时，Theseus 会用标示 JavaScript 各个函数运行的次数，未曾运行的函数以灰色背景突出显示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.github.com/adobe-research/theseus/gh-pages/call-counts.png&#34; alt=&#34;Theseus Real-time code coverage&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;small&gt;注：如没有特殊说明，本篇图片均引用自 Theseus 库。&lt;/small&gt;&lt;/p&gt;
+
+&lt;p&gt;如果我们点击&lt;strong&gt;次数&lt;/strong&gt;，Theseus 会在 Brackets 窗口底部调出一个面板，显示函数的输入/输出值以及异常：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.github.com/adobe-research/theseus/gh-pages/log1.png&#34; alt=&#34;监控函数的输入/输出值、异常&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如果我们点击多个&lt;strong&gt;次数&lt;/strong&gt;，函数间有依赖关系，则面板中也会表示出来：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.github.com/adobe-research/theseus/gh-pages/log2.png&#34; alt=&#34;函数的关系&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;那么我们常用的 console.log 命令呢？类似的，Theseus 会在窗口底部显示 Events:console.log 字样，点击它就会调出一个面板：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2013/10/theseus-console-log.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2013/10/theseus-console-log.png&#34; alt=&#34;Theseus 使用 console.log 命令&#34; width=&#34;700&#34; class=&#34;alignnone size-full wp-image-10728&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/10/theseus-console-log.png 813w, https://www.zfanw.com/blog/wp-content/uploads/2013/10/theseus-console-log-300x163.png 300w&#34; sizes=&#34;(max-width: 813px) 100vw, 813px&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;面板中显示了 console.log 命令在 JavaScript 文件中的行位置，命令的运行时间、输出内容等。&lt;/p&gt;
+
+&lt;p&gt;你可能要好奇，这东西没有提供断点工具吗？答案是没有。我觉得结合上面提到的方法，完全可以流畅地完成(我目前的) JavaScript 调试工作了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>LABjs</title>
+      <link>https://www.zfanw.com/blog/labjs.html</link>
+      <pubDate>Sun, 04 Aug 2013 10:04:24 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/labjs.html</guid>
+      <description>
+
+&lt;p&gt;我的博客前台页面中引用了如下 JavaScript：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;jQuery 1.10.2&lt;/li&gt;
+&lt;li&gt;bootstrap.min.js&lt;/li&gt;
+&lt;li&gt;highlight.min.js&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;另有两段 JavaScript 是写在页面 &lt;script&gt; 标签中：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script&amp;gt;
+    hljs.initHighlightingOnLoad();//依赖于 highlight.min.js
+&amp;lt;/script&amp;gt;
+
+&amp;lt;script&amp;gt;
+   $(&#39;.menu-item--search&#39;).hover(//依赖于 jQuery
+
+   function () {
+       $(this).addClass(&#39;hover&#39;);
+   },
+
+   function () {
+       $(this).removeClass(&#39;hover&#39;);
+   });
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;传统写法中，我至少需要四个 &lt;script&gt; 标签，并且要根据依赖关系安排它们的顺序。&lt;/p&gt;
+
+&lt;p&gt;LABjs 下的写法如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script src=&amp;quot;js/LAB.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script&amp;gt;
+   $LAB.script(&amp;quot;//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js&amp;quot;)
+       .wait(function () {// 函数依赖 jQuery，所以通过 .wait() 先执行 jQuery
+       $(&#39;.menu-item--search&#39;).hover(
+
+       function () {
+           $(this).addClass(&#39;hover&#39;);
+       },
+
+       function () {
+           $(this).removeClass(&#39;hover&#39;);
+       });
+   })
+       .script(&amp;quot;//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js&amp;quot;);
+
+   $LAB.script(&amp;quot;http://yandex.st/highlightjs/7.3/highlight.min.js&amp;quot;)
+       .wait(function () {
+       hljs.initHighlightingOnLoad();
+   });
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里，我用了两个 $LAB 链，每一条链表明一串依赖关系 &amp;#8211; 因为 highlight.min.js 并不依赖 jQuery，所以把它单独出来，成一条链。&lt;/p&gt;
+
+&lt;p&gt;相比传统的脚本引入写法，通过 LABjs 加载 JavaScript 的好处有：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;不阻塞页面其内容的下载，尽可能地利用浏览器并行下载能力，页面访问速度更快&lt;/li&gt;
+&lt;li&gt;清晰明确脚本间的依赖关系&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;http://labjs.com/documentation.php&#34;&gt;LABjs Script Loader :: Documentation&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gruntjs</title>
+      <link>https://www.zfanw.com/blog/gruntjs.html</link>
+      <pubDate>Fri, 12 Jul 2013 15:15:00 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/gruntjs.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Gruntjs&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 安装 Gruntjs&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_packagejson&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 配置 package.json&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Gruntfilejs&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 配置 Gruntfile.js&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    在前端开发中，有很多琐碎要做，比如检查代码语法、压缩 CSS、最小化混淆 JavaScript 代码、优化图片大小等等，如果要一个个处理，会非常耗时，重要的是，会比较无聊。于是就出现 Grunt.js&lt;fnref target=&#34;9479.1&#34; /&gt; 这样的工具，流程化、自动化处理这一系列前端需求。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Gruntjs&#34;&gt;安装 Gruntjs&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Gruntjs&#34; href=&#34;#_Gruntjs&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    首先需要安装 Node.js，因为 Grunt 及其插件通过 NPM 管理。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    安装完 Node.js 后，打开命令行窗口安装 grunt-cli 工具：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;npm install -g grunt-cli
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    如果在 Linux 系统下，一般还需要 &lt;code&gt;sudo&lt;/code&gt; 权限。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    之后我们就可以在命令行下执行 &lt;code&gt;grunt&lt;/code&gt; 命令了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但是如果要 Grunt 运转，还需配置两个文件，package.json 与 Gruntfile.js。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_packagejson&#34;&gt;配置 package.json&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_packagejson&#34; href=&#34;#_packagejson&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    package.json 文件结构如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{
+  &#34;name&#34;: &#34;Hello&#34;,
+  &#34;version&#34;: &#34;0.1.0&#34;,
+  &#34;devDependencies&#34;: {
+    &#34;grunt&#34;: &#34;~0.4.1&#34;,
+    &#34;grunt-contrib-csslint&#34;: &#34;~0.1.2&#34;,
+    &#34;grunt-contrib-jshint&#34;: &#34;~0.6.0&#34;,
+    &#34;grunt-contrib-imagemin&#34;: &#34;~0.1.4&#34;,
+    &#34;grunt-contrib-concat&#34;: &#34;~0.1.3&#34;,
+    &#34;grunt-contrib-cssmin&#34;: &#34;~0.6.1&#34;
+    &#34;grunt-contrib-uglify&#34;: &#34;~0.2.2&#34;,
+    &#34;grunt-contrib-watch&#34;: &#34;~0.2.2&#34;,
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    它定义当前项目的许多信息，比如名称、版本、版权声明，当然还有当前项目依赖的 npm 模块。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    该文件有几种生成方法：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;code&gt;npm init&lt;/code&gt; 命令，命令会问几个问题，我们只要回答或选择默认答案，就可以创建基本的 json 文件
+    &lt;/li&gt;
+    &lt;li&gt;
+      使用某些模板带的
+    &lt;/li&gt;
+    &lt;li&gt;
+      手写
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    我通常更喜欢前端两种。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    不过第一种方法生成的 package.json 文件很简单，只能作为一个起步，在它的基础上依自己的需求再定义。比如，执行下面的命令就会在 package.json 文件的 devDependencies 部分增加 grunt-contrib-jshint 一项：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;npm install grunt-contrib-jshint --save-dev
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    第二种办法，比如使用 &lt;code&gt;grunt-init&lt;/code&gt;&lt;fnref target=&#34;9479.2&#34; /&gt; 来搭脚手架，这样很多东西马上就可用，比较省事。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在创建完 package.json 文件后，命令行中输入：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;npm install
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    会在当前目录下安装所有未安装的依赖模块。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Gruntfilejs&#34;&gt;配置 Gruntfile.js&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Gruntfilejs&#34; href=&#34;#_Gruntfilejs&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在准备好需要的模块后，我们可以开始根据项目的需要来配置任务，这是 Gruntfile.js 起的作用：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;module.exports = function(grunt) {
+
+  // 针对当前项目的配置
+  grunt.initConfig({
+    pkg: grunt.file.readJSON(&#39;package.json&#39;),// 从 package.json 文件读入数据
+    uglify: { //定义任务做什么
+      options: { // 这里，我们可以修改任务的许多行为
+        banner: &#39;/*! &amp;lt;%= pkg.name %&amp;gt; &amp;lt;%= grunt.template.today(&#34;yyyy-mm-dd&#34;) %&amp;gt; */\n&#39;
+      },
+      build: {
+        src: &#39;src/&amp;lt;%= pkg.name %&amp;gt;.js&#39;, // 定义要处理的文件位置
+        dest: &#39;build/&amp;lt;%= pkg.name %&amp;gt;.min.js&#39; //定义处理后的文件存放位置
+      }
+    }
+  });
+
+  // 加载插件 任务谁来做
+  grunt.loadNpmTasks(&#39;grunt-contrib-uglify&#39;);
+
+  // 注册一个默认任务
+  grunt.registerTask(&#39;default&#39;, [&#39;uglify&#39;]);
+
+};
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    Gruntfile.js 的结构还是蛮简单的。我们在其中定义任务（registerTask），这个任务由各个小任务（比如上面代码中的 uglify）组成，小任务里还可以细分出任务目标（比如 uglify 中的 build）。至于各个任务的执行，由相应插件完成，这就需要载入插件 （loadNpmTasks）。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    根据需求完成配置后，命令行下运行：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;grunt
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    就会执行默认任务。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当然，我们也可以指定执行某个任务甚至目标：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;grunt uglify:build
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;footnotes&gt;
+    &lt;fn name=&#34;9479.1&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://gruntjs.com/&#34;&gt;Grunt: The JavaScript Task Runner&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;9479.2&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://gruntjs.com/project-scaffolding&#34;&gt;Project Scaffolding &amp;#8211; Grunt: The JavaScript Task Runner&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+  &lt;/footnotes&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 闭包</title>
+      <link>https://www.zfanw.com/blog/javascript-closures.html</link>
+      <pubDate>Sun, 16 Jun 2013 14:49:35 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/javascript-closures.html</guid>
+      <description>
+
+&lt;p&gt;JavaScript 中，变量 foo 的解析流程是这样：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;检查当前函数作用域，是否有局域变量 foo；没有，下一步;&lt;/li&gt;
+&lt;li&gt;检查当前函数作用域，是否传入参数 foo；没有，下一步；&lt;/li&gt;
+&lt;li&gt;检查函数名称是否是 foo，如果不是，下一步；&lt;/li&gt;
+&lt;li&gt;到上一级函数作用域中，重复 1 &amp;#8211; 4 步骤，一直到全局环境；&lt;/li&gt;
+&lt;li&gt;如果全局环境也没有变量 foo，则抛出错误 &amp;#8220;ReferenceError: foo is not defined&amp;#8221;。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;You Don&amp;#8217;t Know JS 里&lt;a href=&#34;https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&amp;amp;%20closures/ch1.md#building-on-metaphors&#34;&gt;比喻&lt;/a&gt;说：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;你现在站在大楼大堂，要找到一个叫 foo 的人，你得每一层每一个房间找过去，直到最顶层。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这跟闭包有什么关系？&lt;/p&gt;
+
+&lt;p&gt;有，简单说，闭包就是变量解析的一种看似特殊的情况。&lt;/p&gt;
+
+&lt;p&gt;举个例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var a = 5
+function foo () {
+  var a = 6
+  console.log(a)
+}
+foo() // =&amp;gt; 输出了 6
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个结果并不意外，因为 foo 本身是一个函数，函数天然是一个作用域，所以在解析 &lt;code&gt;a&lt;/code&gt; 变量里，我们先从 foo 的作用域开始：里面有定义一个局域变量 a，并且值是 6。&lt;/p&gt;
+
+&lt;p&gt;来看个闭包的例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var a = 5
+var foo = (function () {
+  var a = 6
+  return function () {
+    console.log(a)
+  }
+})()
+foo() // =&amp;gt; 输出了 ??
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果对这个例子有疑惑，那就对了。我们在这里碰上了闭包。&lt;/p&gt;
+
+&lt;p&gt;上面的例子中，一个立即执行函数(&lt;a href=&#34;https://en.wikipedia.org/wiki/Immediately-invoked_function_expression&#34;&gt;IIFE&lt;/a&gt;)中返回了一个函数并赋给 foo，所以在我们执行 &lt;code&gt;foo()&lt;/code&gt; 时，该立即执行函数已经结束，我们可能会认为 &lt;code&gt;var a = 6&lt;/code&gt; 已经随着立即执行函数的结束而结束。&lt;/p&gt;
+
+&lt;p&gt;实际上，并没有。&lt;/p&gt;
+
+&lt;p&gt;Why?&lt;/p&gt;
+
+&lt;p&gt;JavaScript 虽然不是静态编译语言，但它在真正执行代码前，同样有一个编译的过程，只不过这个过程极为短暂。&lt;/p&gt;
+
+&lt;p&gt;而在这个编译过程中，它就提取代码中的所有声明，构建好所有的作用域。&lt;/p&gt;
+
+&lt;p&gt;拿上面的例子说，我们有三个作用域：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;全局的作用域&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;变量 a&lt;/li&gt;
+&lt;li&gt;变量 foo&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;立即执行函数的作用域&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;变量 a&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;立即执行函数中的匿名函数作用域&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;无&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这三个作用域的相互关系是：1 包含 2，2 包含 3。&lt;/p&gt;
+
+&lt;p&gt;变量 &lt;code&gt;foo&lt;/code&gt; 指向的是立即执行函数中的匿名函数，因为有这个引用在，所以作用域 2 并没有被回收，于是解析变量 &lt;code&gt;a&lt;/code&gt; 的顺序是：3 -&amp;gt; 2 -&amp;gt; 1。&lt;/p&gt;
+
+&lt;p&gt;因为我们在作用域 2 中找到了变量 a，所以 js 引擎就不再继续检索了。&lt;/p&gt;
+
+&lt;p&gt;结果是 6。&lt;/p&gt;
+
+&lt;h2 id=&#34;扩展阅读&#34;&gt;扩展阅读&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures&#34;&gt;Closures &amp;#8211; JavaScript | MDN&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://howtonode.org/why-use-closure&#34;&gt;Why use &amp;#8220;closure&amp;#8221;? &amp;#8211; How To Node &amp;#8211; NodeJS&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

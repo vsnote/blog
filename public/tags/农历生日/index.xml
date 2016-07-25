@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>农历生日 on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/%E5%86%9C%E5%8E%86%E7%94%9F%E6%97%A5/</link>
+    <description>Recent content in 农历生日 on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 21 Aug 2012 04:15:37 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/%E5%86%9C%E5%8E%86%E7%94%9F%E6%97%A5/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>农历生日提醒</title>
+      <link>https://www.zfanw.com/blog/chinese-lunar-birthday-reminder.html</link>
+      <pubDate>Tue, 21 Aug 2012 04:15:37 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/chinese-lunar-birthday-reminder.html</guid>
+      <description>&lt;p&gt;我觉得农历生日存在意义不大。但我妈总提醒我的农历生日，所以，在我妈失忆前，我猜想我得适应她的习惯。&lt;/p&gt;
+
+&lt;p&gt;想写这个脚本是因为新近接触 Google Apps script，看到里面提供日历接口，而我又知道 Google 日历里有中国农历，所以猜想可能会有中国农历 API 接口 &amp;#8211; 可惜最后查下，并没有农历接口，只好另想他法。就是这篇内容。&lt;/p&gt;
+
+&lt;p&gt;原理很简单，就是每天凌晨检查电子表格列表，看当天是否有人过农历生日，如果有，就发送邮件提醒。&lt;/p&gt;
+
+&lt;p&gt;[resp_image id=&amp;#8217;15782&amp;#8242; caption=&amp;#8221; ]&lt;/p&gt;
+
+&lt;p&gt;上图是 Google 电子表格，总共三列，第一列为姓名，第二列为农历生日，“8月22日”是为农历，即八月廿二，写成新历形式只是着方便程序书写，第三列为接收邮箱的地址，可以只填写第一个，之后如果留空，则默认使用第一个邮箱接收。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;首先&lt;a href=&#34;https://docs.google.com/spreadsheet/ccc?key=0AntAce2hG9gQdEpDVTVabmcyN19qeWkwZGtNYUtveWc&amp;amp;newcopy=true&#34;&gt;复制一份“&lt;strong&gt;农历生日提醒&lt;/strong&gt;”电子表格&lt;/a&gt;到 Google 文档里,其中包含表格及脚本代码&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;打开该文档，访问菜单 Tools -&amp;gt; Script editor&amp;#8230;，然后访问 Resources -&amp;gt; Current script&amp;#8217;s triggers&amp;#8230;&lt;/p&gt;
+
+&lt;p&gt;设置触发时间为每天的凌晨0点到1点，这样 Googel Apps script 就会每天运行这个函数，然后根据函数结果决定发送或不发送邮件提醒。设置过程中 Google 会要求授权访问 Google mail 及 Google spreadsheet，请允许。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;感谢台湾中央研究院计算中心提供的&lt;a href=&#34;http://sinocal.sinica.edu.tw/&#34;&gt;两千年中西历转换工具&lt;/a&gt;。根据它的说明，以上方法可以用到 2100 年。希望我还能活到那一天.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;邮件标题及邮件内容均可以到代码中更改.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

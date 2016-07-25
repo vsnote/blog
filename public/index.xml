@@ -1,0 +1,1290 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>陈三</title>
+    <link>https://www.zfanw.com/blog/</link>
+    <description>Recent content on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 13 Jul 2016 03:00:06 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>PhoenixFramework 部署注意事项</title>
+      <link>https://www.zfanw.com/blog/phoenixframework-deploy.html</link>
+      <pubDate>Wed, 13 Jul 2016 03:00:06 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/phoenixframework-deploy.html</guid>
+      <description>&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;编译环境与生产环境&lt;a href=&#34;http://www.phoenixframework.org/docs/advanced-deployment&#34;&gt;应该一致&lt;/a&gt;，&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;We need to be sure that the architectures for both our build and hosting environments are the same, e.g. 64-bit Linux -&amp;gt; 64-bit Linux. If the architectures don&amp;#8217;t match, our application might not run when deployed.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;比如我在 macOS 上编译的，放到 CentOS 7 上，就跑不起来了。最好在本地弄个与生产环境接近的虚拟机用于编译。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;生产环境中一样需要安装 &lt;a href=&#34;https://www.erlang-solutions.com/resources/download.html&#34;&gt;Erlang&lt;/a&gt; 与 &lt;a href=&#34;http://elixir-lang.org/install.html&#34;&gt;elixir&lt;/a&gt;，
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;用 &lt;a href=&#34;https://hexdocs.pm/exrm/getting-started.html&#34;&gt;exrm&lt;/a&gt; 编译不代表万事俱备，生产环境下，Erlang 与 elixir 都需要装一遍。但 PhoenixFramework 就不需要在生产环境中安装了，它只是开发使用。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>再谈浏览器缓存</title>
+      <link>https://www.zfanw.com/blog/browser-cache.html</link>
+      <pubDate>Fri, 08 Jul 2016 05:32:04 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/browser-cache.html</guid>
+      <description>
+
+&lt;p&gt;一个页面上的资源，可以简单分为两种：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;url 可变，比如这个页面上的 css 文件，这次可能是 app.fe5a24f8ae.css，下次可能是 app.613e5f58f1.css&lt;/li&gt;
+&lt;li&gt;url 不可能变，比如这个页面的 url&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;针对它们，我们的缓存方式可以不同。&lt;/p&gt;
+
+&lt;p&gt;比如第一种，我们可以这样设置响应头：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Cache-Control max-age=31536000, must-revalidate&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;表示这个资源一年内都有效，过期的话才要到服务器上验证。&lt;/p&gt;
+
+&lt;p&gt;那么，我们如何保证资源修改后能及时更新到用户端？修改 url 即可。&lt;/p&gt;
+
+&lt;p&gt;而针对第二种，因为 url 无法改变，我们就需要另外的方式。&lt;/p&gt;
+
+&lt;p&gt;比如：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Cache-Control no-cache&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code&gt;no-cache&lt;/code&gt; 不是表示不能缓存，而是说每次浏览器都要跟服务器做个确认 &amp;#8211; 通过 &lt;code&gt;ETag&lt;/code&gt; 或 &lt;code&gt;Last-Modified&lt;/code&gt;，这样就会多出一个请求 。&lt;/p&gt;
+
+&lt;h2 id=&#34;扩展阅读&#34;&gt;扩展阅读&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://jakearchibald.com/2016/caching-best-practices/&#34;&gt;Caching best practices &amp;amp; max-age gotchas &amp;#8211; JakeArchibald.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>peerDependencies</title>
+      <link>https://www.zfanw.com/blog/peerdependencies.html</link>
+      <pubDate>Thu, 30 Jun 2016 06:32:13 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/peerdependencies.html</guid>
+      <description>&lt;p&gt;写 npm package 时，接触最多的，当属 &lt;a href=&#34;https://www.zfanw.com/blog/difference-between-dependencies-and-devdependencies.html&#34;&gt;dependencies 与 devDependencies&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;如果一个包定义了 &lt;code&gt;dependencies&lt;/code&gt; 与 &lt;code&gt;devDependencies&lt;/code&gt;，则我们在安装这个包时，会连着它的依赖们一同安装。&lt;/p&gt;
+
+&lt;p&gt;比如一个 react-native 的包，它依赖于 &lt;code&gt;react&lt;/code&gt; 与 &lt;code&gt;react-native&lt;/code&gt;，如果我们把 &lt;code&gt;react&lt;/code&gt; 及 &lt;code&gt;react-native&lt;/code&gt; 定义在 &lt;code&gt;dependencies&lt;/code&gt; 下，则安装完这个包后，它的目录结构是这样：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;ProjectRoot/node_modules/package_name/node_modules/react&lt;/li&gt;
+&lt;li&gt;ProjectRoot/node_modules/package_name/node_modules/react-native&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;我们又下载了一遍 react 与 react-native，这显得多余，可能还会导致冲突问题。&lt;/p&gt;
+
+&lt;p&gt;这时我们就可以使用 &lt;a href=&#34;https://nodejs.org/en/blog/npm/peer-dependencies/&#34;&gt;&lt;code&gt;peerDependencies&lt;/code&gt;&lt;/a&gt;，通过它，我们能够声明第三方包正常运行的环境 &amp;#8211; 要安装我，你的环境该是如何，否则将无法运行。当然，没人会无聊到在一个 ember.js 项目中安装一个 react-native 的第三方包。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>react-native 滑动删除</title>
+      <link>https://www.zfanw.com/blog/react-native-swipeable-listview.html</link>
+      <pubDate>Tue, 28 Jun 2016 10:41:27 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/react-native-swipeable-listview.html</guid>
+      <description>&lt;p&gt;&lt;strong&gt;说明&lt;/strong&gt;：本文基于 react-native 0.29.0-rc.0，仅针对 iOS 平台。&lt;/p&gt;
+
+&lt;p&gt;iOS 下的列表，通常都可以往左滑动，显示快捷菜单 &amp;#8211; 比如删除。&lt;/p&gt;
+
+&lt;p&gt;只是 react-native 下的 ListView 不具备这种功能。&lt;/p&gt;
+
+&lt;p&gt;但实际上，react-native 官方库里，就有一个 &lt;a href=&#34;https://github.com/facebook/react-native/tree/master/Libraries/Experimental/SwipeableRow&#34;&gt;SwipeableListView&lt;/a&gt;，只不过是放在 &lt;code&gt;Experimental&lt;/code&gt; 目录下，表示还不成熟 &amp;#8211; 目前也是没有文档的，只能自己阅读源代码。&lt;/p&gt;
+
+&lt;p&gt;其实用法非常简单，大部分跟 ListView 是一致的，只是多了些 prop。&lt;/p&gt;
+
+&lt;p&gt;来看一个示例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #A90D91&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;React&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;react&amp;#39;&lt;/span&gt;
+&lt;span style=&#34;color: #A90D91&#34;&gt;import&lt;/span&gt; { &lt;span style=&#34;color: #000000&#34;&gt;ScrollView&lt;/span&gt;, &lt;span style=&#34;color: #000000&#34;&gt;View&lt;/span&gt;, &lt;span style=&#34;color: #000000&#34;&gt;TouchableHighlight&lt;/span&gt;, &lt;span style=&#34;color: #000000&#34;&gt;Text&lt;/span&gt;, &lt;span style=&#34;color: #000000&#34;&gt;SwipeableListView&lt;/span&gt; } &lt;span style=&#34;color: #000000&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;react-native&amp;#39;&lt;/span&gt;
+&lt;span style=&#34;color: #A90D91&#34;&gt;import&lt;/span&gt; { &lt;span style=&#34;color: #000000&#34;&gt;connect&lt;/span&gt; } &lt;span style=&#34;color: #000000&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;react-redux&amp;#39;&lt;/span&gt;
+&lt;span style=&#34;color: #A90D91&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;styles&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;./styles&amp;#39;&lt;/span&gt;
+&lt;span style=&#34;color: #A90D91&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;formatListViewDataSource&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;../../utils/formatListViewDataSource&amp;#39;&lt;/span&gt;
+&lt;span style=&#34;color: #A90D91&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;WantHome&lt;/span&gt; &lt;span style=&#34;color: #A90D91&#34;&gt;extends&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;React&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;Component&lt;/span&gt; {
+  &lt;span style=&#34;color: #000000&#34;&gt;componentDidMount&lt;/span&gt; () {
+    &lt;span style=&#34;color: #A90D91&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;props&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;dispatch&lt;/span&gt;({
+      &lt;span style=&#34;color: #000000&#34;&gt;type:&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;USER_ENTERED_WANT_HOME&amp;#39;&lt;/span&gt;
+    })
+  }
+  &lt;span style=&#34;color: #000000&#34;&gt;render&lt;/span&gt; () {
+    &lt;span style=&#34;color: #A90D91&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;ds&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;SwipeableListView&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;getNewDataSource&lt;/span&gt;()
+    &lt;span style=&#34;color: #A90D91&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;obj&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;formatListViewDataSource&lt;/span&gt;(&lt;span style=&#34;color: #A90D91&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;props&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;want&lt;/span&gt;)
+    &lt;span style=&#34;color: #000000&#34;&gt;ds&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;ds&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;cloneWithRowsAndSections&lt;/span&gt;(...&lt;span style=&#34;color: #000000&#34;&gt;obj&lt;/span&gt;)
+    &lt;span style=&#34;color: #A90D91&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color: #000000&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color: #A90D91&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;props&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;want&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;length&lt;/span&gt;) {
+      &lt;span style=&#34;color: #A90D91&#34;&gt;return&lt;/span&gt; (
+        &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;View&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;style=&lt;/span&gt;{[&lt;span style=&#34;color: #000000&#34;&gt;styles&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;container&lt;/span&gt;, &lt;span style=&#34;color: #000000&#34;&gt;styles&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;center&lt;/span&gt;]}&lt;span style=&#34;color: #000000&#34;&gt;&amp;gt;&lt;/span&gt;
+          &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;Text&amp;gt;暂无内容，请点击右上角按钮添加&amp;lt;/Text&amp;gt;&lt;/span&gt;
+        &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;/View&amp;gt;&lt;/span&gt;
+      )
+    } &lt;span style=&#34;color: #A90D91&#34;&gt;else&lt;/span&gt; {
+      &lt;span style=&#34;color: #A90D91&#34;&gt;return&lt;/span&gt; (
+        &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;ScrollView&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;style=&lt;/span&gt;{[&lt;span style=&#34;color: #000000&#34;&gt;styles&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;body&lt;/span&gt;]}&lt;span style=&#34;color: #000000&#34;&gt;&amp;gt;&lt;/span&gt;
+          &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;SwipeableListView&lt;/span&gt;
+            &lt;span style=&#34;color: #000000&#34;&gt;bounceFirstRowOnMount&lt;/span&gt;
+            &lt;span style=&#34;color: #000000&#34;&gt;maxSwipeDistance=&lt;/span&gt;{&lt;span style=&#34;color: #1C01CE&#34;&gt;100&lt;/span&gt;}
+            &lt;span style=&#34;color: #000000&#34;&gt;dataSource=&lt;/span&gt;{&lt;span style=&#34;color: #000000&#34;&gt;ds&lt;/span&gt;}
+            &lt;span style=&#34;color: #000000&#34;&gt;renderQuickActions=&lt;/span&gt;{(&lt;span style=&#34;color: #000000&#34;&gt;rowData&lt;/span&gt;, &lt;span style=&#34;color: #000000&#34;&gt;sectionID&lt;/span&gt;, &lt;span style=&#34;color: #000000&#34;&gt;rowID&lt;/span&gt;) &lt;span style=&#34;color: #000000&#34;&gt;=&amp;gt;&lt;/span&gt; {
+              &lt;span style=&#34;color: #A90D91&#34;&gt;return&lt;/span&gt; (
+                &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;View&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;style=&lt;/span&gt;{{
+                  &lt;span style=&#34;color: #000000&#34;&gt;flex:&lt;/span&gt; &lt;span style=&#34;color: #1C01CE&#34;&gt;1&lt;/span&gt;,
+                  &lt;span style=&#34;color: #000000&#34;&gt;flexDirection:&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;row&amp;#39;&lt;/span&gt;,
+                  &lt;span style=&#34;color: #000000&#34;&gt;justifyContent:&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;flex-end&amp;#39;&lt;/span&gt;,
+                  &lt;span style=&#34;color: #000000&#34;&gt;alignItems:&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;center&amp;#39;&lt;/span&gt;
+                }}&lt;span style=&#34;color: #000000&#34;&gt;&amp;gt;&lt;/span&gt;
+                  &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;TouchableHighlight&lt;/span&gt;
+                    &lt;span style=&#34;color: #000000&#34;&gt;onPress=&lt;/span&gt;{() &lt;span style=&#34;color: #000000&#34;&gt;=&amp;gt;&lt;/span&gt; {
+                      &lt;span style=&#34;color: #000000&#34;&gt;alert&lt;/span&gt;(&lt;span style=&#34;color: #1C01CE&#34;&gt;1&lt;/span&gt;)
+                    }}&lt;span style=&#34;color: #000000&#34;&gt;&amp;gt;&lt;/span&gt;
+                    &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;View&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;style=&lt;/span&gt;{{
+                      &lt;span style=&#34;color: #000000&#34;&gt;backgroundColor:&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;red&amp;#39;&lt;/span&gt;,
+                      &lt;span style=&#34;color: #000000&#34;&gt;flex:&lt;/span&gt; &lt;span style=&#34;color: #1C01CE&#34;&gt;1&lt;/span&gt;,
+                      &lt;span style=&#34;color: #000000&#34;&gt;alignItems:&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;center&amp;#39;&lt;/span&gt;,
+                      &lt;span style=&#34;color: #000000&#34;&gt;flexDirection:&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;row&amp;#39;&lt;/span&gt;,
+                      &lt;span style=&#34;color: #000000&#34;&gt;paddingHorizontal:&lt;/span&gt; &lt;span style=&#34;color: #1C01CE&#34;&gt;10&lt;/span&gt;
+                    }}&lt;span style=&#34;color: #000000&#34;&gt;&amp;gt;&lt;/span&gt;
+                      &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;Text&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;style=&lt;/span&gt;{{
+                        &lt;span style=&#34;color: #000000&#34;&gt;color:&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;white&amp;#39;&lt;/span&gt;,
+                        &lt;span style=&#34;color: #000000&#34;&gt;fontSize:&lt;/span&gt; &lt;span style=&#34;color: #1C01CE&#34;&gt;16&lt;/span&gt;
+                      }}&lt;span style=&#34;color: #000000&#34;&gt;&amp;gt;删除&amp;lt;/Text&amp;gt;&lt;/span&gt;
+                    &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;/View&amp;gt;&lt;/span&gt;
+                  &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;/TouchableHighlight&amp;gt;&lt;/span&gt;
+                &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;/View&amp;gt;&lt;/span&gt;
+              )
+            }}
+            &lt;span style=&#34;color: #000000&#34;&gt;renderRow=&lt;/span&gt;{(&lt;span style=&#34;color: #000000&#34;&gt;rowData&lt;/span&gt;) &lt;span style=&#34;color: #000000&#34;&gt;=&amp;gt;&lt;/span&gt; {
+              &lt;span style=&#34;color: #A90D91&#34;&gt;return&lt;/span&gt; (
+                &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;View&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;style=&lt;/span&gt;{{
+                  &lt;span style=&#34;color: #000000&#34;&gt;paddingVertical:&lt;/span&gt; &lt;span style=&#34;color: #1C01CE&#34;&gt;10&lt;/span&gt;,
+                  &lt;span style=&#34;color: #000000&#34;&gt;backgroundColor:&lt;/span&gt; &lt;span style=&#34;color: #C41A16&#34;&gt;&amp;#39;#fff&amp;#39;&lt;/span&gt;
+                }}&lt;span style=&#34;color: #000000&#34;&gt;&amp;gt;&lt;/span&gt;
+                  &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;Text&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;style=&lt;/span&gt;{{
+                    &lt;span style=&#34;color: #000000&#34;&gt;fontSize:&lt;/span&gt; &lt;span style=&#34;color: #1C01CE&#34;&gt;16&lt;/span&gt;
+                  }}&lt;span style=&#34;color: #000000&#34;&gt;&amp;gt;&lt;/span&gt;
+                    {&lt;span style=&#34;color: #000000&#34;&gt;rowData&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;text&lt;/span&gt;}
+                  &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;/Text&amp;gt;&lt;/span&gt;
+                &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;/View&amp;gt;&lt;/span&gt;
+              )
+            }}
+          &lt;span style=&#34;color: #000000&#34;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span style=&#34;color: #000000&#34;&gt;&amp;lt;/ScrollView&amp;gt;&lt;/span&gt;
+      )
+    }
+  }
+}
+&lt;span style=&#34;color: #A90D91&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;mapStateToProps&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color: #000000&#34;&gt;state&lt;/span&gt;) &lt;span style=&#34;color: #000000&#34;&gt;=&amp;gt;&lt;/span&gt; ({
+  &lt;span style=&#34;color: #000000&#34;&gt;want:&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;state&lt;/span&gt;.&lt;span style=&#34;color: #000000&#34;&gt;want&lt;/span&gt;
+})
+&lt;span style=&#34;color: #A90D91&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color: #A90D91&#34;&gt;default&lt;/span&gt; &lt;span style=&#34;color: #000000&#34;&gt;connect&lt;/span&gt;(&lt;span style=&#34;color: #000000&#34;&gt;mapStateToProps&lt;/span&gt;)(&lt;span style=&#34;color: #000000&#34;&gt;WantHome&lt;/span&gt;)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;这里有几个需要注意的属性值：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;dataSource&lt;/code&gt; &amp;#8211; 我们要渲染的数据列表。&lt;/p&gt;
+
+&lt;p&gt;通常我们会有一个数组，比如 &lt;code&gt;[&#39;咸饭&#39;, &#39;粥&#39;]&lt;/code&gt;，数据需要处理成 &lt;code&gt;SwipeableListView&lt;/code&gt; 需要的格式，比如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+&#39;s1&#39;: &#39;标题&#39;,
+&#39;r1&#39;: &#39;咸饭&#39;,
+&#39;r2&#39;: &#39;粥&#39;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这也是上面代码中 &lt;code&gt;formatListViewDataSource&lt;/code&gt; 函数起到的作用：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+* @function formatListViewDataSource format data for ListView of react-native
+* @param {Array} data - data to be formatted
+* @return {Array}
+* @example
+*   let ds = formatListViewDataSource([1, 2, 3])
+*   xxx.cloneWithRowsAndSections(...ds)
+*/
+export default function formatListViewDataSource (data) {
+if (!Array.isArray(data)) {
+throw new Error(&#39;function only accept Array&#39;)
+}
+var dataBlob = {}
+var sectionIDs = [&#39;s1&#39;]
+var rowIDs = [[]]
+data.forEach(function (element, index) {
+dataBlob[&#39;r&#39; + index] = {id: &#39;r&#39; + index, text: element}
+rowIDs[0].push(&#39;r&#39; + index)
+})
+dataBlob[&#39;s1&#39;] = &#39;&#39;
+return [
+dataBlob,
+sectionIDs,
+rowIDs
+]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;maxSwipeDistance&lt;/code&gt; &amp;#8211; 表示滑动的最大距离，必须设置，否则默认为 0&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;renderQuickActions&lt;/code&gt; &amp;#8211; 这就是我们滑动后显示的快捷动作了&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;效果如下图：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2016/06/react-native-swipeablelist.gif&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2016/06/react-native-swipeablelist.gif&#34; alt=&#34;react native swipeableListView&#34; width=&#34;372&#34; class=&#34;alignnone size-full wp-image-18623&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>react-native Navigation Experimental 怎么用</title>
+      <link>https://www.zfanw.com/blog/react-native-navigator-experimental-usage.html</link>
+      <pubDate>Wed, 22 Jun 2016 06:50:48 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/react-native-navigator-experimental-usage.html</guid>
+      <description>&lt;p&gt;&lt;strong&gt;说明&lt;/strong&gt;：本文基于 react-native 0.29.0-rc.0，仅针对 iOS 平台。&lt;/p&gt;
+
+&lt;p&gt;react-native 的 navigation experimental 是 &lt;a href=&#34;https://facebook.github.io/react-native/docs/navigator.html&#34;&gt;navigator&lt;/a&gt; 的继任，但因为还在开发中，目前没什么文档，API 也经常变动，示例没跟上，就让人看不懂。&lt;/p&gt;
+
+&lt;p&gt;在 navigation experimental 下，&lt;a href=&#34;https://github.com/facebook/react-native/blob/master/Examples/UIExplorer/NavigationExperimental/NavigationCardStack-NavigationHeader-Tabs-example.js#L53&#34;&gt;路由只是些对象&lt;/a&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function createAppNavigationState(): Object {
+  return  {
+    // Three tabs.
+    tabs: {
+      index: 0,
+      routes: [
+        {key: &#39;apple&#39;},
+        {key: &#39;banana&#39;},
+        {key: &#39;orange&#39;},
+      ],
+    },
+    // Scenes for the `apple` tab.
+    apple: {
+      index: 0,
+      routes: [{key: &#39;Apple Home&#39;}],
+    },
+    // Scenes for the `banana` tab.
+    banana: {
+      index: 0,
+      routes: [{key: &#39;Banana Home&#39;}],
+    },
+    // Scenes for the `orange` tab.
+    orange: {
+      index: 0,
+      routes: [{key: &#39;Orange Home&#39;}],
+    },
+  };
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的路由表示 app 有三个标签页，每个标签页各有各的子路由。&lt;/p&gt;
+
+&lt;p&gt;我们不妨把路由想成一个族谱（family tree），循着每个树枝，我们能抵达到各个页面。而 &lt;code&gt;index&lt;/code&gt; 就是我们的指路牌。我们的页面间的切换，就是&lt;a href=&#34;https://github.com/facebook/react-native/blob/master/Examples/UIExplorer/NavigationExperimental/NavigationCardStack-NavigationHeader-Tabs-example.js#L84&#34;&gt;一个 action 修改 navigation state 的副作用&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;有了路由数据，就可以渲染对应的 scene 了，怎么做？&lt;/p&gt;
+
+&lt;p&gt;我们来写一个简单页面，它的路由数据是这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  index: 0,
+  routes: [{
+    key: &#39;Want Home&#39;
+  }]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们只有一个页面，&lt;code&gt;index&lt;/code&gt; 值表示这个页面处于激活状态中。&lt;/p&gt;
+
+&lt;p&gt;页面组件如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&#39;use strict&#39;
+import React from &#39;react&#39;
+import { View, Text, NavigationExperimental } from &#39;react-native&#39;
+const {
+  CardStack: NavigationCardStack,
+  Header: NavigationHeader,
+  PropTypes: NavigationPropTypes,
+  StateUtils: NavigationStateUtils,
+} = NavigationExperimental
+class Want extends React.Component {
+  renderScene = (sceneProps) =&amp;gt; {
+    return (
+      &amp;lt;View style={{flex: 1, marginTop: 64}}&amp;gt;
+        &amp;lt;Text&amp;gt;haha&amp;lt;/Text&amp;gt;
+      &amp;lt;/View&amp;gt;
+    )
+  }
+  render () {
+    return (
+      &amp;lt;NavigationCardStack
+        direction=&#39;vertical&#39;
+        navigationState={{
+          index: 0,
+          routes: [{
+            key: &#39;Want Home&#39;
+          }]
+        }}
+        renderScene={this.renderScene}
+        /&amp;gt;
+    )
+  }
+}
+export default Want
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;刷新 Simulator，我们能看到 &lt;code&gt;haha&lt;/code&gt; 文本，如果你用的是 react-native 0.28 版本，还会看到如下的错误：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;ExceptionsManager.js:70 Warning: Failed propType: Required prop &lt;code&gt;onNavigate&lt;/code&gt; was not specified in &lt;code&gt;NavigationCardStack&lt;/code&gt;. Check the render method of &lt;code&gt;Want&lt;/code&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;而在 0.29 中，&lt;code&gt;onNavigate&lt;/code&gt; &lt;a href=&#34;https://github.com/facebook/react-native/commit/fb0007d85323909ab652bf97166744fa7e17daab&#34;&gt;被移除了&lt;/a&gt;，更换为 &lt;code&gt;onNavigateBack&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;如果想给页面定义个 navigationBar，我们可以添加一个 &lt;code&gt;renderOverlay&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  renderOverlay = (sceneProps) =&amp;gt; {
+    return (
+      &amp;lt;NavigationHeader
+        {...sceneProps}
+        renderTitleComponent={() =&amp;gt; (
+          &amp;lt;NavigationHeader.Title&amp;gt;
+            想吃
+          &amp;lt;/NavigationHeader.Title&amp;gt;
+        )}
+        /&amp;gt;
+    )
+  }
+  render () {
+    return (
+      &amp;lt;NavigationCardStack
+        direction=&#39;vertical&#39;
+        navigationState={{
+          index: 0,
+          routes: [{
+            key: &#39;Want Home&#39;
+          }]
+        }}
+        renderScene={this.renderScene}
+        renderOverlay={this.renderOverlay}
+        /&amp;gt;
+    )
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;刷新 simulator，我们能看到这样的界面：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2016/06/Screen-Shot-2016-06-21-at-23.10.14.png&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2016/06/Screen-Shot-2016-06-21-at-23.10.14.png&#34; alt=&#34;react native navigator experimental&#34; width=&#34;760&#34; class=&#34;alignnone size-full wp-image-18582&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2016/06/Screen-Shot-2016-06-21-at-23.10.14.png 760w, https://www.zfanw.com/blog/wp-content/uploads/2016/06/Screen-Shot-2016-06-21-at-23.10.14-300x105.png 300w, https://www.zfanw.com/blog/wp-content/uploads/2016/06/Screen-Shot-2016-06-21-at-23.10.14-100x35.png 100w&#34; sizes=&#34;(max-width: 760px) 100vw, 760px&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;目前我们还只有一个页面，没有路由切换，也没有动画效果。&lt;/p&gt;
+
+&lt;p&gt;假定我们点击了 haha 文本会进入详情页面。&lt;/p&gt;
+
+&lt;p&gt;在点击发生时，我们需要调整路由数据。&lt;/p&gt;
+
+&lt;p&gt;我们要用到 &lt;a href=&#34;https://github.com/reactjs/redux&#34;&gt;redux&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;先创建一个 &lt;code&gt;navigation.js&lt;/code&gt; 的 reducer 文件，把上面的路由数据迁移过来：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import { PUSH_ROUTE, POP_ROUTE } from &#39;../actionTypes&#39;
+import { NavigationExperimental } from &#39;react-native&#39;
+const {StateUtils: NavigationStateUtils} = NavigationExperimental
+
+const initialState = {
+  index: 0,
+  routes: [{
+    key: &#39;Want Home&#39;
+  }]
+}
+
+function navigationState (state = initialState, action) {
+  switch (action.type) {
+    case PUSH_ROUTE:
+      if (state.routes[state.index].key === (action.route &amp;amp;&amp;amp; action.route.key)) return state
+      return NavigationStateUtils.push(state, action.route)
+
+    case POP_ROUTE:
+      if (state.index === 0 || state.routes.length === 1) return state
+      return NavigationStateUtils.pop(state)
+
+    default:
+      return state
+
+  }
+}
+
+export default navigationState
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;再添加一个 &lt;code&gt;navigation.js&lt;/code&gt; 的 action 文件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import { PUSH_ROUTE, POP_ROUTE } from &#39;../actionTypes&#39;
+
+export function push (route) {
+  return {
+    type: PUSH_ROUTE,
+    route: route
+  }
+}
+
+export function pop () {
+  return {
+    type: POP_ROUTE
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在 &lt;code&gt;Want&lt;/code&gt; 组件中，我们通过 react-redux 提供的 &lt;code&gt;connect&lt;/code&gt; 绑定 store 里的数据：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&#39;use strict&#39;
+import React from &#39;react&#39;
+import { View, Text, NavigationExperimental, TouchableHighlight } from &#39;react-native&#39;
+import { connect } from &#39;react-redux&#39;
+import { push, pop } from &#39;../actions/navigation&#39;
+const {
+  CardStack: NavigationCardStack,
+  Header: NavigationHeader,
+  PropTypes: NavigationPropTypes,
+  StateUtils: NavigationStateUtils,
+} = NavigationExperimental
+class Want extends React.Component {
+  goDetail = () =&amp;gt; {
+    this.props.dispatch(push({
+      key: &#39;Want Detail&#39;
+    }))
+  }
+  renderScene = (sceneProps) =&amp;gt; {
+    // 我们在这里通过 key 渲染不同组件，这里只是简单展示同一个组件
+    return (
+      &amp;lt;View style={{flex: 1, marginTop: 64}}&amp;gt;
+        &amp;lt;TouchableHighlight onPress={this.goDetail}
+          &amp;gt;&amp;lt;Text&amp;gt;haha&amp;lt;/Text&amp;gt;
+        &amp;lt;/TouchableHighlight&amp;gt;
+      &amp;lt;/View&amp;gt;
+    )
+  }
+  renderOverlay = (sceneProps) =&amp;gt; {
+    return (
+      &amp;lt;NavigationHeader
+        {...sceneProps}
+        renderTitleComponent={() =&amp;gt; (
+          &amp;lt;NavigationHeader.Title&amp;gt;
+            想吃
+          &amp;lt;/NavigationHeader.Title&amp;gt;
+        )}
+        /&amp;gt;
+    )
+  }
+  render () {
+    return (
+      &amp;lt;NavigationCardStack
+        direction=&#39;vertical&#39;
+        navigationState={this.props.navigation}
+        renderScene={this.renderScene}
+        renderOverlay={this.renderOverlay}
+        /&amp;gt;
+    )
+  }
+}
+const mapStateToProps = (state) =&amp;gt; ({
+  navigation: state.navigation
+})
+export default connect(mapStateToProps)(Want)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样，我们就有了一个简陋的页面切换：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2016/06/react-native-navigator.gif&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2016/06/react-native-navigator.gif&#34; alt=&#34;react-native-navigator&#34; width=&#34;372&#34; class=&#34;alignnone size-full wp-image-18588&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Chrome 控制台中的 log 如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2016/06/Screen-Shot-2016-06-22-at-11.16.27.png&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2016/06/Screen-Shot-2016-06-22-at-11.16.27.png&#34; alt=&#34;Screen Shot 2016-06-22 at 11.16.27&#34; width=&#34;1400&#34; class=&#34;alignnone size-full wp-image-18590&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2016/06/Screen-Shot-2016-06-22-at-11.16.27.png 1400w, https://www.zfanw.com/blog/wp-content/uploads/2016/06/Screen-Shot-2016-06-22-at-11.16.27-300x196.png 300w, https://www.zfanw.com/blog/wp-content/uploads/2016/06/Screen-Shot-2016-06-22-at-11.16.27-768x502.png 768w, https://www.zfanw.com/blog/wp-content/uploads/2016/06/Screen-Shot-2016-06-22-at-11.16.27-1024x670.png 1024w, https://www.zfanw.com/blog/wp-content/uploads/2016/06/Screen-Shot-2016-06-22-at-11.16.27-100x65.png 100w&#34; sizes=&#34;(max-width: 1400px) 100vw, 1400px&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;上面的动画里可以看到，虽然我们没有给 &lt;code&gt;Want Detail&lt;/code&gt; 添加返回键，它默认却是已经有了。但是我们如果点击返回键，是没有效果的。&lt;/p&gt;
+
+&lt;p&gt;我们需要给 &lt;code&gt;NavigationHeader&lt;/code&gt; 添加一个 &lt;code&gt;onNavigateBack&lt;/code&gt;，它定义了用户点击返回键时的效果：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;      &amp;lt;NavigationHeader
+        {...sceneProps}
+        onNavigateBack={
+          () =&amp;gt; this.props.dispatch(pop())
+        }
+        renderTitleComponent={() =&amp;gt; (
+          &amp;lt;NavigationHeader.Title&amp;gt;
+            想吃
+          &amp;lt;/NavigationHeader.Title&amp;gt;
+        )}
+        /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;结果如下图：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2016/06/react-native-navigator-with-back.gif&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2016/06/react-native-navigator-with-back.gif&#34; alt=&#34;react-native-navigator-with-back&#34; width=&#34;372&#34; class=&#34;alignnone size-full wp-image-18595&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>一个 react-native 下使用 redux 的错误</title>
+      <link>https://www.zfanw.com/blog/react-native-redux-expected-a-component-class-got-object-object.html</link>
+      <pubDate>Fri, 17 Jun 2016 08:15:47 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/react-native-redux-expected-a-component-class-got-object-object.html</guid>
+      <description>&lt;p&gt;我在 react-native 项目里写的 &lt;code&gt;index.ios.js&lt;/code&gt; 文件如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import React from &#39;react&#39;
+import { AppRegistry } from &#39;react-native&#39;
+import rn from &#39;./src/app&#39;
+import { Provider } from &#39;react-redux&#39;
+import configureStore from &#39;./src/store/configureStore&#39;
+const store = configureStore()
+const App = () =&amp;gt; {
+  return (
+    &amp;lt;Provider store={store}&amp;gt;
+      &amp;lt;rn /&amp;gt;
+    &amp;lt;/Provider&amp;gt;
+    )
+}
+AppRegistry.registerComponent(&#39;rn&#39;, () =&amp;gt; App)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行时一直报告这个错误：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Expected a component class, got [object Object].&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code&gt;App&lt;/code&gt; 当然是一个 Component，问题出在哪？&lt;/p&gt;
+
+&lt;p&gt;问题出在 &lt;code&gt;AppRegistry.registerComponent&lt;/code&gt; 注册的组件名也叫 &lt;code&gt;rn&lt;/code&gt;，而我在前头 &lt;code&gt;import&lt;/code&gt; 了同样的一个 &lt;code&gt;rn&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;修改如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import React from &#39;react&#39;
+import { AppRegistry } from &#39;react-native&#39;
+import Root from &#39;./src/app&#39;
+import { Provider } from &#39;react-redux&#39;
+import configureStore from &#39;./src/store/configureStore&#39;
+const store = configureStore()
+const App = () =&amp;gt; {
+  return (
+    &amp;lt;Provider store={store}&amp;gt;
+      &amp;lt;Root /&amp;gt;
+    &amp;lt;/Provider&amp;gt;
+    )
+}
+AppRegistry.registerComponent(&#39;rn&#39;, () =&amp;gt; App)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;就不再有问题了。&lt;/p&gt;
+
+&lt;p&gt;一个非常简单却很容易忽略的错误。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>redux-saga 回调中执行 put</title>
+      <link>https://www.zfanw.com/blog/redux-saga-put-in-callback.html</link>
+      <pubDate>Sat, 11 Jun 2016 08:05:11 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/redux-saga-put-in-callback.html</guid>
+      <description>&lt;p&gt;在 &lt;a href=&#34;https://github.com/yelouafi/redux-saga&#34;&gt;redux-saga&lt;/a&gt; 下，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;postWithLoadingEffect(API.user, user).then(
+    (response) =&amp;gt; {
+      console.log(response)
+      // yield put(userActions.setCurrentUser(response.data))
+    }
+  ).catch(
+    (error) =&amp;gt; {
+      console.error(error)
+    }
+  )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;yield put&lt;/code&gt; 放在回调中是不会执行的，因为回调函数并不是 generator 函数。&lt;/p&gt;
+
+&lt;p&gt;但这种需求在实际代码里会经常出现。我们可以绕个圈子实现它：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  try {
+    let response = yield call(postWithLoadingEffect, API.user, user)
+    if (response) {
+      console.log(response)
+      window.localStorage.setItem(&#39;authToken&#39;, response.meta.jwt)
+      yield put(userActions.setCurrentUser(response.data))
+    }
+  } catch (error) {
+    console.error(error)
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://yelouafi.github.io/redux-saga/docs/api/index.html#callfn-args&#34;&gt;call&lt;/a&gt; 是 redux-saga 提供的一个 effect，它会执行传递给它的函数。这样我们就取得了结果，可以正常使用 &lt;code&gt;yield put&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;但很多时候，我觉得在 saga 中直接使用 &lt;code&gt;dispatch&lt;/code&gt; 会更方便，只是这样 redux-saga 的好处便又丢了 &amp;#8211; 不如回去写 redux-thunk。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>错误分类</title>
+      <link>https://www.zfanw.com/blog/different-errors.html</link>
+      <pubDate>Thu, 09 Jun 2016 08:41:15 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/different-errors.html</guid>
+      <description>&lt;p&gt;​如果你在网页上看到错误提示，它们的来源大致有两种，一种来自前端，一种来自后端。&lt;/p&gt;
+
+&lt;p&gt;比如说有一个邮箱地址的输入框，用户试图提交空值，我们会报告一个前端上的错误：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;请填写邮箱地址&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在 react.js 里，这个错误是一个 &lt;a href=&#34;https://facebook.github.io/react/docs/interactivity-and-dynamic-uis.html#what-shouldnt-go-in-state&#34;&gt;computed 值&lt;/a&gt;（计算值 &amp;#8211; 即依赖其它 state 计算出来的）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Email extends React.Component {
+  state = {
+    email: &#39;&#39;
+  }
+  render () {
+    const computedError = email.trim() === &#39;&#39; ? &#39;请填写邮箱地址&#39; : &#39;&#39;
+    return &amp;lt;div&amp;gt;
+      &amp;lt;input type=&#39;text&#39; value={this.state.email}/&amp;gt;
+      &amp;lt;span&amp;gt;{computedError}&amp;lt;/span&amp;gt;
+    &amp;lt;/div&amp;gt;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这是因为，&lt;code&gt;state&lt;/code&gt; 多了，代码难以管理，所以有些数据我们要尽量从其它数据中推演，而不是新建一个。&lt;/p&gt;
+
+&lt;p&gt;但上面的示例里，email 地址提交到服务端，还可能返回一种错误：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;该邮箱地址已经被人注册&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这一种错误，并没办法通过 &lt;code&gt;email&lt;/code&gt; 数据推演，我的做法是，新建一个 state 用来存储。不过这类表单数据多了，整个组件就会非常庞大，很容易出错。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>no matching action clause to process request</title>
+      <link>https://www.zfanw.com/blog/no-matching-action-clause-to-process-request.html</link>
+      <pubDate>Wed, 08 Jun 2016 03:15:58 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/no-matching-action-clause-to-process-request.html</guid>
+      <description>&lt;p&gt;本文基于 phoenix framework 1.1.4。&lt;/p&gt;
+
+&lt;p&gt;我在 phoenix 项目里，定义了这样一个函数，用来过滤用户：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  def index(conn, %{&amp;quot;email&amp;quot; =&amp;gt; email, &amp;quot;codename&amp;quot; =&amp;gt; codename}) do
+    # ... get the user with the filters
+  end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;访问以下两个路径：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;http://localhost:4000/api/users?codename=Plator&#34;&gt;http://localhost:4000/api/users?codename=Plator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://localhost:4000/api/users?email=chenxsan@example.com&#34;&gt;http://localhost:4000/api/users?email=chenxsan@example.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;均会报告以下错误：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Phoenix.ActionClauseError at GET /api/users&lt;/p&gt;
+
+&lt;p&gt;bad request to IngressRun.UserController.index, no matching action clause to process request&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;但如果访问&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;http://localhost:4000/api/users?email=chenxsan@example.com&amp;amp;codename=Plator
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;却是能正常响应的。&lt;/p&gt;
+
+&lt;p&gt;看&lt;a href=&#34;http://elixirforum.com/t/am-i-doing-this-right-pattern-matching-in-controller-methods/249/2&#34;&gt;这篇&lt;/a&gt;的意思，我有多少个过滤条件，过滤条件组合一下，我就要定义多少个 action &amp;#8211; 并不现实，也很傻。&lt;/p&gt;
+
+&lt;p&gt;比较靠谱的做法是&lt;a href=&#34;https://medium.com/@kaisersly/filtering-from-params-in-phoenix-27b85b6b1354#.oebhg9kbm&#34;&gt;这一篇&lt;/a&gt;。不过它的示例里：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Post
+|&amp;gt; where(^filters)
+|&amp;gt; Repo.all
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在我的测试中，会报一个编译错误：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;cannot use ^filters outside of match clauses&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;换成以下形式就没问题：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;from(p in Post, where: ^filters) |&amp;gt; Repo.all
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;另外我好奇的是，为什么这种过滤资源的常用功能，许多框架都不集成，phoenix 里我没见到，express.js 里也没有。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>加载中</title>
+      <link>https://www.zfanw.com/blog/loading-indicator.html</link>
+      <pubDate>Mon, 06 Jun 2016 01:43:29 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/loading-indicator.html</guid>
+      <description>&lt;p&gt;在 app 上，我们经常见到“加载中”的图标。这是站在用户的角度看。如果切换到开发者角度，则会有一个疑惑，这个 loading 图标是即刻出现的吗？&lt;/p&gt;
+
+&lt;p&gt;如果 http 响应很快，则一闪而过的 loading 对用户来说，体验并不好。&lt;/p&gt;
+
+&lt;p&gt;可是，我们怎么知道一个响应是快还是慢？毕竟，网络的状况并不可控，一个响应在美国也许很快，在中国却异常的慢。&lt;/p&gt;
+
+&lt;p&gt;一个更友好的解决办法，可能是这样：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;http 请求发起&lt;/li&gt;
+&lt;li&gt;100ms 内响应，则不需要调出 loading&lt;/li&gt;
+&lt;li&gt;如果 100ms 内还未响应，则调出 loading&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;在 &lt;a href=&#34;https://www.nngroup.com/articles/progress-indicators/&#34;&gt;nngroup 进度指示条一文里&lt;/a&gt; ，作者提到一个参考时间：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;This indicator should be reserved for actions that take between 2-10 seconds. For anything that takes less than 1 second to load, it is distracting to use a looped animation, because users cannot keep up with what happened and might feel anxious about whatever flashed on the screen.&lt;/p&gt;
+
+&lt;p&gt;如果 1s 内能响应，就不该用循环动画来指示进度，因为用户没法跟上，可能会对屏幕上一闪而过的东西感到焦虑。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;所以上面的解决办法可以修改为：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;http 请求发起&lt;/li&gt;
+&lt;li&gt;10s 内响应，则不需要调出 loading&lt;/li&gt;
+&lt;li&gt;如果 10s 内未响应，则调出 loading&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;只是这里会有一个问题出现，如果 http 请求在 11s 时响应，则 loading 还是一闪而过。 &amp;#8211; 在 web 的复杂环境下，这近于无解。&lt;/p&gt;
+
+&lt;p&gt;至于代码实现上，我们通常需要封装一个专用的 API 来处理 http 请求。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>redux.js 的盛行</title>
+      <link>https://www.zfanw.com/blog/redux-js-prevail.html</link>
+      <pubDate>Wed, 01 Jun 2016 02:35:36 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/redux-js-prevail.html</guid>
+      <description>&lt;p&gt;在 react.js 里，如果把一个组件写在另一个组件的 &lt;code&gt;render&lt;/code&gt; 方法里，则其它组件要用它的话，我们又要重复一遍代码。所以我们要抽取它，独立成一个组件。可是，这时它的 &lt;code&gt;state&lt;/code&gt; 应该放在哪里？&lt;/p&gt;
+
+&lt;p&gt;如果我们把 &lt;code&gt;state&lt;/code&gt; 放在组件内部，则父组件有读取子组件数据的需求时，父组件内部就要创建一个变量，还要提供给子组件一个回调，这样，同样的 &lt;code&gt;state&lt;/code&gt; 我们会在父、子两个地方实现，则不如 &lt;code&gt;state&lt;/code&gt; 只定义在父组件中，通过 &lt;code&gt;props&lt;/code&gt; 传递给子组件，这样，子组件的功能就比较单一，便于复用。&lt;/p&gt;
+
+&lt;p&gt;但是，又有一个新的问题产生。举一个 Email 组件来说，它可能在登录表单组件里使用，也可能在注册表单组件里使用，这两个父组件的逻辑是不一样的，无法复用，而它们在使用 Email 组件时，却都需要提供给 Email 组件一个变量及一个回调函数 &amp;#8211; 它们在两个父组件中显然又是重复的。&lt;/p&gt;
+
+&lt;p&gt;比如我的一个使用 &lt;a href=&#34;https://github.com/mobxjs/mobx&#34;&gt;mobx&lt;/a&gt; 的注册组件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import React, { Component } from &#39;react&#39;
+import { observable, action, computed } from &#39;mobx&#39;
+import Email from &#39;../common/Email&#39;
+
+@observer
+class Register extends Component {
+  @observable email = &#39;&#39;
+  @computed get emailError () {
+    if (this.email.trim() === &#39;&#39;) {
+      return &#39;请填写邮箱地址&#39;
+    }
+    if (!emailRegExp.test(this.email.trim())) {
+      return &#39;请填写正确的邮箱地址&#39;
+    }
+    return &#39;&#39;
+  }
+  render () {
+    return (
+      &amp;lt;div&amp;gt;
+          &amp;lt;Email email={this.email}
+            changeEmail={this.changeEmail}
+            emailError={this.emailError}
+            /&amp;gt;
+      &amp;lt;/div&amp;gt;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在登录组件中，几乎一模一样的代码，我又要重复一遍。&lt;/p&gt;
+
+&lt;p&gt;Don&amp;#8217;t repeat yourself 说起来当然是简单，但做起来并不容易。就说我们上面所做的演进，目的是满足需求的同时消除重复，但结果我们只是把 repeat 从一个地方迁移到了另一个地方。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://redux.js.org/index.html&#34;&gt;Redux&lt;/a&gt; 能解决我们的问题：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;将父组件中重复的变量存储到 store 中&lt;/li&gt;
+&lt;li&gt;回调函数拆为 reducer + action&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这样，我们就不必在多个父组件里重复变量及回调函数。但是，因为我们把变量存储在 store 里，把回调函数拆为 reducer + action，则我们在使用时，就又多了一个读取过程，在 redux.js 里，这通过 &lt;a href=&#34;https://github.com/reactjs/react-redux/blob/master/docs/api.md#api&#34;&gt;react-redux&lt;/a&gt; 实现。&lt;/p&gt;
+
+&lt;p&gt;当然，像 redux 这样提取父组件中重复变量然后复用的做法并不能满足所有需求。很多时候，我们确实需要两份数据，这时，redux &lt;a href=&#34;https://github.com/reactjs/redux/issues/822#issuecomment-186614362&#34;&gt;也没有&lt;/a&gt;好的&lt;a href=&#34;https://github.com/reactjs/redux/issues/897#issuecomment-148233789&#34;&gt;解决办法&lt;/a&gt;，因为 action 没法复用，reducer 也没法复用。&lt;/p&gt;
+
+&lt;p&gt;在 redux 的定义里，组件有两种：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Container component&lt;/li&gt;
+&lt;li&gt;Presentational component&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;上面的例子里，Email 组件是 Presentational component，要做到它的复用十分容易，而登录或注册组件则属于 Container component，它们的复用性就非常低，代码上的重复也很难避免 &amp;#8211; 目前我还没看到较好的解决办法。&lt;/p&gt;
+
+&lt;p&gt;如果你有，欢迎留言：）&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Elixir Guardian 库的 current_user</title>
+      <link>https://www.zfanw.com/blog/elixir-guardian-authentication-current_user.html</link>
+      <pubDate>Sun, 22 May 2016 04:50:32 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/elixir-guardian-authentication-current_user.html</guid>
+      <description>&lt;p&gt;如果你用 &lt;a href=&#34;http://www.phoenixframework.org/docs/sessions&#34;&gt;Phoenix framework 的 session&lt;/a&gt; 管理会话，那么你的登录函数大概是这样写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  def login(conn, user) do
+    conn
+    |&amp;gt; assign(:current_user, user)
+    |&amp;gt; put_session(:user_id, user.id)
+    |&amp;gt; configure_session(renew: true)
+  end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里的 &lt;code&gt;assign(:current_user, user)&lt;/code&gt; 允许我们在模板中直接使用 &lt;code&gt;@current_user&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;在 &lt;a href=&#34;https://github.com/ueberauth/guardian&#34;&gt;Guardian&lt;/a&gt; 下，因为我们把会话管理交给 guardian，所以代码大概是这么写的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;case IngressRun.Auth.login_by_email_and_pass(conn, email, pass, repo: Repo) do
+      {:ok, user} -&amp;gt;
+        conn
+        |&amp;gt; Guardian.Plug.sign_in(user)
+        |&amp;gt; put_flash(:info, &amp;quot;Welcome back!&amp;quot;)
+        |&amp;gt; redirect(to: page_path(conn, :index))
+      {:error, _reason, conn} -&amp;gt;
+        conn
+        |&amp;gt; put_flash(:error, &amp;quot;Invalid email/password combination&amp;quot;)
+        |&amp;gt; render(&amp;quot;new.html&amp;quot;)
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那么有一个问题，在 guardian 下，我们的模板要怎样取到 &lt;code&gt;current_user&lt;/code&gt; 的值？&lt;/p&gt;
+
+&lt;p&gt;guardian 提供了方法，让我们取得当前的用户资源：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Guardian.Plug.current_resource(conn)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;所以要在模板中使用 &lt;code&gt;@current_user&lt;/code&gt;，我们的 controller 函数大概是这么写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;defmodule IngressRun.AboutController do
+  use IngressRun.Web, :controller
+
+  def index(conn, _params) do
+    conn
+    |&amp;gt; assign(:current_user, Guardian.Plug.current_resource(conn))
+    |&amp;gt; render(&amp;quot;index.html&amp;quot;)
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;guardian 还提供了 Phoenix 助手，所以在 controller 中我们可以把上面的代码改写如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;defmodule IngressRun.AboutController do
+  use IngressRun.Web, :controller
+  use Guardian.Phoenix.Controller
+
+  def index(conn, _params, user, _claims) do
+    conn
+    |&amp;gt; assign(:current_user, user)
+    |&amp;gt; render(&amp;quot;index.html&amp;quot;)
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但因为这个 &lt;code&gt;current_user&lt;/code&gt; 每个页面都要用到，则每个 controller 里的每个 action 都要写一遍 &lt;code&gt;assign(:current_user, user)&lt;/code&gt;，未免太棘手。&lt;/p&gt;
+
+&lt;p&gt;这时我们就可以用上 &lt;a href=&#34;https://github.com/elixir-lang/plug#the-plugconn&#34;&gt;plug&lt;/a&gt; &amp;#8211; 如果你写过 express.js，则这个概念与中间件类似：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;plug :assign_current_user
+# ...
+defp assign_current_user(conn, _opts) do
+    assign(conn, :current_user, Guardian.Plug.current_resource(conn))
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们可以把这个 plug 定义在 controller 里，但如前面所说的，整个站点都要用到它，则定义在 &lt;code&gt;pipeline&lt;/code&gt; 里会更合适，如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;pipeline :browser_session do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+    plug :assign_current_user
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样我们就可以继续在模板中使用 &lt;code&gt;&amp;lt;%= @current_user %&amp;gt;&lt;/code&gt; 了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Express 路由</title>
+      <link>https://www.zfanw.com/blog/express-js-router-edge-case.html</link>
+      <pubDate>Thu, 12 May 2016 12:06:15 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/express-js-router-edge-case.html</guid>
+      <description>&lt;p&gt;如果你的网站很小，又或者你不介意一个文件有成千上万行的代码，那大可以不必深入理解 express.js 的路由，只要知道 &lt;code&gt;app.get&lt;/code&gt; 一类的简单用法就行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import express from &#39;express&#39;
+const app = express()
+/**
+ * @api {get} / 读取 xx
+ */
+app.get(&#39;/&#39;, (req, res, next) =&amp;gt; {})
+
+/**
+ * @api {post} / 创建 xx
+ */
+app.post(&#39;/&#39;, (req, res, next) =&amp;gt; {})
+
+/**
+ * @api {delete} /:id 删除 xx
+ */
+app.delete(&#39;/:id&#39;, (req, res, next) =&amp;gt; {})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;只是事情远没那么简单。&lt;/p&gt;
+
+&lt;p&gt;比如上面的 &lt;code&gt;post&lt;/code&gt; 与 &lt;code&gt;delete&lt;/code&gt;，需要用户登录后才能执行，则你就需要一个检查用户是否已登录的方法，如果已经登录，则继续执行，否则重定向到登录页。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * @function restrict 验证 session 中 token 是否存在
+ */
+function restrict (req, res, next) {
+  if (!req.session.token) {
+    return res.redirect(&#39;/login&#39;)
+  } else {
+    next()
+  }
+}
+app.post(&#39;/&#39;, restrict, (req, res, next) =&amp;gt; {})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://expressjs.com/en/api.html#app.METHOD&#34;&gt;app.METHOD&lt;/a&gt; 的用法是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;app.METHOD(path, callback [, callback ...])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;恰如前面的例子中所看到的，我们可以给 &lt;code&gt;app.post&lt;/code&gt; 传递多个 callback，callback 会按顺序执行，除非前头排队执行的不调 &lt;code&gt;next()&lt;/code&gt;。譬如上面的 &lt;code&gt;restrict&lt;/code&gt;，在检查到 &lt;code&gt;token&lt;/code&gt; 不存在后，它就直接 &lt;code&gt;return&lt;/code&gt; 了，没有 &lt;code&gt;next()&lt;/code&gt;，再后面的 callback 函数就不再执行。而在 &lt;code&gt;token&lt;/code&gt; 存在的情况下，它执行了 &lt;code&gt;next()&lt;/code&gt;，即继续下一个 callback。&lt;/p&gt;
+
+&lt;p&gt;在 &lt;a href=&#34;https://en.wikipedia.org/wiki/Representational_state_transfer&#34;&gt;RESTful&lt;/a&gt; 的规范里，我们的操作是围绕着资源（resources）的，比如这个博客，它有 posts 这个资源，针对它的增删改查（CRUD）在路由中体现为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * @api {get} /posts 读取所有博客
+ */
+app.get(&#39;/posts&#39;, callback)
+
+/**
+ * @api {post} /posts 创建博客
+ */
+app.post(&#39;/posts&#39;, callback)
+
+/**
+ * @api {get} /posts/:postID 读取 id 为 postID 值的博客
+ */
+app.get(&#39;/posts/:postID&#39;, callback)
+
+/**
+ * @api {patch} /posts/:postID 修改 id 为 postID 值的博客
+ */
+app.patch(&#39;/posts/:postID&#39;, callback)
+
+/**
+ * @api {delete} /posts/:postID 删除 id 为 postID 值的博客
+ */
+app.delete(&#39;/posts/:postID&#39;, callback)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们为什么要把 &lt;code&gt;/posts/:postID&lt;/code&gt; 写上三遍甚至多遍？假如后期 URL 想做一点调整，我们就要改三次了。&lt;/p&gt;
+
+&lt;p&gt;我们可以使用 &lt;a href=&#34;http://expressjs.com/en/api.html#app.route&#34;&gt;app.route&lt;/a&gt; 对上面的代码做一点改进：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;app.route(&#39;/posts&#39;)
+  .get(callback)
+  .post(callback)
+
+app.route(&#39;/posts/:postID&#39;)
+  .get(callback)
+  .patch(callback)
+  .delete(callback)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但我的博客上并不仅仅 posts 这类资源，还有 comments 资源，还有 users 资源，于是，我们的路由会慢慢变成这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;app.route(&#39;/users&#39;)
+  .all(restrict)
+  .get(callback)
+  .post(callback)
+
+app.route(&#39;/posts&#39;)
+  .get(callback)
+  .post(callback)
+
+app.route(&#39;/posts/:postID&#39;)
+  .get(callback)
+  .patch(callback)
+  .delete(callback)
+
+app.route(&#39;/posts/:postID/comments&#39;)
+  .get(callback)
+  .post(callback)
+
+app.route(&#39;/posts/:postID/comments/:commentID&#39;)
+  .get(callback)
+  .patch(callback)
+  .delete(callback)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;想像一下，每个 &lt;code&gt;callback&lt;/code&gt; 乐观点，假设能用 20 行代码解决，我们的这个路由文件也至少要上 500 行。假如再加上注释，则这个文件估计要有上千行。rMBP 下，14 号大小，编辑器一屏能显示 37 行。&lt;/p&gt;
+
+&lt;p&gt;分家的时候到了。&lt;/p&gt;
+
+&lt;p&gt;怎么分？&lt;/p&gt;
+
+&lt;p&gt;如果 &lt;code&gt;app.route&lt;/code&gt; 肯接收第二个参数就好了，比如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;app.route(&#39;/posts&#39;, callback)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样我们就可以在单独的文件中定义 &lt;code&gt;/posts&lt;/code&gt; 路径下所有处理逻辑，然后 &lt;code&gt;import&lt;/code&gt; 进来给 &lt;code&gt;app.route&lt;/code&gt; 调用。&lt;/p&gt;
+
+&lt;p&gt;但 &lt;code&gt;app.route&lt;/code&gt; 只接收一个 &lt;code&gt;path&lt;/code&gt; 参数。&lt;/p&gt;
+
+&lt;p&gt;这里，我们有两个问题要解决：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;如何把 &lt;code&gt;app.route(path)&lt;/code&gt; 后所附的各种逻辑独立到一个文件中&lt;/li&gt;
+&lt;li&gt;如何将独立文件中的处理逻辑与 url 匹配起来&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;第一个问题的解决办法是使用 &lt;a href=&#34;http://expressjs.com/en/api.html#router&#34;&gt;Router&lt;/a&gt;，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let router = express.Router()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样我们就创建了一个 Router 对象，Router 是一个 mini 的 app，所以我们前面所写的 &lt;code&gt;app.METHOD&lt;/code&gt; 的代码，Router 都可以同样使用：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let router = express.Router()
+router.route(&#39;/&#39;)
+  .all(restrict)
+  .get(callback)
+  .post(callback)
+export default router
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样我们就可以将某个 url 下对应的各种处理逻辑独立到一个文件里。&lt;/p&gt;
+
+&lt;p&gt;接下来解决第二个问题。&lt;/p&gt;
+
+&lt;p&gt;我们要用到 &lt;code&gt;app.use&lt;/code&gt;，它的用法与我们想像的 &lt;code&gt;app.route&lt;/code&gt; 的近似：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;app.use([path,] function [, function...])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们首先将独立文件 &lt;code&gt;import&lt;/code&gt; 进来，然后使用 &lt;code&gt;app.use&lt;/code&gt; 将它与 url 匹配起来：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import userRouter from &#39;./userRouter&#39;
+app.use(&#39;/users&#39;, userRouter)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样，app 里所有 &lt;code&gt;/users/*&lt;/code&gt; 的请求都会进入 &lt;code&gt;userRouter&lt;/code&gt; 这个 mini app 中处理。&lt;/p&gt;
+
+&lt;p&gt;但是我们要注意，&lt;code&gt;app.use(&#39;/users&#39;, userRouter)&lt;/code&gt; 这样的写法下，userRouter 中要匹配 &lt;code&gt;/users&lt;/code&gt; 路径，并不是下面这种写法：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;router.route(&#39;/users&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;而是：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;router.route(&#39;/&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;是的，我们的 url 路径现在分散了，一部分在入口文件中，一部分在 Router 文件中，如果我们切割得很厉害，则一个完整的 API 路径，会分散在多个文件中。假如代码不写注释，也不生成文档，则查阅 API 路径会非常麻烦。就我目前的经验，并没有一个很好的解决办法 &amp;#8211; 除了文档中标注。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;说明&lt;/strong&gt;：以上代码均指 express.js 4.x 的 API。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Mongoose populate 预填充字段</title>
+      <link>https://www.zfanw.com/blog/mongoose-populate.html</link>
+      <pubDate>Tue, 10 May 2016 12:14:00 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/mongoose-populate.html</guid>
+      <description>
+
+&lt;p&gt;举这个博客说，它有两个模型（model），&lt;code&gt;User&lt;/code&gt; 和 &lt;code&gt;Post&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;一个 User 可以有多篇 Post，创建 Post 的时候，我们要存一个作者信息，假定是 &lt;code&gt;author&lt;/code&gt; 字段，它的值指向用户的 &lt;code&gt;_id&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var mongoose = require(&#39;mongoose&#39;)
+  , Schema = mongoose.Schema
+var userSchema = Schema({
+  name: String
+})
+var postSchema = Schema({
+  title: String,
+  content: String,
+  author: String
+})
+var User = mongoose.model(&#39;User&#39;, userSchema)
+var Post = mongoose.model(&#39;Post&#39;, postSchema)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上是我还不知道 &lt;code&gt;populate&lt;/code&gt; 时的写法，&lt;code&gt;Post&lt;/code&gt; 模型里，&lt;code&gt;author&lt;/code&gt; 指向了用户的 &lt;code&gt;_id&lt;/code&gt;，这样，每次查询 post 都需要查询两个模型：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Post.findOne({title: &#39;mongoose populate&#39;}).then((doc) =&amp;gt; {
+  User.findOne({_id: doc.author}).then((user) =&amp;gt; {
+    return Object.assign({}, doc, {author: user})
+  })
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但 mongoose 提供了 &lt;code&gt;populate&lt;/code&gt; 方法，可以在查询时，预先填充字段：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var mongoose = require(&#39;mongoose&#39;)
+  , Schema = mongoose.Schema
+var userSchema = Schema({
+  name: String
+})
+// 这里，我们给 author 定义了一个 `ref` 指向了 User 模型
+var postSchema = Schema({
+  title: String,
+  content: String,
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: &#39;User&#39;
+  }
+})
+// `findOne` 勾子，在使用 `findOne` 时，mongoose 会预填充 `author` 字段的数据
+postSchema.pre(&#39;findOne&#39;, function (next) {
+  this.populate(&#39;author&#39;, &#39;name&#39;)
+  next()
+})
+var User = mongoose.model(&#39;User&#39;, userSchema)
+var Post = mongoose.model(&#39;Post&#39;, postSchema)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们的查询 post 语句可以写成这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Post.findOne({title: &#39;mongoose populate&#39;}).then((doc) =&amp;gt; {
+  return doc
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 &lt;code&gt;doc&lt;/code&gt; 里的 &lt;code&gt;author&lt;/code&gt; 是一个对象，包含一个 &lt;code&gt;_id&lt;/code&gt; 和一个 &lt;code&gt;name&lt;/code&gt;，非常便捷、简洁。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;http://mongoosejs.com/docs/populate.html&#34;&gt;Mongoose Query Population v4.4.16&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>React Native 下使用 emoji 的 Invalid hex-character pattern in string 问题</title>
+      <link>https://www.zfanw.com/blog/react-native-emoji-invalid-hex-character-pattern-in-string.html</link>
+      <pubDate>Sat, 07 May 2016 08:32:23 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/react-native-emoji-invalid-hex-character-pattern-in-string.html</guid>
+      <description>&lt;p&gt;我在 react native 项目里用到了 emoji，比如笑脸 😁，当然，我不是直接使用表情，而是使用了 unicode。😁 的 unicode 值是 &lt;code&gt;U+1F601&lt;/code&gt;，在 react native 项目里，代码写成了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;Text&amp;gt;{&amp;quot;\u{1F601}&amp;quot;}&amp;lt;/Text&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;项目在模拟器下，或 &lt;code&gt;Debug&lt;/code&gt; 模式下的设备上跑，都不会有问题，但是在 &lt;code&gt;Release&lt;/code&gt; 模式下跑设备上，就会出现问题：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Sat, 07 May 2016 07:02:29 GMT ReactNativePackager:SocketServer server got ipc message { type: &#39;createSocketServer&#39;,
+  data: 
+   { sockPath: &#39;/var/folders/xk/y5j8r_dd0qg9ckymx96qd81c0000gn/T/react-packager-e36f208f7a835e0174b01026652af058&#39;,
+     options: 
+      { projectRoots: [Object],
+        assetRoots: [Object],
+        blacklistRE: [Object],
+        transformModulePath: &#39;/Users/sam/Documents/job/fz-app/node_modules/react-native/packager/transformer.js&#39; } } }
+[3:02:30 PM] &amp;lt;START&amp;gt; Building Dependency Graph
+[3:02:30 PM] &amp;lt;START&amp;gt; Crawling File System
+Sat, 07 May 2016 07:02:30 GMT ReactNativePackager:SocketServer Process 45912 listening on socket path /var/folders/xk/y5j8r_dd0qg9ckymx96qd81c0000gn/T/react-packager-e36f208f7a835e0174b01026652af058 for server with options {&amp;quot;projectRoots&amp;quot;:[&amp;quot;/Users/sam/Documents/job/fz-app&amp;quot;],&amp;quot;assetRoots&amp;quot;:[&amp;quot;/Users/sam/Documents/job/fz-app&amp;quot;],&amp;quot;blacklistRE&amp;quot;:{},&amp;quot;transformModulePath&amp;quot;:&amp;quot;/Users/sam/Documents/job/fz-app/node_modules/react-native/packager/transformer.js&amp;quot;,&amp;quot;nonPersistent&amp;quot;:true}
+Sat, 07 May 2016 07:02:30 GMT ReactNativePackager:SocketServer succesfully created server
+Sat, 07 May 2016 07:02:30 GMT ReactNativePackager:SocketServer connection to server 45912
+Sat, 07 May 2016 07:02:30 GMT ReactNativePackager:SocketServer got request { type: &#39;buildBundle&#39;,
+  data: 
+   { entryFile: &#39;index.ios.js&#39;,
+     dev: false,
+     minify: true,
+     platform: &#39;ios&#39; },
+  id: &#39;xru0e36&#39; }
+[3:02:30 PM] &amp;lt;START&amp;gt; find dependencies
+[3:02:36 PM] &amp;lt;END&amp;gt;   Crawling File System (6361ms)
+[3:02:36 PM] &amp;lt;START&amp;gt; Building in-memory fs for JavaScript
+[3:02:37 PM] &amp;lt;END&amp;gt;   Building in-memory fs for JavaScript (290ms)
+[3:02:37 PM] &amp;lt;START&amp;gt; Building in-memory fs for Assets
+[3:02:37 PM] &amp;lt;END&amp;gt;   Building in-memory fs for Assets (204ms)
+[3:02:37 PM] &amp;lt;START&amp;gt; Building Haste Map
+[3:02:37 PM] &amp;lt;START&amp;gt; Building (deprecated) Asset Map
+[3:02:37 PM] &amp;lt;END&amp;gt;   Building (deprecated) Asset Map (105ms)
+[3:02:37 PM] &amp;lt;END&amp;gt;   Building Haste Map (229ms)
+[3:02:37 PM] &amp;lt;END&amp;gt;   Building Dependency Graph (7105ms)
+[3:02:38 PM] &amp;lt;END&amp;gt;   find dependencies (7604ms)
+Sat, 07 May 2016 07:02:45 GMT ReactNativePackager:SocketServer request error { message: &#39;Invalid hex-character pattern in string&#39;,
+  filename: 0,
+  line: 39,
+  col: 1,
+  pos: 1704,
+  stack: &#39;Error\n    at new JS_Parse_Error (eval at &amp;lt;anonymous&amp;gt; (/Users/sam/Documents/job/fz-app/node_modules/uglify-js/tools/node.js:22:1), &amp;lt;anonymous&amp;gt;:1526:18)\n    at js_error (eval at &amp;lt;anonymous&amp;gt; (/Users/sam/Documents/job/fz-app/node_modules/uglify-js/tools/node.js:22:1), &amp;lt;anonymous&amp;gt;:1534:11)\n    at parse_error (eval at &amp;lt;anonymous&amp;gt; (/Users/sam/Documents/job/fz-app/node_modules/uglify-js/tools/node.js:22:1), &amp;lt;anonymous&amp;gt;:1647:9)\n    at hex_bytes (eval at &amp;lt;anonymous&amp;gt; (/Users/sam/Documents/job/fz-app/node_modules/uglify-js/tools/node.js:22:1), &amp;lt;anonymous&amp;gt;:1704:17)\n    at read_escaped_char (eval at &amp;lt;anonymous&amp;gt; (/Users/sam/Documents/job/fz-app/node_modules/uglify-js/tools/node.js:22:1), &amp;lt;anonymous&amp;gt;:1688:49)\n    at eval (eval at &amp;lt;anonymous&amp;gt; (/Users/sam/Documents/job/fz-app/node_modules/uglify-js/tools/node.js:22:1), &amp;lt;anonymous&amp;gt;:1730:27)\n    at eval (eval at &amp;lt;anonymous&amp;gt; (/Users/sam/Documents/job/fz-app/node_modules/uglify-js/tools/node.js:22:1), &amp;lt;anonymous&amp;gt;:1870:24)\n    at Object.next_token [as input] (eval at &amp;lt;anonymous&amp;gt; (/Users/sam/Documents/job/fz-app/node_modules/uglify-js/tools/node.js:22:1), &amp;lt;anonymous&amp;gt;:1897:36)\n    at next (eval at &amp;lt;anonymous&amp;gt; (/Users/sam/Documents/job/fz-app/node_modules/uglify-js/tools/node.js:22:1), &amp;lt;anonymous&amp;gt;:2012:25)\n    at expect_token (eval at &amp;lt;anonymous&amp;gt; (/Users/sam/Documents/job/fz-app/node_modules/uglify-js/tools/node.js:22:1), &amp;lt;anonymous&amp;gt;:2045:20)&#39; }
+Sat, 07 May 2016 07:02:45 GMT ReactNativePackager:SocketServer request finished error
+Worker Farm: Received message for unknown index for existing child. This should not happen!
+Sat, 07 May 2016 07:03:16 GMT ReactNativePackager:SocketServer server dying 45912
+Sat, 07 May 2016 07:03:16 GMT ReactNativePackager:SocketServer exit code: 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;重点在这一句：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Sat, 07 May 2016 07:02:45 GMT ReactNativePackager:SocketServer request error { message: &#39;Invalid hex-character pattern in string&#39;,
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;为什么 &lt;code&gt;Debug&lt;/code&gt; 模式下没有问题？这是因为 &lt;code&gt;Release&lt;/code&gt; 模式下，会使用 uglifyjs 压缩代码，碰上 &lt;code&gt;\u{1F601}&lt;/code&gt; 导致的。&lt;/p&gt;
+
+&lt;p&gt;解法有两个：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;直接使用表情字符 😁&lt;/li&gt;
+&lt;li&gt;或者使用 &lt;a href=&#34;https://github.com/jorilallo/react-native-emoji&#34;&gt;react-native-emoji&lt;/a&gt; 这样的第三方库。&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

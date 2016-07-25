@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>background-position 的百分比 - 陈三</title>
+<meta property="og:title" content="background-position 的百分比 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">background-position 的百分比</h1>
+
+    
+    <span class="article-date">June 6, 2014</span>
+    
+
+    <div class="article-content">
+      <p>平常使用 <code>background-position</code>，一般是用固定值，比如：</p>
+
+<pre><code>.hello {
+  background-position: 50px 50px; // 背景图片左上角离包含块左上角距离为水平方向 50px，竖直方向 50px
+}
+</code></pre>
+
+<p>示意如下：</p>
+
+<div class="hello">
+  <p>
+    50&#215;50的色块
+  </p>
+</div>
+
+<p>居中背景图片的话，则常常用百分比：</p>
+
+<pre><code>.hello {
+  background-position:50% 50%;
+}
+</code></pre>
+
+<p>这似乎理所当然。</p>
+
+<p>那如果上面的固定值 50px，我坚持要写成百分比如何？</p>
+
+<p>已知背景图片大小为 150&#215;150，包含块大小为 200&#215;200。</p>
+
+<p>答案是：</p>
+
+<pre><code>.hello {
+  background-position: 100% 100%;
+}
+</code></pre>
+
+<p>这个值是这样计算的：</p>
+
+<pre><code>50/(200-150)*100% = 100%
+</code></pre>
+
+<p>这是因为 <code>background-position</code> 在使用百分比时，概念跟固定取值并不一样。</p>
+
+<p>举上面的示例说，如果设置 <code>background-postion:10% 30%;</code>，则是背景图片水平方向 10% 位置的点与包含块水平方向 10% 位置的点重合。换算成固定取值的话：</p>
+
+<pre><code>(200-50)*10% = 5
+</code></pre>
+
+<p>示意如下：</p>
+
+<div class="hello2">
+  <p>
+  </p>
+</div>
+
+<p>但如果我们使用负的百分比，则浏览器的处理方式又跟绝对值一样了，比如：</p>
+
+<pre><code>.test {
+  background-position: -10%, -50%;
+}
+</code></pre>
+
+<p>就是让背景图片起点定位到包含块 (-10%, -50%) 的位置。</p>
+
+<p>这个概念不十分直观，所以没细究的话，很容易误解。</p>
+
+<p>附：<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background-position">background-position &#8211; CSS | MDN</a></p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Devtools on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/devtools/</link>
+    <description>Recent content in Devtools on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 24 Oct 2015 09:46:53 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/devtools/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Chrome 开发者工具之 Collect JavaScript CPU Profile</title>
+      <link>https://www.zfanw.com/blog/chrome-devtools-collect-javascript-cpu-profile.html</link>
+      <pubDate>Sat, 24 Oct 2015 09:46:53 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/chrome-devtools-collect-javascript-cpu-profile.html</guid>
+      <description>&lt;p&gt;如果你想了解 JavaScript 程序的运行情况，Chrome 开发者工具下的 &lt;a href=&#34;https://developers.google.com/web/tools/chrome-devtools/profile/rendering-tools/js-execution&#34;&gt;Collect JavaScript CPU Profile&lt;/a&gt; 是个好帮手。&lt;/p&gt;
+
+&lt;p&gt;可是它们的文档更新速度常常跟不上它们版本的更新速度。比如 Collect JavaScript CPU Profile 下的 Chart 视图，Chrome 46 以后版本的火焰图（flame chart）已经跟文档上的配图不一样了，是倒过来的。&lt;/p&gt;
+
+&lt;p&gt;好在重要的名词没有倒过来。&lt;/p&gt;
+
+&lt;p&gt;在 Collect JavaScript CPU Profile 中，我们主要关心&lt;strong&gt;函数&lt;/strong&gt;，比如：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;函数执行了多长时间&lt;/li&gt;
+&lt;li&gt;函数调用了哪些函数&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Chrome 提供了三种查阅方式：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Heavy (Bottom Up)&lt;/li&gt;
+&lt;li&gt;Tree (Top Down)&lt;/li&gt;
+&lt;li&gt;Chart&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这三种视图，我比较喜欢 Chart。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2015/10/flame-chart-chrome1.png&#34; rel=&#34;attachment wp-att-17616&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2015/10/flame-chart-chrome1.png&#34; alt=&#34;chrome devtools cpu profile flame chart&#34; width=&#34;1278&#34; class=&#34;alignnone size-full wp-image-17616&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2015/10/flame-chart-chrome1.png 1278w, https://www.zfanw.com/blog/wp-content/uploads/2015/10/flame-chart-chrome1-300x237.png 300w, https://www.zfanw.com/blog/wp-content/uploads/2015/10/flame-chart-chrome1-1024x808.png 1024w, https://www.zfanw.com/blog/wp-content/uploads/2015/10/flame-chart-chrome1-100x79.png 100w, https://www.zfanw.com/blog/wp-content/uploads/2015/10/flame-chart-chrome1-768x606.png 768w, https://www.zfanw.com/blog/wp-content/uploads/2015/10/flame-chart-chrome1-520x411.png 520w&#34; sizes=&#34;(max-width: 1278px) 100vw, 1278px&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;如前面说过的，我们主要关心&lt;strong&gt;函数是否执行时间过长&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;在火焰图上，水平方向表示我们录制的时间轴，垂直方向表示函数的 call stack，即函数调用了其它函数的情形。因为一个色块表示一个函数的执行情况，所以，假如某个色块在水平方向上很宽，则说明它执行的时间太长了，极可能有优化的空间，需要我们注意；至于垂直方向，按 Chrome devtools 文档的说法：so a tall flame is not necessarily significant，其实并不十分重要。&lt;/p&gt;
+
+&lt;p&gt;再来说明一下上面的截图中的几个名词：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Name &amp;#8211; 表示函数的名称&lt;/li&gt;
+&lt;li&gt;Self time &amp;#8211; 函数自身语句执行的时长，不包含调用其它函数&lt;/li&gt;
+&lt;li&gt;Total time &amp;#8211; 函数整个 call stack 执行的时长&lt;/li&gt;
+&lt;li&gt;Aggregated self time &amp;#8211; 在我们录制的整个时间段内，函数自身语句总共执行了多久&lt;/li&gt;
+&lt;li&gt;Aggregated total time &amp;#8211; 在我们录制的整个时间段内，函数所有 call stack 执行了多久&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;以截图中具体函数来说：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;函数的 name 是 &lt;code&gt;e.extend._hitTest&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;函数语句本身执行的时长是 0，当然，只是无限接近 0&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;e.extend._hitTest&lt;/code&gt; 的 call stack 执行时间 2.5ms&lt;/li&gt;
+&lt;li&gt;在我录制的 4s 多时间内，函数自身语句总共执行了 0 秒&lt;/li&gt;
+&lt;li&gt;在我录制的 4s 多时间内，函数的 call stack 总共执行了 3.90ms&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;情况并不算坏。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

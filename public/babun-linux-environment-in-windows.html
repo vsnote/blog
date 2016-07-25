@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Babun – Windows系统下的Linux环境 - 陈三</title>
+<meta property="og:title" content="Babun – Windows系统下的Linux环境 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Babun – Windows系统下的Linux环境</h1>
+
+    
+    <span class="article-date">May 5, 2014</span>
+    
+
+    <div class="article-content">
+      <p>我还记得我在windows系统下安装cygwin<sup class="footnote-ref" id="fnref:12744-1"><a rel="footnote" href="#fn:12744-1">1</a></sup>的过程，并不是件让人开心的事。安装完后，似乎又为中文显示乱码的事折腾许久。再后来，换了Git bash<sup class="footnote-ref" id="fnref:12744-2"><a rel="footnote" href="#fn:12744-2">2</a></sup>，才稍稍感觉好点。又因为Git bash没有tmux<sup class="footnote-ref" id="fnref:12744-3"><a rel="footnote" href="#fn:12744-3">3</a></sup>或GNU Screen<sup class="footnote-ref" id="fnref:12744-4"><a rel="footnote" href="#fn:12744-4">4</a></sup>的多标签页功能，一旦窗口开多了，管理也麻烦。于是又找了conemu<sup class="footnote-ref" id="fnref:12744-5"><a rel="footnote" href="#fn:12744-5">5</a></sup>，标签页是有，但切换的效率还是太低。</p>
+
+<p>但现在可以试试<a href="http://babun.github.io/">Babun</a>。</p>
+
+<p>简单说，这是个配置好的Cygwin，并增加了一些特性，比如：</p>
+
+<ol>
+<li>pact &#8211; 软件包管理器</li>
+<li>集成oh-my-zsh</li>
+<li>配置好的git和shell</li>
+<li>自动升级</li>
+</ol>
+
+<p>举软件包管理器来说，我要安装tmux：</p>
+
+<pre><code>$ pact find tmux
+$ pact install tmux
+</code></pre>
+
+<p>如果你用过apt-get或zypper，就会非常熟悉这一套。</p>
+
+<p>Babun的安装也非常简单，从它的主页下载压缩包，解压，双击执行install.bat。</p>
+
+<p>只是它的压缩包有点大，总共200多M，可是相比折腾Cygwin的痛苦，下载久一点根本没什么。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:12744-1"><a href="http://www.cygwin.com/">Cygwin</a>
+ <a class="footnote-return" href="#fnref:12744-1"><sup>[return]</sup></a></li>
+<li id="fn:12744-2"><a href="http://msysgit.github.io/">Git for Windows</a>
+ <a class="footnote-return" href="#fnref:12744-2"><sup>[return]</sup></a></li>
+<li id="fn:12744-3"><a href="http://tmux.sourceforge.net/">tmux</a>
+ <a class="footnote-return" href="#fnref:12744-3"><sup>[return]</sup></a></li>
+<li id="fn:12744-4"><a href="http://www.gnu.org/software/screen/">GNU Screen &#8211; GNU Project &#8211; Free Software Foundation</a>
+ <a class="footnote-return" href="#fnref:12744-4"><sup>[return]</sup></a></li>
+<li id="fn:12744-5"><a href="https://code.google.com/p/conemu-maximus5/">conemu-maximus5 &#8211; Windows Console Emulator, Far Manager plugins &#8211; Google Project Hosting</a>
+ <a class="footnote-return" href="#fnref:12744-5"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

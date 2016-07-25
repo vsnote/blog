@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>HTML 表单元素对齐 - 陈三</title>
+<meta property="og:title" content="HTML 表单元素对齐 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">HTML 表单元素对齐</h1>
+
+    
+    <span class="article-date">May 5, 2015</span>
+    
+
+    <div class="article-content">
+      <p>网页里，常见如下的表单代码：</p>
+
+<pre><code>&lt;div&gt;
+  &lt;label for='email'&gt;邮箱地址：&lt;/label&gt;
+  &lt;input name='email' type='text'/&gt;
+&lt;/div&gt;
+&lt;div&gt;
+  &lt;label for='password'&gt;密码：&lt;/label&gt;
+  &lt;input name='password' type='text'/&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>通常，我们想达到下面这种排版效果：</p>
+
+<div class='u-textRight'>
+  <label for='email'>邮箱地址：</label> <input name='email' type='text' />
+</div>
+
+<div class='u-textRight'>
+  <label for='password'>密码：</label> <input name='password' type='text' />
+</div>
+
+<p>Bootstrap 里是这么写<sup class="footnote-ref" id="fnref:15858-1"><a rel="footnote" href="#fn:15858-1">1</a></sup>：</p>
+
+<pre><code>&lt;form class=&quot;form-horizontal&quot;&gt;
+  &lt;div class=&quot;form-group&quot;&gt;
+    &lt;label for=&quot;inputEmail3&quot; class=&quot;col-sm-2 control-label&quot;&gt;Email&lt;/label&gt;
+    &lt;div class=&quot;col-sm-10&quot;&gt;
+      &lt;input type=&quot;email&quot; class=&quot;form-control&quot; id=&quot;inputEmail3&quot; placeholder=&quot;Email&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;form-group&quot;&gt;
+    &lt;label for=&quot;inputPassword3&quot; class=&quot;col-sm-2 control-label&quot;&gt;Password&lt;/label&gt;
+    &lt;div class=&quot;col-sm-10&quot;&gt;
+      &lt;input type=&quot;password&quot; class=&quot;form-control&quot; id=&quot;inputPassword3&quot; placeholder=&quot;Password&quot;&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+</code></pre>
+
+<p>代码中用到了 grid，然后两个 <code>label</code> 设定同样的宽度，并且 <code>label</code> 内的文本右对齐。</p>
+
+<p>但如果不考虑移动端的情况的话，我觉得可以这样写：</p>
+
+<pre><code>&lt;style&gt;.u-textRight { text-align: right !important; }&lt;/style&gt;
+
+&lt;div class='u-textRight'&gt;
+  &lt;label for='email'&gt;邮箱地址：&lt;/label&gt;
+  &lt;input name='email' type='text'/&gt;
+&lt;/div&gt;
+&lt;div class='u-textRight'&gt;
+  &lt;label for='password'&gt;密码：&lt;/label&gt;
+  &lt;input name='password' type='text'/&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p><code>label</code> 与 <code>input</code> 都是 inline 元素，我在它们的包含块上设定右对齐，这样不需要给 label 指定宽度，代码也更简洁。</p>
+
+<p>效果如下：</p>
+
+<div class='u-textRight'>
+  <label for='email'>邮箱地址：</label> <input name='email' type='text' />
+</div>
+
+<div class='u-textRight'>
+  <label for='password'>密码：</label> <input name='password' type='text' />
+</div>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:15858-1"><a href="http://getbootstrap.com/css/#forms-horizontal">Bootstrap horizontal form</a>
+ <a class="footnote-return" href="#fnref:15858-1"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

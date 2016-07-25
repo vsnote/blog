@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Zencart on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/zencart/</link>
+    <description>Recent content in Zencart on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 04 Jan 2012 07:46:48 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/zencart/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>zencart 插件 Google base(froogle) feeder 的安装使用</title>
+      <link>https://www.zfanw.com/blog/zencart-addon-google-base-froogle-feeder.html</link>
+      <pubDate>Wed, 04 Jan 2012 07:46:48 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/zencart-addon-google-base-froogle-feeder.html</guid>
+      <description>&lt;p&gt;最近帮同学整一个外贸网站的优化，因此接触了 &lt;a href=&#34;http://www.zen-cart.com/&#34; title=&#34;zencart 官网&#34;&gt;zencart&lt;/a&gt; 程序，后台管理还算清晰，只是生成的 HTML 比较老旧，用的 table 布局，层叠十几层的都有，我花了不少时间改成 div + css。&lt;/p&gt;
+
+&lt;p&gt;因为网站主要针对 Google 优化，所以注意到 &lt;a href=&#34;http://www.google.com/prdhp?hl=en&amp;amp;tab=wf&#34;&gt;Google 有个 shopping 产品&lt;/a&gt; ，就打算将网站加入 Google 的产品索引库。提交页面为&lt;a href=&#34;http://www.google.com/intl/en_us/products/submit.html&#34;&gt;http://www.google.com/intl/en_us/products/submit.html&lt;/a&gt;，用 Google 帐户登录后，需要我们提交 data feeds 文件。&lt;/p&gt;
+
+&lt;p&gt;如果网站产品很多，则手动生成这样一个文件就比较要命，zencart 有 Google base(froogle) feeder 插件可以帮助生成。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;从 &lt;a href=&#34;http://www.zen-cart.com/index.php?main_page=product_contrib_info&amp;amp;products_id=473&#34;&gt;Google base(froogle) feeder 链接&lt;/a&gt;下载 zip 文件，里面有个 catalog 文件夹，将文件夹下的文件全部上传到 zen cart 站点根目录，其实就是将 catalog 文件夹下的文件合并进去。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;上传完成后，登录后台管理，Tools -&amp;gt; Install SQL Patches（工具 -&amp;gt;安装 SQL 脚本），将上述的 zip 文件里的 install.sql 文件内容拷入，然后运行。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;再接着是 Configuration -&amp;gt; Google Merchant Center Configuration（商店设置 -&amp;gt; Google Merchant Center Configuration）,将该设置的内容设置下。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;接着到 Tools -&amp;gt; Google Merchant Center Feeder 生成 xml 文件，假如上一步设置过 Google Merchant Center ftp 用户名与密码，就可以在此界面下上传 xml 到 Google Merchant Center，不过据我的经历，比较慢，不如直接上传。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;其他若有问题可以查看 zip 文件下的 readme.html 帮助文件。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

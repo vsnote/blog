@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>JavaScript 与 HTML 元素状态 - 陈三</title>
+<meta property="og:title" content="JavaScript 与 HTML 元素状态 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">JavaScript 与 HTML 元素状态</h1>
+
+    
+    <span class="article-date">August 8, 2013</span>
+    
+
+    <div class="article-content">
+      <p>如果把 HTML 元素状态简单分为两种，显示和隐藏，那么，我们常常需要通过 JavaScript 控制它们。</p>
+
+<p>举 <a href="http://www.zfanw.com/blog/jquery-plugin-tab.html">jQuery 选项卡插件</a> 来说，初始化时，我们只显示第一个选项卡对应内容块，隐藏其余内容块，这可以通过 JavaScript 实现：</p>
+
+<pre><code>$(this).children('div:not(:first)').hide();
+</code></pre>
+
+<p>但我的插件中，添加了 <code>.is-hide</code> 类来隐藏元素。之所以不用 JavaScript 控制，是因为我觉得，CSS 类应该在 HTML 代码中起到辅助语义的作用。在我们只阅读 HTML 代码时，看到一个叫 <code>.is-hide</code> 的 CSS 类，马上可以明白，这一段元素是隐藏状态的。但如果用 JavaScript 来控制，情况就不一样。我们看 HTML 代码，元素应该是显示的，再看 CSS，元素应该是显示的，但前台却没显示，那只能认为是 JavaScript 干的 &#8211; 这让事情变得不可预测。</p>
+
+<p><del>像上面我使用的 HTML 结构，可能后端开发看了会说，你这段代码结构怎么能有一个特例？这样我无法遍历输出呀。刻薄点说，我是不是也可以对设计人员说，你这些设计怎么能有一个特例，我无法抽象 CSS 模块类呀。</del></p>
+
+<p>我用过许多 jQuery 插件，它们都包揽太多工作。比如幻灯片插件，我们只要提供一个 HTML 基础骨架，它就能打包生成 Prev/Next 按钮，pager 等，我觉得这很糟糕，完全的黑箱操作，确实，这样能减少前端人员的一些工作，但对 CSS 结构或者 HTML 的可阅读性并没有帮助。所以我很欣赏 Bootstrap <a href="http://getbootstrap.com/javascript/#carousel">Carousel</a> 插件的 HTML 结构，要求用户自己写，也就给了我们很大操作空间 &#8211; 写得好还是坏，就是我们的问题。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

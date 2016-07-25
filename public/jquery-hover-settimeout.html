@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>jQuery hover 延迟 - 陈三</title>
+<meta property="og:title" content="jQuery hover 延迟 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">jQuery hover 延迟</h1>
+
+    
+    <span class="article-date">April 4, 2013</span>
+    
+
+    <div class="article-content">
+      <p>在网页制作里，经常会有这样的需求：鼠标滑入 A 区域，显示 B 内容，滑出 A 后隐藏 B 内容。</p>
+
+<p>举个简单例子，制作导航条子菜单。</p>
+
+<pre><code>&lt;ul class=&quot;navigation&quot;&gt;
+    &lt;li&gt;Home
+        &lt;ul class=&quot;sub-menu&quot;&gt;
+            &lt;li&gt;陈三&lt;/li&gt;
+            &lt;li&gt;陈四&lt;/li&gt;
+            &lt;li&gt;陈五&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;关于&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<p><code>ul.sub-menu</code> 部分通过 <code>display:none</code> 隐藏，之后通过 li:hover 来显示，并且鼠标可以移入 <code>.sub-menu</code> 部分。</p>
+
+<p>具体 CSS 规则及代码效果见 <a href="http://jsfiddle.net/chenxsan/fCKrT/">jsfiddle 示例</a>。</p>
+
+<p>上一个例子中，<code>ul.sub-menu</code> 包含在 li 标签对中，所以代码很顺当，不会有什么问题。</p>
+
+<p>再来看一个 <a href="http://www.zfanw.com/demo/jquery-hover/index.html" title="jQuery hover 鼠标滑入滑出显示/隐藏内容" rel="nofollow">demo</a>。</p>
+
+<p>这是另一个常见需要：鼠标滑入 A 区域显示 B 内容，鼠标滑出 A 区域且没有滑入 B 区域则隐藏 B；如果鼠标滑出 A 区域且滑入 B 区域，则 B 仍显示。</p>
+
+<p>考虑到 IE6 会<a href="http://www.zfanw.com/blog/elment-overflow-container-top-direction.html">自动扩展包含块高度</a>，一般来说，要显示的区域与触发区域在 HTML 结构上要处于兄弟关系。</p>
+
+<p>比如 demo 中：</p>
+
+<pre><code>&lt;div class=&quot;yui3-u-1-3 share-btn&quot;&gt;
+    &lt;div class=&quot;share-btn--hover-me&quot;&gt;
+        &lt;a class=&quot;share-btn__sns&quot; title=&quot;&quot; href=&quot;#&quot;&gt;
+            &lt;img src=&quot;img/share-btn/sina-qq-small.png&quot; alt=&quot;分享到社交网站&quot; width=&quot;65&quot; height=&quot;16&quot;&gt;
+        &lt;/a&gt;
+        &lt;a class=&quot;share-btn__weixin&quot; title=&quot;&quot; href=&quot;#&quot;&gt;
+            &lt;img src=&quot;img/share-btn/weixin-small.png&quot; alt=&quot;&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;
+        &lt;/a&gt;
+    &lt;/div&gt;
+    &lt;ul class=&quot;share-btn__sns-list is-hide&quot;&gt; &lt;!-- 我与触发区域是平行关系 --&gt;
+        &lt;li&gt;
+            关注某站
+        &lt;/li&gt;
+        &lt;li&gt;
+            关注某站
+        &lt;/li&gt;
+        &lt;li&gt;
+            关注某站
+        &lt;/li&gt;
+    &lt;/ul&gt;                               
+&lt;/div&gt;
+</code></pre>
+
+<p>配合上述 HTML 结构，JavaScript 代码是这样写的：</p>
+
+<pre><code>$(function () {
+//鼠标滑入 显示;;;;;分享到社交网站 鼠标滑出 隐藏
+(function () {
+    var t; //设置定时器
+    var hoverMe = $('.share-btn__sns'),
+        pop = $('.share-btn__sns-list');
+    hoverMe.on('mouseenter', function () { // 鼠标进入触发区域，显示内容
+        clearTimeout(t);
+        pop.slideDown();
+    });
+    hoverMe.on('mouseleave', function () { // 鼠标滑出触发区域，定时 0.5 秒后隐藏内容
+        t = setTimeout(function () {
+            pop.slideUp();
+        }, 500);
+    });
+    pop.on('mouseenter', function () { // 鼠标进入弹出块，则清除定时函数，不再触发
+        clearTimeout(t);
+    });
+    pop.on('mouseleave', function () { // 鼠标滑出弹出块，则隐藏弹出块
+        pop.slideUp();
+    });
+}());
+
+});
+</code></pre>
+
+<p>这个代码写得有点长，mouseenter、mouseleave 其实可以用 <a href="http://api.jquery.com/hover/">jQuery hover</a> 合并。</p>
+
+<p>经过 setTimeout 处理，两个元素相隔很远也可以触发，并且保证点击得到另一个元素。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

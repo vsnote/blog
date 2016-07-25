@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>怪异用法 on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/%E6%80%AA%E5%BC%82%E7%94%A8%E6%B3%95/</link>
+    <description>Recent content in 怪异用法 on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 13 Jul 2013 15:40:50 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/%E6%80%AA%E5%BC%82%E7%94%A8%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>伸出包含块的子元素</title>
+      <link>https://www.zfanw.com/blog/elment-overflow-container-top-direction.html</link>
+      <pubDate>Sat, 13 Jul 2013 15:40:50 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/elment-overflow-container-top-direction.html</guid>
+      <description>&lt;p&gt;一个菜单栏中，突出当前菜单项的背景色是很常见的：&lt;/p&gt;
+
+&lt;ul class=&#34;nav-menu clearfix&#34;&gt;
+  &lt;li class=&#34;nav-menu__item active&#34;&gt;
+    &lt;a href=&#34;&#34;&gt;第一个&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class=&#34;nav-menu__item&#34;&gt;
+    &lt;a href=&#34;&#34;&gt;我第二&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果要求当前菜单项的背景伸出父元素顶部1像素又如何？&lt;/p&gt;
+
+&lt;p&gt;先来看上例的代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul class=&amp;quot;nav-menu clearfix&amp;quot;&amp;gt;
+    &amp;lt;li class=&amp;quot;nav-menu__item active&amp;quot;&amp;gt;&amp;lt;a href=&amp;quot;&amp;quot;&amp;gt;第一个&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+    &amp;lt;li class=&amp;quot;nav-menu__item&amp;quot;&amp;gt;&amp;lt;a href=&amp;quot;&amp;quot;&amp;gt;我第二&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+
+&amp;lt;style&amp;gt;
+    .nav-menu{
+        background:#0175cc;
+        height:28px;
+    }
+    .nav-menu__item{
+        float:left;
+        font-size:14px;
+        line-height:2;
+        margin:0 10px;
+        list-style:none;
+        text-align:center;
+    }
+    .nav-menu__item a{
+        float:left;
+        background:#333;
+        color:#fff;
+        padding:0 10px;
+    }
+    .nav-menu__item.active a{
+        background:red;
+    }
+&amp;lt;/style&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;给 a 元素添加1像素的顶部边框：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;.nav-menu__item a {border-top:1px solid #fff;}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;因为 a 的高度超出父元素，父元素默认 &lt;code&gt;overflow&lt;/code&gt; 的内容可见，所以呈现的结果如下：&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ul class=&#34;nav-menu2 clearfix&#34;&gt;
+  &lt;li class=&#34;nav-menu2__item active&#34;&gt;
+    &lt;a href=&#34;&#34;&gt;第一个&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class=&#34;nav-menu2__item&#34;&gt;
+    &lt;a href=&#34;&#34;&gt;我第二&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;把 a 元素向上偏移1像素&lt;/p&gt;
+
+&lt;p&gt;这里我们通过 &lt;code&gt;position:relative&lt;/code&gt; 来提升 a 元素的位置：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;.nav-menu__item a {position:relative;top:-1px;}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;因为边框颜色是白的，与大包含块背景色一样，所以我们看不到顶部边框，如下：&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ul class=&#34;nav-menu3 clearfix&#34;&gt;
+  &lt;li class=&#34;nav-menu3__item active&#34;&gt;
+    &lt;a href=&#34;&#34;&gt;第一个&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class=&#34;nav-menu3__item&#34;&gt;
+    &lt;a href=&#34;&#34;&gt;我第二&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;修改当前菜单项的顶部边框颜色&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;.nav-menu__item.active a {border-top-color:red;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ul class=&#34;nav-menu4 clearfix&#34;&gt;
+  &lt;li class=&#34;nav-menu4__item nav-menu4__item-active&#34;&gt;
+    &lt;a href=&#34;&#34;&gt;第一个&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class=&#34;nav-menu4__item&#34;&gt;
+    &lt;a href=&#34;&#34;&gt;我第二&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;于是子元素就伸出父元素顶部1像素。&lt;/p&gt;
+
+&lt;p&gt;因为 IE6 会&lt;a href=&#34;http://www.positioniseverything.net/explorer/expandingboxbug.html&#34;&gt;自动扩展包含块的高度&lt;/a&gt;，所以上述方法如果要兼容 IE6,需要多做一个处理：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;.lt-ie7 .nav-menu__item{height:28px;overflow:hidden;}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;.lt-ie7&lt;/code&gt; 的用法来自 &lt;a href=&#34;https://github.com/h5bp/html5-boilerplate/blob/master/index.html&#34;&gt;HTML5Boilerplate&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;完整的代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul class=&amp;quot;nav-menu clearfix&amp;quot;&amp;gt;
+    &amp;lt;li class=&amp;quot;nav-menu__item active&amp;quot;&amp;gt;&amp;lt;a href=&amp;quot;&amp;quot;&amp;gt;第一个&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+    &amp;lt;li class=&amp;quot;nav-menu__item&amp;quot;&amp;gt;&amp;lt;a href=&amp;quot;&amp;quot;&amp;gt;我第二&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+
+&amp;lt;style&amp;gt;
+    .nav-menu{
+        background:#0175cc;
+        height:28px;
+    }
+    .nav-menu__item{
+        float:left;
+        font-size:14px;
+        line-height:2;
+        margin:0 10px;
+        list-style:none;
+        text-align:center;
+    }
+    .lt-ie7 .nav-menu__item{
+        height: 28px;
+        overflow: hidden;
+    }
+    .nav-menu__item a{
+        float:left;
+        background:#333;
+        color:#fff;
+        padding:0 10px;
+        border-top:1px solid #fff;
+        position: relative;
+        top:-1px;
+    }
+    .nav-menu__item.active a{
+        background:red;
+        border-top-color: red;
+    }
+&amp;lt;/style&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果如下：&lt;/p&gt;
+
+&lt;ul class=&#34;nav-menu-ie6 clearfix&#34;&gt;
+  &lt;li class=&#34;nav-menu-ie6__item active&#34;&gt;
+    &lt;a href=&#34;&#34;&gt;第一个&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class=&#34;nav-menu-ie6__item&#34;&gt;
+    &lt;a href=&#34;&#34;&gt;我第二&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;附：&lt;a href=&#34;http://www.zfanw.com/demo/ie6-expanding.html&#34; rel=&#34;nofollow&#34; title=&#34;IE6 自动扩展包含块高度&#34;&gt;Demo&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

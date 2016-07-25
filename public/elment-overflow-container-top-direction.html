@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>伸出包含块的子元素 - 陈三</title>
+<meta property="og:title" content="伸出包含块的子元素 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">伸出包含块的子元素</h1>
+
+    
+    <span class="article-date">July 7, 2013</span>
+    
+
+    <div class="article-content">
+      <p>一个菜单栏中，突出当前菜单项的背景色是很常见的：</p>
+
+<ul class="nav-menu clearfix">
+  <li class="nav-menu__item active">
+    <a href="">第一个</a>
+  </li>
+  <li class="nav-menu__item">
+    <a href="">我第二</a>
+  </li>
+</ul>
+
+<p>如果要求当前菜单项的背景伸出父元素顶部1像素又如何？</p>
+
+<p>先来看上例的代码：</p>
+
+<pre><code>&lt;ul class=&quot;nav-menu clearfix&quot;&gt;
+    &lt;li class=&quot;nav-menu__item active&quot;&gt;&lt;a href=&quot;&quot;&gt;第一个&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;nav-menu__item&quot;&gt;&lt;a href=&quot;&quot;&gt;我第二&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;style&gt;
+    .nav-menu{
+        background:#0175cc;
+        height:28px;
+    }
+    .nav-menu__item{
+        float:left;
+        font-size:14px;
+        line-height:2;
+        margin:0 10px;
+        list-style:none;
+        text-align:center;
+    }
+    .nav-menu__item a{
+        float:left;
+        background:#333;
+        color:#fff;
+        padding:0 10px;
+    }
+    .nav-menu__item.active a{
+        background:red;
+    }
+&lt;/style&gt;
+</code></pre>
+
+<ul>
+<li><p>给 a 元素添加1像素的顶部边框：</p>
+
+<pre><code>.nav-menu__item a {border-top:1px solid #fff;}
+</code></pre>
+
+<p>因为 a 的高度超出父元素，父元素默认 <code>overflow</code> 的内容可见，所以呈现的结果如下：</p></li>
+</ul>
+
+<ul class="nav-menu2 clearfix">
+  <li class="nav-menu2__item active">
+    <a href="">第一个</a>
+  </li>
+  <li class="nav-menu2__item">
+    <a href="">我第二</a>
+  </li>
+</ul>
+
+<ul>
+<li><p>把 a 元素向上偏移1像素</p>
+
+<p>这里我们通过 <code>position:relative</code> 来提升 a 元素的位置：</p>
+
+<pre><code>.nav-menu__item a {position:relative;top:-1px;}
+</code></pre>
+
+<p>因为边框颜色是白的，与大包含块背景色一样，所以我们看不到顶部边框，如下：</p></li>
+</ul>
+
+<ul class="nav-menu3 clearfix">
+  <li class="nav-menu3__item active">
+    <a href="">第一个</a>
+  </li>
+  <li class="nav-menu3__item">
+    <a href="">我第二</a>
+  </li>
+</ul>
+
+<ul>
+<li><p>修改当前菜单项的顶部边框颜色</p>
+
+<pre><code>.nav-menu__item.active a {border-top-color:red;}
+</code></pre></li>
+</ul>
+
+<ul class="nav-menu4 clearfix">
+  <li class="nav-menu4__item nav-menu4__item-active">
+    <a href="">第一个</a>
+  </li>
+  <li class="nav-menu4__item">
+    <a href="">我第二</a>
+  </li>
+</ul>
+
+<p>于是子元素就伸出父元素顶部1像素。</p>
+
+<p>因为 IE6 会<a href="http://www.positioniseverything.net/explorer/expandingboxbug.html">自动扩展包含块的高度</a>，所以上述方法如果要兼容 IE6,需要多做一个处理：</p>
+
+<pre><code>.lt-ie7 .nav-menu__item{height:28px;overflow:hidden;}
+</code></pre>
+
+<p><code>.lt-ie7</code> 的用法来自 <a href="https://github.com/h5bp/html5-boilerplate/blob/master/index.html">HTML5Boilerplate</a></p>
+
+<p>完整的代码如下：</p>
+
+<pre><code>&lt;ul class=&quot;nav-menu clearfix&quot;&gt;
+    &lt;li class=&quot;nav-menu__item active&quot;&gt;&lt;a href=&quot;&quot;&gt;第一个&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;nav-menu__item&quot;&gt;&lt;a href=&quot;&quot;&gt;我第二&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;style&gt;
+    .nav-menu{
+        background:#0175cc;
+        height:28px;
+    }
+    .nav-menu__item{
+        float:left;
+        font-size:14px;
+        line-height:2;
+        margin:0 10px;
+        list-style:none;
+        text-align:center;
+    }
+    .lt-ie7 .nav-menu__item{
+        height: 28px;
+        overflow: hidden;
+    }
+    .nav-menu__item a{
+        float:left;
+        background:#333;
+        color:#fff;
+        padding:0 10px;
+        border-top:1px solid #fff;
+        position: relative;
+        top:-1px;
+    }
+    .nav-menu__item.active a{
+        background:red;
+        border-top-color: red;
+    }
+&lt;/style&gt;
+</code></pre>
+
+<p>效果如下：</p>
+
+<ul class="nav-menu-ie6 clearfix">
+  <li class="nav-menu-ie6__item active">
+    <a href="">第一个</a>
+  </li>
+  <li class="nav-menu-ie6__item">
+    <a href="">我第二</a>
+  </li>
+</ul>
+
+<p>附：<a href="http://www.zfanw.com/demo/ie6-expanding.html" rel="nofollow" title="IE6 自动扩展包含块高度">Demo</a></p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

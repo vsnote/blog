@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Magento 移除 URL 中的 index.php - 陈三</title>
+<meta property="og:title" content="Magento 移除 URL 中的 index.php - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Magento 移除 URL 中的 index.php</h1>
+
+    
+    <span class="article-date">July 7, 2013</span>
+    
+
+    <div class="article-content">
+      <p>默认情况下，Magento 搭建的网站，分类的 URL 范式是：</p>
+
+<pre><code>http://www.example.com/index.php/category.html
+</code></pre>
+
+<p>URL 中的 <code>index.php</code> 会导致网址过长，移除它也没什么坏处，所以最好还是移除掉。</p>
+
+<p>方法如下：</p>
+
+<ol>
+<li>进入管理后台</li>
+<li>打开 System -&gt; Configuration 菜单项</li>
+<li>左侧菜单树中找到 Web 选项卡，右侧子菜单中有 <code>Search Engine Optimization</code>，把 <code>Use Web Server Rewrites</code> 值从 no 改成 yes，保存。</li>
+</ol>
+
+<p>注：本方法在 Magento 1.7.0.2 下测试有效。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

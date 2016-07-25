@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>react.js 里测试 flux 架构的 store - 陈三</title>
+<meta property="og:title" content="react.js 里测试 flux 架构的 store - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">react.js 里测试 flux 架构的 store</h1>
+
+    
+    <span class="article-date">September 9, 2015</span>
+    
+
+    <div class="article-content">
+      
+
+<p>在 <a href="https://facebook.github.io/flux/">flux 架构</a>​的 react.js 项目里，我写过 component 的测试，略为无趣；但 store 的测试则相对有趣多了。</p>
+
+<p>​想想，一个 action 分发后，store 就会相应做出变化，就好像你跟喜欢的人​​表白，保证能得到 yes 的回应似的 &#8211; 让人欣喜。</p>
+
+<p>我们要用到的测试框架不是 <a href="http://mochajs.org/">Mocha</a>，不是 <a href="http://jasmine.github.io/">Jasmine</a>，而是 facebook 出品的基于 Jasmine 的 <a href="https://github.com/facebook/jest">jest</a>，据 react.js 官方说，他们都用这个测试，不过我敢保证，你一定会遇上各种问题。</p>
+
+<p>且把这些担忧放到一边，来看一个简单的 <a href="https://www.zfanw.com/react/demo-store-test/">react.js 项目</a>，源码托管在 <a href="https://github.com/chenxsan/demo-jest-test-flux-store/blob/master/__tests__/TodoStore.test.js">github</a>。</p>
+
+<p>它只有一个输入框，</p>
+
+<ol>
+<li>输入内容并回车</li>
+<li>触发一个 action</li>
+<li>这个 action 继而触发了 store 里的回调</li>
+<li>回调修改了 store 中的 model 数据</li>
+<li>store 射出事件</li>
+<li>监听 store 的 view 重新读取 store 中的数据、设置 state、重新 render 组件</li>
+</ol>
+
+<p>这是 flux 原始实现的整个流程。</p>
+
+<p>因为 store 中的操作都是同步的，所以测试就非常便捷了。</p>
+
+<p>但使用 jest 有几个注意事项：</p>
+
+<ol>
+<li>最好使用 node.js 4.x.x</li>
+<li>如果你要用 es6 写法，需要使用 <a href="https://github.com/babel/babel-jest">babel-jest</a> 一类预处理器</li>
+<li>如果用 es6 写法，要测试的 store 不能使用 <code>import</code>，而必须使用 <code>require</code>，因为 <code>import</code> <a href="https://github.com/babel/babel-jest/issues/16#issuecomment-104063719">会被置前</a>，导致 <code>jest.dontMock</code> 失效</li>
+</ol>
+
+<p>来看测试代码：</p>
+
+<pre><code>jest.dontMock('object-assign')
+jest.dontMock('../src/stores/Todo')
+
+describe('TodoStore', () =&gt; {
+  let AppDispatcher
+  let TodoStore
+  let callback
+
+  // mock actions
+  let actionNewTodo = {
+    type: 'NEW_TODO',
+    todo: 'hello world'
+  }
+
+  beforeEach(() =&gt; {
+    AppDispatcher = require('../src/dispatcher/AppDispatcher')
+    TodoStore = require('../src/stores/Todo')
+    callback = AppDispatcher.register.mock.calls[0][0]
+  })
+
+  it('registers a callback with the dispatcher', () =&gt; {
+    expect(AppDispatcher.register.mock.calls.length).toBe(1)
+  })
+
+  it('初始化时为空', () =&gt; {
+    expect(TodoStore.getTodos()).toEqual([])
+  })
+
+  it('创建一个新的 todo', () =&gt; {
+    callback(actionNewTodo)
+    expect(TodoStore.getTodos().length).toBe(1)
+    expect(TodoStore.getTodos()[0]).toEqual('hello world')
+  })
+})
+</code></pre>
+
+<p><code>callback = AppDispatcher.register.mock.calls[0][0]</code> 是一个黑魔法，它能够执行我们的 action，而 store 将会相应地变化，就如上面的代码中：</p>
+
+<ol>
+<li>初始化时 <code>TodoStore.getTodos()</code> 返回一个空数组</li>
+<li>在执行 <code>callback(actionNewTodo)</code> 后，TodoStore 里插入了 <code>'hello world'</code>，我们就能预计它的长度为 1，且第一条数据是 <code>'hello world'</code></li>
+</ol>
+
+<p>在命令行下跑 <code>npm test</code>，就能看到 &#8220;1 test passed&#8221; 的字眼了。</p>
+
+<p>真是让人感动：我们前端终于有机会写单元测试，并且还十分轻松。</p>
+
+<h2 id="扩展阅读">扩展阅读</h2>
+
+<p><a href="https://facebook.github.io/flux/docs/testing-flux-applications.html">Flux | Application Architecture for Building User Interfaces</a></p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

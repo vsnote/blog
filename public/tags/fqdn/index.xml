@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fqdn on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/fqdn/</link>
+    <description>Recent content in Fqdn on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 24 Oct 2014 12:54:59 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/fqdn/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Linode 下 openSUSE 系统 FQDN 设置</title>
+      <link>https://www.zfanw.com/blog/linode-opensuse-fully-qualified-domain-name.html</link>
+      <pubDate>Fri, 24 Oct 2014 12:54:59 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/linode-opensuse-fully-qualified-domain-name.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_hostname&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 设置 hostname&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_FQDN&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 设置 FQDN&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    Ubuntu 的势力已经大到超出我想象，所以 &lt;a href=&#34;https://www.linode.com/docs/getting-started#update-etchosts&#34;&gt;Linode 教程&lt;/a&gt;中没有提及 openSUSE 下的情况也就没觉得奇怪。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_hostname&#34;&gt;设置 hostname&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_hostname&#34; href=&#34;#_hostname&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    其实我也好奇，为什么 VPS 需要设置 hostname。估计是为了好看，或者可移植性。譬如未设置前，&lt;code&gt;hostname -v&lt;/code&gt; 显示的是 li-memeberxxx 之类的，设置后，主机名显得个性化了，另外换服务器的话，主机名不会变化 &amp;#8211; 这只是我的揣测。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    openSUSE 下设置 hostname，跟 linode 教程中的 Ubuntu 部分略近：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;code&gt;sudo vi /etc/hostname&lt;/code&gt; &amp;#8211; 创建一个 hostname 文件，在其中输入 &lt;code&gt;orchid&lt;/code&gt;，这个名称随你写，你爱什么写什么
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;code&gt;hostname -F /etc/hostname&lt;/code&gt; &amp;#8211; 设定 hostname，名称为 /etc/hostname 文件内容
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    再查看 &lt;code&gt;hostname -v&lt;/code&gt; 结果，已经变成 &lt;code&gt;orchid&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_FQDN&#34;&gt;设置 FQDN&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_FQDN&#34; href=&#34;#_FQDN&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://en.wikipedia.org/wiki/Fully_qualified_domain_name&#34;&gt;FQDN&lt;/a&gt; 的全称是 &amp;#8220;fully qualified domain name&amp;#8221;，为什么要设置它？又是一个诡异的问题。且不管它。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;sudo vi /etc/hosts&lt;/code&gt; 打开 hosts 文件，添加一行：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;12.34.56.78 orchid.zfanw.com orchid
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    第一部分即你的服务器 IP 地址，第二部分即是 FQDN 了，第三部分是前面设置的 hostname。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    注意，&lt;code&gt;orchid.zfanw.com&lt;/code&gt; 需要做域名解析，A 记录绑定到服务器 IP &amp;#8211; 这样主机外部访问时就可以解析到。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    之后再执行 &lt;code&gt;hostname -f&lt;/code&gt; 查看 FQDN 值，输出的是：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;orchid.zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    有时会需要重启 Apache 服务，则执行如下命令：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;sudo rcapache2 restart
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    最后，当然是贴一下我的&lt;a href=&#34;https://www.linode.com/?r=c1160d4e51485f11b9ae6b4cf286ebf455f87613&#34;&gt;推广链接&lt;/a&gt;。我不太记得好处是什么，大致是你从这链接点击注册使用 3 个月以上，我得到一定的返现，这返现足够我吃十顿快餐吧。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    附：&lt;a href=&#34;http://www.zfanw.com/blog/linode-fqdn-hostname.html&#34;&gt;Linode FQDN 设置 – 陈三&lt;/a&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

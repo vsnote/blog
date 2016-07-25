@@ -1,0 +1,988 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jquery on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/jquery/</link>
+    <description>Recent content in Jquery on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 24 Aug 2015 13:06:13 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/jquery/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>jQuery 的 Promise 实现</title>
+      <link>https://www.zfanw.com/blog/jquery-promise.html</link>
+      <pubDate>Mon, 24 Aug 2015 13:06:13 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jquery-promise.html</guid>
+      <description>&lt;p&gt;早几年，我就看到 Promises/A 的作者在&lt;a href=&#34;https://blog.domenic.me/youre-missing-the-point-of-promises/&#34;&gt;咆哮&lt;/a&gt;，说 jQuery 实现的 Promise 完全是狗屁。但当时的我，能写出&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$.post(url, {}, null, &#39;json&#39;).then(function(data) {}, function(err) {});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样的语句就十分满意了，才不管 jQuery 的 then 里究竟能不能&lt;a href=&#34;https://github.com/kriskowal/q/wiki/Coming-from-jQuery&#34;&gt;处理错误&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;但 jQuery 终于要在 &lt;a href=&#34;http://blog.jquery.com/2015/07/13/jquery-3-0-and-jquery-compat-3-0-alpha-versions-released/&#34;&gt;3.0 版本中支持 Promises/A+ 了&lt;/a&gt;，对我来说，就是代码里不再需要用 Q.js&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Q($.post()).then(func, func)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;包装 jQuery 的 ajax 请求了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jspm 安装使用 Bootstrap 与 jQuery</title>
+      <link>https://www.zfanw.com/blog/jspm-bootstrap-jquery.html</link>
+      <pubDate>Fri, 08 May 2015 00:35:15 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jspm-bootstrap-jquery.html</guid>
+      <description>&lt;p&gt;你可能知道，bootstrap 依赖于 jQuery，并且，是依赖全局的 jQuery，即页面的 &lt;code&gt;window&lt;/code&gt; 对象下应该有个 &lt;code&gt;window.jQuery&lt;/code&gt; 或 &lt;code&gt;window.$&lt;/code&gt; 属性。&lt;/p&gt;
+
+&lt;p&gt;我在上一篇 &lt;a href=&#34;http://www.zfanw.com/blog/jspm-systemjs.html&#34;&gt;jspm 与 SystemJS 用法&lt;/a&gt; 中提到，jspm 默认安装 &lt;code&gt;github:components/jquery&lt;/code&gt; 上定义的 jQuery&lt;del&gt;，这个&lt;a href=&#34;https://github.com/components/jquery&#34;&gt;库的维护并不及时&lt;/a&gt;，譬如现在 jQuery 最新版本是 1.11.3 与 2.1.4，而 components/jquery 上仍是 1.11.2 与 2.1.3 版本&lt;/del&gt;。&lt;/p&gt;
+
+&lt;p&gt;对于第三方库，某些版本虽然只是小更新，但也许修复的 &lt;a href=&#34;http://blog.jquery.com/2015/04/28/jquery-1-11-3-and-2-1-4-released-ios-fail-safe-edition/&#34;&gt;bug 比较要命&lt;/a&gt;，所以我通常都喜欢用最新版本。&lt;/p&gt;
+
+&lt;p&gt;但如果在 jspm 里使用 npm 上的 jQuery，会导致 Bootstrap 无法加载 jQuery。&lt;/p&gt;
+
+&lt;p&gt;整个流程如下：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;安装 npm 上的最新版本 jQuery&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;jspm install npm:jquery
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改 config.js 中 bootstrap 的依赖&lt;/p&gt;
+
+&lt;p&gt;打开 config.js，修改 bootstrap 部分如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;System.config({
+  &amp;quot;map&amp;quot;: {
+     &amp;quot;jquery&amp;quot;: &amp;quot;npm:jquery@2.1.4&amp;quot;, // 这一行是 jspm install 时自动配置的
+     &amp;quot;github:twbs/bootstrap@3.3.4&amp;quot;: {
+       &amp;quot;jquery&amp;quot;: &amp;quot;npm:jquery@2.1.4&amp;quot; // 我们要改的是这一行，将 bootstrap 的 jquery 依赖指向 npm/jquery@2.1.4
+      }
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这时，&lt;code&gt;import bootstrap from &#39;bootstrap&#39;&lt;/code&gt; 就会报如下的错误：&lt;/p&gt;
+
+&lt;p&gt;[resp_image id=&amp;#8217;16059&amp;#8242; caption=&amp;#8221; ]&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这个错误的原因在于，Bootstrap 需要全局 &lt;code&gt;jQuery&lt;/code&gt; 或 &lt;code&gt;$&lt;/code&gt;，但是 jspm 从 npm 上安装的 jQuery 是 CommonJS 规范的，我们的 &lt;code&gt;window&lt;/code&gt; 对象下并没有 &lt;code&gt;jQuery&lt;/code&gt; 或 &lt;code&gt;$&lt;/code&gt; 属性，结果就报错。&lt;/p&gt;
+
+&lt;p&gt;所以目前，如果要在 jspm 中用 Bootstrap，就只能用 github:components/jquery 上的 jQuery 了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jQuery 动画 Promise</title>
+      <link>https://www.zfanw.com/blog/jquery-animate-promise.html</link>
+      <pubDate>Mon, 06 Apr 2015 05:17:25 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jquery-animate-promise.html</guid>
+      <description>&lt;p&gt;jQuery 的 &lt;code&gt;show&lt;/code&gt;、&lt;code&gt;hide&lt;/code&gt; 方法大家都好熟悉的，也知道它可以接受一个回调函数，用于动画完成后执行。比如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(&#39;.js-sam&#39;).hide(&#39;slow&#39;, function() {
+    alert(&#39;你刚刚隐藏了 sam&#39;);
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是，jQuery 1.8 以后版本还提供了另一种书写风格，即 Promise &amp;#8211; 这个中文翻译好难，目前看到有叫&lt;strong&gt;承诺&lt;/strong&gt;的 &amp;#8211; 我还是继续用 Promise 的叫法。譬如上面的示例代码，我们可以改成这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var promiseMeHideSam = $(&#39;.js-sam&#39;).hide(&#39;slow&#39;).promise();
+
+function whenDone() {
+    alert(&#39;你刚刚隐藏了 sam&#39;);
+}
+
+promiseMeHideSam.done(whenDone);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里，&lt;code&gt;promise()&lt;/code&gt; 方法未传递参数，则默认为 &lt;code&gt;fx&lt;/code&gt;，表示动画效果。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://promisesaplus.com/&#34;&gt;Promise&lt;/a&gt; 比起回调（callback），有非常多好处，最明显的一个，我们可以把动画完成后要执行的所有回调动作解构。因为给 &lt;code&gt;hide&lt;/code&gt; 函数传递回调的话，我们只能把所有动作写入该回调中，比如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(&#39;.js-sam&#39;).hide(&#39;slow&#39;, function() {
+
+  // 触发一
+
+  // 触发二
+
+  // 触发三
+
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但如果是 Promise 的写法：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func1() {}
+func2() {}
+func3() {}
+promiseMehideSam.done(func1);
+promiseMehideSam.done(func2);
+promiseMehideSam.done(func3);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们可以把三个触发结果分解到三个函数中，而不必写入一个庞大的回调函数里，一来不便维护代码，二来也不易阅读。&lt;/p&gt;
+
+&lt;p&gt;另外一种常见情形，比如我们要在动画 A 与动画 B 都结束后执行某个回调。如果照第一种传递回调函数的方法 &amp;#8211; 就我所知，没法写。但 Promise 就可以：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var animate1 = $(&#39;.js-sam&#39;).hide().promise();
+var animate2 = $(&#39;.js-hi&#39;).show().promise();
+
+function whenBothEnd() {
+
+  // animate1 与 animate2 结束后执行
+  console.log(&#39;动画全部结束&#39;);
+}
+
+$.when(animate1, animate2).done(whenBothEnd);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;非常优雅。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jQuery postJSON</title>
+      <link>https://www.zfanw.com/blog/jquery-postjson.html</link>
+      <pubDate>Sun, 14 Sep 2014 14:12:16 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jquery-postjson.html</guid>
+      <description>&lt;p&gt;jQuery API 提供有 &lt;code&gt;getJSON&lt;/code&gt; &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:13473-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:13473-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;方法，用于从服务端取回 JSON 数据，其实它只是 &lt;code&gt;ajax&lt;/code&gt; 的封装：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$.ajax({
+  dataType: &amp;quot;json&amp;quot;,
+  url: url,
+  data: data,
+  success: success
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;因为有 &lt;code&gt;getJSON&lt;/code&gt; 存在，就让人好奇，是不是也有 &lt;code&gt;postJSON&lt;/code&gt; 存在？结论是没有。&lt;/p&gt;
+
+&lt;p&gt;当然你可以模拟 &lt;code&gt;getJSON&lt;/code&gt; 自己封装一个，但必要性不大。&lt;/p&gt;
+
+&lt;p&gt;通常，&lt;code&gt;getJSON&lt;/code&gt; 是这样写的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var gettingBlogs = $.getJSON(url);
+gettingBlogs.done(function(data) {});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;POST&lt;/code&gt; &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:13473-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:13473-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;可以写出类似的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var gettingBlogs = $.post(url, {page: 1, limit: 5}, null, &#39;json&#39;);
+gettingBlogs.done(function(data) {});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 &lt;code&gt;null&lt;/code&gt; 位置本来是传一个 &lt;code&gt;success&lt;/code&gt; 回调函数。因为我使用 &lt;code&gt;done&lt;/code&gt; 这种 &lt;code&gt;promise&lt;/code&gt; 的回调处理形式，所以传了 &lt;code&gt;null&lt;/code&gt; 值。同时，我还传了 &lt;code&gt;&#39;json&#39;&lt;/code&gt;，表示返回的数据格式是 json，这样的好处是回调函数中不需要再写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;data = $.parseJSON(data);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样的东西。语句本身不见得谁好谁坏，所以怎么写只是个人喜好。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:13473-1&#34;&gt;&lt;a href=&#34;http://api.jquery.com/jquery.getjson/&#34;&gt;jQuery.getJSON() | jQuery API Documentation&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:13473-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:13473-2&#34;&gt;&lt;a href=&#34;http://api.jquery.com/jQuery.post/&#34;&gt;jQuery.post() | jQuery API Documentation&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:13473-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jQuery 事件委托中的被委托者</title>
+      <link>https://www.zfanw.com/blog/jquery-delegate-event-delegatetarget.html</link>
+      <pubDate>Fri, 04 Jul 2014 16:46:11 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jquery-delegate-event-delegatetarget.html</guid>
+      <description>&lt;p&gt;jQuery 的事件委托&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:13011-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:13011-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;是个很有用的特性，适用动态插入的元素。&lt;/p&gt;
+
+&lt;p&gt;举个例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(document).on(&#39;click&#39;, &#39;#tab &amp;gt; li&#39;, function(e){
+  console.log($(this)); 
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的代码中，&lt;code&gt;this&lt;/code&gt; 指向当前点击的 li 元素。&lt;/p&gt;
+
+&lt;p&gt;但偶尔，会有需要取得被委托者的必要，比如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(&#39;#tab&#39;).on(&#39;click&#39;, &#39;&amp;gt; li&#39;, function(e){
+  // some code here
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;用户单击 li 元素的时候，我想取得被委托者 &lt;code&gt;#tab&lt;/code&gt; 对象的引用，这样我可以对它进行些样式上的处理。&lt;/p&gt;
+
+&lt;p&gt;以上代码中，可以很明显地取得，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var delegated = $(this).parent(&#39;#tab&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但 jQuery 本身提供了一个语义化的对象，event.delegateTarget&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:13011-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:13011-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;，它指向事件绑定(被委托)的元素。&lt;/p&gt;
+
+&lt;p&gt;于是取得被委托者的代码可以这样写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var delegated = e.delegateTarget;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:13011-1&#34;&gt;&lt;a href=&#34;http://api.jquery.com/delegate/&#34;&gt;.delegate() | jQuery API Documentation&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:13011-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:13011-2&#34;&gt;&lt;a href=&#34;http://api.jquery.com/event.delegateTarget/&#34;&gt;event.delegateTarget | jQuery API Documentation&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:13011-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jQuery 解析 HTML 源代码</title>
+      <link>https://www.zfanw.com/blog/jquery-get-element-from-html-string.html</link>
+      <pubDate>Tue, 13 May 2014 11:32:03 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jquery-get-element-from-html-string.html</guid>
+      <description>&lt;p&gt;因为工作需要，经常需要从 Ajax 请求回来的页面 HTML 代码中解析某些数据。&lt;/p&gt;
+
+&lt;p&gt;比如要取得网站的 title，我可以用正则表达式匹配，比如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;title&amp;gt;[\s\S]*&amp;lt;\/title&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但因为各种页面 HTML 代码花样太多，正则规则可能要不断调整，所以通常我更喜欢用 jQuery ，写法如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$.get(&#39;http://www.zfanw.com/blog/&#39;, function(data) {
+  var title = $(data).filter(&#39;title&#39;).text();
+  $(&#39;demo&#39;).html(&#39;陈三的博客的 title 为：&#39; + title);
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;代码执行结果如下：&lt;/p&gt;
+
+&lt;div id=&#39;demo&#39; class=&#39;text-info&#39;&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这好像理所当然。&lt;/p&gt;
+
+&lt;p&gt;但我碰到过的一个情况，HTML 代码结构不合规范，比如有「多余的结束标签&amp;#8221;div&amp;#8221;」(stray end tag &amp;#8220;div&amp;#8221;) 这类错误，就会导致 &lt;code&gt;$(data)&lt;/code&gt; 解析出问题。&lt;/p&gt;
+
+&lt;p&gt;仍以上面的例子说明，则是 &lt;code&gt;$(data).filter(&#39;title&#39;)&lt;/code&gt; 的 length 值为 0，也就取不到 title 内容。把多余的结束标签剔除后，就可以正常取到。网上能找到的资料中都没有提过这一点，所以在这里做一补充。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jQuery 1.12 及未来版本的浏览器支持</title>
+      <link>https://www.zfanw.com/blog/browser-support-in-jquery-1-12-and-beyond.html</link>
+      <pubDate>Thu, 03 Apr 2014 12:17:01 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/browser-support-in-jquery-1-12-and-beyond.html</guid>
+      <description>&lt;p&gt;2014.4.8之后，微软将停止对 Windows XP 操作系统的支持&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:12051-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:12051-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;，这可能意味着，浏览器市场上 IE6、7、8 &amp;#8211; 即所谓旧浏览器的市场份额将继续下跌。对前端开发来说，这是一件好事 &amp;#8211; 文明古国的前端开发们另说。&lt;/p&gt;
+
+&lt;p&gt;紧随其后而蠢蠢欲动的是 jQuery，它在4月2号的官方博客中&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:12051-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:12051-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;说：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;jQuery 1.12 将是最后一个支持 IE6、7 的版本，即从 jQuery 1.13 起，1.x 分支最低支持 IE8。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;至于 jQuery 2.x 版本不支持 IE6、7、8 已经是旧闻了。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:12051-1&#34;&gt;&lt;a href=&#34;http://windows.microsoft.com/zh-hk/windows/end-support-help&#34;&gt;Windows XP 的支援即將結束 &amp;#8211; Microsoft Windows&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:12051-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:12051-2&#34;&gt;&lt;a href=&#34;http://blog.jquery.com/2014/04/02/browser-support-in-jquery-1-12-and-beyond/&#34;&gt;Browser Support in jQuery 1.12 and Beyond | Official jQuery Blog&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:12051-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jQuery 自定义事件</title>
+      <link>https://www.zfanw.com/blog/jquery-custom-event.html</link>
+      <pubDate>Fri, 24 Jan 2014 16:08:15 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jquery-custom-event.html</guid>
+      <description>&lt;p&gt;在 jQuery 中，事件通常使用 &lt;code&gt;on&lt;/code&gt; 来绑定：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(&#39;.js-submit&#39;).on(&#39;click&#39;, function() {
+  // some code here
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;除了 &lt;code&gt;click&lt;/code&gt; 事件，我们还有其它可以绑定的事件，比如 &lt;code&gt;dblclick&lt;/code&gt;、&lt;code&gt;blur&lt;/code&gt;、&lt;code&gt;change&lt;/code&gt;，等等。&lt;/p&gt;
+
+&lt;p&gt;但使用这些事件会有一个问题：语义不明。&lt;code&gt;click&lt;/code&gt; 表示什么？它表示我单击了一个元素。但它也仅仅只是表示，一个&lt;strong&gt;点击&lt;/strong&gt;事件在页面上发生，至于事件引发什么结果，就需要我们自己定义。&lt;/p&gt;
+
+&lt;p&gt;举一个例子。一个输入框，用于输入用户名，一个按钮，用于提交用户名给服务器：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;input type=&#39;text&#39; value=&#39;&#39; id=&#39;username&#39;&amp;gt;
+&amp;lt;input type=&#39;button&#39; value=&#39;提交&#39; class=&#39;js-submit&#39;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里，我们假设有三种情况：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;用户提交空值&lt;/li&gt;
+&lt;li&gt;用户提交的用户名不存在&lt;/li&gt;
+&lt;li&gt;用户提交的用户名存在&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;经典的 JavaScript 写法是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(&#39;.js-submit&#39;).on(&#39;click&#39;, function() {
+  var username = $(&#39;#username&#39;).val();
+  username = $.trim(username);
+  if (username === &#39;&#39;) {
+    console.log(&#39;请不要留空&#39;);
+  }
+  $.post(url, {username: username}, function(data) {
+    var res = data;
+    if (res.retcode === -1) {
+      console.log(&#39;用户名不存在&#39;);
+    } else if (res.retcode === 0) {
+      console.log(&#39;用户名存在&#39;);
+    }
+  });
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;誰能说这段代码有问题呢？它可用，也很直观。&lt;/p&gt;
+
+&lt;p&gt;但是，如果我们要判断的情况增多了，则上面的写法就会变得非常丑陋。&lt;/p&gt;
+
+&lt;p&gt;jQuery 提供的自定义事件可以在代码中引入语义，辅助我们阅读。&lt;/p&gt;
+
+&lt;p&gt;以上面的例子说，我们假设有三种情况，在 jQuery 里，我们将它们定义为三种事件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(&#39;.js-submit&#39;).on(&#39;click&#39;, function() {
+  var username = $(&#39;#username&#39;).val();
+  username = $.trim(username);
+  if (username === &#39;&#39;) {
+    $(document).trigger(&#39;blank.username&#39;); // 如果 username 为空值，则触发 blank.username 事件
+  }
+  $.post(url, {username: username}, function(data) {
+    var res = data;
+    if (res.retcode === -1) {
+      $(document).trigger(&#39;notExist.username&#39;); // 如果用户不存在，则触发 notExist.username 事件
+    } else if (res.retcode === 0) {
+      $(document).trigger(&#39;success.username&#39;); // 如果用户存在，则触发 sucess.username 事件
+    }
+  });
+});
+
+//定义自定义事件
+$(document).on(&#39;blank.username&#39;, function() {
+  console.log(&#39;请不要留空&#39;);
+});
+$(document).on(&#39;notExist.username&#39;, function() {
+  console.log(&#39;用户名不存在&#39;);
+});
+$(document).on(&#39;success.username&#39;, function() {
+  console.log(&#39;用户名存在&#39;);
+});
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JSON 解析</title>
+      <link>https://www.zfanw.com/blog/json-parse.html</link>
+      <pubDate>Tue, 24 Dec 2013 12:24:54 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/json-parse.html</guid>
+      <description>&lt;p&gt;Ajax 请求返回的 JSON 数据，通过 &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse&#34;&gt;JSON.parse&lt;/a&gt; 或 jQuery 提供的 &lt;a href=&#34;http://api.jquery.com/jQuery.parseJSON/&#34;&gt;parseJSON&lt;/a&gt; 解析后，就可以当成 JavaScript 对象处理：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$.get(&#39;http://www.example.com/json&#39;, function(data) {
+    var response = JSON.parse(data);
+    console.log(response.result);
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当然，事情要比上面这种说法复杂一些，这是由 HTTP 响应头的 Content-Type 值决定的。&lt;/p&gt;
+
+&lt;p&gt;比如我们的响应头里 Content-Type 如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Content-Type: text/plain; charset=utf-8
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那么，JSON.parse 或 jQuery.parseJSON 都可以并且应该使用，因为返回的是一个 JSON 字符串。&lt;/p&gt;
+
+&lt;p&gt;但当 Content-Type 是 &lt;code&gt;application/json;charset=utf-8&lt;/code&gt; 时，情况就不一样了，因为返回值本身就是 JavaScript 对象，可以直接访问，这时如果使用 JSON.parse 解析反而是错误的。&lt;/p&gt;
+
+&lt;p&gt;还有一种常见的情况，返回的是 JSON 字符串，但 Content-Type 却是 text/html，需要预先使用 &lt;code&gt;eval&lt;/code&gt; 将其转化为 JavaScript 对象：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var response = eval(&amp;quot;(&amp;quot; + data + &amp;quot;)&amp;quot;);
+console.log(response.result);
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jQuery 插件 – Carousel(幻灯片)</title>
+      <link>https://www.zfanw.com/blog/jquery-plugin-carousel-slide.html</link>
+      <pubDate>Tue, 08 Oct 2013 11:40:52 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jquery-plugin-carousel-slide.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 代码&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#demo&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; demo&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    不确定这个插件效果是该称作幻灯片还是走马灯或者旋转木马。相对此前写过的几个 jQuery 插件，这个插件相对要复杂些。我也是在写这个插件的过程中，才稍稍明白，计算机里一直说的算法大概是什么 &amp;#8211; 解法有很多种，看我怎么选择。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;代码&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;pre&gt;&lt;code&gt;//Module Name: Carousel
+//幻灯片效果
+//Author: 陈三
+//Blog: http:www.zfanw.com/blog/
+//Time: 2013.10.01
+//version: 1.0
+//Dependency: jQuery
+;
+(function ($) {
+    //HTML 结构
+    //-div.carousel.js-carousel
+    //      +ul.carousel-inner
+    //          +li.carousel-item
+    //-div.carousel-control
+    //      +a.prev
+    //      +a.next
+    //-ol.carousel-indicators
+    //      +li.carousel-indicator.active{$}
+    //避免 fouc 现象的 CSS
+    //示例：
+    //// .carousel-inner{height:260px;overflow:hidden;}
+    //// .carousel-item{float:left;}
+    //参数
+    ////可自定义的参数：
+    ////1. 显示的幻灯片数目 showNum 数值型
+    ////2. 动画的时间 duration 数值型
+    ////3. 是否自动切换 autoSlide 布尔型
+    ////4. 自动切换的时间间隔 interval 数值型
+    //Bug 列表
+    ////1. ie6 下，可能出现 .carousel 的 overflow 失效问题，目前已知给 .carousel 元素设置 position:relative 可以解决
+    $.fn.carousel = function (options) {
+        var settings = $.extend({
+            showNum: 1,
+            duration: 400,
+            interval: 2000,
+            autoSlide: false
+        }, options);
+        return this.each(function () {
+            var that = $(this),
+                li = that.children(&#39;.carousel-inner&#39;).children(&#39;.carousel-item&#39;), //将 $(&#39;.carousel&#39;) 保存到 that 对象中
+                //li.css(&#39;float&#39;, &#39;left&#39;); //左浮动最好由 CSS 来完成
+                itemWidth = li.outerWidth(true), //包含 margin
+                itemCount = li.length,
+                stage = itemWidth * (settings.showNum),
+                currentSlide = 1, //当前 slide，从1开始
+                slideMaxIndex = Math.floor(itemCount / (settings.showNum)), //最末一个 slide 的 index 值
+                activeIndicator = 0, //当前 slide 图示位置
+                indicator = that.siblings(&#39;.carousel-indicators&#39;).children(&#39;.carousel-indicator&#39;),
+                next = that.siblings(&#39;.carousel-control&#39;).children(&#39;.next&#39;),
+                prev = that.siblings(&#39;.carousel-control&#39;).children(&#39;.prev&#39;);
+            that.width(stage); //设置舞台宽度，即显示多少个幻灯
+            that.children(&#39;.carousel-inner&#39;).width(itemWidth * itemCount);
+            that.css({
+                &#39;overflow&#39;: &#39;hidden&#39;
+            });
+            that.scrollLeft(0); //刷新页面时重置
+
+            function setIndicator(i) {
+                indicator.removeClass(&#39;active&#39;);
+                indicator.eq(i).addClass(&#39;active&#39;);
+            }
+
+            function slideNext() {
+                if (!(that.is(&#34;:animated&#34;))) { //除非动画不在进行中才执行
+                    //如果到最末一条
+                    var scrollLeftMax = (itemCount - settings.showNum) * itemWidth; //取得可滚动的最大距离
+                    if (currentSlide === slideMaxIndex) {
+                        that.animate({
+                            &#34;scrollLeft&#34;: &#34;-&#34; + scrollLeftMax
+                        }, settings.duration);
+                        currentSlide = 1;
+                        setIndicator(currentSlide - 1);
+                    } else {
+                        that.animate({
+                            &#34;scrollLeft&#34;: &#34;+=&#34; + (itemWidth * settings.showNum)
+                        }, settings.duration);
+                        currentSlide++;
+                        setIndicator(currentSlide - 1);
+                    }
+                } //end animated check
+            }
+
+            function slidePrev() {
+                if (!(that.is(&#34;:animated&#34;))) {
+                    var scrollLeftMax = (itemCount - settings.showNum) * itemWidth;
+                    if (currentSlide === 1) {
+                        that.animate({
+                            &#34;scrollLeft&#34;: scrollLeftMax
+                        }, settings.duration);
+                        currentSlide = slideMaxIndex;
+                        setIndicator(currentSlide - 1);
+                    } else {
+                        that.animate({
+                            &#34;scrollLeft&#34;: &#34;-=&#34; + (itemWidth * settings.showNum)
+                        }, settings.duration);
+                        currentSlide--;
+                        setIndicator(currentSlide - 1);
+                    }
+                }
+            }
+            next.on(&#39;click&#39;, function (e) {
+                slideNext();
+                e.preventDefault();
+            });
+            prev.on(&#39;click&#39;, function (e) {
+                slidePrev();
+                e.preventDefault();
+            });
+            indicator.on(&#39;click&#39;, function (e) { //如果要用 mouseenter 事件，则底下判断 animated 的条件需要去除
+                var clickIndex = $(this).prevAll().length; //点击了哪个指示图标，从0起
+                if (clickIndex &amp;gt; activeIndicator) {
+                    if (!(that.is(&#34;:animated&#34;))) {
+                        that.animate({
+                            &#34;scrollLeft&#34;: (clickIndex - activeIndicator) * (itemWidth * settings.showNum)
+                        }, settings.duration);
+                        currentSlide = clickIndex + 1;
+                        setIndicator(clickIndex);
+                    }
+                } else {
+                    if (!(that.is(&#34;:animated&#34;))) {
+                        that.animate({
+                            &#34;scrollLeft&#34;: -((clickIndex - activeIndicator) * (itemWidth * settings.showNum))
+                        }, settings.duration);
+                        currentSlide = clickIndex + 1;
+                        setIndicator(clickIndex);
+                    }
+                }
+                e.preventDefault();
+            });
+            (function () { //自动
+                if ( !! settings.autoSlide) {
+                    var mouse_is_over = false;
+                    window.setInterval(function () {
+                        if (!mouse_is_over) {
+                            slideNext();
+                        }
+                    }, settings.interval);
+                    that.add(prev).add(next).add(indicator).on(&#39;mouseenter mouseleave&#39;, function (e) {
+                        mouse_is_over = e.type === &#39;mouseenter&#39;;
+                    });
+                }
+            }());
+
+
+        });
+    };
+}(jQuery));
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    HTML 代码结构如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#34;js-carousel carousel&#34;&amp;gt;
+    &amp;lt;ul class=&#34;carousel-inner clearfix&#34;&amp;gt;
+        &amp;lt;li class=&#34;carousel-item&#34;&amp;gt;
+            &amp;lt;img src=&#34;http://placehold.it/200x200/ff00000&#34; /&amp;gt;
+        &amp;lt;/li&amp;gt;
+        &amp;lt;li class=&#34;carousel-item&#34;&amp;gt;
+            &amp;lt;img src=&#34;http://placehold.it/200x200/00ff00&#34; /&amp;gt;
+        &amp;lt;/li&amp;gt;
+        &amp;lt;li class=&#34;carousel-item&#34;&amp;gt;
+            &amp;lt;img src=&#34;http://placehold.it/200x200/0000ff&#34; /&amp;gt;
+        &amp;lt;/li&amp;gt;
+    &amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div class=&#34;carousel-control&#34;&amp;gt; 
+ &amp;lt;a class=&#34;prev&#34;&amp;gt;上一张&amp;lt;/a&amp;gt;
+ &amp;lt;a class=&#34;next&#34;&amp;gt;下一张&amp;lt;/a&amp;gt;
+
+&amp;lt;/div&amp;gt;
+&amp;lt;ol class=&#34;carousel-indicators&#34;&amp;gt;
+    &amp;lt;li class=&#34;carousel-indicator active&#34;&amp;gt;1&amp;lt;/li&amp;gt;
+    &amp;lt;li class=&#34;carousel-indicator&#34;&amp;gt;2&amp;lt;/li&amp;gt;
+    &amp;lt;li class=&#34;carousel-indicator&#34;&amp;gt;3&amp;lt;/li&amp;gt;
+&amp;lt;/ol&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;demo&#34;&gt;demo&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heydemo&#34; href=&#34;#demo&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;a class=&#34;jsbin-embed&#34; href=&#34;http://jsbin.com/UNegOX/1/embed?output&#34;&gt;JS Bin&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    如果你用过其他类似插件，就会发现，我这个插件里需要手动添加的 HTML 代码很多。多数插件是只要我们提供一小段 HTML 就可以的，插件会负责所有的工作，比如通过 js 创建控制按钮、指示图标。但那样的话，同一页面上如果多处使用插件，就会生成一样的结构，一样的 CSS 类，而它们的样式要求往往不一样，那会迫使我们大量使用基于父类的 CSS 选择器 &amp;#8211; 这是我想避免的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    另外吐槽下幻灯片的一个流行作法。假如幻灯片有三张，那么点击到最后一张时，正常是不能再点了。但流行作法却是返回到第一张，造成一种你怎么点也不会到底的感觉。我个人觉得这种作法体验不好，我们完全可以用一种平缓的方式提醒用户，嘿，你已经点击到最后一张了，再下去就没了。那样会更清晰明白。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 与 HTML 元素状态</title>
+      <link>https://www.zfanw.com/blog/javascript-and-html-element-state.html</link>
+      <pubDate>Sat, 31 Aug 2013 15:56:40 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/javascript-and-html-element-state.html</guid>
+      <description>&lt;p&gt;如果把 HTML 元素状态简单分为两种，显示和隐藏，那么，我们常常需要通过 JavaScript 控制它们。&lt;/p&gt;
+
+&lt;p&gt;举 &lt;a href=&#34;http://www.zfanw.com/blog/jquery-plugin-tab.html&#34;&gt;jQuery 选项卡插件&lt;/a&gt; 来说，初始化时，我们只显示第一个选项卡对应内容块，隐藏其余内容块，这可以通过 JavaScript 实现：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(this).children(&#39;div:not(:first)&#39;).hide();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但我的插件中，添加了 &lt;code&gt;.is-hide&lt;/code&gt; 类来隐藏元素。之所以不用 JavaScript 控制，是因为我觉得，CSS 类应该在 HTML 代码中起到辅助语义的作用。在我们只阅读 HTML 代码时，看到一个叫 &lt;code&gt;.is-hide&lt;/code&gt; 的 CSS 类，马上可以明白，这一段元素是隐藏状态的。但如果用 JavaScript 来控制，情况就不一样。我们看 HTML 代码，元素应该是显示的，再看 CSS，元素应该是显示的，但前台却没显示，那只能认为是 JavaScript 干的 &amp;#8211; 这让事情变得不可预测。&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;像上面我使用的 HTML 结构，可能后端开发看了会说，你这段代码结构怎么能有一个特例？这样我无法遍历输出呀。刻薄点说，我是不是也可以对设计人员说，你这些设计怎么能有一个特例，我无法抽象 CSS 模块类呀。&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;我用过许多 jQuery 插件，它们都包揽太多工作。比如幻灯片插件，我们只要提供一个 HTML 基础骨架，它就能打包生成 Prev/Next 按钮，pager 等，我觉得这很糟糕，完全的黑箱操作，确实，这样能减少前端人员的一些工作，但对 CSS 结构或者 HTML 的可阅读性并没有帮助。所以我很欣赏 Bootstrap &lt;a href=&#34;http://getbootstrap.com/javascript/#carousel&#34;&gt;Carousel&lt;/a&gt; 插件的 HTML 结构，要求用户自己写，也就给了我们很大操作空间 &amp;#8211; 写得好还是坏，就是我们的问题。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jQuery 插件 – 显示/隐藏输入框提示</title>
+      <link>https://www.zfanw.com/blog/input-hint-focus-blur.html</link>
+      <pubDate>Thu, 08 Aug 2013 13:09:18 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/input-hint-focus-blur.html</guid>
+      <description>&lt;p&gt;目前，浏览器对 &lt;a href=&#34;http://www.w3.org/html/wg/drafts/html/master/forms.html#the-placeholder-attribute&#34;&gt;&lt;code&gt;placeholder&lt;/code&gt;&lt;/a&gt; 支持还不普遍，所以输入框中要设置提示信息时，多数还是通过 JavaScript 方法，给 &lt;code&gt;focus&lt;/code&gt;、&lt;code&gt;blur&lt;/code&gt; 绑定事件。&lt;/p&gt;
+
+&lt;p&gt;我见过很多人是这样写的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;input type=&amp;quot;text&amp;quot; onblur=&amp;quot;if(this.value==&#39;&#39;){this.value=&#39;请输入搜索信息...&#39;;}&amp;quot; onfocus=&amp;quot;if(this.value==&#39;请输入搜索信息...&#39;){this.value=&#39;&#39;;}&amp;quot; value=&amp;quot;请输入搜索信息...&amp;quot; name=&amp;quot;q&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;页面中需要设置提示信息的地方经常不止一个，如果每个都这样写，就会重复许多代码，并且容易出错。&lt;/p&gt;
+
+&lt;p&gt;以下是我写的一个简单 jQuery 插件，用于输入框中提示信息的显示/隐藏：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/*===================================
+Module Name: hint
+聚焦时提示消息隐藏；
+blur 时显示隐藏信息;
+Author: 陈三
+Blog: http:www.zfanw.com/blog/
+Time: 2013.7.26
+version: 1.0
+Dependency: jQuery
+==================================*/
+
+;(function ($) {
+$.fn.hint = function () {
+    this.each(function () {
+        var el, old_txt;
+        el = $(this);
+        old_txt = el.val();
+        el.on(&#39;focus&#39;, function () { //聚焦函数
+            if (el.val() === old_txt) {
+                el.val(&#39;&#39;);
+            }
+            el.css(&#39;color&#39;,&#39;#000&#39;);//聚焦时设置文字颜色为黑
+        });
+        el.on(&#39;blur&#39;, function () { //blur 函数
+            if (el.val() === &#39;&#39;) {
+                el.val(old_txt);
+                el.css(&#39;color&#39;,&#39;&#39;);//blur时颜色恢复原有
+            }
+        });
+    });
+return this;
+};
+}(jQuery));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在页面引入上述 jQuery 插件后，给每个要设置提示信息的元素添加 CSS 类，比如 &lt;code&gt;.js-hint&lt;/code&gt;，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;input class=&amp;quot;js-hint&amp;quot; value=&amp;quot;请输入提示信息&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;input class=&#34;js-hint&#34; value=&#34;请输入提示信息&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;然后执行上述函数即可：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(function(){$(&#39;.js-hint&#39;).hint();});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;随后要添加任何近似的元素均可，只要给元素添加 CSS 类 &lt;code&gt;.js-hint&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;textarea class=&amp;quot;js-hint&amp;quot;&amp;gt;请在这里输入文字...&amp;lt;/textarea&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;textarea class=&#34;js-hint&#34;&gt;请在这里输入文字&amp;#8230;&lt;/textarea&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 地区选择代码</title>
+      <link>https://www.zfanw.com/blog/region-select-option-javascript.html</link>
+      <pubDate>Sun, 28 Apr 2013 14:00:30 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/region-select-option-javascript.html</guid>
+      <description>&lt;p&gt;先看个网易的一个前端框架提供的 &lt;a href=&#34;http://nej.netease.com/code/10018/&#34;&gt;JavaScript 地区选择控件&lt;/a&gt;。当你选择省份或直辖市，同时会显示其下属的市，直到区或县。&lt;/p&gt;
+
+&lt;p&gt;但它的这个控件并不独立，并不像 jQuery 插件一样，可以单独引用一个js文件，又或者它可以，但因为它的文档太过简单而没有提及？总之我是没看到。&lt;/p&gt;
+
+&lt;p&gt;不过还是可以借用下它里面的中国行政区域数据，来写段 JavaScript 代码实现这种功能。&lt;/p&gt;
+
+&lt;p&gt;首先是 HTML 代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;select id=&amp;quot;province&amp;quot; class=&amp;quot;province&amp;quot;&amp;gt;&amp;lt;/select&amp;gt;
+&amp;lt;select id=&amp;quot;city&amp;quot; class=&amp;quot;city&amp;quot;&amp;gt;&amp;lt;/select&amp;gt;
+&amp;lt;select id=&amp;quot;area&amp;quot; class=&amp;quot;area&amp;quot;&amp;gt;&amp;lt;/select&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们将在以上SELECT元素中插入OPTION元素，经过 JavaScript 处理后的HTML代码会变成如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;select class=&amp;quot;province&amp;quot; id=&amp;quot;province&amp;quot;&amp;gt;
+&amp;lt;option value=&amp;quot;北京市&amp;quot;&amp;gt;北京市&amp;lt;/option&amp;gt;
+&amp;lt;option value=&amp;quot;天津市&amp;quot;&amp;gt;天津市&amp;lt;/option&amp;gt;
+&amp;lt;option value=&amp;quot;上海市&amp;quot;&amp;gt;上海市&amp;lt;/option&amp;gt;
+&amp;lt;option value=&amp;quot;重庆市&amp;quot;&amp;gt;重庆市&amp;lt;/option&amp;gt;
+&amp;lt;option value=&amp;quot;河北省&amp;quot;&amp;gt;河北省&amp;lt;/option&amp;gt;
+......
+&amp;lt;/select&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;接下来就是 JavaScript 代码。&lt;/p&gt;
+
+&lt;p&gt;代码的逻辑是，&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;页面加载过程中，根据省、市、区、县的数据生成 option，并将其插入到相应的select元素中；&lt;/li&gt;
+&lt;li&gt;当用户做出选择时，相应的，低一级或低一、二级的option做出调整。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;因为行政区划的数据很多，所以仅在这儿展示一部分，更多可以看 &lt;a href=&#34;http://jsfiddle.net/chenxsan/kGf4K/&#34;&gt;jsfiddle&lt;/a&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var _dmap = {
+        s:{&#39;北京市&#39;:1,&#39;天津市&#39;:1,&#39;上海市&#39;:1,&#39;重庆市&#39;:1},
+        p:[&#39;北京市&#39;,&#39;天津市&#39;,&#39;上海市&#39;,&#39;重庆市&#39;,&#39;河北省&#39;,&#39;山西省&#39;,&#39;辽宁省&#39;,&#39;吉林省&#39;,&#39;黑龙江省&#39;,&#39;江苏省&#39;,&#39;浙江省&#39;,&#39;安徽省&#39;,&#39;福建省&#39;,&#39;江西省&#39;,&#39;山东省&#39;,&#39;河南省&#39;,&#39;湖北省&#39;,&#39;湖南省&#39;,&#39;广东省&#39;,&#39;海南省&#39;,&#39;四川省&#39;,&#39;贵州省&#39;,&#39;云南省&#39;,&#39;陕西省&#39;,&#39;甘肃省&#39;,&#39;青海省&#39;,&#39;西藏自治区&#39;,&#39;内蒙古自治区&#39;,&#39;广西壮族自治区&#39;,&#39;宁夏回族自治区&#39;,&#39;新疆维吾尔自治区&#39;],
+        c:{&#39;北京市&#39;:[&#39;东城区&#39;,&#39;西城区&#39;,&#39;朝阳区&#39;,&#39;丰台区&#39;,&#39;石景山区&#39;,&#39;海淀区&#39;,&#39;门头沟区&#39;,&#39;房山区&#39;,&#39;通州区&#39;,&#39;顺义区&#39;,&#39;昌平区&#39;,&#39;大兴区&#39;,&#39;怀柔区&#39;,&#39;平谷区&#39;,&#39;密云县&#39;,&#39;延庆县&#39;],
+        &#39;天津市&#39;:[&#39;和平区&#39;,&#39;河东区&#39;,&#39;河西区&#39;,&#39;南开区&#39;,&#39;河北区&#39;,&#39;红桥区&#39;,&#39;东丽区&#39;,&#39;西青区&#39;,&#39;津南区&#39;,&#39;北辰区&#39;,&#39;武清区&#39;,&#39;宝坻区&#39;,&#39;滨海新区&#39;,&#39;宁河县&#39;,&#39;静海县&#39;,&#39;蓟县&#39;],
+        &#39;河北省&#39;:[&#39;石家庄市&#39;,&#39;唐山市&#39;,&#39;秦皇岛市&#39;,&#39;邯郸市&#39;,&#39;邢台市&#39;,&#39;保定市&#39;,&#39;张家口市&#39;,&#39;承德市&#39;,&#39;沧州市&#39;,&#39;廊坊市&#39;,&#39;衡水市&#39;],
+        &#39;山西省&#39;:[&#39;太原市&#39;,&#39;大同市&#39;,&#39;阳泉市&#39;,&#39;长治市&#39;,&#39;晋城市&#39;,&#39;朔州市&#39;,&#39;晋中市&#39;,&#39;运城市&#39;,&#39;忻州市&#39;,&#39;临汾市&#39;,&#39;吕梁市&#39;],
+        &#39;内蒙古自治区&#39;:[&#39;呼和浩特市&#39;,&#39;包头市&#39;,&#39;乌海市&#39;,&#39;赤峰市&#39;,&#39;通辽市&#39;,&#39;鄂尔多斯市&#39;,&#39;呼伦贝尔市&#39;,&#39;巴彦淖尔市&#39;,&#39;乌兰察布市&#39;,&#39;兴安盟&#39;,&#39;锡林郭勒盟&#39;,&#39;阿拉善盟&#39;],
+        &#39;辽宁省&#39;:[&#39;沈阳市&#39;,&#39;大连市&#39;,&#39;鞍山市&#39;,&#39;抚顺市&#39;,&#39;本溪市&#39;,&#39;丹东市&#39;,&#39;锦州市&#39;,&#39;营口市&#39;,&#39;阜新市&#39;,&#39;辽阳市&#39;,&#39;盘锦市&#39;,&#39;铁岭市&#39;,&#39;朝阳市&#39;,&#39;葫芦岛市&#39;],
+        &#39;吉林省&#39;:[&#39;长春市&#39;,&#39;吉林市&#39;,&#39;四平市&#39;,&#39;辽源市&#39;,&#39;通化市&#39;,&#39;白山市&#39;,&#39;松原市&#39;,&#39;白城市&#39;,&#39;延边朝鲜族自治州&#39;],
+        &#39;黑龙江省&#39;:[&#39;哈尔滨市&#39;,&#39;齐齐哈尔市&#39;,&#39;鸡西市&#39;,&#39;鹤岗市&#39;,&#39;双鸭山市&#39;,&#39;大庆市&#39;,&#39;伊春市&#39;,&#39;佳木斯市&#39;,&#39;七台河市&#39;,&#39;牡丹江市&#39;,&#39;黑河市&#39;,&#39;绥化市&#39;,&#39;大兴安岭地区&#39;],
+        &#39;上海市&#39;:[&#39;黄浦区&#39;,&#39;徐汇区&#39;,&#39;长宁区&#39;,&#39;静安区&#39;,&#39;普陀区&#39;,&#39;闸北区&#39;,&#39;虹口区&#39;,&#39;杨浦区&#39;,&#39;闵行区&#39;,&#39;宝山区&#39;,&#39;嘉定区&#39;,&#39;浦东新区&#39;,&#39;金山区&#39;,&#39;松江区&#39;,&#39;青浦区&#39;,&#39;奉贤区&#39;,&#39;崇明县&#39;],
+        &#39;江苏省&#39;:[&#39;南京市&#39;,&#39;无锡市&#39;,&#39;徐州市&#39;,&#39;常州市&#39;,&#39;苏州市&#39;,&#39;南通市&#39;,&#39;连云港市&#39;,&#39;淮安市&#39;,&#39;盐城市&#39;,&#39;扬州市&#39;,&#39;镇江市&#39;,&#39;泰州市&#39;,&#39;宿迁市&#39;],
+        ....,
+        &#39;新疆维吾尔自治区&#39;:[&#39;乌鲁木齐市&#39;,&#39;克拉玛依市&#39;,&#39;吐鲁番地区&#39;,&#39;哈密地区&#39;,&#39;昌吉回族自治州&#39;,&#39;博尔塔拉蒙古自治州&#39;,&#39;巴音郭楞蒙古自治州&#39;,&#39;阿克苏地区&#39;,&#39;克孜勒苏柯尔克孜自治州&#39;,&#39;喀什地区&#39;,&#39;和田地区&#39;,&#39;伊犁哈萨克自治州&#39;,&#39;塔城地区&#39;,&#39;阿勒泰地区&#39;,&#39;自治区直辖县级行政区划&#39;]
+    },
+    a:{&#39;河北省-石家庄市&#39;:[&#39;长安区&#39;,&#39;桥东区&#39;,&#39;桥西区&#39;,&#39;新华区&#39;,&#39;井陉矿区&#39;,&#39;裕华区&#39;,&#39;井陉县&#39;,&#39;正定县&#39;,&#39;栾城县&#39;,&#39;行唐县&#39;,&#39;灵寿县&#39;,&#39;高邑县&#39;,&#39;深泽县&#39;,&#39;赞皇县&#39;,&#39;无极县&#39;,&#39;平山县&#39;,&#39;元氏县&#39;,&#39;赵县&#39;,&#39;辛集市&#39;,&#39;藁城市&#39;,&#39;晋州市&#39;,&#39;新乐市&#39;,&#39;鹿泉市&#39;],
+    &#39;河北省-唐山市&#39;:[&#39;路南区&#39;,&#39;路北区&#39;,&#39;古冶区&#39;,&#39;开平区&#39;,&#39;丰南区&#39;,&#39;丰润区&#39;,&#39;滦县&#39;,&#39;滦南县&#39;,&#39;乐亭县&#39;,&#39;迁西县&#39;,&#39;玉田县&#39;,&#39;唐海县&#39;,&#39;遵化市&#39;,&#39;迁安市&#39;],
+    &#39;河北省-秦皇岛市&#39;:[&#39;海港区&#39;,&#39;山海关区&#39;,&#39;北戴河区&#39;,&#39;青龙满族自治县&#39;,&#39;昌黎县&#39;,&#39;抚宁县&#39;,&#39;卢龙县&#39;],
+    &#39;河北省-邯郸市&#39;:[&#39;邯山区&#39;,&#39;丛台区&#39;,&#39;复兴区&#39;,&#39;峰峰矿区&#39;,&#39;邯郸县&#39;,&#39;临漳县&#39;,&#39;成安县&#39;,&#39;大名县&#39;,&#39;涉县&#39;,&#39;磁县&#39;,&#39;肥乡县&#39;,&#39;永年县&#39;,&#39;邱县&#39;,&#39;鸡泽县&#39;,&#39;广平县&#39;,&#39;馆陶县&#39;,&#39;魏县&#39;,&#39;曲周县&#39;,&#39;武安市&#39;],
+    ......,
+    &#39;新疆维吾尔自治区-自治区直辖县级行政区划&#39;:[&#39;石河子市&#39;,&#39;阿拉尔市&#39;,&#39;图木舒克市&#39;,&#39;五家渠市&#39;]
+    }
+};
+
+var _p=_dmap.p;//从_dmap对象中取得全部的省、直辖市
+var _c=_dmap.c;//从_dmap对象中取得全部的市
+var _a=_dmap.a;//从_dmap对象中取得全部省、市、区、县信息
+function deployArea(){//定义一个函数，用来生成区、县即第三级的 option 列表
+    var str_province=$(&#39;#province option:selected&#39;).val();//取得当前选中或默认的省或直辖市名称
+    var str_city=$(&#39;#city option:selected&#39;).val();//取得当前选中或默认的城市名称
+    var str=str_province+&amp;quot;-&amp;quot;+str_city;//合并省、市名称，用与从_dmap数据中取出区、县信息
+    var _a_all=_a[str];//取得所有区、县信息，并存到 _a_all 数组中
+    $(&#39;#area&#39;).empty();//首先清空旧的区、县信息
+    if(_a_all.length&amp;gt;0){//如果区、县数目不为空，即第三级存在，则生成区、县列表并插入到 ID 为 #area 的 div 块中
+        $.each(_a_all,function(index,value){
+            $(&#39;#area&#39;).append(&#39;&amp;lt;option value=&#39;+value+&#39;&amp;gt;&#39;+value+&#39;&amp;lt;/option&amp;gt;&#39;);
+        });
+    }
+}//函数结束
+$.each(_p,function(index,value){//生成省、直辖市列表并插入 #province 块中
+    $(&#39;#province&#39;).append(&#39;&amp;lt;option value=&#39;+value+&#39;&amp;gt;&#39;+value+&#39;&amp;lt;/option&amp;gt;&#39;);
+    var def_province = $(&#39;#province option:selected&#39;).val();
+    var def_city = _c[def_province];
+    $(&#39;#city&#39;).empty();
+    $.each(def_city, function (index, value) {//生成市列表并插入到 #city 块中
+        $(&#39;#city&#39;).append(&#39;&amp;lt;option value=&#39; + value + &#39;&amp;gt;&#39; + value + &#39;&amp;lt;/option&amp;gt;&#39;);
+});
+});
+$(&#39;#province&#39;).change(function(){//当用户开始选择省、直辖市信息时，调整下级市、区、县信息
+    var str=$(&#39;#province option:selected&#39;).val();//取得选中的直辖市或省名称
+    var _c_a=_c[str];//取得相应的市信息
+    $(&#39;#city&#39;).empty();
+    $(&#39;#area&#39;).empty();
+    $.each(_c_a,function(index,value){//生成市一级的列表并插入 div#city 块中
+        $(&#39;#city&#39;).append(&#39;&amp;lt;option value=&#39;+value+&#39;&amp;gt;&#39;+value+&#39;&amp;lt;/option&amp;gt;&#39;);
+    });
+    deployArea();//生成区、县一级的列表
+});
+$(&#39;#city&#39;).change(function(){//当用户选择市一级信息时，取得相应区、县信息并生成列表
+    deployArea();
+});
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>CDN 提供的第三方库</title>
+      <link>https://www.zfanw.com/blog/cdn-third-party-libraries.html</link>
+      <pubDate>Tue, 23 Apr 2013 02:27:42 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/cdn-third-party-libraries.html</guid>
+      <description>&lt;p&gt;我博客上使用的 jQuery 是托管在 &lt;a href=&#34;https://developers.google.com/speed/libraries/devguide&#34;&gt;Google CDN&lt;/a&gt; 上的所谓第三方库。好处？老实说，以我博客这种流量，即是有好处，大概能感受到的也微乎其微。但从技术上说，确实有好处，我就不妨用上。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://html5boilerplate.com/&#34;&gt;html5boilerplate&lt;/a&gt; 提供的模板里，调用 Google CDN 上的 jQuery 库语句是这样写的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script src=&amp;quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script&amp;gt;window.jQuery || document.write(&#39;&amp;lt;script src=&amp;quot;js/vendor/jquery-1.9.1.min.js&amp;quot;&amp;gt;&amp;lt;\/script&amp;gt;&#39;)&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;先说第一个语句。&lt;/p&gt;
+
+&lt;p&gt;第一个语句中，没有 &lt;code&gt;http:&lt;/code&gt;，这是因为你的页面还可能是加密的(SSL)，&lt;code&gt;//ajax.googleapis....&lt;/code&gt; 这样的形式可以在 http/https 页面通用，在 http 页面加载 http 版本的 jQuery，https 页面加载 https 版本的 jQuery，无须我们再做额外调整。&lt;/p&gt;
+
+&lt;p&gt;但使用 &lt;code&gt;//&lt;/code&gt; 有一个问题，就是开发时如果使用 file:// 路径则第三方库将无法加载。&lt;/p&gt;
+
+&lt;p&gt;第二个语句是为 fallback，在无法加载 CDN 上的 jQuery 时，页面就不存在 window.jQuery 对象，这时页面自动到你的网站服务器上读取文件。&lt;/p&gt;
+
+&lt;p&gt;但使用第三方库有个安全问题，一旦第三方库的托管服务器被人侵入，你的网站就非常危险了。所以最好不要随便使用不知名站点托管的第三方库。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>jQuery hover 延迟</title>
+      <link>https://www.zfanw.com/blog/jquery-hover-settimeout.html</link>
+      <pubDate>Fri, 05 Apr 2013 14:36:04 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jquery-hover-settimeout.html</guid>
+      <description>&lt;p&gt;在网页制作里，经常会有这样的需求：鼠标滑入 A 区域，显示 B 内容，滑出 A 后隐藏 B 内容。&lt;/p&gt;
+
+&lt;p&gt;举个简单例子，制作导航条子菜单。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul class=&amp;quot;navigation&amp;quot;&amp;gt;
+    &amp;lt;li&amp;gt;Home
+        &amp;lt;ul class=&amp;quot;sub-menu&amp;quot;&amp;gt;
+            &amp;lt;li&amp;gt;陈三&amp;lt;/li&amp;gt;
+            &amp;lt;li&amp;gt;陈四&amp;lt;/li&amp;gt;
+            &amp;lt;li&amp;gt;陈五&amp;lt;/li&amp;gt;
+        &amp;lt;/ul&amp;gt;
+    &amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;关于&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;ul.sub-menu&lt;/code&gt; 部分通过 &lt;code&gt;display:none&lt;/code&gt; 隐藏，之后通过 li:hover 来显示，并且鼠标可以移入 &lt;code&gt;.sub-menu&lt;/code&gt; 部分。&lt;/p&gt;
+
+&lt;p&gt;具体 CSS 规则及代码效果见 &lt;a href=&#34;http://jsfiddle.net/chenxsan/fCKrT/&#34;&gt;jsfiddle 示例&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;上一个例子中，&lt;code&gt;ul.sub-menu&lt;/code&gt; 包含在 li 标签对中，所以代码很顺当，不会有什么问题。&lt;/p&gt;
+
+&lt;p&gt;再来看一个 &lt;a href=&#34;http://www.zfanw.com/demo/jquery-hover/index.html&#34; title=&#34;jQuery hover 鼠标滑入滑出显示/隐藏内容&#34; rel=&#34;nofollow&#34;&gt;demo&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;这是另一个常见需要：鼠标滑入 A 区域显示 B 内容，鼠标滑出 A 区域且没有滑入 B 区域则隐藏 B；如果鼠标滑出 A 区域且滑入 B 区域，则 B 仍显示。&lt;/p&gt;
+
+&lt;p&gt;考虑到 IE6 会&lt;a href=&#34;http://www.zfanw.com/blog/elment-overflow-container-top-direction.html&#34;&gt;自动扩展包含块高度&lt;/a&gt;，一般来说，要显示的区域与触发区域在 HTML 结构上要处于兄弟关系。&lt;/p&gt;
+
+&lt;p&gt;比如 demo 中：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&amp;quot;yui3-u-1-3 share-btn&amp;quot;&amp;gt;
+    &amp;lt;div class=&amp;quot;share-btn--hover-me&amp;quot;&amp;gt;
+        &amp;lt;a class=&amp;quot;share-btn__sns&amp;quot; title=&amp;quot;&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;
+            &amp;lt;img src=&amp;quot;img/share-btn/sina-qq-small.png&amp;quot; alt=&amp;quot;分享到社交网站&amp;quot; width=&amp;quot;65&amp;quot; height=&amp;quot;16&amp;quot;&amp;gt;
+        &amp;lt;/a&amp;gt;
+        &amp;lt;a class=&amp;quot;share-btn__weixin&amp;quot; title=&amp;quot;&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt;
+            &amp;lt;img src=&amp;quot;img/share-btn/weixin-small.png&amp;quot; alt=&amp;quot;&amp;quot; width=&amp;quot;16&amp;quot; height=&amp;quot;16&amp;quot;&amp;gt;
+        &amp;lt;/a&amp;gt;
+    &amp;lt;/div&amp;gt;
+    &amp;lt;ul class=&amp;quot;share-btn__sns-list is-hide&amp;quot;&amp;gt; &amp;lt;!-- 我与触发区域是平行关系 --&amp;gt;
+        &amp;lt;li&amp;gt;
+            关注某站
+        &amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;
+            关注某站
+        &amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;
+            关注某站
+        &amp;lt;/li&amp;gt;
+    &amp;lt;/ul&amp;gt;                               
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;配合上述 HTML 结构，JavaScript 代码是这样写的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(function () {
+//鼠标滑入 显示;;;;;分享到社交网站 鼠标滑出 隐藏
+(function () {
+    var t; //设置定时器
+    var hoverMe = $(&#39;.share-btn__sns&#39;),
+        pop = $(&#39;.share-btn__sns-list&#39;);
+    hoverMe.on(&#39;mouseenter&#39;, function () { // 鼠标进入触发区域，显示内容
+        clearTimeout(t);
+        pop.slideDown();
+    });
+    hoverMe.on(&#39;mouseleave&#39;, function () { // 鼠标滑出触发区域，定时 0.5 秒后隐藏内容
+        t = setTimeout(function () {
+            pop.slideUp();
+        }, 500);
+    });
+    pop.on(&#39;mouseenter&#39;, function () { // 鼠标进入弹出块，则清除定时函数，不再触发
+        clearTimeout(t);
+    });
+    pop.on(&#39;mouseleave&#39;, function () { // 鼠标滑出弹出块，则隐藏弹出块
+        pop.slideUp();
+    });
+}());
+
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个代码写得有点长，mouseenter、mouseleave 其实可以用 &lt;a href=&#34;http://api.jquery.com/hover/&#34;&gt;jQuery hover&lt;/a&gt; 合并。&lt;/p&gt;
+
+&lt;p&gt;经过 setTimeout 处理，两个元素相隔很远也可以触发，并且保证点击得到另一个元素。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Charles Proxy on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/charles-proxy/</link>
+    <description>Recent content in Charles Proxy on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 03 Feb 2015 14:30:58 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/charles-proxy/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Charles Proxy 的 .desktop 文件</title>
+      <link>https://www.zfanw.com/blog/dot-desktop-file-charles-proxy.html</link>
+      <pubDate>Tue, 03 Feb 2015 14:30:58 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/dot-desktop-file-charles-proxy.html</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.charlesproxy.com/download/&#34;&gt;Charles Proxy 的 Linux 版本&lt;/a&gt; 只是一个压缩包，解压到 &lt;em&gt;/opt&lt;/em&gt; 目录后，如果希望从 openSUSE 的 kickoff 开始菜单中启动，就需要创建一个 &lt;a href=&#34;http://standards.freedesktop.org/desktop-entry-spec/latest/&#34;&gt;.desktop&lt;/a&gt; 文件。&lt;/p&gt;
+
+&lt;p&gt;我的电脑环境：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;openSUSE 13.2 32 位&lt;/li&gt;
+&lt;li&gt;Plasma 5.2 桌面环境&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;在 &lt;em&gt;~/.local/share/applications&lt;/em&gt; 目录下新建一个 &lt;strong&gt;charles.desktop&lt;/strong&gt; 文件，添加如下内容：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[Desktop Entry] 
+Version=3.9.3 
+Type=Application 
+Name=Charles 
+Icon=/opt/charles/icon/charles_icon512.png 
+Exec=&amp;quot;/opt/charles/bin/charles&amp;quot; %f 
+Categories=Development;IDE; 
+Terminal=false 
+StartupWMClass=com-xk72-charles-gui-MainWithClassLoader 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 &lt;code&gt;StartupWMClass&lt;/code&gt; 可以通过执行 &lt;a href=&#34;http://www.xfree86.org/4.0/xprop.1.html&#34;&gt;&lt;code&gt;xprop&lt;/code&gt;&lt;/a&gt; 命令取得。&lt;/p&gt;
+
+&lt;p&gt;最终效果如下图：&lt;/p&gt;
+
+&lt;p&gt;[resp_image id=&amp;#8217;15134&amp;#8242; caption=&amp;#8221; ]&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Charles Proxy 自定义 CA 证书</title>
+      <link>https://www.zfanw.com/blog/charles-proxy-custom-ca-certificate.html</link>
+      <pubDate>Sun, 25 Jan 2015 05:17:28 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/charles-proxy-custom-ca-certificate.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_CA&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 自建 CA 证书&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_charles&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 配置 charles&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Firefox&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 导入证书到 Firefox&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.charlesproxy.com/documentation/using-charles/ssl-certificates/&#34;&gt;Charles Proxy&lt;/a&gt; 跟 Windows 平台下的 &lt;a href=&#34;http://www.telerik.com/fiddler&#34;&gt;Fiddler&lt;/a&gt; 一样可以查看 HTTPS 流量，但使用 Charles 官方提供的 &lt;a href=&#34;http://www.charlesproxy.com/documentation/using-charles/ssl-certificates/&#34;&gt;CA 证书&lt;/a&gt;检查 HTTPS 请求时，Firefox 35 下网页会出现如下错误：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      twitter.com uses an invalid security certificate. The certificate is not trusted because the issuer certificate has expired. (Error code: sec_error_expired_issuer_certificate)
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;https://muffinresearch.co.uk/proxying-connections-from-ffos/&#34;&gt;据说&lt;/a&gt;原因是这样的：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      The more recent versions of Firefox only allow certs with start dates after the unix epoch (1st Jan 1970). As the Charles CA cert has a start year of 1899 it&amp;#8217;s seen as expired.
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    最新版本的 Firefox 只允许证书的起始时间在 1970 以后，而 Charles CA 证书的起始时间是 1899。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    解决办法是&lt;a href=&#34;http://0x74696d.com/posts/CharlesSSL/&#34;&gt;自建一个证书&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_CA&#34;&gt;自建 CA 证书&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_CA&#34; href=&#34;#_CA&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    我的过程基于 openSUSE 13.2 操作系统。
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        逐行执行以下命令（openSUSE 下需要管理员权限）。
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;mkdir -p /usr/local/CharlesCA
+cd /usr/local/CharlesCA
+mkdir certs private newcerts
+echo 01 &amp;gt; serial
+touch index.txt
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        生成 CA 证书
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;openssl req -new -x509 -days 3650 -extensions v3_ca \
+-keyout private/ca_key.pem -out certs/ca_cert.pem \
+-config /etc/ssl/openssl.cnf
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        请注意 &lt;code&gt;-config&lt;/code&gt; 后指向的路径，这里是我 openSUSE 下 openssl.cnf 文件路径，请根据自己的操作系统确认其路径。
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        这一步中也会要求填写 &lt;code&gt;passphrase&lt;/code&gt; 及其它信息，&lt;code&gt;passphrase&lt;/code&gt; 后面在 Charles 中会用到。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        转换为 PKCS12 格式
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        因为 Charles 需要 pkcs12 格式的证书，所以还需要做个转换：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;openssl pkcs12 -export -out ca_cert.pfx -inkey private/ca_key.pem -in certs/ca_cert.pem
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        这样，/usr/local/CharlesCA 目录下会生成 ca_cert.pfx 文件。
+      &lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    我们总共得到了 3 个重要的文件：
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      ca_cert.pfx &amp;#8211; charles 添加自定义证书用的
+    &lt;/li&gt;
+    &lt;li&gt;
+      ca_cert.pem &amp;#8211; 提供给客户端使用的
+    &lt;/li&gt;
+    &lt;li&gt;
+      ca_key.pem &amp;#8211; 钥匙（请保证它的安全）
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_charles&#34;&gt;配置 charles&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_charles&#34; href=&#34;#_charles&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      打开 charles -&gt; Proxy -&gt; Proxy Settings&amp;#8230; 菜单
+    &lt;/li&gt;
+    &lt;li&gt;
+      点击 SSL 标签页
+    &lt;/li&gt;
+    &lt;li&gt;
+      勾选 &amp;#8216;Use a custom CA certificate&amp;#8217;
+    &lt;/li&gt;
+    &lt;li&gt;
+      点击 &lt;kbd&gt;Choose&lt;/kbd&gt; 按键，选择 &lt;code&gt;/usr/local/CharlesCA/ca_cert.pfx&lt;/code&gt; 文件
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    这样就配置好 charles 的证书。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Firefox&#34;&gt;导入证书到 Firefox&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Firefox&#34; href=&#34;#_Firefox&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      打开 Firefox -&gt; Preferences
+    &lt;/li&gt;
+    &lt;li&gt;
+      选择 Advanced -&gt; Certificates 标签页
+    &lt;/li&gt;
+    &lt;li&gt;
+      点击 &lt;kbd&gt;View certificates&lt;/kbd&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      点击 &lt;kbd&gt;Import...&lt;/kbd&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      定位到 &lt;code&gt;/usr/local/CharlesCA/certs/ca_cert.pem&lt;/code&gt; 文件
+    &lt;/li&gt;
+    &lt;li&gt;
+      勾选 &amp;#8216;This certificate can identify websites&amp;#8217;
+    &lt;/li&gt;
+    &lt;li&gt;
+      确认
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    最后重启 Charles，会弹窗口要求填写上面创建证书时设置的 passphrase。之后 https 流量可以正常分析了。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Labjs on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/labjs/</link>
+    <description>Recent content in Labjs on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 04 Aug 2013 10:04:24 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/labjs/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>LABjs</title>
+      <link>https://www.zfanw.com/blog/labjs.html</link>
+      <pubDate>Sun, 04 Aug 2013 10:04:24 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/labjs.html</guid>
+      <description>
+
+&lt;p&gt;我的博客前台页面中引用了如下 JavaScript：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;jQuery 1.10.2&lt;/li&gt;
+&lt;li&gt;bootstrap.min.js&lt;/li&gt;
+&lt;li&gt;highlight.min.js&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;另有两段 JavaScript 是写在页面 &lt;script&gt; 标签中：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script&amp;gt;
+    hljs.initHighlightingOnLoad();//依赖于 highlight.min.js
+&amp;lt;/script&amp;gt;
+
+&amp;lt;script&amp;gt;
+   $(&#39;.menu-item--search&#39;).hover(//依赖于 jQuery
+
+   function () {
+       $(this).addClass(&#39;hover&#39;);
+   },
+
+   function () {
+       $(this).removeClass(&#39;hover&#39;);
+   });
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;传统写法中，我至少需要四个 &lt;script&gt; 标签，并且要根据依赖关系安排它们的顺序。&lt;/p&gt;
+
+&lt;p&gt;LABjs 下的写法如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script src=&amp;quot;js/LAB.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script&amp;gt;
+   $LAB.script(&amp;quot;//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js&amp;quot;)
+       .wait(function () {// 函数依赖 jQuery，所以通过 .wait() 先执行 jQuery
+       $(&#39;.menu-item--search&#39;).hover(
+
+       function () {
+           $(this).addClass(&#39;hover&#39;);
+       },
+
+       function () {
+           $(this).removeClass(&#39;hover&#39;);
+       });
+   })
+       .script(&amp;quot;//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js&amp;quot;);
+
+   $LAB.script(&amp;quot;http://yandex.st/highlightjs/7.3/highlight.min.js&amp;quot;)
+       .wait(function () {
+       hljs.initHighlightingOnLoad();
+   });
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里，我用了两个 $LAB 链，每一条链表明一串依赖关系 &amp;#8211; 因为 highlight.min.js 并不依赖 jQuery，所以把它单独出来，成一条链。&lt;/p&gt;
+
+&lt;p&gt;相比传统的脚本引入写法，通过 LABjs 加载 JavaScript 的好处有：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;不阻塞页面其内容的下载，尽可能地利用浏览器并行下载能力，页面访问速度更快&lt;/li&gt;
+&lt;li&gt;清晰明确脚本间的依赖关系&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;http://labjs.com/documentation.php&#34;&gt;LABjs Script Loader :: Documentation&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

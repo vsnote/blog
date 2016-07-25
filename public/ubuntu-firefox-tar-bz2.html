@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Ubuntu 安装 Firefox.tar.bz2 - 陈三</title>
+<meta property="og:title" content="Ubuntu 安装 Firefox.tar.bz2 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Ubuntu 安装 Firefox.tar.bz2</h1>
+
+    
+    <span class="article-date">July 7, 2012</span>
+    
+
+    <div class="article-content">
+      <p><strong>2013.5.8 更新</strong> firefox 现在版本已经持后台自动更新，所以本篇介绍的仅限在 Ubuntu 上初次安装 firefox。</p>
+
+<ol>
+<li><p>到 Mozilla 网站<a href="http://www.mozilla.org/en-US/firefox/new/">下载 firefox</a>，假设保存到 ~/Downloads 目录。</p></li>
+
+<li><p>将 Downloads 下的 firefox-13.0.1.tar.bz2 拷贝到 /opt 文件夹（这个安装位置可选），然后解压：</p>
+
+<pre><code>% cd ~/Downloads
+% sudo cp firefox-13.0.1.tar.bz2 /opt
+% cd /opt
+% sudo tar -xvjf firefox-13.0.1.tar.bz2
+</code></pre></li>
+</ol>
+
+<p>解压后，/opt 下会出现一个 firefox 文件夹，在 /usr/bin/ 下重建软链接(soft link)</p>
+
+<pre><code>% sudo ln -sf /opt/firefox/firefox /usr/bin/firefox
+</code></pre>
+
+<p>其中 -f 表示强制覆盖原有的软链接。</p>
+
+<p>之后，就可以在命令行中使用 &#8220;firefox&#8221; 调用浏览器，如果使用 Unity 桌面系统，按 Alt-F2 输入 &#8220;firefox&#8221; 调用。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

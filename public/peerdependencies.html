@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>peerDependencies - 陈三</title>
+<meta property="og:title" content="peerDependencies - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">peerDependencies</h1>
+
+    
+    <span class="article-date">June 6, 2016</span>
+    
+
+    <div class="article-content">
+      <p>写 npm package 时，接触最多的，当属 <a href="https://www.zfanw.com/blog/difference-between-dependencies-and-devdependencies.html">dependencies 与 devDependencies</a>。</p>
+
+<p>如果一个包定义了 <code>dependencies</code> 与 <code>devDependencies</code>，则我们在安装这个包时，会连着它的依赖们一同安装。</p>
+
+<p>比如一个 react-native 的包，它依赖于 <code>react</code> 与 <code>react-native</code>，如果我们把 <code>react</code> 及 <code>react-native</code> 定义在 <code>dependencies</code> 下，则安装完这个包后，它的目录结构是这样：</p>
+
+<ol>
+<li>ProjectRoot/node_modules/package_name/node_modules/react</li>
+<li>ProjectRoot/node_modules/package_name/node_modules/react-native</li>
+</ol>
+
+<p>我们又下载了一遍 react 与 react-native，这显得多余，可能还会导致冲突问题。</p>
+
+<p>这时我们就可以使用 <a href="https://nodejs.org/en/blog/npm/peer-dependencies/"><code>peerDependencies</code></a>，通过它，我们能够声明第三方包正常运行的环境 &#8211; 要安装我，你的环境该是如何，否则将无法运行。当然，没人会无聊到在一个 ember.js 项目中安装一个 react-native 的第三方包。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

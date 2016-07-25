@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>CSS 贴图定位 - 陈三</title>
+<meta property="og:title" content="CSS 贴图定位 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">CSS 贴图定位</h1>
+
+    
+    <span class="article-date">August 8, 2013</span>
+    
+
+    <div class="article-content">
+      <p>CSS 贴图定位是我在 Google PageSpeed 看到的叫法，更常见的，应该是 CSS 精灵(sprite)。</p>
+
+<p>CSS 贴图定位的好处，又或制作方法，很多地方都有介绍，所以这篇并不说那些，而是介绍一个 CSS (最|更)佳实践。</p>
+
+<p>假设一张 png 透明图片 sprite.png，则 CSS 规则中会出现如下：</p>
+
+<pre><code>.icon-arrow-right{background:transparent url(../img/sprite.png) no-repeat -48px -30px;}
+......
+.slide-heading{background:transparent url(../img/sprite.png) no-repeat 0 -130px;}
+......
+</code></pre>
+
+<p>上面的代码重复部分很多，一个更简洁，而且富有语义的用法，应该是抽象出一个类：</p>
+
+<pre><code>.sprite{background-image:url(../img/sprite.png);background-repeat:no-repeat;margin:0;padding:0;}
+</code></pre>
+
+<p>然后针对各元素设定贴图的位置：</p>
+
+<pre><code>.icon-arrow-right{background-position:-48px -30px;}
+......
+</code></pre>
+
+<p>在 HTML 代码中，要使用 CSS 贴图定位的元素，一概添加 <code>.sprite</code> 类，</p>
+
+<pre><code>&lt;span class=&quot;sprite icon-arrow-right&quot;&gt;Hello CSS sprite&lt;/span&gt;
+</code></pre>
+
+<p>这样，HTML 代码就可以告诉我们，哪些元素是 CSS 贴图定位完成的效果，非常直观。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>媒体查询与图片 - 陈三</title>
+<meta property="og:title" content="媒体查询与图片 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">媒体查询与图片</h1>
+
+    
+    <span class="article-date">November 11, 2012</span>
+    
+
+    <div class="article-content">
+      
+
+<p><a href="http://www.w3.org/standards/history/css3-mediaqueries">Media Queries</a>（<strong>媒体查询</strong>） 是 CSS3 中加入的模块，可以用于设计<a href="http://en.wikipedia.org/wiki/Responsive_Web_Design">自适应设备的网页</a>，这样页面会根据设备屏幕的大小自动调整页面布局，而无需针对每个屏幕大小分别设计页面布局。</p>
+
+<p>在优化页面速度时，<a href="https://developers.google.com/speed/pagespeed/insights">Google PageSpeed</a> 有这样一条关于<a href="https://developers.google.com/speed/docs/best-practices/rendering#SpecifyImageDimensions">明确图片大小的建议</a>：</p>
+
+<blockquote>
+<p>Specifying a width and height for all images allows for faster rendering by eliminating the need for unnecessary reflows and repaints.</p>
+
+<p>To prevent reflows, specify the width and height of all images, either in the HTML <img> tag, or in CSS.</p>
+</blockquote>
+
+<p>大概的意思是，建议给图片明确大小，无论是通过 img 属性还是 CSS 代码，这样可以减少页面渲染过程中不必要的重排。比如这样的 HTML 语句：</p>
+
+<pre><code>&lt;img src=&quot;......&quot; width=&quot;500&quot; height=&quot;500&quot;/&gt;
+</code></pre>
+
+<p>因为图片的宽高值被固定下来，就需要我们在设计自适应页面时，对图片进行某种处理，否则会导致图片在小屏幕上超出屏幕范围。</p>
+
+<p>如下 CSS 语句可以让图片大小（宽高）根据屏幕大小自动调整：</p>
+
+<pre><code>@media only screen and (max-width: 480px){
+    img { 
+                width: 100%;
+                height:auto;
+           }
+}
+</code></pre>
+
+<p>当然，还要记得在 head 部分加入类似如下的语句，否则上述的 CSS 不能起作用：</p>
+
+<pre><code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+</code></pre>
+
+<h2 id="参考">参考</h2>
+
+<ol>
+<li><a href="http://dev.opera.com/articles/view/an-introduction-to-meta-viewport-and-viewport/">An introduction to meta viewport</a></li>
+</ol>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

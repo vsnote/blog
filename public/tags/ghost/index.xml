@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ghost on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/ghost/</link>
+    <description>Recent content in Ghost on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 03 Jan 2015 06:20:45 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/ghost/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Linode vps 安装配置 Ghost</title>
+      <link>https://www.zfanw.com/blog/linode-vps-install-ghost.html</link>
+      <pubDate>Sat, 03 Jan 2015 06:20:45 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/linode-vps-install-ghost.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Ghost&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 安装 Ghost&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Apache_Ghost&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 配置 Apache 与 Ghost&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    我的 vps 情况：
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      操作系统 &amp;#8211; CentOS 7 64 位
+    &lt;/li&gt;
+    &lt;li&gt;
+      web 服务器软件 &amp;#8211; Apache
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    Ghost&lt;fnref target=&#34;14873.1&#34; /&gt; 基于 Node.js，它本身自带 web 服务器，不需要 Apache。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Ghost&#34;&gt;安装 Ghost&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Ghost&#34; href=&#34;#_Ghost&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    主要参照 Ghost 官方帮助&lt;fnref target=&#34;14873.2&#34; /&gt;。
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        下载 Ghost
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;$ curl -L https://ghost.org/zip/ghost-latest.zip -o ghost.zip
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        解压 Ghost
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;$ unzip -uo ghost.zip -d ghost
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        安装 Ghost
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;$ cd ghost
+$ npm install --production
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        启动 Ghost
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;$ npm start --production
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    现在，你可以在 vps 上通过 &lt;code&gt;127.0.0.1:2368&lt;/code&gt; 路径访问到 Ghost 博客了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Apache_Ghost&#34;&gt;配置 Apache 与 Ghost&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Apache_Ghost&#34; href=&#34;#_Apache_Ghost&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    当然，你的目的可不是在 vps 上访问 Ghost，而是通过域名访问 Ghost。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    ghost 目录下有一个 &lt;code&gt;config.example.js&lt;/code&gt; 文件，用于配置相关信息&lt;fnref target=&#34;14873.3&#34; /&gt;，比如域名，端口等。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    执行以下操作前，请先确保你在 DNS 服务器上把域名绑定到 vps 的 ip 地址。
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        复制一个 config.js
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;$ cd ghost
+$ cp config.example.js config.js
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        修改 config.js
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        将 config.js 里 production 部分里的 &lt;code&gt;url: &#39;http://my-ghost-blog.com&#39;&lt;/code&gt; 改为 &lt;code&gt;url: &#39;http://example.com&#39;&lt;/code&gt;。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        重启 Ghost
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        按 &lt;kbd&gt;Ctrl - C&lt;/kbd&gt; 关闭 Ghost，再执行 &lt;code&gt;npm start --production&lt;/code&gt; 启动它。
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        这时你能看到如下信息：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;Migrations: Up to date at version 003
+Ghost is running... 
+Your blog is now available on http://example.com 
+Ctrl+C to shut down
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        但这信息并不意味着我们能访问到 Ghost 了。因为 example.com 域名访问的是 80 端口，在这个端口上监听的是 Apache 而不是 Node.js &amp;#8211; 它是在 2368 端口监听着。
+      &lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    所以我们还需要配置 Apache。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    打开 &lt;code&gt;/etc/httpd/conf.d/vhost.conf&lt;/code&gt; 文件（CentOS 系统的情况），添加如下内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt; &amp;lt;VirtualHost *:80&amp;gt;
+     ServerName www.frontbin.com
+     ServerAlias frontbin.com
+     ProxyPreserveHost on
+     ProxyPass / http://localhost:2368/
+     ProxyPassReverse / http://localhost:2368/
+ &amp;lt;/VirtualHost&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    重启 apache：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ sudo service httpd restart 
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样，Apache 充当代理，会把它监听到的流量转发给 Node.js 监听的端口，这时访问 http://example.com，我们就能打开 Ghost 博客了。
+  &lt;/p&gt;
+  
+  &lt;footnotes&gt;
+    &lt;fn name=&#34;14873.1&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;https://ghost.org/&#34;&gt;Ghost &amp;#8211; Just a blogging platform&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;14873.2&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://support.ghost.org/installing-ghost-linux/&#34;&gt;Installing Ghost on Linux &amp;#8211; Ghost SupportGhost Support&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;14873.3&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://support.ghost.org/config/&#34;&gt;Configuring Ghost &amp;#8211; Ghost SupportGhost Support&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+  &lt;/footnotes&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

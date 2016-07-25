@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>你不知道 setTimeout 是怎么回事 - 陈三</title>
+<meta property="og:title" content="你不知道 setTimeout 是怎么回事 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">你不知道 setTimeout 是怎么回事</h1>
+
+    
+    <span class="article-date">May 5, 2015</span>
+    
+
+    <div class="article-content">
+      <p>在我查找 JavaScript setTimeout 相关资料时，看到这一段测试代码<sup class="footnote-ref" id="fnref:15831-1"><a rel="footnote" href="#fn:15831-1">1</a></sup>：</p>
+
+<pre><code>setTimeout(function(){console.log('a');},5);
+var then = (new Date()).getTime(), now;
+do { now = (new Date()).getTime(); } while (now &lt; (then + 5));
+setTimeout(function(){console.log('b');},0);
+</code></pre>
+
+<p>如果照 JavaScript 单线程的思路看，则 log 的顺序应该是：</p>
+
+<ol>
+<li>a</li>
+<li>b</li>
+</ol>
+
+<p>在 Safari 8.0.5（Mac） 与 Google Chrome 42.0.2311.135 (64-bit)（Mac）上确实如此。</p>
+
+<p>但让人吃惊的是，Firefox 37.0.2 上 log 出的顺序却是相反的：</p>
+
+<p>[resp_image id=&#8217;15892&#8242; caption=&#8221; ]</p>
+
+<p>测试过 IE11 上的表现是跟 Firefox 一样的。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:15831-1"><a href="https://mail.mozilla.org/pipermail/es-discuss/2011-March/013276.html">Bringing setTimeout to ECMAScript</a>
+ <a class="footnote-return" href="#fnref:15831-1"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

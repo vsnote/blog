@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vundle on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/vundle/</link>
+    <description>Recent content in Vundle on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 05 Aug 2012 04:35:20 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/vundle/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Vundle 管理 Vim 插件</title>
+      <link>https://www.zfanw.com/blog/vundle-vim-plugin-management.html</link>
+      <pubDate>Sun, 05 Aug 2012 04:35:20 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vundle-vim-plugin-management.html</guid>
+      <description>
+
+&lt;p&gt;如果用 &lt;a href=&#34;https://github.com/tpope/vim-pathogen&#34;&gt;pathogen&lt;/a&gt; 管理 vim 插件，bundle 文件夹下 vim 插件的更新很麻烦，你需要针对每个插件分别升级。如果你还有不同电脑，那么不同电脑上 vim 插件保持一致也成问题。&lt;/p&gt;
+
+&lt;p&gt;Vundle 可以解决上述问题。&lt;/p&gt;
+
+&lt;p&gt;首先，你的操作系统需要事先安装 git，然后利用 &lt;code&gt;git clone&lt;/code&gt; 命令从 github 上下载 Vundle：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;打开 .vimrc 配置文件（Windows 系统上为 _vimrc)，配置要安装的 vim 插件：&lt;/p&gt;
+
+&lt;pre lang=&#34;vim&#34;&gt;&lt;code&gt;
+ set nocompatible               &#34; 设置 vim 为不兼容 vi 模式
+ filetype off                   &#34; 必须的
+
+ set rtp+=~/.vim/bundle/vundle/
+ &#34;Windows系统下上一语句修改为
+ &#34;set rtp+=$VIM/vimfiles/bundle/vundle/
+ call vundle#rc()
+
+ &#34; 让 Vundle 管理 Vundle
+ &#34; 此条必须有
+ Bundle &#39;gmarik/vundle&#39;
+
+ &#34; 比如我的 vim 插件
+ &#34;
+ &#34; 代码源在 github 上的
+ Bundle &#39;mattn/zencoding-vim&#39;
+ Bundle &#39;Lokaltog/vim-powerline&#39;
+ Bundle &#39;kien/ctrlp.vim&#39;
+
+ &#34; 代码存放在 vim script 上
+ Bundle &#39;FuzzyFinder&#39;
+
+ &#34; 代码存放在其他地方
+ Bundle &#39;git://git.wincent.com/command-t.git&#39;
+ &#34; ...
+
+ filetype plugin indent on     &#34; 必须有
+ &#34;
+ &#34; Brief help
+ &#34; :BundleList          - list configured bundles
+ &#34; :BundleInstall(!)    - install(update) bundles
+ &#34; :BundleSearch(!) foo - search(or refresh cache first) for foo
+ &#34; :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+ &#34;
+ &#34; see :h vundle for more details or wiki for FAQ
+ &#34; NOTE: comments after Bundle command are not allowed..
+&lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;接下来，vim 中运行命令 &lt;code&gt;:BundleInstall&lt;/code&gt; 就可以自动安装上述配置文件中的 vim 插件，而如果要更新插件，运行命令 &lt;code&gt;:BundleInstall!&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;如果要删除插件，则从 .vimrc 文件中删除或注释掉相应行，然后运行 &lt;code&gt;:BundleClean&lt;/code&gt; 即可。&lt;/p&gt;
+
+&lt;p&gt;之后，只要在不同电脑上同步 .vimrc 文件就可以保证不同电脑上的 vim 插件一致。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.charlietanksley.net/philtex/sane-vim-plugin-management/&#34;&gt;http://www.charlietanksley.net/philtex/sane-vim-plugin-management/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/gmarik/vundle&#34;&gt;https://github.com/gmarik/vundle&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

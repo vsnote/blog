@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>工具 on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/%E5%B7%A5%E5%85%B7/</link>
+    <description>Recent content in 工具 on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 06 Sep 2013 15:36:21 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>前端开发工具箱</title>
+      <link>https://www.zfanw.com/blog/front-end-toolbox.html</link>
+      <pubDate>Fri, 06 Sep 2013 15:36:21 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/front-end-toolbox.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 浏览器特性支持&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_hack&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 浏览器各种 hack 汇总&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 开发文档检索&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 前端开发公共类库&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-4&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 前端框架&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#CSS&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;6&lt;/span&gt; CSS 预处理器&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#CSS-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;7&lt;/span&gt; CSS 代码质量检查工具&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#JavaScript&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;8&lt;/span&gt; JavaScript 代码质量检查工具&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-5&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;9&lt;/span&gt; 前端开发自动化工具&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;浏览器特性支持&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;
+        网址
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        作用
+      &lt;/th&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://caniuse.com/&#34;&gt;Can I use&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        查看浏览器对 HTML5、CSS3 特性的支持度
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_hack&#34;&gt;浏览器各种 hack 汇总&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_hack&#34; href=&#34;#_hack&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;
+        网址
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        说明
+      &lt;/th&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://browserhacks.com/&#34;&gt;Browserhacks&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;开发文档检索&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;
+        网址
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        说明
+      &lt;/th&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://devdocs.io/&#34;&gt;DevDocs&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        各类前后端构架均有，十分丰富
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;前端开发公共类库&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;
+        网址
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        说明
+      &lt;/th&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;https://developers.google.com/speed/libraries/devguide&#34;&gt;Google Hosted Libraries&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        Google 提供的 CDN 库
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://www.jsdelivr.com&#34;&gt;jsDelivr&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        jsDelivr 提供，种类丰富
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://www.asp.net/ajaxlibrary/cdn.ashx&#34;&gt;Microsoft Ajax Content Delivery Network &lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        微软提供
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://api.yandex.ru/jslibs/&#34;&gt;Yandex js library&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        俄罗斯 Yandex 提供
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://cdnjs.com/&#34;&gt;CDNJS&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        Cloudflare 提供
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://developer.baidu.com/wiki/index.php?title=docs/cplat/libs&#34;&gt;百度公共CDN&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        百度提供
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-4&#34;&gt;前端框架&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-4&#34; href=&#34;#i-4&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;
+        网址
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        浏览器支持情况
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        CSS 大小
+      &lt;/th&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://getbootstrap.com/&#34;&gt;Twitter Bootstrap 3&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        &lt;a href=&#34;http://getbootstrap.com/getting-started/#support&#34;&gt;IE8+&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        114.55KB
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://getbootstrap.com/2.3.2/&#34;&gt;Twitter Bootstrap 2.3.3&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        IE7+
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://foundation.zurb.com/develop/download.html&#34;&gt;Foundation 5&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        &lt;a href=&#34;http://foundation.zurb.com/docs/compatibility.html&#34;&gt;IE9+&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        151.57KB
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://purecss.io/&#34;&gt;Purecss&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        &lt;a href=&#34;https://github.com/yahoo/pure/#browser-support-and-testing&#34;&gt;IE8+&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        16.88KB
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://getskeleton.com/&#34;&gt;Skeleton&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        &lt;a href=&#34;https://github.com/dhg/Skeleton/#browser-support&#34;&gt;IE9+&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        5.74KB
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;CSS&#34;&gt;CSS 预处理器&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyCSS&#34; href=&#34;#CSS&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;
+        网址
+      &lt;/th&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://lesscss.org/&#34;&gt;LESS&lt;/a&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://sass-lang.com/&#34;&gt;Sass|Scss&lt;/a&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://learnboost.github.com/stylus/&#34;&gt;Stylus&lt;/a&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;CSS-2&#34;&gt;CSS 代码质量检查工具&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyCSS-2&#34; href=&#34;#CSS-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;
+        网址
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        说明
+      &lt;/th&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://csslint.net/&#34;&gt;CSS Lint&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://twitter.github.io/recess/&#34;&gt;RECESS&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        twitter 提供
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;JavaScript&#34;&gt;JavaScript 代码质量检查工具&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyJavaScript&#34; href=&#34;#JavaScript&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;
+        网址
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        说明
+      &lt;/th&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://jshint.com/&#34;&gt;jsHint&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://eslint.org/&#34;&gt;ESLint&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://jscs.info/&#34;&gt;JSCS&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-5&#34;&gt;前端开发自动化工具&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-5&#34; href=&#34;#i-5&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;
+        名称
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        作用
+      &lt;/th&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://gruntjs.com/&#34;&gt;Gruntjs&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        优化前端开发流程，自动化许多前端优化工作
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;http://gulpjs.com/&#34;&gt;gulp.js&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        新出的，作用类似 Grunt.js
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;a href=&#34;https://github.com/broccolijs/broccoli&#34;&gt;Broccolijs&lt;/a&gt;
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        ember-cli 集成
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

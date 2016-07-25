@@ -1,0 +1,2349 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vimperator on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/vimperator/</link>
+    <description>Recent content in Vimperator on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 30 Jan 2015 17:00:13 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/vimperator/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>vimprobable2</title>
+      <link>https://www.zfanw.com/blog/vimprobable2.html</link>
+      <pubDate>Fri, 30 Jan 2015 17:00:13 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimprobable2.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 简介&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 安装&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 配置&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-4&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 问题&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    Vimprobable 的 &lt;a href=&#34;http://sourceforge.net/p/vimprobable/wiki/FAQ/&#34;&gt;FAQ&lt;/a&gt; 里有一个问答是这样的：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      Why not just use Vimperator?
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Mozilla Firefox (and also its variants like Iceweasel) gets worse with every version. It behaves like a molasse by now.
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      为什么不就用 Vimperator？
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Mozilla Firefox（包括它的变体，比如 Iceweasel），越做越糟。
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    如果你是 vimperator 用户，估计也能体会到 vimprobable 开发者的这句话。每一次 Firefox 升级，vimperator 基本都会出些小问题，然后要等开发者修复，再自己编译、重新安装。但很多人是在 Windows 环境下使用，要跑个简单的 &lt;code&gt;make xpi&lt;/code&gt; 命令估计都要先花时间折腾环境。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    所以，试试 vimprobable？
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;简介&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    vimprobable 基于 webkit，它是已经停止开发的 vimpression 的分支。它的键操作与 vimperator 很像，如果你用过 vimperator，则非常容易上手。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;安装&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    vimprobable 目前有两个版本，vimprobable1 与 vimprobable2，目前版本 1 只会打些小补丁，主要开发集中在版本 2。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    所以以下说明均指 vimprobable2。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    vimprobable 支持三种操作系统：
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      BSD
+    &lt;/li&gt;
+    &lt;li&gt;
+      Mac
+    &lt;/li&gt;
+    &lt;li&gt;
+      Linux
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    我是在 openSUSE 13.2 上安装使用。
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        下载源代码
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        下载源代码有两种方式：
+      &lt;/p&gt;
+      
+      &lt;ul&gt;
+        &lt;li&gt;
+          下载&lt;a href=&#34;http://sourceforge.net/projects/vimprobable/files/latest/download&#34;&gt;压缩包&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;code&gt;git clone git://git.code.sf.net/p/vimprobable/code&lt;/code&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        安装 vimprobable
+      &lt;/p&gt;
+      
+      &lt;ol&gt;
+        &lt;li&gt;
+          &lt;code&gt;cd&lt;/code&gt; 到代码目录中
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;code&gt;sudo make install&lt;/code&gt;
+        &lt;/li&gt;
+      &lt;/ol&gt;
+      
+      &lt;p&gt;
+        注意 vimprobable 需要三个依赖：
+      &lt;/p&gt;
+      
+      &lt;ul&gt;
+        &lt;li&gt;
+          libwebkit-1.0 &gt;= 1.1.11
+        &lt;/li&gt;
+        &lt;li&gt;
+          libgtk+-2.0
+        &lt;/li&gt;
+        &lt;li&gt;
+          libsoup-2.4
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    安装完成后，即可以通过命令行执行 vimprobable2 了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;配置&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    vimprobable2 的&lt;a href=&#34;http://www.vimprobable.org/man/vimprobablerc.5.htm&#34;&gt;配置&lt;/a&gt;有以下几种方式，
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;code&gt;make install&lt;/code&gt; 前修改 &lt;em&gt;config.h&lt;/em&gt; 及 &lt;em&gt;keymap.h&lt;/em&gt; 文件
+    &lt;/li&gt;
+    &lt;li&gt;
+      通过 &lt;code&gt;:set&lt;/code&gt; 命令临时修改
+    &lt;/li&gt;
+    &lt;li&gt;
+      通过指定 rc 配置文件，默认为 &lt;em&gt;~/.config/vimprobable/vimprobablerc&lt;/em&gt;，这是永久的
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    比如我们想改它的默认主页：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:set homepage=https://www.google.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    有兴趣可以看看&lt;a href=&#34;https://github.com/chenxsan/rc-files/blob/master/.config/vimprobable/vimprobablerc&#34;&gt;我的配置文件&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-4&#34;&gt;问题&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-4&#34; href=&#34;#i-4&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    我在使用过程中有碰到几个问题，
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        ssl 错误。
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        这是在访问一些 https 网址时出现的：
+      &lt;/p&gt;
+      
+      &lt;blockquote&gt;
+        &lt;p&gt;
+          Unable to load page
+        &lt;/p&gt;
+        
+        &lt;p&gt;
+          Problem occurred while loading the URL https://www.google.co.jp/?gfe_rd=cr&amp;ei=AzXLVIvcFOv98wf4wYCQCw
+        &lt;/p&gt;
+        
+        &lt;p&gt;
+          Unacceptable TLS certificate
+        &lt;/p&gt;
+      &lt;/blockquote&gt;
+      
+      &lt;p&gt;
+        vimprobable 默认使用 &lt;em&gt;/etc/ssl/certs/ca-certificates.crt&lt;/em&gt; 检查网站证书，而我的系统下该路径并没有文件，当然你可以自己指定路径，
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;:set cabundle=/path/to/file
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        但我因为不确定要指向哪里，所以更宁愿简单粗野处理：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;:set strictssl=false
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        不过请注意这样可能带来中间人攻击的风险。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        &lt;kbd&gt;gi&lt;/kbd&gt; 无法进入 Insert 模式
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        这是 vimprobable 使用 GTK 绑定或某些网站使用不规范的 HTML 元素的缘故，暂时无法避免。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        使用代理
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        我的电脑上安装有 &lt;a href=&#34;http://www.zfanw.com/blog/tag/privoxy&#34;&gt;Privoxy&lt;/a&gt;，vimprobable 也支持开启 proxy，但它是根据 &lt;code&gt;http_proxy&lt;/code&gt; 这个环境变量来走的，所以我在 .zshrc 文件中添加如下一行：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;alias vimpr=&#39;export HTTP_PROXY=&#34;127.0.0.1:8118&#34;; vimprobable2&#39;
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        这样我不必修改整个系统的代理设置，只需要在运行 vimprobable2 前对当前会话配置即可。
+      &lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vimperator 拷贝当前网页标题与URL成脚注形式文本</title>
+      <link>https://www.zfanw.com/blog/vimperator-copy-footnote-form-text.html</link>
+      <pubDate>Sun, 12 Jan 2014 10:11:53 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimperator-copy-footnote-form-text.html</guid>
+      <description>&lt;p&gt;这一篇标题有点长，这一篇的需求比较奇葩。&lt;/p&gt;
+
+&lt;p&gt;如脚注一篇所说的&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11372-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11372-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;，我经常有在 WordPress 里插入脚注的习惯。PHP Markdown Extra 里，脚注是这样的形式：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[^1]: [WordPress 脚注 – 陈三](http://www.zfanw.com/blog/wordpress-footnote.html)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输入次数多了让人反胃。虽然有 Vimperator 的 copy.js &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11372-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11372-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;助阵，还是会觉得麻烦。&lt;/p&gt;
+
+&lt;p&gt;我理想的用法，应该是输入 &lt;code&gt;[count]YY&lt;/code&gt; 就可以拷贝出 &lt;code&gt;[^[count]]: [标题](url)&lt;/code&gt; 这样的形式。&lt;/p&gt;
+
+&lt;p&gt;不巧，今天翻译 Vimperator 中文帮助的进度指向 JavaScript 一章，于是就倒腾出如下命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:javascript util.copyToClipboard(&#39;[^&#39; + gBrowser.tabContainer.selectedIndex + &#39;]: [&#39;+ buffer.title + &#39;](&#39; + buffer.URL + &#39;)&#39;)&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个命令可以拷贝当前网页的标题与 URL 成以下形式：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[^8]: [Vimperator 拷贝脚注文本 – 陈三](http://www.zfanw.com/blog/?p=11372)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;数字8是指当前标签页的 index 值，即它的左边还有8个标签页。如果还有其他标签页群组，则数字也许会不一样。&lt;/p&gt;
+
+&lt;p&gt;虽然这个结果离我的理想还有点距离，但 [count] 的传递暂时还想不出怎么解决，就只好先接受，再观察。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:11372-1&#34;&gt;&lt;a href=&#34;http://www.zfanw.com/blog/wordpress-footnote.html&#34;&gt;WordPress 脚注 – 陈三&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11372-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11372-2&#34;&gt;&lt;a href=&#34;http://www.zfanw.com/blog/copy-link-as-markdown-format.html&#34;&gt;拷贝 Markdown 语法链接 – 陈三&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11372-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>拷贝 Markdown 语法链接</title>
+      <link>https://www.zfanw.com/blog/copy-link-as-markdown-format.html</link>
+      <pubDate>Tue, 07 Jan 2014 11:36:23 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/copy-link-as-markdown-format.html</guid>
+      <description>&lt;p&gt;我现在的博客内容，都是用 Markdown &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11224-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11224-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;写的。有很多内容是关于前端技术的，经常会引用其他网址。在 Markdown 下，链接是这样写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[wordpress Markdown 插件](http://www.zfanw.com/blog/wordpress-markdown.html)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果是平常浏览器用法，则首先，我要拷网页标题，然后是网页 URL，然后再插入一对方括号和一对大括号。这个过程偏无聊，如果链接还多，这个过程就太无聊。&lt;/p&gt;
+
+&lt;p&gt;不巧，我用 Vimperator&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11224-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11224-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;，我还用 Vimperator 插件&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11224-3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11224-3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;，Vimperator 插件中有个 copy.js，在它的基础上略做增补&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11224-4&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11224-4&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;，就可以轻易构建出 Markdown 需要的链接形式。&lt;/p&gt;
+
+&lt;p&gt;我的做法，是增加一个 &lt;code&gt;markdownLink&lt;/code&gt; 的选项，之后 Vimperator 命令行下执行 &lt;code&gt;:copy markdownLink&lt;/code&gt; 即可。&lt;/p&gt;
+
+&lt;p&gt;如果嫌命令行里输命令太麻烦，可在普通模式下做个映射：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:nnoremap YY :copy markdownLink&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后按 YY 即可拷贝。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:11224-1&#34;&gt;&lt;a href=&#34;http://daringfireball.net/projects/markdown/syntax&#34;&gt;Daring Fireball: Markdown Syntax Documentation&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11224-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11224-2&#34;&gt;&lt;a href=&#34;http://www.vimperator.org/vimperator&#34;&gt;vimperator&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11224-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11224-3&#34;&gt;&lt;a href=&#34;https://github.com/vimpr/vimperator-plugins&#34;&gt;vimperator plugin&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11224-3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11224-4&#34;&gt;&lt;a href=&#34;https://github.com/chenxsan/vimperator-plugins/blob/3.6/copy.js&#34;&gt;copy.js&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11224-4&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox 收藏的秘密</title>
+      <link>https://www.zfanw.com/blog/firefox-keyword-search.html</link>
+      <pubDate>Wed, 20 Feb 2013 23:38:26 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-keyword-search.html</guid>
+      <description>
+
+&lt;p&gt;Firefox 下，收藏页面可以通过「书签」菜单，或直接按 &lt;kbd&gt;Ctrl-D&lt;/kbd&gt;，或点击地址栏右侧的&lt;strong&gt;星星&lt;/strong&gt;来收藏，前两种方法中，firefox 会弹出对话框，如下：&lt;/p&gt;
+
+&lt;div id=&#34;attachment_8155&#34; style=&#34;width: 310px&#34; class=&#34;wp-caption alignnone&#34;&gt;
+  &lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-webpage1.jpg&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-webpage1-300x187.jpg&#34; alt=&#34;firefox 收藏网页对话框&#34; width=&#34;300&#34; height=&#34;187&#34; class=&#34;size-medium wp-image-8155&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-webpage1-300x187.jpg 300w, https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-webpage1.jpg 331w&#34; sizes=&#34;(max-width: 300px) 100vw, 300px&#34; /&gt;&lt;/a&gt;
+  
+  &lt;p class=&#34;wp-caption-text&#34;&gt;
+    图1
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Tags 部分表示页面标签，可填可不填，填写的话，可以方便后期检索。&lt;/p&gt;
+
+&lt;p&gt;除此之外，firefox 其实还有一种收藏页面的方式，不过与上面所述方法有所不同，如下：&lt;/p&gt;
+
+&lt;div id=&#34;attachment_8022&#34; style=&#34;width: 310px&#34; class=&#34;wp-caption alignnone&#34;&gt;
+  &lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/Screenshot-from-2013-02-16-225505.png&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/Screenshot-from-2013-02-16-225505-300x124.png&#34; alt=&#34;firefox 收藏 关键字&#34; width=&#34;300&#34; height=&#34;124&#34; class=&#34;alignnone size-medium wp-image-8022&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/Screenshot-from-2013-02-16-225505-300x124.png 300w, https://www.zfanw.com/blog/wp-content/uploads/2013/02/Screenshot-from-2013-02-16-225505.png 400w&#34; sizes=&#34;(max-width: 300px) 100vw, 300px&#34; /&gt;&lt;/a&gt;
+  
+  &lt;p class=&#34;wp-caption-text&#34;&gt;
+    图2
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;图2中显示的这个对话框，是右击我的博客的搜索框后，选择弹出菜单中的 「Add a Keyword for this Search&amp;#8230;」 菜单项后出来的。可以看到，对话框的标题为 &amp;#8220;New Bookmark&amp;#8221;。&lt;/p&gt;
+
+&lt;p&gt;在 &amp;#8220;Keyword&amp;#8221; 框中填入你要设置的&lt;strong&gt;关键字&lt;/strong&gt;，比如，zf。之后按 &lt;kbd&gt;Alt-D&lt;/kbd&gt; 或按 &lt;kbd&gt;Ctrl-L&lt;/kbd&gt; 或通过鼠标聚焦 &lt;a href=&#34;http://support.mozilla.org/en-US/kb/awesome-bar-find-your-bookmarks-history-and-tabs&#34;&gt;firefox 的导航栏&lt;/a&gt;，然后输入 「zf firefox」 就可以搜索博客中带有 「firefox」 关键词的文章，如图3：&lt;/p&gt;
+
+&lt;div id=&#34;attachment_8031&#34; style=&#34;width: 310px&#34; class=&#34;wp-caption alignnone&#34;&gt;
+  &lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-awesome-bar-search1.jpg&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-awesome-bar-search1-300x134.jpg&#34; alt=&#34;firefox 导航栏自动补齐搜索&#34; width=&#34;300&#34; height=&#34;134&#34; class=&#34;alignnone size-medium wp-image-8031&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-awesome-bar-search1-300x134.jpg 300w, https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-awesome-bar-search1.jpg 313w&#34; sizes=&#34;(max-width: 300px) 100vw, 300px&#34; /&gt;&lt;/a&gt;
+  
+  &lt;p class=&#34;wp-caption-text&#34;&gt;
+    图3
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在上面，我强调说，这种方法是别一种&lt;strong&gt;收藏页面&lt;/strong&gt;的方法，因为我们可以从书签管理中找到第二种方法收藏的链接，如下所示，在侧边栏中打开书签管理并搜索：&lt;/p&gt;
+
+&lt;div style=&#34;width: 285px&#34; class=&#34;wp-caption alignnone&#34;&gt;
+  &lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-search.jpg&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-search.jpg&#34; alt=&#34;firefox 书签管理&#34; width=&#34;275&#34; height=&#34;194&#34; class=&#34;alignnone size-full wp-image-8033&#34; /&gt;&lt;/a&gt;
+  
+  &lt;p class=&#34;wp-caption-text&#34;&gt;
+    图4
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;你可以看到，当鼠标放到该链接上时，会浮动出一个 tooltip，显示 Name 与收藏的网址：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Search 陈三
+http://www.zfanw.com/blog/?s=%s
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这正是第二种方法收藏的页面路径。&lt;/p&gt;
+
+&lt;p&gt;请注意 &lt;strong&gt;%s&lt;/strong&gt; 部分。这是 firefox 的 &lt;a href=&#34;http://kb.mozillazine.org/Using_keyword_searches&#34;&gt;Keyword search&lt;/a&gt; 背后实现。&lt;/p&gt;
+
+&lt;p&gt;当我输入 zf firefox&amp;#8221; 时，firefox 其实自动将收藏的网址 &amp;#8220;&lt;a href=&#34;https://www.zfanw.com/blog/?s=%s&amp;amp;#8221&#34;&gt;https://www.zfanw.com/blog/?s=%s&amp;amp;#8221&lt;/a&gt;; 中的 「%s」 替换为 &amp;#8220;zf&amp;#8221; 这个关键字空格后的所有内容即 &amp;#8220;firefox&amp;#8221;，也就是说，访问的页面网址实际上变成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;http://www.zfanw.com/blog/?s=firefox
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样我们就清楚知道这个功能背后的原理。&lt;/p&gt;
+
+&lt;p&gt;当右击搜索框添加关键字保存的页面实现不正常或无法添加关键字时，我们可以自己手动设置收藏地址。&lt;/p&gt;
+
+&lt;p&gt;举 Google+ 为例，如果通过 「Add a Keyword for this Search&amp;#8230;」 方法来添加 「gp」 为关键字，保存的链接地址是 &amp;#8220;&lt;a href=&#34;https://plus.google.com/s/_/search/form?q=%s&amp;amp;#8221;，很不幸，这个搜索网址并不正确。&#34;&gt;https://plus.google.com/s/_/search/form?q=%s&amp;amp;#8221;，很不幸，这个搜索网址并不正确。&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;但我们可以试着输入一两个关键词看看其结构，仍试 &amp;#8220;firefox&amp;#8221;，其链接结构如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;https://plus.google.com/s/firefox
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样我们就可以将先前收藏的链接地址修改为 &amp;#8220;&lt;a href=&#34;https://plus.google.com/s/%s&amp;amp;#8221;，之后在导航栏输入&#34;&gt;https://plus.google.com/s/%s&amp;amp;#8221;，之后在导航栏输入&lt;/a&gt; &amp;#8220;gp firefox&amp;#8221; 即可搜索 Google+ 里的 firefox 内容。&lt;/p&gt;
+
+&lt;p&gt;通过这种办法，我们实际上可以给 firefox 添加无数的「搜索引擎」，而不仅仅默认的 Google、Bing，又或是通过扩展组件添加的搜索引擎。&lt;/p&gt;
+
+&lt;p&gt;如果再配上 Vimperator，则简直行云流水了。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://plus.google.com/104787680206754797134/posts/LHrhpc9DS3V&#34;&gt;Google+ vimperator 中文社群&lt;/a&gt; 及其评论&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vimperator 中文社群</title>
+      <link>https://www.zfanw.com/blog/vimperator-zh-comunity.html</link>
+      <pubDate>Tue, 11 Dec 2012 01:03:54 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimperator-zh-comunity.html</guid>
+      <description>&lt;p&gt;最近 Google+ 推出了 Comunities 功能 &amp;#8211; 中文是译成「社群」，就建了个 &lt;a href=&#34;https://plus.google.com/communities/104844337502700525611&#34;&gt;Vimperator 中文&lt;/a&gt;社群，目的主要是交流 Vimperator 使用经验(？)。&lt;/p&gt;
+
+&lt;p&gt;欢迎加入。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>搜索引擎框中的快捷键</title>
+      <link>https://www.zfanw.com/blog/shortcut-in-search-engine.html</link>
+      <pubDate>Sun, 02 Dec 2012 07:48:07 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/shortcut-in-search-engine.html</guid>
+      <description>&lt;p&gt;搜索引擎框中有许多快捷键可以用，并且与 Bash、Emacs 一类软件相通，如果能熟练使用，可以很好提高效率。&lt;/p&gt;
+
+&lt;p&gt;以下分别列出，其中 &amp;#8220;C&amp;#8221; 表示 Ctrl 键。&lt;/p&gt;
+
+&lt;p&gt;假设搜索框中的字符串为 &amp;#8220;&lt;strong&gt;Hello vi*mperator on firefox&lt;/strong&gt;&amp;#8220;，字符串中的星号表示光标位置。&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;快捷键&lt;/th&gt;
+&lt;th&gt;作用及示例说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-a&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;跳转到搜索框所有字符前（Hello 之前）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-e&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;跳转到搜索框所有字符后（firefox 之后）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-k&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;从光标位置起，删除所有往后的字符（剩下 Hello vi）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-u&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;从光标位置起，删除所有往前的字符（剩下 mperator on firefox）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-d&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;删除光标位置后一个字符（剩下 Hello viperator on firefox）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-h&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;删除光标位置前一个字符（剩下 Hello vmperator on firefox）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-z&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;取消删除&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-w&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;删除光标位置前的一个单词（剩下 Hello perator on firefox）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;在 Bash 中，&lt;kbd&gt;C-f&lt;/kbd&gt; 表示向前（右）移动一个字符，&lt;kbd&gt;C-b&lt;/kbd&gt; 表示向后（左）移动一个字符，但是在 firefox 下，这两个的作用分别是“查找”与“打开书签侧边栏”。在 vimperator 下我并不需要这两个功能，就可以在 .vimperatorrc 配置文件中将其映射给移动字符的功能：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;inoremap &amp;lt;C-f&amp;gt; &amp;lt;Right&amp;gt;
+inoremap &amp;lt;C-b&amp;gt; &amp;lt;Left&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以从上面的表格里看到，我们可以通过 &lt;C-w&gt; 删除光标位置前一个单词，那么要删除光标位置后一个单词如何？Bash 下是通过 &lt;kbd&gt;A-d&lt;/kbd&gt; （A 指 alt 键），firefox 下或 vimperator 下这个键组合是选中导航栏上的网址。当然，我们也可以通过键映射来完成，只是有些复杂：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;inoremap &amp;lt;A-d&amp;gt; &amp;lt;C-t&amp;gt;dwi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当 Vimperator 处于插入模式(insert mode)时，按 &lt;kbd&gt;C-t&lt;/kbd&gt; 可以进入 textarea mode （文本区域模式），可以把它理解为简单的 vi 模式，像 h l ^ $ 之类的键统统可用，这时按 &lt;kbd&gt;dw&lt;/kbd&gt; 可以删除到光标位置后的一个单词，最末的一个 &lt;kbd&gt;i&lt;/kbd&gt; 则是从 textarea mode 转回插入模式。&lt;/p&gt;
+
+&lt;p&gt;当然，以上快捷键并不仅限于搜索引擎中，凡是网页上的文本框基本都可以使用。另外，某些方法比如删除单词在中文里并不适用，因为中文并不通过空格来分词。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vimperator 打开多个链接</title>
+      <link>https://www.zfanw.com/blog/vimperator-multi-links.html</link>
+      <pubDate>Fri, 30 Nov 2012 05:28:14 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimperator-multi-links.html</guid>
+      <description>&lt;p&gt;Vimperator 按 &lt;kbd&gt;f&lt;/kbd&gt; 或 &lt;kbd&gt;F&lt;/kbd&gt; 键进入 hint 模式，就可以通过键盘打开页面内的链接。但是，这种方法只能打个一个链接，总有些人想同时打开多个链接的，比如我。&lt;/p&gt;
+
+&lt;p&gt;这个方法使用 Vimperator 的插件 &lt;a href=&#34;https://github.com/caisui/vimperator/blob/master/plugin/multi-hints.js&#34;&gt;multi-hints.js&lt;/a&gt;。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;下载 multi-hints.js 到 .vimperator/plugin 目录下&lt;/li&gt;
+&lt;li&gt;在 vimperator 命令行运行 &lt;code&gt;:loadplugins&lt;/code&gt;，又或者重启 firefox&lt;/li&gt;
+&lt;li&gt;在 vimperator 命令行运行 &lt;code&gt;:multihints follow&lt;/code&gt;，然后按确定键&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;输入要打开的链接的 hint 数字/字母，不同链接的 hint 值用空格分开，比如下图：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/11/vimperator-multi-links.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/11/vimperator-multi-links.png&#34; alt=&#34;vimperator 打开多链接&#34; title=&#34;vimperator-multi-links&#34; width=&#34;518&#34; height=&#34;106&#34; class=&#34;alignnone size-full wp-image-7097&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/11/vimperator-multi-links.png 518w, https://www.zfanw.com/blog/wp-content/uploads/2012/11/vimperator-multi-links-300x61.png 300w&#34; sizes=&#34;(max-width: 518px) 100vw, 518px&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;在命令行输入 ll la ls ld 后按确定键，firefox 将在新标签页中打开四个链接&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;每次都输入命令行肯定也不方便，就 map 一个快捷键给命令，在vimperator 配置文件中加下以下命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:nnoremap &amp;lt;C-A-m&amp;gt; :multihints follow&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;重启 firefox 或者 &lt;code&gt;:source ~/.vimperatorrc&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;之后就可以通过按 &lt;kbd&gt;Ctrl-Alt-m&lt;/kbd&gt; 来启用 multihints 打开多个链接&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;Update&lt;/strong&gt; &amp;#8211; 2012.12.14&lt;/p&gt;
+
+&lt;p&gt;「老杨」在评论里提到 Vimperator 扩展 hint 模式下 &lt;kbd&gt;;F&lt;/kbd&gt; 用于打开多个链接，这个在我前文中并没有提到，感谢提醒。&lt;/p&gt;
+
+&lt;p&gt;对比我所描述的方法，这两者有一个小小差别：&lt;kbd&gt;;F&lt;/kbd&gt; 是「一个一个打开多个链接」，multi-hints.js 则是「一下子打开多个链接」。&lt;/p&gt;
+
+&lt;p&gt;从我的体验上说，后者要比前者更流畅。当然，也如回复老杨的评论中我所强调的，之所以我用这个方法，是根据我个人的偏门需求定制的 &amp;#8211; 这是 Vimperator 最大的好处，可定制性。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox SOCKS 代理切换</title>
+      <link>https://www.zfanw.com/blog/ssh-firefox-sock-proxy-switch.html</link>
+      <pubDate>Thu, 25 Oct 2012 15:14:20 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ssh-firefox-sock-proxy-switch.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 修订历史&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#autoproxychangerjs&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; autoproxychanger.js&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;修订历史&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;span itemprop=dateModified&gt;2012.12.14&lt;/span&gt;：文中介绍的方法，在对待所有网站上，是没有区别的，要么全部走 SOCKS 代理，要么全部不走，而且要经常&lt;strong&gt;手动&lt;/strong&gt;切换，办法太笨，推荐使用更智能的 &lt;a href=&#34;http://getfoxyproxy.org/&#34;&gt;FoxyProxy&lt;/a&gt;。
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    如果你有一个 SSH 账号，允许你登录到远程电脑，那么可以将 Firefox 请求的数据通过 SSH tunnel 发送给远程电脑，借助远程电脑访问你想要访问的信息，保证信息安全。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先，通过 SSH 连接上远程电脑：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ ssh -D 9999 -C samchen@zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;D&lt;/code&gt; 参数表示 SSH 隧道在本地电脑监听的端口，&lt;code&gt;C&lt;/code&gt; 参数表示压缩传输的数据。这样我们就利用 SSH 转发端口功能在本地电脑与远程电脑之间建起一条安全通道。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接着是启用 Firefox 的 SOCKS 代理，打开 firefox 首选项中的网络，选择「设置」，然后进入代理配置对话框，按下图所示填入信息：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [resp_image id=&amp;#8217;15216&amp;#8242; caption=&amp;#8221; ]
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这样，firefox 浏览器所请求的数据将通过 SSH tunnel 发送给远程电脑，再由远程电脑代理我们请求。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    可是，如果经常要切换 SOCKS 代理呢？总不能时不时要打开代理设置对话框。当然，可以考虑装一个 firefox 扩展，不过我 firefox 上扩展的数量已经不下 10 个了，没打算为着这么个小功能特意装个插件。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;autoproxychangerjs&#34;&gt;autoproxychanger.js&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyautoproxychangerjs&#34; href=&#34;#autoproxychangerjs&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如果你使用 Vimperator 扩展，则可以安装 &lt;a href=&#34;https://github.com/vimpr/vimperator-plugins/blob/master/autoproxychanger.js&#34;&gt;autoproxychanger.js&lt;/a&gt;，这是一个 vimperator 脚本扩展，用于通过命令行控制代理的切换、开关。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先将其安装到 .vimperator/plugin/ 目录下，然后打开 .vimperatorrc 配置文件，加入如下两行内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;let autochanger_proxy_settings = &#34;[{ name:&#39;disable&#39;, usage: &#39;direct connection&#39;, proxy:{type:0} },{ name:&#39;socks&#39;, usage: &#39;ssh tunnel&#39;, proxy:{type:1,socks:&#39;localhost&#39;,socks_port:9999,no_proxies_on:&#39;localhost,127.0.0.1&#39;,}}]&#34;
+
+let autochanger_proxy_enabled=&#34;true&#34;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    保存，然后重启 firefox，按 &lt;kbd&gt;:&lt;/kbd&gt; 进入命令行模式，输入命令 &lt;code&gt;proxy&lt;/code&gt;，再按一个空格，可以看到有三个自动补齐项：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      default
+    &lt;/li&gt;
+    &lt;li&gt;
+      disable
+    &lt;/li&gt;
+    &lt;li&gt;
+      socks
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    选择 socks 即可启用 firefox 的 SOCKS 代理，disable 则是不使用代理。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接着再到 vimperator 配置文件中定向两个键映射：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;nnoremap &amp;lt;C-A-p&amp;gt; :proxy socks&amp;lt;CR&amp;gt;
+nnoremap &amp;lt;C-A-d&amp;gt; :proxy disable&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样就可以按 &lt;kbd&gt;Ctrl-Alt-P&lt;/kbd&gt; 启用 SOCKS 代理，按 &lt;kbd&gt;Ctrl-Alt-D&lt;/kbd&gt; 关闭代理。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vimperator 里保存网页到 Pocket</title>
+      <link>https://www.zfanw.com/blog/vimperator-add-page-to-pocket.html</link>
+      <pubDate>Thu, 14 Jun 2012 07:03:24 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimperator-add-page-to-pocket.html</guid>
+      <description>&lt;p&gt;&lt;strong&gt;2015.05.24&lt;/strong&gt; 推荐一个&lt;a href=&#34;https://github.com/chenxsan/report/issues/2#issuecomment-104982715&#34;&gt;新方法&lt;/a&gt;，以下不再推荐使用。&lt;/p&gt;
+
+&lt;p&gt;以前 &lt;a href=&#34;https://github.com/to/tombloo/wiki/&#34;&gt;tombloo&lt;/a&gt; 还能用的时候，就直接用它保存链接到 Pocket 里，但现在不知道什么原因无法保存（可能因为从 Read it later 改名为 Pocket？），就只好另寻方法。&lt;/p&gt;
+
+&lt;p&gt;还好 Pocket 针对 Firefox 提供一个&lt;a href=&#34;https://getpocket.com/add?sb=1&#34;&gt;书签小程式 bookmarklet&lt;/a&gt;，你只要拖动保存它到浏览器的书签栏上，在需要保存的页面按下该按钮即可保存网页到 Pocket 里。&lt;/p&gt;
+
+&lt;p&gt;但作为 Vimperator 用户，用鼠标显然不合习惯，所以需要找个办法，可以通过键盘完成上面需要通过鼠标完成的任务。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;通过 &lt;code&gt;:qmark&lt;/code&gt; 命令给 Vimperator 添加快速书签 p &amp;#8211; Javascript 代码拷自小书签程式的链接&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3955-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:3955-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:qmark p javascript:(function(){var%20e=function(t,n,r,i,s){var%20o=[6087319,5700434,1277186,3061050,5288415,3121548,4527391,4232602,2376464,5969755];var%20i=i||0,u=0,n=n||[],r=r||0,s=s||0;var%20a={&#39;a&#39;:97,&#39;b&#39;:98,&#39;c&#39;:99,&#39;d&#39;:100,&#39;e&#39;:101,&#39;f&#39;:102,&#39;g&#39;:103,&#39;h&#39;:104,&#39;i&#39;:105,&#39;j&#39;:106,&#39;k&#39;:107,&#39;l&#39;:108,&#39;m&#39;:109,&#39;n&#39;:110,&#39;o&#39;:111,&#39;p&#39;:112,&#39;q&#39;:113,&#39;r&#39;:114,&#39;s&#39;:115,&#39;t&#39;:116,&#39;u&#39;:117,&#39;v&#39;:118,&#39;w&#39;:119,&#39;x&#39;:120,&#39;y&#39;:121,&#39;z&#39;:122,&#39;A&#39;:65,&#39;B&#39;:66,&#39;C&#39;:67,&#39;D&#39;:68,&#39;E&#39;:69,&#39;F&#39;:70,&#39;G&#39;:71,&#39;H&#39;:72,&#39;I&#39;:73,&#39;J&#39;:74,&#39;K&#39;:75,&#39;L&#39;:76,&#39;M&#39;:77,&#39;N&#39;:78,&#39;O&#39;:79,&#39;P&#39;:80,&#39;Q&#39;:81,&#39;R&#39;:82,&#39;S&#39;:83,&#39;T&#39;:84,&#39;U&#39;:85,&#39;V&#39;:86,&#39;W&#39;:87,&#39;X&#39;:88,&#39;Y&#39;:89,&#39;Z&#39;:90,&#39;0&#39;:48,&#39;1&#39;:49,&#39;2&#39;:50,&#39;3&#39;:51,&#39;4&#39;:52,&#39;5&#39;:53,&#39;6&#39;:54,&#39;7&#39;:55,&#39;8&#39;:56,&#39;9&#39;:57,&#39;\/&#39;:47,&#39;:&#39;:58,&#39;?&#39;:63,&#39;=&#39;:61,&#39;-&#39;:45,&#39;_&#39;:95,&#39;&amp;amp;&#39;:38,&#39;$&#39;:36,&#39;!&#39;:33,&#39;.&#39;:46};if(!s||s==0){t=o[0]+t}for(var%20f=0;f&amp;lt;t.length;f++){var%20l=function(e,t){return%20a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var%20c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var%20p=c%(50*1);if(n[p]){var%20d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==344){var%20v=&#39;&#39;;for(var%20f=0;f&amp;lt;n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return%20v+&#39;a3dcd699e5&#39;}else{return%20e(u+&#39;&#39;,n,r,i,s+1)}};var%20t=document,n=t.location.href,r=t.title;var%20i=e(n);var%20s=t.createElement(&#39;script&#39;);s.type=&#39;text/javascript&#39;;s.src=&#39;https://getpocket.com/b/r4.js?h=&#39;+i+&#39;&amp;amp;u=&#39;+encodeURIComponent(n)+&#39;&amp;amp;t=&#39;+encodeURIComponent(r);e=i=function(){};var%20o=t.getElementsByTagName(&#39;head&#39;)[0]||t.documentElement;o.appendChild(s)})()
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Vimperator 会自动将上述设置保存到 quickmarks 文件中&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;正常模式下键入 &lt;kbd&gt;gop&lt;/kbd&gt; 即可保存你要保存的网页到 Pocket&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;另一种办法，可以使用 vimperator &lt;a href=&#34;https://github.com/vimpr/vimperator-plugins/blob/a5a7259a23509164e7ca3bf92deff6aa23209538/readitlater.js&#34;&gt;readitlater.js 插件&lt;/a&gt;，由 &lt;a href=&#34;http://twitter.com/dunkelsvL&#34;&gt;@dunkelsvL&lt;/a&gt; 君提供地址，由热情的岛国人民开发。&lt;/p&gt;
+
+&lt;p&gt;参考链接：&lt;a href=&#34;http://subtech.g.hatena.ne.jp/secondlife/20080919/1221795410&#34;&gt;second life&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:3955-1&#34;&gt;2015.05.24 订正 bookmarklet 代码，多谢 Geng-G-Razor 在 Github report 库上帮忙报告错误
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:3955-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vimperator 下使用 pdf.js</title>
+      <link>https://www.zfanw.com/blog/vimperator-navigate-pdf-js.html</link>
+      <pubDate>Sun, 10 Jun 2012 14:34:55 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimperator-navigate-pdf-js.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_pdfjs&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 安装 pdf.js&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_pdfjsjs&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 安装 pdf.js.js&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 使用方法&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    在 twitter 上看到 &lt;a href=&#34;https://twitter.com/#!/anekos&#34;&gt;@anekos&lt;/a&gt; さん发的 &lt;a href=&#34;http://vimperator.g.hatena.ne.jp/nokturnalmortum/20120610/1339333950&#34;&gt;pdf.js.js 推文链接&lt;/a&gt;，不巧以前就对 pdf.js 在 Vimperator 下的导航有些不满，就安装试用了下 pdf.js.js，功能简洁方便，略作介绍。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_pdfjs&#34;&gt;安装 pdf.js&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_pdfjs&#34; href=&#34;#_pdfjs&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    下载地址：&lt;a href=&#34;https://addons.mozilla.org/ja/firefox/addon/pdfjs/&#34;&gt;https://addons.mozilla.org/ja/firefox/addon/pdfjs/&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    pdf.js 是 Firefox 插件，可以让你直接在 Firefox 中打开 pdf 文件，省去安装其他 pdf 阅读软件的麻烦。据称 Firefox 14 版本中将内建它的功能。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_pdfjsjs&#34;&gt;安装 pdf.js.js&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_pdfjsjs&#34; href=&#34;#_pdfjsjs&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    下载地址：&lt;a href=&#34;https://github.com/vimpr/vimperator-plugins/blob/master/PDF.js.js&#34;&gt;https://github.com/vimpr/vimperator-plugins/blob/master/PDF.js.js&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    将其放到 vimperator/plugin 文件夹下，重启 Firefox 即可。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;使用方法&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;j&lt;/kbd&gt; &amp;#8211; 向下滚动页面
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;k&lt;/kbd&gt; &amp;#8211; 向上滚动页面
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;n&lt;/kbd&gt; &amp;#8211; 翻到下一页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;p&lt;/kbd&gt; &amp;#8211; 翻到上一页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;gg&lt;/kbd&gt; &amp;#8211; 翻到第一页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;count gg&lt;/kbd&gt; &amp;#8211; 第 count 页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    还有一个命令 &lt;code&gt;:pdfjs&lt;/code&gt; 可以在 Vimperator 的命令行模式中使用。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    它有两个参数，index 与 zoom，index 跳转到某一页面，zoom 用于设置页面缩放。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    于是，pdf.js 提供的功能都可以通过命令完成。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vimperator 其实很简单</title>
+      <link>https://www.zfanw.com/blog/vimperator-is-easy-to-learn.html</link>
+      <pubDate>Thu, 31 May 2012 02:16:30 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimperator-is-easy-to-learn.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Vimperator&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 设置 Vimperator 界面&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 打开网页&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 浏览网页&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 打开页面链接&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-4&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 历史导航&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-5&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;6&lt;/span&gt; 关闭页面&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-6&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;7&lt;/span&gt; 标签页管理&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Vimperator-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;8&lt;/span&gt; 退出 Vimperator&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-7&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;9&lt;/span&gt; 帮助&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-8&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;10&lt;/span&gt; 修订历史&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    在提到 Vimperator 时，许多教程都会说及 Vim，毕竟 Vimperator 的理念来自 Vim，不提下祖籍何方好像不应当，但藉此他们也说，Vimperator 的学习曲线很陡。这句话对没学过 Vim 的人来说，真的阻碍很大。但我个人觉得不必这样描述，试着回想一下，大家平时最常用的操作，大概不会超过几个，只要熟悉这几个，已经可以很大提高浏览网页效率，减少使用鼠标的频次，至于更高阶些的应用，比如自定义命令等等，那完全看个人兴趣，没必要让这些高阶应用成为新手尝试 Vimperator 的拦路虎。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    虽然以前写过一篇 &lt;a href=&#34;http://www.zfanw.com/blog/vimperator-firefox.html&#34; title=&#34;打开文章&#34;&gt;Firefox 利器 Vimperator&lt;/a&gt;，但内容还是偏多，这篇再行精减，挑出最常用的操作。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Vimperator&#34;&gt;设置 Vimperator 界面&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Vimperator&#34; href=&#34;#_Vimperator&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Vimperator 默认界面并没有工具栏、菜单栏，新手可能无法习惯这种简陋。在 Vimperator 下执行：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:set gui=menu
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    就可以显示菜单。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在我们上手基本快捷键后，可以再隐藏它：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:set gui=nomenu
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;打开网页&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    有两种方式打开网页，
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      在当前页打开
+    &lt;/li&gt;
+    &lt;li&gt;
+      在新标签页中打开
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    前面一种按 &lt;kbd&gt;o&lt;/kbd&gt; 键，后面一种按 &lt;kbd&gt;t&lt;/kbd&gt; 键，o 指 open，t 指 tabopen，之后就可以在命令行模式里输入要打开的网址。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    上面的两个按键都是小写，它们有大写的变体，&lt;kbd&gt;O&lt;/kbd&gt; 与 &lt;kbd&gt;T&lt;/kbd&gt;，意义与小写接近，不过网址不是你自己输入的，而是基于当前网页的网址进行编辑，然后再决定是当前页打开还是新标签页里打开。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;浏览网页&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    打开网页后，常见的操作该是浏览，上下左右滚动页面，平时可能要用鼠标滚轮，或者拉动滚动条，但 Vimperator 里，你可以使用简单的几个键：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;h&lt;/kbd&gt; &amp;#8211; 左
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;l&lt;/kbd&gt; &amp;#8211; 右
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;j&lt;/kbd&gt; &amp;#8211; 下
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;k&lt;/kbd&gt; &amp;#8211; 上
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    刚用可能会不习惯，但多用几次，手部肌肉有了记忆，自然就流畅了 &amp;#8211; Vim 之所以用这几个键来表示上下左右，是因为 vi 的开发者当时使用的机器上，&lt;a href=&#34;http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/&#34; title=&#34;vim 的 hljk 移动的由来&#34;&gt;上下左右箭头键就刻在这几个键上&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    大家在浏览网页时，可能会经常看见“返回顶部”的按钮，但应该没人见过“去到底部”的按钮。Vimperator 返回顶部命令是 &lt;kbd&gt;gg&lt;/kbd&gt;，到底部是 &lt;kbd&gt;G&lt;/kbd&gt;，而且你还能明确指定整个页面的百分位置，比如，页面中间是 &lt;kbd&gt;50G&lt;/kbd&gt;，其他可类推。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;打开页面链接&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    互联网的发展始于超链接，你打开的任一网页，基本都会有一个以上的链接，你可能想打开这个链接，用鼠标的话可以左键点击，Vimperator 使用一个 hints 模式，你只要按下 &lt;kbd&gt;f&lt;/kbd&gt; 就可以进入该模式，进入 hint 模式后，Vimperator 会给页面内看得见的链接添加标记（默认为数字，可以自定义），然后键入数字就可以直接在当前页打开该链接。意料之中的是，大写的 &lt;kbd&gt;F&lt;/kbd&gt; 的作用是在新标签页中打开链接。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-4&#34;&gt;历史导航&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-4&#34; href=&#34;#i-4&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    打开页面 -&gt; 打开页面 -&gt; &amp;#8230;&amp;#8230; 如此重复几次后，你可能想后退，想前进，这时可以用 &lt;kbd&gt;H&lt;/kbd&gt; 后退，&lt;kbd&gt;L&lt;/kbd&gt; 前进，也可以 &lt;ctrl-i&gt;/&lt;ctrl-o&gt;来前进后退。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-5&#34;&gt;关闭页面&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-5&#34; href=&#34;#i-5&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    你想关闭页面，简单一个 &lt;kbd&gt;d&lt;/kbd&gt; 就可以关闭当前页面。这时，置为当前的页面是被关闭页面的右侧标签页，如果要激活左侧标签页为当前页面，则是按 &lt;kbd&gt;D&lt;/kbd&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-6&#34;&gt;标签页管理&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-6&#34; href=&#34;#i-6&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    开了好多个标签页，这时可能需要切换:
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;gt&lt;/kbd&gt; &amp;#8211; 下一个标签页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;gT&lt;/kbd&gt; &amp;#8211; 上一个标签页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;ctrl-n&lt;/kbd&gt; &amp;#8211; 下一个标签页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;ctrl-p&lt;/kbd&gt; &amp;#8211; 上一个标签页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;b&lt;/kbd&gt; &amp;#8211; 个人觉得是最便利的方法，它通过过滤 url 地址来选择页面
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Vimperator-2&#34;&gt;退出 Vimperator&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Vimperator-2&#34; href=&#34;#_Vimperator-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;:exit&lt;/kbd&gt; &amp;#8211; 退出，不保存当前会话历史，下次启动一切再从头
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;:wqall&lt;/kbd&gt; &amp;#8211; 退出，保存当前会话历史，下次启动则恢复此次浏览状况
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-7&#34;&gt;帮助&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-7&#34; href=&#34;#i-7&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;:help&lt;/kbd&gt; &amp;#8211; 目前的帮助文件为英文、日文两种语言，没有中文。
+  &lt;/p&gt;
+  
+  &lt;div class=&#39;timeline&#39;&gt;
+    &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+      &lt;span id=&#34;i-8&#34;&gt;修订历史&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-8&#34; href=&#34;#i-8&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+    &lt;/h2&gt;
+    
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;span itemprop=&#39;dateModified&#39;&gt;2015-06-12&lt;/span&gt; 修订错误，改善排版
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox 利器 – Vimperator</title>
+      <link>https://www.zfanw.com/blog/vimperator-firefox.html</link>
+      <pubDate>Wed, 16 Mar 2011 15:33:30 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimperator-firefox.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 打开常用网址&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 打开网页&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 搜索&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-4&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 浏览网页&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-5&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 历史导航&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-6&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;6&lt;/span&gt; 输入文字&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-7&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;7&lt;/span&gt; 标签页管理&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-8&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;8&lt;/span&gt; 保存配置&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Firefox&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;9&lt;/span&gt; 重启 Firefox&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Firefox-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;10&lt;/span&gt; 退出 Firefox&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-9&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;11&lt;/span&gt; 修订历史&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    Vimperator 受启于 Vim，但这不代表，我们使用 Vimperator 前一定要会 Vim，大部分时候，Vimperator 只需简单的几个键，就可以完成绝大部分工作。
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      命令部分均可按 &lt;kbd&gt;Tab&lt;/kbd&gt; 键补齐。
+    &lt;/li&gt;
+    &lt;li&gt;
+      任何时候，想要放弃输入或退回普通模式，按 &lt;kbd&gt;Esc&lt;/kbd&gt; 键。
+    &lt;/li&gt;
+    &lt;li&gt;
+      大写请配合 &lt;kbd&gt;shift&lt;/kbd&gt; 键输入。
+    &lt;/li&gt;
+    &lt;li&gt;
+      普通模式下 &lt;kbd&gt;.&lt;/kbd&gt; 可以重复上一个操作，比如使用 &lt;kbd&gt;d&lt;/kbd&gt; 关闭当前页后，&lt;kbd&gt;.&lt;/kbd&gt; 可继续关闭当前页。
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;打开常用网址&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    可以将常用网址添加为 quickmark，有两个办法：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        添加当前网址
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        假设当前页网址是 http://www.google.com，
+      &lt;/p&gt;
+      
+      &lt;ol&gt;
+        &lt;li&gt;
+          按 &lt;kbd&gt;shift+m&lt;/kbd&gt; 键，可以看到底端命令栏出现大写的 &lt;code&gt;M&lt;/code&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          再按 a-z、A-Z、0-9 中的任一个，如 &lt;kbd&gt;g&lt;/kbd&gt;，则命令行显示 &lt;code&gt;Added quick mark &#39;g&#39;:http://www.google.com&lt;/code&gt; 表示成功添加 quickmark。
+        &lt;/li&gt;
+      &lt;/ol&gt;
+      
+      &lt;p&gt;
+        此后可以使用 &lt;kbd&gt;gog&lt;/kbd&gt; 在当前页打开 google，或 &lt;kbd&gt;gng&lt;/kbd&gt; 在新标签页打开 google。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        添加多个网址
+      &lt;/p&gt;
+      
+      &lt;ol&gt;
+        &lt;li&gt;
+          &lt;p&gt;
+            在命令行模式中执行
+          &lt;/p&gt;
+          
+          &lt;p&gt;
+            &lt;code&gt;:qmark a www.google.com, www.zfanw.com, google Vimperator&lt;/code&gt;
+          &lt;/p&gt;
+        &lt;/li&gt;
+      &lt;/ol&gt;
+      
+      &lt;p&gt;
+        注意逗号后面是有个空格的。
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        以后按 &lt;kbd&gt;goa&lt;/kbd&gt; 或 &lt;kbd&gt;gna&lt;/kbd&gt; 可以同时打开 google 首页、zfanw 首页，还会打开 google 搜索 vimperator。
+      &lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;:qmarks&lt;/code&gt;：显示所有已经添加的 quickmark
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;:delqmark g&lt;/code&gt;：删除 g 这个 quickmark
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;:delqmark!&lt;/code&gt;：删除所有 quickmark
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;打开网页&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;o&lt;/kbd&gt;：当前页打开
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;t&lt;/kbd&gt;：新标签页中打开
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;w&lt;/kbd&gt;：新窗口里打开
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;gh&lt;/kbd&gt;：在当前页打开主页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;gH&lt;/kbd&gt;：在新标签页中打开主页
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;搜索&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;:dialog searchengines&lt;/code&gt;：查看所有可用的搜索引擎，并可以进行排序、删除、更改关键字等，默认搜索引擎是 Google。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;:google vimperator&lt;/code&gt;：打开 google 搜索 vimperator
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;:wikipedia vimperator&lt;/code&gt;：打开 wikipedia 中的 vimperator 条目
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-4&#34;&gt;浏览网页&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-4&#34; href=&#34;#i-4&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;h&lt;/kbd&gt;：左
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;l&lt;/kbd&gt;：右
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;j&lt;/kbd&gt;：下
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;k&lt;/kbd&gt;：上
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;gg&lt;/kbd&gt;：回到页首
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;G&lt;/kbd&gt;：跳到页面底部
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;]]&lt;/kbd&gt;：下一页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;[[&lt;/kbd&gt;：上一页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;gf&lt;/kbd&gt;：查看页面源文件，再次使用则切换回原页面
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;gu&lt;/kbd&gt;：打开上一级页面，比如当前网址为 www.zfanw.com/blog，&lt;kbd&gt;gu&lt;/kbd&gt; 打开 www.zfanw.com
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;zi&lt;/kbd&gt;：放大页面字体
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;zo&lt;/kbd&gt;：缩小页面字体
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;zz&lt;/kbd&gt;：恢复页面默认字体
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Vimperator 提供 hints 模式，该模式下，页面内的所有可见链接被编号，按下编号即可打开链接，又或者输入链接内的文本，比如某链接文本是 shopping car，则可以直接键击 shopping car 打开链接，hints 有两个打开模式：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;f&lt;/kbd&gt;：在当前页打开链接
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;F&lt;/kbd&gt;：在新标签页打开链接
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-5&#34;&gt;历史导航&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-5&#34; href=&#34;#i-5&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    当你在当前页中不断打开链接后，你可能想后退到前一个浏览页，又或者前进到后一个浏览页，就像在工具栏上单击前进、后退那样。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在使用以下命令时，请注意 Vimperator 所处的模式，只有在普通模式（normal mode）里，下述命令才能起到预期作用。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;ctrl-o&lt;/kbd&gt;：后退
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;ctrl-i&lt;/kbd&gt;：前进
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;H&lt;/kbd&gt;：后退，与普通模式下 &lt;kbd&gt;ctrl-o&lt;/kbd&gt; 作用相同
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;L&lt;/kbd&gt;：前进，与普通模式下 &lt;kbd&gt;ctrl-i&lt;/kbd&gt; 作用相同
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;:[count]back[!]&lt;/code&gt;：后退，&lt;code&gt;:3back&lt;/code&gt; 表示后退 3 次，&lt;code&gt;:back!&lt;/code&gt; 表示后退到最早一个历史页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;:[count]forward&lt;/code&gt;：前进，&lt;code&gt;:3forward&lt;/code&gt; 表示前进 3 次，&lt;code&gt;:forward!&lt;/code&gt; 表示前进到最后一个历史页
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-6&#34;&gt;输入文字&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-6&#34; href=&#34;#i-6&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如果页面内有文本输入的地方，则 &lt;kbd&gt;gi&lt;/kbd&gt; 命令可快速定位，使其处于插入模式。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    若页面内有多个可输入文字的地方，如一个注册用户的页面，有用户名、邮箱、密码、确认密码四个，则 &lt;kbd&gt;1gi&lt;/kbd&gt; 定位到用户名框，&lt;kbd&gt;2gi&lt;/kbd&gt; 定位到邮箱框。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    有时&lt;kbd&gt;gi&lt;/kbd&gt;命令不行，则可以用 hints 模式来定位输入框。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-7&#34;&gt;标签页管理&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-7&#34; href=&#34;#i-7&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;ctrl-p&lt;/kbd&gt;：前一个标签页（p 指 previous）
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;ctrl-n&lt;/kbd&gt;：后一个标签页（n 指 next）
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;gt&lt;/kbd&gt;：后一个标签页，与 ctrl-n 命令同
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;gT&lt;/kbd&gt;：前一个标签页，与 ctrl-p 命令同
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;g0&lt;/kbd&gt;、&lt;kbd&gt;g^&lt;/kbd&gt;：第一个标签页（0为数字而非字母）
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;g$&lt;/kbd&gt;：最后一个标签页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;d&lt;/kbd&gt;：关闭当前标签页，将右侧一个标签页激活为当前
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;D&lt;/kbd&gt;：关闭当前标签页，将左侧一个标签页激活为当前
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;:tabonly&lt;/code&gt;：关闭除当前标签页外的所有标签页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;u&lt;/kbd&gt;：如果你想恢复刚关闭的标签页，则可以按 u 来恢复，按多次 u 的话则可以依次恢复
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-8&#34;&gt;保存配置&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-8&#34; href=&#34;#i-8&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    假如你自定义 Vimperator 选项或键映射，希望下回仍然生效，
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:mkvimperatorrc&amp;lt;/code&amp;gt;[!]
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    命令保存设置到 vimperatorrc 配置文件。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Firefox&#34;&gt;重启 Firefox&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Firefox&#34; href=&#34;#_Firefox&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;:restart&lt;/code&gt;：Vimperator 的该命令可以重启 Firefox。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Firefox-2&#34;&gt;退出 Firefox&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Firefox-2&#34; href=&#34;#_Firefox-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Vimperator 提供了多种退出方式。
+  &lt;/p&gt;
+  
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;
+        命令
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        作用
+      &lt;/th&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        :quit
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        关闭当前页
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        :quitall
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        关闭所有页，不保存会话
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        :winclose
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        关闭窗口
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        :winonly
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        关闭当前窗口外的所有窗口
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        :xall
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        关闭所有，保存会话
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        :wall
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        关闭所有，保存会话
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;ZQ&lt;/kbd&gt;：退出所有，会话不保存，与 :quitall 命令作用相同
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;ZZ&lt;/kbd&gt;：退出所有，保存当前会话，与 :xall 命令作用相同
+  &lt;/p&gt;
+  
+  &lt;div class=&#39;timeline&#39;&gt;
+    &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+      &lt;span id=&#34;i-9&#34;&gt;修订历史&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-9&#34; href=&#34;#i-9&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+    &lt;/h2&gt;
+    
+    &lt;ol&gt;
+      &lt;li&gt;
+        &lt;span itemprop=&#39;dateModified&#39;&gt;2015-06-29&lt;/span&gt;：重新整理
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vimperator 浏览网页</title>
+      <link>https://www.zfanw.com/blog/vimperator%E6%B5%8F%E8%A7%88%E7%BD%91%E9%A1%B5.html</link>
+      <pubDate>Thu, 06 Jan 2011 13:15:04 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimperator%E6%B5%8F%E8%A7%88%E7%BD%91%E9%A1%B5.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 打开网页&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#countltC-xgt&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; [count]&lt;C-x&gt;&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#countltC-agt&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; [count]&lt;C-a&gt;&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; ~&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 导航&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-4&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;6&lt;/span&gt; 重新载入&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-5&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;7&lt;/span&gt; 停止&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-6&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;8&lt;/span&gt; 保存&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-7&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;9&lt;/span&gt; 退出&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-8&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;10&lt;/span&gt; 当前目录&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-9&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;11&lt;/span&gt; 修订历史&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    Vimperator 为保证 Vim 用户流畅使用，几乎重写了所有 Firefox 击键。不过，某些情况下，你可能想把某个击键传给 Firefox，或者网页，则有两个办法：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        &lt;kbd&gt;S-&lt;Esc&gt;&lt;/kbd&gt; 、&lt;kbd&gt;&lt;Insert&gt;&lt;/kbd&gt;
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        禁用 Vimperator 所有击键，包括 &lt;kbd&gt;&lt;Esc&gt;&lt;/kbd&gt; 键，然后将击键传给下一个事件处理过程。在使用 JavaScript 驱动的表单（如 Gmail 的 RichEdit 表单域）时，又或一些 Google Reader 这样自带大量快捷键的 web app 时，这十分有用。要退出这个模式，再次按下 &lt;kbd&gt;S-&lt;Esc&gt;&lt;/kbd&gt;。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        &lt;kbd&gt;i&lt;/kbd&gt;
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        如果你只是需要传递某个击键给 javasciprt 表单又或其他扩展，请预先按下 &lt;kbd&gt;i&lt;/kbd&gt;。如果要唤出被 Vimperator 隐藏的 Firefox 快捷键 &lt;kbd&gt;&lt;C-o&gt;&lt;/kbd&gt;，这个方法同样适用。
+      &lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;打开网页&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;h3&gt;
+    :o[pen] [arg1], [arg2], &amp;#8230;
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    在当前标签页中打开一个或者多个 URL。多个 URL 可以用 URL 分隔符隔开（默认为“, ”，注意逗号后的一个空格是必需的）。第一个 URL 在当前标签页打开，其余的在新标签页打开。每个 token 按如下顺序解析：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      如果 token 是存在的相对或绝对文件名，则打开本地文件。 &lt;ul&gt;
+        &lt;li&gt;
+          &lt;code&gt;:open /etc/fstab&lt;/code&gt; 打开系统表
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;code&gt;:open ../other/foo.html&lt;/code&gt; 打开你用户文件夹下的 /home/other/foo.html 文件
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      如果 token 看起来像搜索关键词且第一个单词是某个搜索引擎的名称，则打开该搜索引擎搜索并搜索关键词(&lt;code&gt;:open wikipedia linus torvalds&lt;/code&gt; 打开维基百科中的 linus torvalds 词条。)搜索引擎的短名称由其名称猜测。假如你想自定义一名称，则可以从 &lt;code&gt;:dialog searchengines&lt;/code&gt; 中更改。
+    &lt;/li&gt;
+    &lt;li&gt;
+      假如第一个单词并非搜索引擎，则打开默认搜索引擎搜索关键词（由 &lt;code&gt;&#39;defsearch&#39;&lt;/code&gt; 选项确定）(&lt;code&gt;:open Linus torvalds&lt;/code&gt; 打开 Google 搜索 linus torvalds)。
+    &lt;/li&gt;
+    &lt;li&gt;
+      其他情况下直接传递给 Firefox(&lt;code&gt;:open www.osnews.com,  www.slashdot.org&lt;/code&gt; 在当前标签页打开 OSNews，在新标签页打开 Slashdot)。
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;h3&gt;
+    :tabopen[!] [arg1],[arg2],&amp;#8230;
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    和 &lt;code&gt;:open&lt;/code&gt; 一样，不过是在新标签页打开第一个 URL。如果使用 [!]，则 tabopen 的 &lt;code&gt;&#39;activate&#39;&lt;/code&gt; 选项的值被反转。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    T
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    在浏览器底部显示 &lt;code&gt;:tabopen&lt;/code&gt; 命令，并自动输入当前页 URL。如果你要基于当前页 URL 跳转其他网址，这十分好用。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    :[count]tabdu[plicate][!]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    复制当前标签页 [count] 次。tabopen 的 &lt;code&gt;&#39;activate&#39;&lt;/code&gt; 值可以决定是否默认最后一个克隆标签页为活动页。当使用 [!] 时，tabopen 的值 &lt;code&gt;&#39;activate&#39;&lt;/code&gt; 选项值被反转。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    O
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    在浏览器底端显示 &lt;code&gt;:open&lt;/code&gt; 命令，并自动输入当前页 URL。如果你要基于当前页 URL 再跳转其他网址，这十分有用。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    :wino[pen] [!] [arg1],[arg2], &amp;#8230;
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    同 &lt;code&gt;:tabopen&lt;/code&gt; 命令相似，只不过是在新窗口中打开页面。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    W
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    基于当前位置在新窗口打开一个或多个 URL。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    p
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    基于当前 buffer 中剪贴板内容打开 URL。你也可以选择（对非 X11 用户来说是复制）一些非 URL 文本，&lt;code&gt;p&lt;/code&gt; 命令会使用默认搜索引擎进行搜索。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    P
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    类于 p，只是打开在新标签页。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    是否设置打开的新标签页为当前页取决于 &lt;code&gt;&#39;activate&#39;&lt;/code&gt; 值。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    gP
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    类于 P，只是反转了 &amp;#8216;activate&amp;#8217; 设置。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;countltC-xgt&#34;&gt;[count]&lt;C-x&gt;&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heycountltC-xgt&#34; href=&#34;#countltC-xgt&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    用于减小 url 中的最靠后一个数字值，默认减 1，也可以减去 [count] 值，负值不支持，因为这基本不怎么有用，所以数值最小只减到 0。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;countltC-agt&#34;&gt;[count]&lt;C-a&gt;&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heycountltC-agt&#34; href=&#34;#countltC-agt&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    用于增加 url 中的最靠后一个数字值，默认加 1，也可以加 [count] 值。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;~&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    打开用户 HOME 文件夹。其中你也可以使用 hints 模式，这也许会是地球上最快的文件浏览器。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;导航&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;h3&gt;
+    :[count]ba[ck] [url]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    在浏览器历史里后退 [count] 页，如果提供 [url]，则后退到第一个符合 url 值的页面。&lt;code&gt;:back!&lt;/code&gt; 后退到浏览器历史最初页。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    :[count]fo[rward] [url]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    在浏览器历史里前进 [count] 页，如果提供 [url]，则前进到第一个符合 url 值的页面。&lt;code&gt;:forward!&lt;/code&gt; 前进到浏览器历史最末页。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    :ju[mps]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    列出所有跳落点即标签页历史即会话历史。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当前跳落位置用 &gt; 标记。跳转序数决定 &lt;code&gt;:back&lt;/code&gt; 与 &lt;code&gt;:forward&lt;/code&gt; 的进退顺序。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    gh
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    在当前标签页打开主页。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    gH
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    在新标签页中打开主页。&lt;code&gt;&#39;activate&#39;&lt;/code&gt; 值决定新标签页是否置为活动页面。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    [count]gu
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    跃到 [count] 级父目录位置。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在一个 url 上按 &lt;kbd&gt;gu&lt;/kbd&gt; 会逐级提升 url。
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      http://www.example.com/path/to/file.txt?query=value#anchor
+    &lt;/li&gt;
+    &lt;li&gt;
+      http://www.example.com/path/to/file.txt?query=value
+    &lt;/li&gt;
+    &lt;li&gt;
+      http://www.example.com/path/to/file.txt
+    &lt;/li&gt;
+    &lt;li&gt;
+      http://www.example.com/path/to/
+    &lt;/li&gt;
+    &lt;li&gt;
+      http://www.example.com/path/
+    &lt;/li&gt;
+    &lt;li&gt;
+      http://www.example.com/
+    &lt;/li&gt;
+    &lt;li&gt;
+      http://example.com/
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;h3&gt;
+    gU
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    跳到网站的根目录。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在 http://www.example.com/dir1/dir2/file.htm 地址上执行 &lt;kbd&gt;gU&lt;/kbd&gt; 会打开 http://www.example.com/，在浏览本地文件夹时，则会跳到根文件夹。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-4&#34;&gt;重新载入&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-4&#34; href=&#34;#i-4&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;h3&gt;
+    r
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    强制重载当前页。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    R
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    强制重载当前页，忽略本地缓存的内容。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    :re[load] [!]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    重载当前页，如果带 [!]，则跳过本地缓存内容。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    :reloada[ll] [!]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    强制重载所有页面，如果带 [!]，则跳过本地缓存内容。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-5&#34;&gt;停止&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-5&#34; href=&#34;#i-5&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;h3&gt;
+    &lt;C-c&gt;
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    停止加载当前网页。仅当没有选择任何文本时，若选择了文本，则命令拷贝文本到剪贴板。大部分时候这种情况不会出现，因为当页面尚在加载时，基本不会出现文本被选中的情形。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    :st[op]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    停止加载当前见面。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    :stopa[ll]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    停止加载所有网页。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-6&#34;&gt;保存&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-6&#34; href=&#34;#i-6&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;h3&gt;
+    :sav[eas] [!] [file]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    保存当前页面到硬盘。若没有指定 [file] 参数，则保存为页面默认的文件名。末尾加 [!] 则覆盖已有文件。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-7&#34;&gt;退出&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-7&#34; href=&#34;#i-7&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;h3&gt;
+    :q[uit]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    关闭当前标签页，如果这是窗口的最后一个标签页，则关闭窗口。如果这是最后一个窗口，则关闭 Vimperator。退出 Vimperator 时，会话不储存。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    :quita[ll]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    退出 Vimperator。无论有多少标签页、窗口打开着都关闭掉。会话不储存。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    :winc[lose]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    关闭窗口。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    :winon[ly]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    关闭除当前窗口外的所有其他窗口。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    :wqa[ll]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    不管开着多少标签页、窗口，都保存会话并退出。&lt;code&gt;:wq&lt;/code&gt; 与 Vim 中的作用不同，Vim 中关闭一个标签页，Vimperator 则关闭窗口。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    ZQ
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    退出，不保存会话。与 &lt;code&gt;:qall&lt;/code&gt; 作用一样。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    ZZ
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    退出 Vimperator，不管有多少标签页或窗口打开着，但会话会被保存，作用如 &lt;code&gt;:xall&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-8&#34;&gt;当前目录&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-8&#34; href=&#34;#i-8&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;h3&gt;
+    :cd [-|path]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    改变当前目录。&lt;code&gt;:cd -&lt;/code&gt; 跳转到最后一次使用的目录。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    :pw[d]
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    输出当前目录的名称。
+  &lt;/p&gt;&lt;div class=timeline&gt; 
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-9&#34;&gt;修订历史&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-9&#34; href=&#34;#i-9&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;span itemprop=&#39;dateModified&#39;&gt;2015-06-12&lt;/span&gt;：调整内容
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vimperator 快速入门教程</title>
+      <link>https://www.zfanw.com/blog/quick-start-tutorial.html</link>
+      <pubDate>Mon, 03 Jan 2011 04:50:43 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/quick-start-tutorial.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 模式化界面&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 找到帮助&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 无鼠标化&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-4&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 滚动&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-5&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 历史与标签&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-6&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;6&lt;/span&gt; 网页浏览贴士&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-7&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;7&lt;/span&gt; 常见问题&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-8&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;8&lt;/span&gt; 保存配置&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-9&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;9&lt;/span&gt; 退出&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Firefox&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;10&lt;/span&gt; Firefox 哪儿去了&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-10&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;11&lt;/span&gt; 把我弄出去&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-11&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;12&lt;/span&gt; 修订历史&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    &lt;strong&gt;注&lt;/strong&gt;：本文译自 vimperator 英文帮助文档。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这是一个 &lt;a href=&#34;http://vimperator.org/&#34; title=&#34;vimperator 官网&#34;&gt;Vimperator&lt;/a&gt; 快速入门教程，帮助新用户迅速上手 Vimperator。但它没打算像完整参考书那样，解释方方面面的内容。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;模式化界面&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Vimperator 的强大，就像 Vim 那样，来自它的模式。浏览器所处模式不同，则键击的意义不同。Vimperator 有许多模式，其中最重要的两个是&lt;strong&gt;普通模式（Normal Mode）&lt;/strong&gt;、&lt;strong&gt;命令行模式（Command-Line Mode）&lt;/strong&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Vimperator 启动时，默认进入&lt;strong&gt;普通模式&lt;/strong&gt;，这也会是你使用最多的模式。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Vimperator 另一个核心模式，&lt;strong&gt;命令行模式&lt;/strong&gt;，可以在&lt;strong&gt;普通模式&lt;/strong&gt;下键入一个冒号 &lt;code&gt;:&lt;/code&gt; 进入。接下来你会经常看到冒号 &lt;code&gt;:&lt;/code&gt; 打头的 Vimperator 命令，意味着冒号后面跟着的是命令。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    要从&lt;strong&gt;命令行模式&lt;/strong&gt;返回&lt;strong&gt;普通模式&lt;/strong&gt;，只要按 &lt;kbd&gt;&lt;Esc&gt;&lt;/kbd&gt; 键就可以。大部分时候，按 &lt;kbd&gt;&lt;Esc&gt;&lt;/kbd&gt; 键也可以让你从 Vimperator 的其他模式返回到&lt;strong&gt;普通模式&lt;/strong&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;找到帮助&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Vim 是个当得起“伟大”二字的编辑器，但它不是浏览器。因此，即便是有经验的 Vim 用户可能也需要不时查阅 Vimperator 文档。Vimperator 的大部分特性都可以通过 &lt;kbd&gt;:help&lt;/kbd&gt; 命令找到。例如，你可以键入下列命令来查看关于 &lt;code&gt;:help&lt;/code&gt; 命令的帮助。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:help :help
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    类似的，配置选项的帮助可以通过 &lt;kbd&gt;:help &#39;选项名称&#39;&lt;/kbd&gt;找到。（注意选项名称外加单引号是跟 Vim 一样的。）如你所预料的，所有可用选项的资料都可以通过 &lt;kbd&gt;:help options&lt;/kbd&gt; 来取得。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    另外你可以使用以下命令找出 &lt;kbd&gt;gt&lt;/kbd&gt; 与 &lt;kbd&gt;gT&lt;/kbd&gt; 映射的帮助：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:help gt
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:help gT
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    最后，除了帮助系统本身外，&lt;code&gt;:usage&lt;/code&gt; 也是有用的快速参考命令。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;无鼠标化&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Vimperator 的高效，正如它的灵感来源、传奇编辑器 Vim 一样，在于用户的手指保持在键盘上即可完成大部分工作。当然，在某些领域里鼠标要比键盘擅长，比如 GUI 设计或某些游戏，但 Vimperator 假定了浏览器不必要变成它们之一。不过 Vimperator 还是完全支持鼠标的，如果你更乐于动动这啮齿动物。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-4&#34;&gt;滚动&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-4&#34; href=&#34;#i-4&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    简单的击键就可滚动浏览器窗口
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;j&lt;/kbd&gt;、&lt;kbd&gt;k&lt;/kbd&gt;&amp;#8212;逐行上下滚动窗口
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;h&lt;/kbd&gt;、&lt;kbd&gt;l&lt;/kbd&gt;&amp;#8212;左右滚动窗口
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;&lt;Space&gt;&lt;/kbd&gt;、&lt;kbd&gt;&lt;C-f&gt;&lt;/kbd&gt;、&lt;kbd&gt;&lt;C-b&gt;&lt;/kbd&gt;&amp;#8212;逐屏上下滚动
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;&lt;C-d&gt;&lt;/kbd&gt;、&lt;kbd&gt;&lt;C-u&gt;&lt;/kbd&gt;&amp;#8212;上下滚动半页
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;&lt;Up&gt;&lt;/kbd&gt;、&lt;kbd&gt;&lt;Down&gt;&lt;/kbd&gt;、&lt;kbd&gt;&lt;PgUp&gt;&lt;/kbd&gt;、&lt;kbd&gt;&lt;PgDn&gt;&lt;/kbd&gt; 也你所预期一样工作。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-5&#34;&gt;历史与标签&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-5&#34; href=&#34;#i-5&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    历史导航（如后退，前进）功能类似于滚动。
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;&lt;C-o&gt;&lt;/kbd&gt;、&lt;kbd&gt;&lt;C-i&gt;&lt;/kbd&gt; &amp;#8211; 在当前（窗口/标签）的历史中后退/前进
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    使用键击在标签页间切换与 Vim 标签页间切换相仿。
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;gt&lt;/kbd&gt;、&lt;kbd&gt;&lt;C-n&gt;&lt;/kbd&gt;&amp;#8212;下一个标签页
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;gT&lt;/kbd&gt;、&lt;kbd&gt;&lt;C-p&gt;&lt;/kbd&gt;&amp;#8212;上一个标签页
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;g0&lt;/kbd&gt;（注意，g 后面是个数字而非字母）、&lt;kbd&gt;g$&lt;/kbd&gt;&amp;#8212;第一个/最后一个标签页
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;d&lt;/kbd&gt;&amp;#8212;关闭当前标签页（删除 buffer）
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    要在新标签页中打开网页，则命令行模式中输入 &lt;code&gt;:tabopen url&lt;/code&gt;。要在当前标签页中打开一个网址，则使用 &lt;code&gt;:open&lt;/code&gt;。普通模式下这两个命令被映射为 &lt;kbd&gt;t&lt;/kbd&gt; 与 &lt;kbd&gt;o&lt;/kbd&gt;，因此如下的两对命令结果是相当的:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:open my.webmail.com
+
+omy.webmail.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:tabopen vimperator.org
+
+tvimperator.org
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-6&#34;&gt;网页浏览贴士&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-6&#34; href=&#34;#i-6&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    现在你已经可以在 Vimperator 里进行导航了。但等一下，你该如何打开一个网页中的链接？没了你带尾巴的朋友，你如何点击这些链接？
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    答案是 “hint”。启用 “hint” 模式会在每一个 Vimperator 找到的链接旁显示一组数字。要点击这些链接，只需输入红色方框围住的数字即可。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    对于文字链接，则有另外的快捷方式，你可以键入某些链接文字，Vimperator 会搜寻所有它能找到的链接，并高亮显示符合的链接，当其唯一时，Vimperator 会自动打开链接，不需要任何额外的用户输入。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    无论你选择哪种方法来指定你的目标链接，一旦 Vimperator 高亮显示你要的链接，单击&lt;kbd&gt;&lt;Enter&gt;&lt;/kbd&gt; 即打开链接。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    最常见的 hint 模式叫做 quick-hints。要打开&lt;strong&gt;快速提示&lt;/strong&gt;，单击 &lt;kbd&gt;f&lt;/kbd&gt; 或 &lt;kbd&gt;F&lt;/kbd&gt;。小写的 f 键在当前标签页打开链接，大写的 F 则在新的标签页打开链接。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    测试一下吧。你可以试试这个链接，&lt;a href=&#34;http://vimperator.org/&#34; title=&#34;vimperator 主页&#34;&gt;Vimperator 主页&lt;/a&gt;。按 &lt;kbd&gt;f&lt;/kbd&gt; 或 &lt;kbd&gt;F&lt;/kbd&gt; 激活“快速提示”模式，高亮显示当前所有的可见链接。然后键入链接的文字。链接迅速被定位，Vimperator 自动打开它。一旦你完成测试，记得使用 &lt;kbd&gt;&lt;C-o&gt;&lt;/kbd&gt;（后退）或者 &lt;kbd&gt;d&lt;/kbd&gt; 回到这个帮助页 &amp;#8211; 具体哪个取决于你按哪个键激活“&lt;strong&gt;快速提示&lt;/strong&gt;”模式。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-7&#34;&gt;常见问题&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-7&#34; href=&#34;#i-7&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    假如你输入新的网址到一半，发现已经在前一个标签页中打开了，这时你的命令行看起来可能像这样:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:open my.partial.url/fooba
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    你可以按 &lt;kbd&gt;&lt;Esc&gt;&lt;/kbd&gt; 退出命令行。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-8&#34;&gt;保存配置&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-8&#34; href=&#34;#i-8&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    一旦你根据自己意愿配置好选项、映射与命令，你可能希望下次打开 Vimperator 时它们仍然可用。延续 Vim 的风格，这可以通过保存 Vimperatorrc 配置文件达到目的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    要保存你当下的设置并允许它们在下次打开 Vimperator 时自动加载，执行 &lt;code&gt;:mkv[imperatorrc]&lt;/code&gt; 命令。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这会在 $HOME 文件夹下生成 .vimperatorrc 文件，里面包含了你的设置。它只是个简单的文本文件，就像 vimrc 文件，你可以随意编辑来满足你的偏好。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-9&#34;&gt;退出&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-9&#34; href=&#34;#i-9&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Vimperator 支持 Vim 所有的经典退出方式。
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;code&gt;:xall&lt;/code&gt;&amp;#8212;退出并为下次保存当前会话，默认行为。
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;code&gt;:qall&lt;/code&gt;&amp;#8212;退出，不保存会话。
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;ZZ&lt;/kbd&gt; &amp;#8211; 普通模式下 &lt;code&gt;:xall&lt;/code&gt; 的映射键值。
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;ZQ&lt;/kbd&gt; &amp;#8211; 普通模式下 &lt;code&gt;:qall&lt;/code&gt; 的映射键值。
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Firefox&#34;&gt;Firefox 哪儿去了&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyFirefox&#34; href=&#34;#Firefox&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    你现在可能相当茫然。请不要担心，这仍然是在 Firefox 下。以下是 Vimperator 提供的一些办法，它们允许 Firefox 继续抛头露面。
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;code&gt;:dialog&lt;/code&gt;&amp;#8212;要访问 Firefox 的众多对话框窗口，你可以使用 &lt;code&gt;:dialog&lt;/code&gt; 命令。
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;code&gt;:bmarks&lt;/code&gt;&amp;#8212;Vimperator 提供了一个全新的书签界面，但它们从根子说仍然是 Firefox 的标准标签。&lt;code&gt;:bmark&lt;/code&gt; 添加新书签，&lt;code&gt;:bmarks&lt;/code&gt; 列出所有书签。
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;code&gt;:history&lt;/code&gt;&amp;#8212;这个命令列出一整个彩色的可滚动、可点击的 Vimperator 的历史浏览列表。
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;code&gt;:emenu&lt;/code&gt;&amp;#8212;通过命令行访问 Firefox 菜单。
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    现在请随意练习。假如你使用 &lt;code&gt;:tabopen&lt;/code&gt; 命令，记得使用映射 &lt;kbd&gt;gt&lt;/kbd&gt;、&lt;kbd&gt;gT&lt;/kbd&gt; 返回。如果使用 &lt;code&gt;:open&lt;/code&gt; 命令，使用后退键击（如&lt;kbd&gt;H&lt;/kbd&gt;）退回。假如你绝望地发现自己不知所在，请键入 &lt;code&gt;:help&lt;/code&gt; 然后点击教程链接返回。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-10&#34;&gt;把我弄出去&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-10&#34; href=&#34;#i-10&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    或者你试过了，然后决定删除它。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Vimperator 风格的方法是使用命令 &lt;code&gt;:addons&lt;/code&gt;。键入命令打开 Firefox 附加组件窗口，然后你可以如平常的卸载方式选中 vimperator 然后卸载。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当然，你也可以通过旧式方法，键入 &lt;code&gt;:set toolbars=menu&lt;/code&gt; 显示菜单栏，然后从工具菜单中选择附加组件。
+  &lt;/p&gt;&lt;div class=timeline&gt; 
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-11&#34;&gt;修订历史&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-11&#34; href=&#34;#i-11&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;span itemprop=&#39;dateModified&#39;&gt;2015-06-12&lt;/span&gt;：更新过时的信息
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

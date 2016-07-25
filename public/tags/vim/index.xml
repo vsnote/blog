@@ -1,0 +1,1632 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vim on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/vim/</link>
+    <description>Recent content in Vim on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 23 Feb 2014 04:22:13 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/vim/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Vim 过滤匹配的文本</title>
+      <link>https://www.zfanw.com/blog/vim-filter-match-text.html</link>
+      <pubDate>Sun, 23 Feb 2014 04:22:13 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vim-filter-match-text.html</guid>
+      <description>&lt;p&gt;我偶尔会有这样一种需求：从文本中过滤出需要的内容 &amp;#8211; 这个内容可以用正则表达式匹配到。比如这一个 &lt;a href=&#34;https://gist.github.com/chenxsan/9166312&#34; title=&#34;Gist&#34;&gt;HTTP 请求/响应信息&lt;/a&gt;文件，取一小段如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;POST http://d.web2.qq.com/channel/send_sess_msg2 HTTP/1.1
+Origin: http://web2.qq.com
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0
+Content-Type: application/x-www-form-urlencoded
+Accept: */*
+Referer: http://web2.qq.com
+Content-Length: 716
+Cookie: pgv_pvid=5576286324; pgv_info=pgvReferrer=&amp;amp;ssid=s3145890760; verifysession=h02MUeRLXDVh33iXxfbIXP7QPznYyuVOP4qCJPVhXD-BDw72d9W6sLl7dfrUx2Wfsq4w1Vhw2ggRjxhhzMf2vfANA**; ptui_loginuin=2804187804; ptisp=ctc; RK=dBvTz+lA+k; ptcz=45fbc214cbc91062f919bf6c753c60da6fa4ea937a08bfd0a94b33a29f3eab94; ptwebqq=2f4cdbb354c4cfe971e15aa3872ffbffe86bff65c8b0cc4a2998e4e0e9f89c23; pt2gguin=o2804187804; uin=o2804187804; skey=@0uc0QCvS5; p_uin=o2804187804; p_skey=*HFTMH8l0rM5Gszdip1vHyJI4MneS73LL*xTsgtViNM_; pt4_token=BGcr-KPcEj-TDwNlt6HJhQ__
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Accept-Language: zh-CN,en,*
+Host: d.web2.qq.com
+
+r={&amp;quot;to&amp;quot;:&amp;lt;mark&amp;gt;3105771284&amp;lt;/mark&amp;gt;,&amp;quot;content&amp;quot;:&amp;quot;[[\&amp;quot;font\&amp;quot;,{\&amp;quot;name\&amp;quot;:\&amp;quot;宋体\&amp;quot;,\&amp;quot;size\&amp;quot;:20,\&amp;quot;style\&amp;quot;:[0,0,0],\&amp;quot;color\&amp;quot;:\&amp;quot;ff0000\&amp;quot;}]]&amp;quot;,&amp;quot;clientid&amp;quot;:&amp;quot;36385748&amp;quot;,&amp;quot;psessionid&amp;quot;:&amp;quot;8368046764001d636f6e6e7365727665725f77656271714031302e3133392e372e31363000007ba400000228036e04009c8224a76d0000000a403075633051437653356d00000028d2cbdb5f463a51f3eb82c04c37cce7848ebb9d449aca351811c72a04a5f75412ab0590b690630bdb&amp;quot;,&amp;quot;service_type&amp;quot;:0,&amp;quot;group_sig&amp;quot;:&amp;quot;da531819808f120bd0b6c9fc377e6fc76af363ef80d7ba965e7aa1de952fbaf9710ff04e74743c2dd104aba1f357758b&amp;quot;}
+HTTP/1.1 200 OK
+Date: Fri, 03 Jan 2014 06:51:14 GMT
+Content-Type: text/plain; charset=utf-8
+Content-Length: 29
+Cache-Control: no-cache
+Connection: close
+
+{&amp;quot;retcode&amp;quot;:0,&amp;quot;result&amp;quot;:&amp;quot;ok&amp;quot;}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我需要 &lt;code&gt;r={&amp;quot;to&amp;quot;:&lt;/code&gt; 后的一组数字 &amp;#8211; 号码。&lt;/p&gt;
+
+&lt;p&gt;我马上可以想到的处理方式是：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;匹配该组数字外的所有文本并删除&lt;/li&gt;
+&lt;li&gt;匹配该组数字，删除不匹配的所有文本&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;但就我查找的资料， Vim 并没有便利的方法实现上面的处理 &amp;#8211; 你也可以认为上面的处理方式本身就有些问题。所以还是要绕点远路。&lt;/p&gt;
+
+&lt;p&gt;有一个需要声明的概念是，Vim 在查找/替换时，是针对&lt;strong&gt;行&lt;/strong&gt;做处理的，这个与 grep 或 sed 是一样的。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;删除所有不匹配规则 &lt;code&gt;r={&amp;quot;to&amp;quot;:&lt;/code&gt; 的行&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11613-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11613-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:v/r={&amp;quot;to&amp;quot;:\d\+,/d
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;或者：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:g!/r={&amp;quot;to&amp;quot;:\d\+,/d
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;命令中最后一个 &lt;code&gt;d&lt;/code&gt; 表示&lt;strong&gt;删除不匹配的行&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;处理后，文件剩下如下格式的内容：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;r={&amp;quot;to&amp;quot;:3105771284,&amp;quot;content&amp;quot;:&amp;quot;[[\&amp;quot;font\&amp;quot;,{\&amp;quot;name\&amp;quot;:\&amp;quot;宋体\&amp;quot;,\&amp;quot;size\&amp;quot;:20,\&amp;quot;style\&amp;quot;:[0,0,0],\&amp;quot;color\&amp;quot;:\&amp;quot;ff0000\&amp;quot;}]]&amp;quot;,&amp;quot;clientid&amp;quot;:&amp;quot;36385748&amp;quot;,&amp;quot;psessionid&amp;quot;:&amp;quot;8368046764001d636f6e6e7365727665725f77656271714031302e3133392e372e31363000007ba400000228036e04009c8224a76d0000000a403075633051437653356d00000028d2cbdb5f463a51f3eb82c04c37cce7848ebb9d449aca351811c72a04a5f75412ab0590b690630bdb&amp;quot;,&amp;quot;service_type&amp;quot;:0,&amp;quot;group_sig&amp;quot;:&amp;quot;da531819808f120bd0b6c9fc377e6fc76af363ef80d7ba965e7aa1de952fbaf9710ff04e74743c2dd104aba1f357758b&amp;quot;}
+r={&amp;quot;to&amp;quot;:3688265155,&amp;quot;content&amp;quot;:&amp;quot;[[\&amp;quot;font\&amp;quot;,{\&amp;quot;name\&amp;quot;:\&amp;quot;宋体\&amp;quot;,\&amp;quot;size\&amp;quot;:20,\&amp;quot;style\&amp;quot;:[0,0,0],\&amp;quot;color\&amp;quot;:\&amp;quot;ff0000\&amp;quot;}]]&amp;quot;,&amp;quot;clientid&amp;quot;:&amp;quot;36385748&amp;quot;,&amp;quot;psessionid&amp;quot;:&amp;quot;8368046764001d636f6e6e7365727665725f77656271714031302e3133392e372e31363000007ba400000228036e04009c8224a76d0000000a403075633051437653356d00000028d2cbdb5f463a51f3eb82c04c37cce7848ebb9d449aca351811c72a04a5f75412ab0590b690630bdb&amp;quot;,&amp;quot;service_type&amp;quot;:0,&amp;quot;group_sig&amp;quot;:&amp;quot;61e61272ea83bba9efbe74ce82081c2cd9d4b4c88773f4e72e7fa535cdf9c2dc0801edb02719e6c7abd5e24ce8dec4aa&amp;quot;}
+r={&amp;quot;to&amp;quot;:1559096246,&amp;quot;content&amp;quot;:&amp;quot;[[\&amp;quot;font\&amp;quot;,{\&amp;quot;name\&amp;quot;:\&amp;quot;宋体\&amp;quot;,\&amp;quot;size\&amp;quot;:20,\&amp;quot;style\&amp;quot;:[0,0,0],\&amp;quot;color\&amp;quot;:\&amp;quot;ff0000\&amp;quot;}]]&amp;quot;,&amp;quot;clientid&amp;quot;:&amp;quot;36385748&amp;quot;,&amp;quot;psessionid&amp;quot;:&amp;quot;8368046764001d636f6e6e7365727665725f77656271714031302e3133392e372e31363000007ba400000228036e04009c8224a76d0000000a403075633051437653356d00000028d2cbdb5f463a51f3eb82c04c37cce7848ebb9d449aca351811c72a04a5f75412ab0590b690630bdb&amp;quot;,&amp;quot;service_type&amp;quot;:0,&amp;quot;group_sig&amp;quot;:&amp;quot;24437e4e1f42517f3c6900eb26407dcbd607ca3a474957e0d056b77a98820b5038dd4fbdc56b9a178e128861b9097481&amp;quot;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Vim 替换命令&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11613-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11613-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:%s/^r={&amp;quot;to&amp;quot;:\(\d\+\),.*$/\1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;%&lt;/code&gt; &amp;#8211; 查找文件中所有行&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;s&lt;/code&gt; &amp;#8211; Vim 的替换命令 substitute 命令的短写法&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;^r={&amp;quot;to&amp;quot;:\(\d\+\),.$*&lt;/code&gt; &amp;#8211; 正则规则，指示要匹配的内容&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;\1&lt;/code&gt; &amp;#8211; 前面正则规则中 () 匹配到的内容&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Vim 的正则看起来略绕，比如 + 要转义，( 也要转义。我在写 JavaScript 正则时是不需要的。&lt;/p&gt;
+
+&lt;p&gt;如此，我们就过滤出文件里所有的号码了。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:11613-1&#34;&gt;&lt;a href=&#34;http://vim.wikia.com/wiki/Power_of_g&#34;&gt;Power of g &amp;#8211; Vim Tips Wiki&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11613-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11613-2&#34;&gt;&lt;a href=&#34;http://vimdoc.sourceforge.net/htmldoc/pattern.html&#34;&gt;Vim documentation: pattern&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11613-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vim 批量依次替换链接</title>
+      <link>https://www.zfanw.com/blog/vim-subsitute-one-by-one.html</link>
+      <pubDate>Thu, 04 Apr 2013 14:46:36 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vim-subsitute-one-by-one.html</guid>
+      <description>&lt;p&gt;以前写过一篇&lt;a href=&#34;http://www.zfanw.com/blog/vim-substitute-script-function.html&#34;&gt;利用 Vim 进行批量替换的内容&lt;/a&gt;，但可操作性不高，或者说写得有点稀里糊涂，因此补一篇。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;应用情景&lt;/strong&gt;：淘宝页面。&lt;/p&gt;
+
+&lt;p&gt;大部分人在上传淘宝图片的流程应该是如下：&lt;/p&gt;
+
+&lt;p&gt;设计 -》 切图 -》 图片加许多热点 -》 每个热点上添加链接 -》 上传图片到淘宝空间 -》将本地图片地址替换成淘宝空间的图片地址 -》 拷贝完成的代码到淘宝上 -》 保存发布页面&lt;/p&gt;
+
+&lt;p&gt;这里，有两个过程是重复枯燥且容易出错的，一个是图片热点上添加链接，一个是替换图片地址。&lt;/p&gt;
+
+&lt;p&gt;图片上添加热点的工作，很多人是在 Dreamweaver 里完成的，生成的代码一般是如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;img src=&amp;quot;img/hello-vim.jpg&amp;quot; usemap=&amp;quot;#Map&amp;quot; border=&amp;quot;0&amp;quot;&amp;gt;
+&amp;lt;map name=&amp;quot;Map&amp;quot;&amp;gt;
+    &amp;lt;area shape=&amp;quot;rect&amp;quot; target=&amp;quot;_blank&amp;quot; coords=&amp;quot;1,0,178,261&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt; 
+    &amp;lt;area shape=&amp;quot;rect&amp;quot; target=&amp;quot;_blank&amp;quot; coords=&amp;quot;193,1,373,263&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt; 
+    &amp;lt;area shape=&amp;quot;rect&amp;quot; target=&amp;quot;_blank&amp;quot; coords=&amp;quot;386,-3,563,263&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt; 
+    &amp;lt;area shape=&amp;quot;rect&amp;quot; target=&amp;quot;_blank&amp;quot; coords=&amp;quot;577,-2,758,260&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt; 
+    &amp;lt;area shape=&amp;quot;rect&amp;quot; target=&amp;quot;_blank&amp;quot; coords=&amp;quot;771,4,961,264&amp;quot; href=&amp;quot;#&amp;quot;&amp;gt; 
+&amp;lt;/map&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里，要将每个 # 替换成链接。&lt;/p&gt;
+
+&lt;p&gt;从我的理解看，找一个链接然后切换到 Dreamweaver 可视化界面或者是代码界面替换掉 # 然后再重复同样动作，这种效率极差，因为有个切换过程，并且同时在做多件事，精力分散了。&lt;/p&gt;
+
+&lt;p&gt;所以，一个改进的流程是，先按顺序把所有热点链接找出，如下面的列表1：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.example.com/1.html&#34;&gt;http://www.example.com/1.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.example.com/2.html&#34;&gt;http://www.example.com/2.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.example.com/3.html&#34;&gt;http://www.example.com/3.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.example.com/4.html&#34;&gt;http://www.example.com/4.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.example.com/5.html&#34;&gt;http://www.example.com/5.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;然后依次将其替入热点图代码中的 #。&lt;/p&gt;
+
+&lt;p&gt;再来看我以前写的 Vim 函数：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function Cclist()
+&amp;quot;注，下面一行用于删除文件中的空行(更新：2011.8.11 10：31)
+   g/^$/d
+   let lastline=line(&#39;$&#39;)
+   let g:imglist=[]
+   for line in getline(1,lastline)
+      call add(g:imglist,line)
+   endfor
+   return g:imglist
+endfunction
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;将其拷入 .vimrc 文件中，任何启动的 Vim 都将带有这个 Cclist 函数 &amp;#8211; 当然，这个名称可以随你取，只要函数名首字母大写。&lt;/p&gt;
+
+&lt;p&gt;函数的作用在于从列表1生成一个全局变量，这个 Vim 全局变量在打开的 Vim 窗口中可以调用到。&lt;/p&gt;
+
+&lt;p&gt;函数的用法是用 Vim 打开列表1文件，然后按 &lt;kbd&gt;:&lt;/kbd&gt; 进入 Vim 的命令行模式，运行 &lt;code&gt;call Cclist()&amp;lt;CR&amp;gt;&lt;/code&gt;(注:&lt;code&gt;&amp;lt;CR&amp;gt;&lt;/code&gt; 指按确定键)，之后就生成 imglist 这个变量。&lt;/p&gt;
+
+&lt;p&gt;因为我基本不用 &lt;kbd&gt;F6&lt;/kbd&gt; 键，所以在 .vimrc 中我把它映射给运行 Cclist() 函数的功能：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;map &amp;lt;F6&amp;gt; :call Cclist()&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后在 Gvim 窗口按 &lt;kbd&gt;F6&lt;/kbd&gt; 即可生成 imglist 变量。&lt;/p&gt;
+
+&lt;p&gt;接着用同一个 Vim 窗口(测试过不同 Vim 窗口下检测不到 imglist 变量)打开 Dreamweaver 中生成的热点图片代码，进入命令行模式，运行如下命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let i=0&amp;lt;CR&amp;gt;
+g/href=&amp;quot;#&amp;quot;/s//\=&#39;href=&amp;quot;&#39;.imglist[i].&#39;&amp;quot;&#39;/g | let i+=1&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意，它们是两行命令。&lt;code&gt;\=&lt;/code&gt; 形式的替换比较少见，可以参见 &lt;a href=&#34;http://vimdoc.sourceforge.net/htmldoc/change.html#sub-replace-expression&#34;&gt;vimdoc&lt;/a&gt; 的说明。&lt;/p&gt;
+
+&lt;p&gt;然后我们就可以看到 Vim 提示替换了几行内容。&lt;/p&gt;
+
+&lt;p&gt;图片地址从本地替换成淘宝空间上的地址时也可以如法炮制：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let i=0
+g/src=&amp;quot;images\/.*\.jpg&amp;quot;/s//\=&#39;src=&amp;quot;&#39;.imglist[i].&#39;&amp;quot;&#39;/g | let i+=1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;因为 Vim 可以轻松进行键映射，所以上述命令的输入完全可以通过键映射来简化：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function SubsituteLinks(imglist)
+  let imglist=a:imglist
+  let i=0
+  g/href=&amp;quot;#&amp;quot;/s//\=&#39;href=&amp;quot;&#39;.imglist[i].&#39;&amp;quot;&#39;/g | let i+=1
+endfunction
+map &amp;lt;F6&amp;gt; :call Cclist()&amp;lt;CR&amp;gt;&amp;lt;C-w&amp;gt;&amp;lt;C-w&amp;gt;:call SubsituteLinks(g:imglist)&amp;lt;CR&amp;gt;:w&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样，在链接的窗口中只要按一下&lt;kbd&gt;F6&lt;/kbd&gt; 键，即可以完成&lt;strong&gt;切换到下一个窗口中替换所有链接并且保存修改到文件中&lt;/strong&gt;的工作。&lt;/p&gt;
+
+&lt;p&gt;整合一下所有的代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function Cclist()
+&amp;quot;注，下面一行用于删除文件中的空行(更新：2011.8.11 10：31)
+   g/^$/d
+   let lastline=line(&#39;$&#39;)
+   let g:imglist=[]
+   for line in getline(1,lastline)
+      call add(g:imglist,line)
+   endfor
+   return g:imglist
+endfunction
+&amp;quot;定义替换链接的函数
+function SubsituteLinks(imglist)
+  let imglist=a:imglist
+  let i=0
+  g/href=&amp;quot;#&amp;quot;/s//\=&#39;href=&amp;quot;&#39;.imglist[i].&#39;&amp;quot;&#39;/g | let i+=1
+endfunction
+&amp;quot;定义替换图片地址的函数
+function SubsituteImages(imglist)
+  let imglist=a:imglist
+  let i=0
+  g/src=&amp;quot;images\/.*\.jpg&amp;quot;/s//\=&#39;src=&amp;quot;&#39;.imglist[i].&#39;&amp;quot;&#39;/g | let i+=1
+endfunction
+&amp;quot;键映射相应的动作，F6 键替换链接地址，F7 键替换图片地址
+map &amp;lt;F6&amp;gt; :call Cclist()&amp;lt;CR&amp;gt;&amp;lt;C-w&amp;gt;&amp;lt;C-w&amp;gt;:call SubsituteLinks(g:imglist)&amp;lt;CR&amp;gt;:w&amp;lt;CR&amp;gt;
+map &amp;lt;F7&amp;gt; :call Cclist()&amp;lt;CR&amp;gt;&amp;lt;C-w&amp;gt;&amp;lt;C-w&amp;gt;:call SubsituteImages(g:imglist)&amp;lt;CR&amp;gt;:w&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;将上述代码拷入 .vimrc 文件中，然后准备好材料，即可一键完成图片或链接的替换工作。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Just Use Sublime Text</title>
+      <link>https://www.zfanw.com/blog/just-use-sublime-text.html</link>
+      <pubDate>Tue, 26 Mar 2013 13:22:45 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/just-use-sublime-text.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Vim&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; Vim: 你要它好用，则至少要读上两本书&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Home&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 把手指放在 Home 行的效率&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#1&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 插件与扩展能力1: 管理&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 插件与扩展能力2: 生态系统&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#3__Vimscript&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 插件与扩展3: Vimscript&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#4&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;6&lt;/span&gt; 插件与扩展4: 冲突&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Vim_1&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;7&lt;/span&gt; Vim 设计得很糟糕1:太太老了&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Vim_2GUI&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;8&lt;/span&gt; Vim 设计得很糟糕2:GUI&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Vim-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;9&lt;/span&gt; Vim 在缩进时非常差劲&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Vim&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;10&lt;/span&gt; 一生的 Vim 路，为了一个可以用的编辑器&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Vim700_vimrc_45_Vim&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;11&lt;/span&gt; 在使用四年 Vim，700行手写的 .vimrc 文件及45个插件后，我再也不能真诚推荐别人开始 Vim 旅程&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    &lt;strong&gt;声明&lt;/strong&gt;：&lt;a href=&#34;http://blog.andrewray.me/just-use-sublime-text/&#34;&gt;原文地址&lt;/a&gt;，本人仅作翻译，不代表本人所有观点。感谢作者 &lt;a href=&#34;https://twitter.com/andrewray&#34;&gt;@andrewray&lt;/a&gt; 的翻译许可：）。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    最初我只是想回复 &lt;a href=&#34;http://www.reddit.com/r/webdev/comments/19lobl/serious_discussion_sublime_text_2_versus_Vim_on/&#34;&gt;reddit 上 Sublime Text 2 vs Vim&lt;/a&gt; 的问题，但写多了，无法发布，所以我放到博客。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    TL;DR &lt;em&gt;虽然我在用 Vim，但我真的不向一个开发新手推荐它。&lt;/em&gt;
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Vim&#34;&gt;Vim: 你要它好用，则至少要读上两本书&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyVim&#34; href=&#34;#Vim&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    对于一般的文本编辑，Vim 并不是一个高效的编辑器。它不会让你输入更快。在使用 Vim 的前一两年时间里，由于那些虽然可爱但也古怪的键绑定，你会发现，它的效率还不如你当前用的编辑器。大约两年后，你才会很熟练。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    每个人都在谈 Vim 陡峭的学习曲线，却没人说，在你总算记住用 hjkl 来移动光标后是怎样。答案是数个月的沮丧后，你终于有一个可以用的编辑器，然后你知道一些很酷的技巧，在你日常工作中，只有1%的机会会用到。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Home&#34;&gt;把手指放在 Home 行的效率&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Home&#34; href=&#34;#_Home&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    关于 Vim 更高效的论据其实含糊不清，且不可验证。让手去拿鼠标或许真让你慢了下来，但现在开发者们所用的机器上，一般都可以用触控板来移动光标。通过点击屏幕上的字符，大部分新手程序员可以比 Vim 专家们的各式令人发指的招数快多了，比如键入 &lt;kbd&gt;20jFp;&lt;/kbd&gt; 又或者 &lt;kbd&gt;/word&lt;cr&gt;&lt;/kbd&gt; 又或者其他[l]。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    鼠标在于让屏幕上的随意移动变得高效，并且它很擅长。不要妄想你可以打败它。只有在某些极端例子中才能勉强如此。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    关于鼠标的争论还只是次要。真正的问题其实藏得更深。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;1&#34;&gt;插件与扩展能力1: 管理&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey1&#34; href=&#34;#1&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Vim 插件社区有些既顽固又奇怪的缺点。想想看，Vim 大约于&lt;a href=&#34;http://en.wikipedia.org/wiki/Vim_(text_editor)&#34;&gt;1991年&lt;/a&gt;就出来了。Pathogen，第一个被广泛使用、为人们所称赞的路径管理器，于2008年才释出！它让插件管理成为可能，而在那之前，&lt;strong&gt;你只能一遍遍地把插件目录拷入 Vim 文件夹中&lt;/strong&gt;。我不开玩笑。甚至还有个狗屎一样的特殊格式用来做这些事，叫做 Vimball(VBA)，它还被人称赞着呢。许多 Vim 插件脚本现在还在用着这种格式。想卸载几个月前你拷入10个文件夹的插件？想升级它？你会疯掉的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Vim 吹嘘说它是一个可扩展的、可定制的编辑器，嗯，它是的。它可能是有史来可定制性最强的编辑器，但很可惜，我们直到最近才有一个不错的包管理方法。这太让人担心了。在 Pathogen 后两年多，Vundle 才出来。即便是 pathogen 和 vundle，与 Sublime Text 的 Package Control 插件比起来也差上太多。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    而 Vim 的默认配置让情况变得尤其吓人。我无法再强调，普通的 Vim 是怎样糟糕。要想 Vim 可用，插件是必需。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;2&#34;&gt;插件与扩展能力2: 生态系统&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey2&#34; href=&#34;#2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.vim.org/scripts/index.php&#34;&gt;Vim Scripts 网站&lt;/a&gt;。我吐。想像一下，这简直就是格式少一点、特性少一些、广告多许多的 CPAN 样子嘛。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    大多数的 Vim 插件还不曾转移到 &lt;a href=&#34;https://github.com/&#34;&gt;Github&lt;/a&gt; 项目上。 Vim Scripts 网站作为一个没有特色的托管站点，这也没什么，主要是它没有提供任何的好处。它有一个糟糕的界面，还鼓励用户使用 &lt;a href=&#34;http://vim.wikia.com/wiki/Vim_Tips_Wiki&#34;&gt;Vim Wiki&lt;/a&gt; 进行项目管理(后面还会聊到)。大部分的插件社区就围着这个让人呕吐的网站转。最近看到有[自动转换] Vim 脚本到 Github 项目的努力，也许不错，也许很糟糕。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;3__Vimscript&#34;&gt;插件与扩展3: Vimscript&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey3__Vimscript&#34; href=&#34;#3__Vimscript&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    啊，Vimscript。它很糟糕，而我们还在与其纠缠。如果你想写 Vim 插件，你必须要跟 Vimscript 打交道。它是个非常糟糕的语言。语法有点笨，但这可以原谅。Vimscript 最主要的问题在于，它不是&lt;strong&gt;别&lt;/strong&gt;一个语言。没人知道它。大部分我认识的 Vim 老手根本不知道 Vimscript。怎么会这样？因为它的文档非常糟糕，更糟糕的是，要在它上面查找帮助简直是个不可能完成的任务。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    你也许能够在 &lt;a href=&#34;http://vim.wikia.com/wiki/Vim_Tips_Wiki&#34;&gt;Vim Wiki&lt;/a&gt; 上找到一个 Vimscript 教程(试着搜索下，看看它们的搜索是多么的糟糕，又一个不要用它的理由)，但老实说，我觉得大部分作者都有些个性错乱。你找不到友好的、容易理解的、像讲故事一样的教程。它们是由机器及无感情的程序员编写的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    让我们假设一下，你想写个函数。好的。先看看&lt;strong&gt;函数&lt;/strong&gt;的帮助。&lt;code&gt;:help function&lt;/code&gt;。好吧，这不是我们想要的。再试试 &lt;code&gt;:help vimscript&lt;/code&gt;，我猜是这个？这他妈是什么玩意儿啊。&lt;em&gt;边注：几乎所有的 Vim 帮助都无比难用&lt;/em&gt;。幸运的是，有一些好的资源站点存在(&lt;a href=&#34;http://learnvimscriptthehardway.stevelosh.com/&#34;&gt;Learn Vimscript the Hard Way&lt;/a&gt;)。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    即是 Vimmer 也不想学 Vimscript。上帝保佑，希望 Vim 哪天可以有个不是 Vimscript 的语言可以给我们用。曾经有讨论说让 Vim 采用 ECMAScript(&lt;a href=&#34;http://www.mail-archive.com/vim-dev@vim.org/msg03698.html&#34;&gt;Re:replace VimScript&lt;/a&gt;)，不过没人有勇气尝试，包括我自己。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;4&#34;&gt;插件与扩展4: 冲突&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey4&#34; href=&#34;#4&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    这是个大问题。Vim 缺乏现代编辑器所需的大量核心功能。比如 ctag 的整合，项目管理，项目浏览，(当然，我知道 :Sex 命令)，以及其他一些基本的东西，在 Vim 中全都没有。这是因为设计时 Vim 根本就没打算编辑任何一个语言，可能 C 除外。这再坏不过了。理论上说，借由它的扩展能力，Vim 可以编辑任何一种语言，虽然在面对大型语言如 Java 或 Scala 时会有些难过。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    嗯，我们需要一个项目式的文件浏览器。试试 &lt;a href=&#34;https://github.com/scrooloose/nerdtree&#34;&gt;NERDTree&lt;/a&gt;，很多人知道它。可是等等，在我关闭缓存时，NERDTree 总是会让某些莫名东西打开着。大部分人不知道 &lt;a href=&#34;https://github.com/jistr/vim-nerdtree-tabs&#34;&gt;NERDTree tabs&lt;/a&gt;，可是没有它 NERDTree 是不完整的。嘿，而且由于 Vim 对整个 UI(后面还会聊到更多) 使用 monospace 字体的限制，界面看起来糟糕透了。不过我想这还不算太坏&amp;#8230;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    现在我们想找文件。试试 Vimgrep! 等一下，这个太烂。好吧，让我们试下 &lt;a href=&#34;http://www.vim.org/scripts/script.php?script_id=3025&#34;&gt;Command-T&lt;/a&gt;。等一下，这个让人难以置信的慢，又笨重，看起来不好使。嗯，&lt;a href=&#34;https://github.com/kien/ctrlp.vim&#34;&gt;CtrlP&lt;/a&gt; 好使点！可是它在做&lt;a href=&#34;https://github.com/kien/ctrlp.vim/issues/110&#34;&gt;模糊搜索时&lt;/a&gt; 并不太对头，给我的结果也不准确。我是想要又慢又蠢呢，还是想快一点但却是错的？又或者我想操它丫的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Sublime Text 的 Command-T 则运作正常，非常地不错，扫描文件也异常轻松。[2]
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    找到对的 Vim 插件就好像处在一个高级俱乐部里。大约在2年后你才会感觉好点，然后第3年又开始糟糕，然后&amp;#8230;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    回到冲突问题。由于 Vim 默认提供太少功能，以至于有太多的插件出现功能重复。需要 snippet 补齐？好，用 &lt;a href=&#34;http://www.vim.org/scripts/script.php?script_id=2540&#34;&gt;snipMate&lt;/a&gt;！可是等等，&lt;a href=&#34;https://github.com/SirVer/ultisnips&#34;&gt;UltiSnips&lt;/a&gt; 要更好！再等等，如果你用 &lt;a href=&#34;https://github.com/Shougo/neocomplcache&#34;&gt;neocomplcache&lt;/a&gt;，则前面两个都可以见鬼去了(边注，即使有人提供1千亿，我也无法选个比 &amp;#8216;neocomplcache&amp;#8217; 更糟糕的名称。)。现在则可以用 &lt;a href=&#34;https://github.com/Shougo/neosnippet&#34;&gt;neosnippet&lt;/a&gt;！可是等等，如果你还有其他的自动补齐插件，它就无法工作了！所有的这些插件都保证毁掉 Vim 默认的、本已经复杂、混乱的自动补齐功能。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    你的搜索插件会跟你的自动补齐插件冲突。你的语法插件会跟你的词典冲突。冲突是什么意思？它意味着 Vim 会随机吐出500行红色高亮的文字给你，但是只有一秒，就只是让你知道有什么东西被你弄坏了。在使用 &lt;a href=&#34;http://www.vim.org/scripts/script.php?script_id=1682&#34;&gt;indexed-search&lt;/a&gt;(你显然想要这个功能，但操蛋的是 Vim 默认并不提供) 时，如果你搜索的正则表达式非法，你会得到一些神秘的错误，里面有你从来没见过的函数名称。你会在启动 Vim 时看到大量闪过的红色文字，你读不到，拷不到，也保存不了，2秒后，它们就没了，然后突然的，你的编辑器慢得跟狗一样，然后你就得开始追捕插件女巫了[3]。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    啊，Vim 的扩展性。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Vim_1&#34;&gt;Vim 设计得很糟糕1:太太老了&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyVim_1&#34; href=&#34;#Vim_1&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    每个人都将 &lt;kbd&gt;Leader&lt;/kbd&gt; 值从反斜杠重映射给逗号。反斜杠被选中是因为，大约在1943年或其他什么年份里，它很容易敲到。而在现代键盘上，它的位置就太可怕了。重映射覆盖了逗号这个有用的击键，但为了避免古老的反斜杠 leader，这还是值得的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    你知道在 Vim 中处理多文件的建议方法是什么吗？是 arglist。大部分我的 Vim 老手朋友即不用 arglist 也不知道它是什么鬼玩意儿。这是个笨重的系统，用于把多文件填充到 Vim 的一个特殊内部列表中。有时它确实挺好用的(配合一些插件)，可是，你整个 Vim 职业中可能只会用到三次。这是 Vim 的一个古怪而且过时、偏门的瑕疵。你会需要知道它的，大概在2.5年的时候。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Vim_2GUI&#34;&gt;Vim 设计得很糟糕2:GUI&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyVim_2GUI&#34; href=&#34;#Vim_2GUI&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Vim 设计于终端窗口中运行。这是为什么它的 GUI 明确地绑定给 monospaced 字体。终端窗口无法绘制 UI。我明白，我们得要用块或下划线或你所有的什么来绘制东西。好吧。我是在服务器上，我编辑文件可能只是对一些问题做个热修复，我不需要一个漂亮的编辑器来做这种工作。我只是需要编辑文件。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但是 Vim 注定是一个你在服务器上不必要经常用的编辑器。在服务器上，你也可以用 &lt;a href=&#34;http://en.wikipedia.org/wiki/Pico_(text_editor)&#34;&gt;Pico&lt;/a&gt;，但没人长期用 Pico 编辑。后来，我们有了这些叫 GUI 的东西。它们真不错，很好看，也可用，并且针对事物会给出可视的象征。于是我们自然而然地希望我们的运行在 GUI 上的编辑器可以提供这些好处。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    你知道比起终端的 Vim，&lt;a href=&#34;https://code.google.com/p/macvim/&#34;&gt;MacVim&lt;/a&gt; 带来什么好处吗，视觉上的。它有样式化的标签页。这就是我们所得到的，也会是我们未来所会得到的。文件不能也不会仅为了可读性而填充空白。你不能一次在屏幕上显示一种以上字体大小。如果你要放大你的缓存广西，你同时放大了你的文件浏览器，你的命令行，你的状态栏。如果你想要一个可读性强点，非 monospaced 字体来样式化一个对话框，我想你会很忧伤的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Vim 设计得很丑陋。它看起来就好像一个刚开始学会用 bash script 画牛的小孩做出来的。我们永远不会有 &lt;a href=&#34;http://programmers.stackexchange.com/questions/156362/does-sublimes-minimap-improve-productivity&#34;&gt;minimap&lt;/a&gt;(一个非常漂亮的特性)。我们永远不会有多个光标。我们永远不会有一个漂亮的模糊文件查找工具，它会在合理的位置跳出来。我们不能为可用性把对话框摆放在任意地方。我们永远不会有一个可定制的对话框。你可以有的最接近的是 &lt;a href=&#34;https://github.com/Lokaltog/vim-powerline&#34;&gt;vim-powerline&lt;/a&gt;，但它仍是用块画出来的。老实说，Vim 的 UI 老了。当然，我主要是编辑文本，但我一天中大部分时候在使用它。我希望它看起来不错，让人感觉好点。Vim 有许多灵巧的装饰物，但大部分只是暴露出一个问题：我们没有真正的 GUI。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Vim-2&#34;&gt;Vim 在缩进时非常差劲&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyVim-2&#34; href=&#34;#Vim-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    不相信？好，将下面代码粘贴到一个空缓存中：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
+&amp;lt;p&amp;gt;
+&amp;lt;span&amp;gt;foo&amp;lt;/span&amp;gt;
+&amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;:set ft=html&lt;/code&gt; 然后 &lt;kbd&gt;gg=G&lt;/kbd&gt;。让我知道你看到什么了。说实在的，请不要告诉我你看到了什么。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    因为某些奇迹的原因，Vim 在大多数缩进时非常差劲。你因为忘记正确缩进你的 JavaScript 文件，并且在使用 &lt;code&gt;cindent&lt;/code&gt;、&lt;code&gt;smarttab&lt;/code&gt; 及 &lt;code&gt;shiftwidth&lt;/code&gt; 搞乱了一切后，你向插件求助，你会找到 &lt;a href=&#34;https://github.com/pangloss/vim-javascript&#34;&gt;javascript.vim&lt;/a&gt;，可是它运行得不太对，虽然也还有个分支版，可惜也有错误，然后还有些人给插件取同样的名字却完全不是一个内容。我不知道为什么事情会这么混乱，也许是我的错误，没有好好调查清楚，可是为什么竟然还要我自己配置我的编辑器来缩进常见语言？你早该知道的，Vim。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Vim&#34;&gt;一生的 Vim 路，为了一个可以用的编辑器&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Vim&#34; href=&#34;#_Vim&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    *要在 Vim 中写程序，你得把程序跟 Vim 一起记在脑子里，你必须不停地想想你正在做什么。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    也许这是件好事。也许它鼓励程序的高效与改进。可是你知道吗，我不想应付这些。我不想自己必须记住 &lt;kbd&gt;@@&lt;/kbd&gt; 是做什么的，&lt;code&gt;:v/\v&lt;/code&gt; 又是做什么的，又或其他一堆东西仅为完成基本任务。虽然如此，我还是每周花至少一小时来练我的 Vim 功夫。但我真不想这样。我想编辑文件。我不想因为碰上一个难解的问题然后就得阅读另一篇教程仅为了可以正确重命名一个函数。我只是想做出东西。也许它是权宜之计。也许第10年时它一切就都值得了，因为我不用再为了做事而先想事。我不知道。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Vim700_vimrc_45_Vim&#34;&gt;在使用四年 Vim，700行手写的 &lt;a href=&#34;https://github.com/DelvarWorld/configs/blob/master/.vimrc&#34;&gt;.vimrc&lt;/a&gt; 文件及45个插件后，我再也不能真诚推荐别人开始 Vim 旅程&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Vim700_vimrc_45_Vim&#34; href=&#34;#_Vim700_vimrc_45_Vim&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    我希望我的同事能快速编辑文件。告诉他们使用 Vim 是否会是答案？它只会让他们数个月内都变慢。在科技行业中，这不实用。也许长期来看是有好处。又或者我只是不想应付它们的 Vim 旅程。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    你看，小子，我喜欢你们，所以用 &lt;a href=&#34;http://www.sublimetext.com/&#34;&gt;Sublime Text&lt;/a&gt; 吧。虽然事实是我是在 Vim 里写的这篇 post，因为我实在无法容忍在文本区域中写，大部分时候我只是输入文字，但我还是无法容忍。我是如此想念我的 Vim 移动方法。对的，我可能永远不会停止使用 Vim。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    你将要且必须了解 Vim。如果你无法远程编辑文本，在科技世界里，你将没什么用。你会在一个终端窗口中，你会用 Vim 编辑。在 bash 里，如果不通过命令行输入 &lt;code&gt;set -o vi&lt;/code&gt; 把键绑定设置为 Vi 的，你就觉得活不下去了，而我也会一直歧视你直到你真的开始使用它&amp;#8230;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但是 Sublime 有 Vim 所没能有的东西。它是新的热门，有一个比 Vim 更加活跃的社区。而在过去一年中，如果你看到一个 Vim 插件更新了，那你真是太幸运了(不是我在贬低超级名星如 &lt;a href=&#34;https://twitter.com/tpope&#34;&gt;Tim Pope&lt;/a&gt; 那惊人的贡献，而是像他这样让人着迷的真的极少)。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Vim 是一个 &lt;a href=&#34;http://www.rayninfo.co.uk/vimtips.html&#34;&gt;毕生的旅程&lt;/a&gt;。即如现在，我想把我写的这80列宽的文本转换成不固定宽度的文本，我得去找找看怎么才能搞定。也许在这过程中我还能学到点什么。在四年的使用 Vim 后。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    如果你发现 Sublime 不适合你，又或者觉得你失去了什么，那你可以试试 Vim。但只要一点点 Vim 知识就可以让你勉强应付服务器上编辑文件，你也可以使用 &lt;code&gt;set -o vi&lt;/code&gt;，无需读一本书。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我的观点可能会在几年后改变，但是目前，如果你需要做个选择，请用 Sublime Text.
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    (噢，选择整个文本对象，然后 &lt;code&gt;:set tw=1000 | norm gqie&lt;/code&gt;，好傻)
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;strong&gt;译注&lt;/strong&gt;：以下为翻译有疑问的地方：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [1] Most novice programmers can click on a character on screen faster than an expert Vimmer can type 20jFp; or LkEEE or /word&lt;cr&gt; or any other nasty way Vimmers have to use because of our archaic, ingrained keystrokes.
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [2] Padding around your text to make it readable? What a concept!
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [3] You’ll see a huge red flash of text at startup that you can’t read, copy, nor save, and it goes away after 2 seconds, and suddenly your editor is slow a dog and you have to go plugin witch hunting.
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vimfiler</title>
+      <link>https://www.zfanw.com/blog/vimfiler.html</link>
+      <pubDate>Sun, 02 Sep 2012 09:19:12 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimfiler.html</guid>
+      <description>&lt;p&gt;我在 Ubuntu 上使用 &lt;a href=&#34;http://ranger.nongnu.org/&#34;&gt;ranger&lt;/a&gt; 文件管理器，通过 terminal emulator 打开，全键盘操作，键绑定类于 Vim，相当方便。而这个 &lt;a href=&#34;https://github.com/Shougo/vimfiler&#34;&gt;vimfiler&lt;/a&gt; 则直接在 Vim 中进行文件管理，许多键绑定也是 Vim 一类的，相比 Vim 默认的文件管理器 netrw 功能更为强大，另外，它是用 Vim scripts 写的。&lt;/p&gt;
+
+&lt;p&gt;本篇略做介绍。&lt;/p&gt;
+
+&lt;p&gt;首先是安装 vimfiler，可以按 &lt;a href=&#34;http://www.zfanw.com/blog/vundle-vim-plugin-management.html&#34;&gt;Vundle 管理 Vim 插件&lt;/a&gt;一篇介绍的方法来安装，不过因为 vimfiler 依赖于 &lt;a href=&#34;https://github.com/Shougo/unite.vim&#34;&gt;unite.vim&lt;/a&gt;，所以在之前需要安装 unite.vim，这两个都是同一个作者 &lt;a href=&#34;https://twitter.com/ShougoMatsu&#34;&gt;Shougo&lt;/a&gt; 的作品。&lt;/p&gt;
+
+&lt;p&gt;安装完 vimfiler 后打开 Vim，命令行里输入：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:VimFiler
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;即可在 Vim 中打开 vimfiler 文件管理器，默认显示当前目录下的内容。&lt;/p&gt;
+
+&lt;p&gt;如前面所说的，Vim 本身是带有一个 netrw 文件管理，可以通以下命令打开：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:e .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以通过在 .vimrc 文件中添加命令开关将这个默认文件管理器更改成 vimfiler:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let g:vimfiler_as_default_explorer = 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样 &lt;code&gt;:e .&lt;/code&gt; 命令打开的就是 vimfiler 而不是 netrw 了。&lt;/p&gt;
+
+&lt;p&gt;要退出 vimfiler 也很简单，按 &lt;code&gt;Q&lt;/code&gt; 键即可退出 vimfiler 回到 Vim 界面，如果是按小写的 &lt;code&gt;q&lt;/code&gt;，则是隐藏 vimfiler，下次再进入时目录位置仍是上次的目录。&lt;/p&gt;
+
+&lt;p&gt;Vim 最常见的几个移动键在 vimfiler 下的作用如下：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;j &amp;#8211; 向下移动&lt;/li&gt;
+&lt;li&gt;k &amp;#8211; 向上移动&lt;/li&gt;
+&lt;li&gt;gg &amp;#8211; 跳转光标到最上面一个文件或文件夹&lt;/li&gt;
+&lt;li&gt;G &amp;#8211; 跳转光标到最下面一个文件或文件夹&lt;/li&gt;
+&lt;li&gt;h &amp;#8211; 返回上一个文件夹&lt;/li&gt;
+&lt;li&gt;l/Enter &amp;#8211; 进入选中的文件夹或用相关的程序执行文件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;刚安装好 vimfiler 然后按 l 键 vimfiler 可能会显示：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[vimfiler/execute] Associated programs are not found.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;vimfiler 关联的程序没有找到。这是因为我们还没有对 vimfiler 里的文件类型进行关联。我们可以通过命令来关联，比如我们要将 php 文件用 eclipse 打开：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;call vimfiler#set_execute_file(&#39;php&#39;, &#39;eclipse&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;将上述语句添加到 .vimrc 文件后，我们就可以按 l 键来调用 eclipse 打开 php 文件。&lt;/p&gt;
+
+&lt;p&gt;如果需要关联多个打开方式：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;call vimfiler#set_execute_file(&#39;php&#39;,[&#39;eclipse&#39;,&#39;gvim&#39;])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;按 l 键后会新开一个 vim 面板窗口，让你选择是用 eclipse 还是 gvim 打开 php 文件。&lt;/p&gt;
+
+&lt;p&gt;使用 l 的好处是我们可以自定义很多内容，那如果是想使用默认的打开方式呢？&lt;/p&gt;
+
+&lt;p&gt;vimfiler 里提供 &lt;code&gt;x&lt;/code&gt; 键调用系统默认关联的程序来打开光标位置下的文件。&lt;/p&gt;
+
+&lt;p&gt;另外几个相关的编辑按键如下：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;e &amp;#8211; 使用 Vim 编辑光标位置下的文件，如果是 Vim 无法识别的文件比如图片、视频，打开的会是一片乱码，这里可以 vim 命令行输入 &lt;code&gt;:e .&lt;/code&gt; 返回到 vimfiler 界面&lt;/li&gt;
+&lt;li&gt;E &amp;#8211; 在 Vim 中分割出一个窗口来编辑光标位置下的文件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;以上讲的方法是固定下来的，如果仅是临时想使用其他程序打开内容呢？比如有一个 AVI 格式视频，系统默认使用 Gnome-mplayer 打开，但我这次想用 Mplayer 打开：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;按空格键标记该 AVI 视频，vimfiler 会在文件名前加个星号表示已经标记&lt;/li&gt;
+&lt;li&gt;按 &lt;code&gt;!&lt;/code&gt; 打开 shell 命令输入口&lt;/li&gt;
+&lt;li&gt;输入命令 &lt;code&gt;mplayer&lt;/code&gt;，回车即可&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;当然，也可以直接按 &lt;code&gt;!&lt;/code&gt; 调出 shell 命令输入口键入命令 &lt;code&gt;mplayer abc.avi&lt;/code&gt;，不过据我测试文件名称并没有自动补齐，所以会比较麻烦。&lt;/p&gt;
+
+&lt;p&gt;其他如删除、重命名等功能均有提供，不过需要关闭安全模式：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let g:vimfiler_safe_mode_by_default = 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;将上述语句加入 .vimrc 文件即可关闭安全模式，之后就可以进行以下操作：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;r &amp;#8211; 重命名光标位置下的文件或文件夹名称&lt;/li&gt;
+&lt;li&gt;N &amp;#8211; 新建文件&lt;/li&gt;
+&lt;li&gt;K &amp;#8211; 新建文件夹&lt;/li&gt;
+&lt;li&gt;dd &amp;#8211; 删除光标位置下的文件或文件夹&lt;/li&gt;
+&lt;li&gt;cc &amp;#8211; 复制文件或文件夹，会要求输入目标位置&lt;/li&gt;
+&lt;li&gt;mm &amp;#8211; 移动文件或文件夹，要求输入目标位置&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;注意，上面 dd/cc/mm 是按了两次，第一次表示选中，第二次才真是是操作命令，也可以先按空格键选中，再按一次 d/c/m 即可。&lt;/p&gt;
+
+&lt;p&gt;再来讲讲文件夹或说目录。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;. &amp;#8211; 显示/隐藏隐藏文件&lt;/li&gt;
+&lt;li&gt;~ &amp;#8211; 跳转到主目录&lt;/li&gt;
+&lt;li&gt;\ &amp;#8211; 跳转到根目录&lt;/li&gt;
+&lt;li&gt;t &amp;#8211; 展开当前目录下的子文件，包括子文件夹&lt;/li&gt;
+&lt;li&gt;T &amp;#8211; 递归展开当前目录下的文件，包括深层目录里的。如果目录很大，轻易不要用 &lt;code&gt;T&lt;/code&gt; 来展开。&lt;/li&gt;
+&lt;li&gt;S &amp;#8211; 对目录文件进行排序，排序根据可以选择&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果要在一个目录下查找内容？&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;/ &amp;#8211; 如你所料，这个一如继往地可以用，小写的 n 用于跳转到下一个符合项&lt;/li&gt;
+&lt;li&gt;gf &amp;#8211; 执行系统 find 命令&lt;/li&gt;
+&lt;li&gt;gr &amp;#8211; 执行系统 grep 命令&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;不过，在使用这两个命令前，还需要安装 &lt;a href=&#34;https://github.com/Shougo/vimproc&#34;&gt;vimproc&lt;/a&gt;，否则会出现错误提示：No such action: find。 vimfiler 文档里并没有明确说明这个依赖，仍是到 twitter 上问作者才知道的。&lt;/p&gt;
+
+&lt;p&gt;这样，一个文件管理器该有的操作都有了。如果还需要了解更多，可以按 &lt;code&gt;?&lt;/code&gt; 查看帮助，或者 &lt;code&gt;:help vimfiler&lt;/code&gt;。这个比起 Ubuntu 自带的那个文件管理器可不会差吧。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vundle 管理 Vim 插件</title>
+      <link>https://www.zfanw.com/blog/vundle-vim-plugin-management.html</link>
+      <pubDate>Sun, 05 Aug 2012 04:35:20 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vundle-vim-plugin-management.html</guid>
+      <description>
+
+&lt;p&gt;如果用 &lt;a href=&#34;https://github.com/tpope/vim-pathogen&#34;&gt;pathogen&lt;/a&gt; 管理 vim 插件，bundle 文件夹下 vim 插件的更新很麻烦，你需要针对每个插件分别升级。如果你还有不同电脑，那么不同电脑上 vim 插件保持一致也成问题。&lt;/p&gt;
+
+&lt;p&gt;Vundle 可以解决上述问题。&lt;/p&gt;
+
+&lt;p&gt;首先，你的操作系统需要事先安装 git，然后利用 &lt;code&gt;git clone&lt;/code&gt; 命令从 github 上下载 Vundle：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;打开 .vimrc 配置文件（Windows 系统上为 _vimrc)，配置要安装的 vim 插件：&lt;/p&gt;
+
+&lt;pre lang=&#34;vim&#34;&gt;&lt;code&gt;
+ set nocompatible               &#34; 设置 vim 为不兼容 vi 模式
+ filetype off                   &#34; 必须的
+
+ set rtp+=~/.vim/bundle/vundle/
+ &#34;Windows系统下上一语句修改为
+ &#34;set rtp+=$VIM/vimfiles/bundle/vundle/
+ call vundle#rc()
+
+ &#34; 让 Vundle 管理 Vundle
+ &#34; 此条必须有
+ Bundle &#39;gmarik/vundle&#39;
+
+ &#34; 比如我的 vim 插件
+ &#34;
+ &#34; 代码源在 github 上的
+ Bundle &#39;mattn/zencoding-vim&#39;
+ Bundle &#39;Lokaltog/vim-powerline&#39;
+ Bundle &#39;kien/ctrlp.vim&#39;
+
+ &#34; 代码存放在 vim script 上
+ Bundle &#39;FuzzyFinder&#39;
+
+ &#34; 代码存放在其他地方
+ Bundle &#39;git://git.wincent.com/command-t.git&#39;
+ &#34; ...
+
+ filetype plugin indent on     &#34; 必须有
+ &#34;
+ &#34; Brief help
+ &#34; :BundleList          - list configured bundles
+ &#34; :BundleInstall(!)    - install(update) bundles
+ &#34; :BundleSearch(!) foo - search(or refresh cache first) for foo
+ &#34; :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+ &#34;
+ &#34; see :h vundle for more details or wiki for FAQ
+ &#34; NOTE: comments after Bundle command are not allowed..
+&lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;接下来，vim 中运行命令 &lt;code&gt;:BundleInstall&lt;/code&gt; 就可以自动安装上述配置文件中的 vim 插件，而如果要更新插件，运行命令 &lt;code&gt;:BundleInstall!&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;如果要删除插件，则从 .vimrc 文件中删除或注释掉相应行，然后运行 &lt;code&gt;:BundleClean&lt;/code&gt; 即可。&lt;/p&gt;
+
+&lt;p&gt;之后，只要在不同电脑上同步 .vimrc 文件就可以保证不同电脑上的 vim 插件一致。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.charlietanksley.net/philtex/sane-vim-plugin-management/&#34;&gt;http://www.charlietanksley.net/philtex/sane-vim-plugin-management/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/gmarik/vundle&#34;&gt;https://github.com/gmarik/vundle&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Emmet.vim 教程</title>
+      <link>https://www.zfanw.com/blog/zencoding-vim-tutorial-chinese.html</link>
+      <pubDate>Thu, 31 May 2012 10:03:03 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/zencoding-vim-tutorial-chinese.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Emmetvim&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 下载 Emmet.vim&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Emmetvim-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 安装 Emmet.vim&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Emmetvim-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 使用 Emmet.vim&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 余话&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    Emmet 项目原来叫 Zen Coding。由俄罗斯前端开发工程师 Sergey Chikuyonok 开发，后来在 Google Code 上释出 &lt;a href=&#34;http://code.google.com/p/zen-coding/&#34;&gt;Zen Coding 项目&lt;/a&gt;。2012年的时候，项目启用新名称 &lt;a href=&#34;http://emmet.io/&#34;&gt;Emmet&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Emmet 官方支持&lt;a href=&#34;http://emmet.io/download/&#34;&gt;很多软件&lt;/a&gt;，比如 Sublime Text、Notepad++、Dreamweaver、Eclipse、Adobe Brackets 等。&lt;a href=&#34;https://github.com/mattn/emmet-vim/&#34;&gt;Emmet.vim&lt;/a&gt; 并非 Emmet 亲生，它由日本 &lt;a href=&#34;http://mattn.kaoriya.net/&#34;&gt;Yasuhiro Matsumoto&lt;/a&gt; 开发。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Emmetvim&#34;&gt;下载 Emmet.vim&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Emmetvim&#34; href=&#34;#_Emmetvim&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    你可以从两个地址下载，一是 &lt;a href=&#34;http://www.vim.org/scripts/script.php?script_id=2981&#34;&gt;Vim 插件站点&lt;/a&gt;，一是 &lt;a href=&#34;https://github.com/mattn/emmet-vim/&#34;&gt;Github&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Emmetvim-2&#34;&gt;安装 Emmet.vim&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Emmetvim-2&#34; href=&#34;#_Emmetvim-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    将下载的压缩包解压到 .vim 目录下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;cd ~/.vim
+unzip emmet-vim.zip
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    如果你使用 &lt;a href=&#34;http://www.vim.org/scripts/script.php?script_id=2332&#34;&gt;pathogen.vim&lt;/a&gt; 管理 Vim 插件：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;cd ~/.vim/bundle
+unzip /path/to/emmet-vim.zip
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    或者直接从 Github 库克隆一份：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;cd ~/.vim/bundle
+git clone http://github.com/mattn/emmet-vim.git
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    个人建议通过 Pathogen 或 &lt;a href=&#34;http://www.zfanw.com/blog/vundle-vim-plugin-management.html&#34;&gt;Vundle&lt;/a&gt; 来安装管理 Vim 插件。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Emmetvim-3&#34;&gt;使用 Emmet.vim&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Emmetvim-3&#34; href=&#34;#_Emmetvim-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    以下内容译自 &lt;a href=&#34;https://github.com/mattn/emmet-vim/blob/master/TUTORIAL&#34;&gt;Emmet.vim tutorial&lt;/a&gt;，感谢&lt;a href=&#34;http://twitter.com/mattn_jp&#34;&gt;作者&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    1. 展开缩略词
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    键入缩略词组 &lt;code&gt;div&amp;gt;p#foo$*3&amp;gt;a&lt;/code&gt; 然后按快捷键 &lt;kbd&gt;&lt;c-y&gt;,&lt;/kbd&gt; &amp;#8211; 指按 &lt;&lt;strong&gt;Ctrl-y&lt;/strong&gt;&gt; 后再按&lt;strong&gt;逗号&lt;/strong&gt;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
+    &amp;lt;p id=&#34;foo1&#34;&amp;gt;
+        &amp;lt;a href=&#34;&#34;&amp;gt;&amp;lt;/a&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p id=&#34;foo2&#34;&amp;gt;
+        &amp;lt;a href=&#34;&#34;&amp;gt;&amp;lt;/a&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p id=&#34;foo3&#34;&amp;gt;
+        &amp;lt;a href=&#34;&#34;&amp;gt;&amp;lt;/a&amp;gt;
+    &amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    2. 包入
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    如下内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;test1
+test2
+test3
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    按大写的 &lt;code&gt;V&lt;/code&gt; 进入 Vim 可视模式，“行选取”上面三行内容，然后按键 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;,&lt;/kbd&gt;&amp;#8216;，这时 Vim 的命令行会提示 &lt;code&gt;Tags:&lt;/code&gt;，键入&lt;code&gt;ul&amp;gt;li*&lt;/code&gt;，然后按 &lt;kbd&gt;Enter&lt;/kbd&gt;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+    &amp;lt;li&amp;gt;test1&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;test2&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;test3&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    而假如输入的 tag 是 &amp;#8216;blockquote&amp;#8217;，则结果会变成下面这样。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;blockquote&amp;gt;
+    test1
+    test2
+    test3
+&amp;lt;/blockquote&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    3.插入模式下根据光标位置选中整个标签
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;d&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    4.插入模式下根据光标位置选中整个标签内容
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;D&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    5.跳转到下一个编辑点
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    插入模式下按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;n&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    6.跳转到上一个编辑点
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    插入模式下按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;N&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    7.更新图片大小
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    移动光标到 img 标签。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;img src=&#34;foo.png&#34; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;i&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;img src=&#34;foo.png&#34; width=&#34;32&#34; height=&#34;48&#34; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    注：这个据个人使用经历，仅适用本地图片，互联网上的图片并无法取得其大小。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    8.合并行
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    选择包含 &amp;#8216;&lt;li&gt;&amp;#8217; 的行
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+    &amp;lt;li class=&#34;list1&#34;&amp;gt;&amp;lt;/li&amp;gt;
+    &amp;lt;li class=&#34;list2&#34;&amp;gt;&amp;lt;/li&amp;gt;
+    &amp;lt;li class=&#34;list3&#34;&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;m&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+    &amp;lt;li class=&#34;list1&#34;&amp;gt;&amp;lt;/li&amp;gt;&amp;lt;li class=&#34;list2&#34;&amp;gt;&amp;lt;/li&amp;gt;&amp;lt;li class=&#34;list3&#34;&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    9.移除标签对
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    移动光标到块中
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#34;foo&#34;&amp;gt;
+    &amp;lt;a&amp;gt;cursor is here&amp;lt;/a&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    在插入模式下按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;k&lt;/kbd&gt;&amp;#8216;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#34;foo&#34;&amp;gt;
+
+&amp;lt;/div&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    再次按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;k&lt;/kbd&gt;&amp;#8216; 则上述连 div 标签块都没了。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    10.分割/合并标签
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    移动光标到块中
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#34;foo&#34;&amp;gt;
+    cursor is here
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    在插入模式下按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;j&lt;/kbd&gt;&amp;#8216;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#34;foo&#34;/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    再次按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;j&lt;/kbd&gt;&amp;#8216;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#34;foo&#34;&amp;gt;
+
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    11.切换注释
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    移动光标到块中
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
+    hello world
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    插入模式中按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;/&lt;/kbd&gt;&amp;#8216;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;!-- &amp;lt;div&amp;gt;
+    hello world
+&amp;lt;/div&amp;gt; --&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    再按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;/&lt;/kbd&gt;&amp;#8216;。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
+    hello world
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    12.从 URL 地址生成锚
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    将光标移至 URL
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;http://www.google.com/
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;a&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;a href=&#34;http://www.google.com&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    13.从 URL 地址生成引用文本
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    移动光标到 URL
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;http://github.com/
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    按 &amp;#8216;&lt;kbd&gt;&lt;c-y&gt;A&lt;/kbd&gt;&amp;#8216;
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;blockquote class=&#34;quote&#34;&amp;gt;
+    &amp;lt;a href=&#34;http://github.com/&#34;&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;br /&amp;gt;
+    &amp;lt;p&amp;gt;...&amp;lt;/p&amp;gt;
+    &amp;lt;cite&amp;gt;http://github.com/&amp;lt;/cite&amp;gt;
+&amp;lt;/blockquote&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    14.安装 Emmet.vim
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    见文章头部。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    15.为你所用的语言启用 Emmet.vim
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    你可以为你用的语言自定义行为。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;# cat &amp;gt;&amp;gt; ~/.vimrc
+let g:user_emmet_settings = {
+\ &#39;php&#39; : {
+\ &#39;extends&#39; : &#39;html&#39;,
+\ &#39;filters&#39; : &#39;c&#39;,
+\ },
+\ &#39;xml&#39; : {
+\ &#39;extends&#39; : &#39;html&#39;,
+\ },
+\ &#39;haml&#39; : {
+\ &#39;extends&#39; : &#39;html&#39;,
+\ },
+\}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;余话&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    除开以上帮助，你还可以按&lt;strong&gt;冒号&lt;/strong&gt;进入 Vim 命令行模式，然后输入 &lt;code&gt;help emmet&lt;/code&gt; 在新窗口中调用 Emmet 的帮助内容。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Emmet 在其他编辑器的触发快捷键一般是 &lt;kbd&gt;Tab&lt;/kbd&gt; 或 &lt;kbd&gt;Ctrl+e&lt;/kbd&gt;，如果你更习惯它们，也可以在 .vimrc 文件中加入下一行命令来修改它的触发快捷键：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;let g:user_emmet_expandabbr_key = &#39;&amp;lt;Tab&amp;gt;&#39;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样就可以按 &lt;kbd&gt;Tab&lt;/kbd&gt; 来扩展了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;strong&gt;附&lt;/strong&gt;:
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://zen-coding.googlecode.com/files/ZenCodingCheatSheet.pdf&#34;&gt;ZenCoding cheatsheet&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>VIM 编码</title>
+      <link>https://www.zfanw.com/blog/vim-encoding-fileencoding-fileencodings.html</link>
+      <pubDate>Sat, 10 Mar 2012 23:59:16 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vim-encoding-fileencoding-fileencodings.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 乱码&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 测试&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 总结&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Ubuntu_Gvim_option&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; Ubuntu 下 Gvim 的 option&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;乱码&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Vim 里关于编码有多个 option，比如 encoding、fileencoding、fileencodings、termencoding。用 &lt;kbd&gt;:help xxx&lt;/kbd&gt; 分别查看，就会有一个疑问：为什么会有这么多 option 存在？然后你可以自言自语地总结：存在总是有其历史的不正确的原因或者非历史的正确原因。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但对于普通用户来说，其实无谓多少 option 存在，只要能不乱码，又或者乱了知道怎么处理就够了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;测试&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Windows 7 下 Gvim 7.3.46 版本，界面为中文，环境变量 $LANG 值为 zh-CN，上面几个 option 的默认值分别为：
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      termencoding=
+    &lt;/li&gt;
+    &lt;li&gt;
+      encoding=cp936
+    &lt;/li&gt;
+    &lt;li&gt;
+      fileencoding=
+    &lt;/li&gt;
+    &lt;li&gt;
+      fileencodings=ucs-bom
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    按帮助内容说，当 termencoding 值为空时，取值与 encoding 一样，即也为 &lt;a href=&#34;http://en.wikipedia.org/wiki/Code_page_936&#34;&gt;cp936&lt;/a&gt;，cp936 是微软的简体中文字符编码集。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    fileencoding 为空其取值也是与 encoding 一样，也是 cp936。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    针对文件我们可以有两种常见行为，一是创建，一是读取，创建时用一种编码集，读取时又用一种编码集，如果读取时所用的编码集与创建时所用不同，就可能出现乱码。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    记事本下的不同编码
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    我的测试是打开记事本，并分别另存两个 txt 文件，一个编码为 ANSI ，一个编码为 UTF-8，然后用 Gvim 打开并查看上述各 option 的取值变化。
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      ANSI &lt;ul&gt;
+        &lt;li&gt;
+          termencoding=
+        &lt;/li&gt;
+        &lt;li&gt;
+          encoding=cp936
+        &lt;/li&gt;
+        &lt;li&gt;
+          fileencoding=
+        &lt;/li&gt;
+        &lt;li&gt;
+          fileencodings=ucs-bom
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      UTF-8 &lt;ul&gt;
+        &lt;li&gt;
+          termencoding=
+        &lt;/li&gt;
+        &lt;li&gt;
+          encoding=cp936
+        &lt;/li&gt;
+        &lt;li&gt;
+          fileencoding=utf-8
+        &lt;/li&gt;
+        &lt;li&gt;
+          fileencodings=ucs-bom
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    从结果可以看到，记事本保存的两个不同编码文件在 Vim 中打开并未出现乱码的情况。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    乱码来了
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    那么来见一下乱码的情形。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在 Vim 的配置文件 _vimrc 里加上一句 &lt;code&gt;set fileencoding=utf-8&lt;/code&gt;，然后从 Vim 中新建一个 vim-utf-8.txt 文件，保存后重新用 Vim 打开，接着乱码就出现了。查看各个 option 值，唯 fileencoding 值与新建时不一样，变成 cp936。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    也就是说，在新建这个文件时所用的编码是 utf-8，到打开时使用的却是 cp936，因为 utf-8 的字符集要大于 cp936，于是就出现乱码。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    所以我们需要 Vim 在读取文件时认得其所用编码，又或者读取所用的字符集包含了创建所用的字符集。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    解决乱码
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    在 _vimrc 文件中增加一行 &lt;code&gt;set fileencodings=utf-8,&amp;lt;a href=&#34;https://zh.wikipedia.org/wiki/位元組順序記號&#34;&gt;ucs-bom&amp;lt;/a&gt;&lt;/code&gt;，这样 Vim 在读取时给要打开的文件应用的编码就按 fileencodings 从从左住右应用第一个找到的可用编码，类似于 CSS 下的 font-family 用法。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    重新打开 vim-utf-8.txt 文件，这时乱码已经消失，查看 fileencoding 值，已经是 utf-8 了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    另外，上述乱码情况在不更改 fileencodings 的情况下可以使用在 Vim 命令行模式下调用 &lt;kbd&gt;:e ++enc=utf-8&lt;/kbd&gt; 强制更改，一如 &lt;a href=&#34;http://www.zfanw.com/blog/vim-file-format-problem.html&#34;&gt;Vim 文件格式&lt;/a&gt; 一篇提到的办法。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;总结&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      创建文件时所用编码据 fileencoding 值
+    &lt;/li&gt;
+    &lt;li&gt;
+      读取文件时所应用编码据 fileencodings 值
+    &lt;/li&gt;
+    &lt;li&gt;
+      termencoding 与 encoding 值平常用户一般不用管
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Ubuntu_Gvim_option&#34;&gt;Ubuntu 下 Gvim 的 option&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyUbuntu_Gvim_option&#34; href=&#34;#Ubuntu_Gvim_option&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      $LANG=en.US_UTF-8
+    &lt;/li&gt;
+    &lt;li&gt;
+      termencoding=utf-8
+    &lt;/li&gt;
+    &lt;li&gt;
+      encoding=utf-8
+    &lt;/li&gt;
+    &lt;li&gt;
+      fileencoding=
+    &lt;/li&gt;
+    &lt;li&gt;
+      fileencodings=ucs-bom,utf-8,default,latin1
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vim 文件格式</title>
+      <link>https://www.zfanw.com/blog/vim-file-format-problem.html</link>
+      <pubDate>Wed, 07 Mar 2012 04:05:11 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vim-file-format-problem.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 新建文件&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 特殊字符&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_unix_dos&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 从 unix 转 dos&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_M&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 清空 ^M&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 参考资料&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    因为经常要在 Windows XP 上用 Vim 编辑从 Apache 服务器上下载的文件，于是行末就会经常出现 &amp;#8220;^M&amp;#8221; 这样的非正常行结束符。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先，Vim 能够识别三个操作系统下的文件格式，包括 Unix，Dos 与 Mac。在创建文件或写入时，这三种文件格式分别决定了行末要添加什么特殊字符，而在读入文件时，又分别决定了要从行末移去什么特殊字符。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这样，就可以列出下面一个表格：
+  &lt;/p&gt;
+  
+  &lt;table class=&#34;table table-condensed&#34;&gt;
+    &lt;caption&gt; Vim File Format &lt;/caption&gt; &lt;tr&gt;
+      &lt;th&gt;
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        Unix
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        Dos
+      &lt;/th&gt;
+      
+      &lt;th&gt;
+        Mac OS X
+      &lt;/th&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        写入
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        +LF
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        +CRLF
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        +LF
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+        读取
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        -LF
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        -CRLF
+      &lt;/td&gt;
+      
+      &lt;td&gt;
+        -LF
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  
+  &lt;p&gt;
+    注:
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      CR is carriage return (return cursor to left margin), which is Ctrl-M or ^M or hex 0D.
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      LF is linefeed (move cursor down), which is Ctrl-J or ^J or hex 0A. Sometimes, LF is written as NL (newline).
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;新建文件&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    从 Vim 新建的文件，文件的 file format 值是由 Vim &lt;code&gt;fileformats&lt;/code&gt; 这个选项值决定。fileformats 是全局选项，决定了操作系统新建或打开文件时应用到文件上的 file format 值。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    比如我现在所用系统为 Windows XP，在 Vim 命令模式下使用 &lt;kbd&gt;:set ffs?&lt;/kbd&gt; 可以查看到，fileformats 值是 &amp;#8220;dos,unix&amp;#8221;。则我从 Vim 中新建并保存的一个 ffs.txt 文件，用 &lt;kbd&gt;:set ff?&lt;/kbd&gt; 查看的话，其显示值为 &amp;#8220;fileformat=dos&amp;#8221;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    根据上面表格说明，则 Vim 在保存过程中，在行末添加了 &amp;#8220;^M^J&amp;#8221; 字符，只是在打开时又移除了，所以我们看不见。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;特殊字符&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    用 Vim 打开上面那个 fileformat 值为 dos 的 ffs.txt 文件，然后在命令模式下键入 &lt;kbd&gt;:e ++ff=unix&lt;/kbd&gt;，这个命令用于将当前文件的 fileformat 值更改为 unix，根据上表，这样就需要从行末移除 &amp;#8220;LF&amp;#8221;，即 &amp;#8220;^J&amp;#8221; 字符，因为 fileformat=dos 时在行末添加的是 &amp;#8220;^M^J&amp;#8221;，而 fileformat=unix 仅仅移除了 &amp;#8220;^J&amp;#8221;，于是 &amp;#8220;^M&amp;#8221; 这个特殊字符就可见了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_unix_dos&#34;&gt;从 unix 转 dos&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_unix_dos&#34; href=&#34;#_unix_dos&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    新建一个 ffunix.txt 文件，保存时将它的 fileformat 设置为 unix，这样就会在行末加入 &amp;#8220;^J&amp;#8221; 字符，那么再用 &lt;kbd&gt;:e ++ff=dos&lt;/kbd&gt; 转换文件格式为 dos。在 Vim 下方显示文件名称的右侧会出现 &lt;code&gt;[CR missing]&lt;/code&gt; 的提示。Vim 试图从 &amp;#8220;^J&amp;#8221; 中移除 &amp;#8220;^M^J&amp;#8221;，于是就出现上面的错误提示了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_M&#34;&gt;清空 ^M&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_M&#34; href=&#34;#_M&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    今天试图从 ftp上 直接打开 php 文件，Vim 显示两个 &amp;#8220;^M&amp;#8221; 字符，真够让人傻眼的。上面介绍的转换文件格式的方法显然不能用，则另有个办法，用 Vim 下的替换功能，将特殊字符 &amp;#8220;^M^M&amp;#8221; 替换为空。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在 Vim 的命令模式下键入 &lt;kbd&gt;:%s/\r//g&lt;/kbd&gt;，就可以清空无关的 &amp;#8220;^M&amp;#8221; 字符。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;参考资料&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://vim.wikia.com/wiki/File_format&#34;&gt;file format&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Emmet-vim CSS 写法</title>
+      <link>https://www.zfanw.com/blog/zencoding-vim-html-css.html</link>
+      <pubDate>Fri, 22 Jul 2011 01:46:44 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/zencoding-vim-html-css.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 附录&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 修订历史&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    Emmet（原来叫 Zen Coding） 通过按键触发来展开缩写词。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在 Vim 下，使用 &lt;a href=&#34;https://github.com/mattn/emmet-vim&#34; title=&#34;emmet for vim 代码库&#34;&gt;Emmet-vim&lt;/a&gt; 编辑 CSS 文件，首先需要检查文件类型，
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:set ft?
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    如果显示结果不是 &lt;code&gt;filetype=css&lt;/code&gt;，则需要先设定文件类型：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:set ft=css
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后你就可以开始写 CSS 规则。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    比如要给 &lt;code&gt;body&lt;/code&gt; 写一个 &lt;code&gt;margin-right:10px;&lt;/code&gt;，则可以在 Vim 输入：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;mr10
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后按触发键，默认为 &lt;kbd&gt;Ctrl+y,&lt;/kbd&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    又或者要给 &lt;code&gt;div&lt;/code&gt; 块加一个 &lt;code&gt;position:absolute;&lt;/code&gt;，则可以输入：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;pos:a
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后按触发键。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接下来要给 &lt;code&gt;div&lt;/code&gt; 增加 &lt;code&gt;top:20px;right:10px;&lt;/code&gt;，
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;t20+r10
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后按触发键。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    很简单吧。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;附录&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      Zen Coding 站上的 &lt;a href=&#34;https://zen-coding.googlecode.com/files/ZenCodingCheatSheet.pdf&#34;&gt;Cheatsheet&lt;/a&gt; 提供有更多缩略词列表
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://docs.emmet.io/css-abbreviations/&#34;&gt;Emmet 上关于 CSS 扩展的说明&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;div class=&#39;timeline&#39;&gt;
+    &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+      &lt;span id=&#34;i-2&#34;&gt;修订历史&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+    &lt;/h2&gt;
+    
+    &lt;ol&gt;
+      &lt;li&gt;
+        &lt;span itemprop=&#39;dateModified&#39;&gt;2015-06-17&lt;/span&gt;：修改 zencoding.vim 为 emmet-vim。
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

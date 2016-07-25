@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>JavaScript with 语句 - 陈三</title>
+<meta property="og:title" content="JavaScript with 语句 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">JavaScript with 语句</h1>
+
+    
+    <span class="article-date">April 4, 2015</span>
+    
+
+    <div class="article-content">
+      <p>​<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with">ECMAScript 5 里已经不推荐</a>使用 <code>with</code> 语句，一个主要原因是，它会产生莫名的副作用，比如：</p>
+
+<pre><code>var obj = { a: 3 };
+
+with (obj) {
+  a = 7;
+  b = 5;
+}
+</code></pre>
+
+<p>这里，我们创建了一个全局变量 <code>b</code>。但一般我们会认为 <code>b</code> 是 <code>obj</code> 对象的属性 &#8211; 可惜不是，我们确实创建了一个全局变量。</p>
+
+<p>我们知道全局变量是魔鬼，尤其是莫名产生的全局变量。所以 ECMAScript 5 里引入 <code>'use strict';</code>，解决这类问题。</p>
+
+<p>如果我们在代码前加入 <code>'use strict';</code>：</p>
+
+<pre><code>'use strict';
+var obj = { a: 3 };
+
+with (obj) {
+  b = 5;
+}
+</code></pre>
+
+<p>运行后会报告这样的错误：</p>
+
+<blockquote>
+<p>SyntaxError: strict mode code may not contain &#8216;with&#8217; statements</p>
+</blockquote>
+
+<p>严格模式下不允许使用 <code>with</code>。那就不用吧。</p>
+
+<p>另一个不用 <code>with</code> 的原因是，它会<a href="https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&amp;%20closures/ch2.md#performance">拖慢代码的运行速度</a>。通常，JavaScript 引擎会对要运行的 JavaScript 代码做许多优化，但 <code>with</code>（以及 <code>eval</code>）的引入会变成《海伯利安》这样的变数，导致引擎无法优化代码。</p>
+
+<p>简单说，JavaScript 里不要用 <code>with</code> 了，现在，以后，都没什么必要。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

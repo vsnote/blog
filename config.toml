@@ -1,0 +1,15 @@
+baseurl = "https://www.zfanw.com/blog/"
+languageCode = "zh"
+title = "陈三"
+theme = "hugo-lithium-theme"
+PygmentsCodeFences = true
+pygmentsstyle = "xcode"
+[permalinks]
+  page = "/:title"
+[menu]
+  [[menu.main]]
+  name = "Home"
+  url = "/"
+  [[menu.main]]
+  name = "关于"
+  url = "/about/"

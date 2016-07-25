@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Firefox flash 崩溃 - 陈三</title>
+<meta property="og:title" content="Firefox flash 崩溃 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Firefox flash 崩溃</h1>
+
+    
+    <span class="article-date">December 12, 2014</span>
+    
+
+    <div class="article-content">
+      <p>这一篇介绍 openSUSE 系统下 flash 崩溃的一种解决办法。</p>
+
+<p><strong>环境</strong>：</p>
+
+<ul>
+<li>操作系统：openSUSE 13.2 32 位</li>
+<li>浏览器：Firefox 34 版本</li>
+</ul>
+
+<p><strong>病症</strong>：使用 flash 的页面均出现 <strong>Adobe Flash 插件已崩溃</strong>。</p>
+
+<p>尝试了 Chrome 浏览器，同样存在问题：</p>
+
+<blockquote>
+<p>Shockwave Flash has crashed.</p>
+</blockquote>
+
+<p>排查如下：</p>
+
+<ol>
+<li><p>打开 Firefox 附加组件页面，检查 flash 相关插件的安装情况，如下图：</p>
+
+<p>[resp_image id=&#8217;14778&#8242;]</p>
+
+<p>我们能看到两个版本的 flash 插件：</p>
+
+<ul>
+<li>Shockwave Flash 15.0.0.239</li>
+<li>Shockwave Flash 11.2.202.411
+<br /></li>
+</ul>
+
+<p>两个插件的情况是：</p>
+
+<ol>
+<li>两个都设置为 active，则 Flash 肯定崩溃</li>
+<li>只设置一个为 active，则页面总是提示要开启 Flash
+<br /></li>
+</ol>
+
+<p>怀疑是两个版本冲突的问题<sup class="footnote-ref" id="fnref:14669-1"><a rel="footnote" href="#fn:14669-1">1</a></sup>。</p></li>
+
+<li><p>使用 <code>zypper search</code> 命令检查系统下安装的 flash 相关软件：</p>
+
+<pre><code>$ zypper search flash
+</code></pre>
+
+<p>输出结果如下：</p>
+
+<p>其中 <strong>chromium-pepper-flash</strong> 比较可疑。</p></li>
+
+<li><p>移除 chromium-pepper-flash：</p>
+
+<pre><code>$ sudo zypper rm chromium-pepper-flash 
+</code></pre>
+
+<p>弹出提示如下：</p>
+
+<blockquote>
+<p>The following 2 packages are going to be REMOVED: chromium-pepper-flash freshplayerplugin</p>
+
+<p>The following package is going to be upgraded: flash-player</p>
+
+<p>1 package to upgrade, 2 to remove. Overall download size: 11.6 MiB. Already cached: 0 B After the operation, 13.9 MiB will be freed. Continue? [y/n/p/? shows all options] (y): y (Use arrows or pgUp/pgDown keys to scroll the text by lines or pages.)</p>
+</blockquote>
+
+<p>提示说，chromium-pepper-flash 和 freshplayerplugin 将被移除，并且升级 flash-player。</p></li>
+</ol>
+
+<p>移除后，重启 Firefox，Flash 可正常使用。</p>
+
+<p>P.S. 图片由 Luna 提供。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:14669-1"><a href="https://support.mozilla.org/en-US/questions/1024170">How do I totally remove Shockwave Flash 15.0.0152 from my Addons in Ubuntu 12.04? | Firefox Support Forum | Mozilla Support</a>
+ <a class="footnote-return" href="#fnref:14669-1"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

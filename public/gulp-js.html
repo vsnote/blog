@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Gulp.js - 陈三</title>
+<meta property="og:title" content="Gulp.js - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Gulp.js</h1>
+
+    
+    <span class="article-date">January 1, 2014</span>
+    
+
+    <div class="article-content">
+      <p>好像突然间，就看到 twitter 上到处在聊 gulp.js <sup class="footnote-ref" id="fnref:11402-1"><a rel="footnote" href="#fn:11402-1">1</a></sup>了，还拿来跟 grunt.js <sup class="footnote-ref" id="fnref:11402-2"><a rel="footnote" href="#fn:11402-2">2</a></sup>作对比，说它的语法更简洁，说它的速度更快&#8230;&#8230;</p>
+
+<p><strong>Note</strong>：<em>gulp 在2013.7.18推出0.1版本，grunt 在两年前推出</em></p>
+
+<p>grunt.js 下，加载插件是这样写的：</p>
+
+<pre><code>grunt.loadNpmTasks('grunt-contrib-uglify');
+</code></pre>
+
+<p>gulp.js 下，则是这样：</p>
+
+<pre><code>var uglify = require('gulp-uglify');
+</code></pre>
+
+<p>gulp 加载插件的语法有点 Node.js 的意思，就我个人喜好说，确实会喜欢 <code>require</code> 的方式多一点。</p>
+
+<p>再来看定义任务。</p>
+
+<p>gulp 下是这样：</p>
+
+<pre><code>gulp.task('scripts', function() {// 定义一个脚本任务
+  // 最小化、混淆 js 目录下不包括 vendor 子目录的所有 js 文件，并将结果保存到 build/js 目录下
+  return gulp.src(['js/**/*.js', '!js/vendor/**'])
+    .pipe(uglify()) // pipe 是一个管道，可以连接不同部分
+    .pipe(rename({ // 重命名文件
+        ext: &quot;.min.js&quot;
+    }))
+    .pipe(gulp.dest('build/js'));
+});
+</code></pre>
+
+<p>这个任务在 grunt 下写的话：</p>
+
+<pre><code>uglify: { 
+      build: {
+      files: [
+        {
+          expand: true,     
+          cwd: 'js/',      
+          src: ['**/*.js', !js/vendor/**], 
+          dest: 'build/js',   
+          ext: '.min.js',   
+        }
+      }
+    }
+</code></pre>
+
+<p>我觉得 gulp 的 pipe 用法确实要比 grunt 更漂亮。因为很多任务间常常要有联系，比如检查语法后（jshint）后要最小化混淆（uglify）处理，gulp 可以用 pipe 实现，直观明了，grunt 要定义两个任务，一个 jshint，一个 uglify，然后在 uglify 任务中把 <code>src</code> 设置为 jshint 任务的结果，比如 <code>&lt;%= jshint.all.dest %&gt;</code> 这样，任务一多，可能就有点乱。</p>
+
+<p>最后再来看注册任务。</p>
+
+<p>gulp 下：</p>
+
+<pre><code>gulp.task('default', function() {
+  gulp.run('scripts', 'images');
+}
+</code></pre>
+
+<p>grunt 下：</p>
+
+<pre><code>grunt.registerTask('default', ['scripts', 'images']);
+</code></pre>
+
+<p>一番比较下来，gulp 的语法确实要更讨人喜欢。不过<strong>我猜</strong> grunt 的插件支持目前应该要更多些。至于 gulp.js <q>速度更快</q>一说，除非项目很大，否则比较的意义并不大。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:11402-1"><a href="http://gulpjs.com/">gulp.js &#8211; the streaming build system</a>
+ <a class="footnote-return" href="#fnref:11402-1"><sup>[return]</sup></a></li>
+<li id="fn:11402-2"><a href="http://www.zfanw.com/blog/gruntjs.html">Gruntjs – 陈三</a>
+ <a class="footnote-return" href="#fnref:11402-2"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

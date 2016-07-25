@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Ember.js 一个模型包含多种对象 - 陈三</title>
+<meta property="og:title" content="Ember.js 一个模型包含多种对象 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Ember.js 一个模型包含多种对象</h1>
+
+    
+    <span class="article-date">April 4, 2014</span>
+    
+
+    <div class="article-content">
+      <p><em>Note：本文基于 Ember.js 1.4.0</em></p>
+
+<p>如果看 Ember.js 教程<sup class="footnote-ref" id="fnref:12105-1"><a rel="footnote" href="#fn:12105-1">1</a></sup>，可以发现，一个路由对应的模型里，对象是只有一种的，比如这样<sup class="footnote-ref" id="fnref:12105-2"><a rel="footnote" href="#fn:12105-2">2</a></sup>：</p>
+
+<pre><code>App.PersonRoute = Ember.Route.extend({
+  model: function() {
+    return App.Person.findAll();
+  },
+  setupController: function(controller, model) {
+    controller.set('model', model);
+  }
+});
+</code></pre>
+
+<p>应该说，这是 Ember.js 框架适用的情景。</p>
+
+<p>但某些情况下，你希望 model 不仅仅是一种对象，而是多种对象集合，则可以有两种选择：</p>
+
+<ol>
+<li>放弃 Ember.js，因为它已经不太适用这种较传统的页面</li>
+<li>已经用了 Ember.js，骑虎难下</li>
+</ol>
+
+<p>项目做到一半结果要放弃整个框架，只能说前期对 Ember.js 的适用情形了解不足。但走到这一步，要砍掉重来却不现实。</p>
+
+<p>Ember.js 提供有 <strong>Ember.RSVP.hash</strong> 方法<sup class="footnote-ref" id="fnref:12105-3"><a rel="footnote" href="#fn:12105-3">3</a></sup>，用法如下：</p>
+
+<pre><code>App.PersonRoute = Ember.Route.extend({
+  model: function() {
+    return Ember.RSVP.hash({ // 这里 model 对象包含两种子对象 allPerson 与 task
+      allPerson: App.Person.findAll(),
+      task: $.get('http://www.zfanw.com/api/task')
+    });
+  },
+  setupController: function(controller, model) {
+    controller.set('model', model);
+  }
+});
+</code></pre>
+
+<p>模板里使用调用 <code>model.allPerson</code> 与 <code>model.task</code> 即可。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:12105-1"><a href="http://emberjs.com/guides/">Ember.js &#8211; Guides and Tutorials: Ember.js Guides</a>
+ <a class="footnote-return" href="#fnref:12105-1"><sup>[return]</sup></a></li>
+<li id="fn:12105-2"><a href="http://www.zfanw.com/blog/ember-js-model-without-ember-data.html">Ember.js 不用 Ember Data 如何创建模型</a>
+ <a class="footnote-return" href="#fnref:12105-2"><sup>[return]</sup></a></li>
+<li id="fn:12105-3"><a href="http://emberjs.com/api/classes/Ember.RSVP.html#method_hash">Ember.js &#8211; Ember.RSVP</a>
+ <a class="footnote-return" href="#fnref:12105-3"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

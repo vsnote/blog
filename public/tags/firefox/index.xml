@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Firefox on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/firefox/</link>
+    <description>Recent content in Firefox on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Thu, 04 Dec 2014 15:46:35 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/firefox/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Firefox flash 崩溃</title>
+      <link>https://www.zfanw.com/blog/firefox-flash-crash.html</link>
+      <pubDate>Thu, 04 Dec 2014 15:46:35 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-flash-crash.html</guid>
+      <description>&lt;p&gt;这一篇介绍 openSUSE 系统下 flash 崩溃的一种解决办法。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;环境&lt;/strong&gt;：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;操作系统：openSUSE 13.2 32 位&lt;/li&gt;
+&lt;li&gt;浏览器：Firefox 34 版本&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;病症&lt;/strong&gt;：使用 flash 的页面均出现 &lt;strong&gt;Adobe Flash 插件已崩溃&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;尝试了 Chrome 浏览器，同样存在问题：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Shockwave Flash has crashed.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;排查如下：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;打开 Firefox 附加组件页面，检查 flash 相关插件的安装情况，如下图：&lt;/p&gt;
+
+&lt;p&gt;[resp_image id=&amp;#8217;14778&amp;#8242;]&lt;/p&gt;
+
+&lt;p&gt;我们能看到两个版本的 flash 插件：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Shockwave Flash 15.0.0.239&lt;/li&gt;
+&lt;li&gt;Shockwave Flash 11.2.202.411
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;两个插件的情况是：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;两个都设置为 active，则 Flash 肯定崩溃&lt;/li&gt;
+&lt;li&gt;只设置一个为 active，则页面总是提示要开启 Flash
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;怀疑是两个版本冲突的问题&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:14669-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:14669-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用 &lt;code&gt;zypper search&lt;/code&gt; 命令检查系统下安装的 flash 相关软件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ zypper search flash
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出结果如下：&lt;/p&gt;
+
+&lt;p&gt;其中 &lt;strong&gt;chromium-pepper-flash&lt;/strong&gt; 比较可疑。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;移除 chromium-pepper-flash：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo zypper rm chromium-pepper-flash 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;弹出提示如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The following 2 packages are going to be REMOVED: chromium-pepper-flash freshplayerplugin&lt;/p&gt;
+
+&lt;p&gt;The following package is going to be upgraded: flash-player&lt;/p&gt;
+
+&lt;p&gt;1 package to upgrade, 2 to remove. Overall download size: 11.6 MiB. Already cached: 0 B After the operation, 13.9 MiB will be freed. Continue? [y/n/p/? shows all options] (y): y (Use arrows or pgUp/pgDown keys to scroll the text by lines or pages.)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;提示说，chromium-pepper-flash 和 freshplayerplugin 将被移除，并且升级 flash-player。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;移除后，重启 Firefox，Flash 可正常使用。&lt;/p&gt;
+
+&lt;p&gt;P.S. 图片由 Luna 提供。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:14669-1&#34;&gt;&lt;a href=&#34;https://support.mozilla.org/en-US/questions/1024170&#34;&gt;How do I totally remove Shockwave Flash 15.0.0152 from my Addons in Ubuntu 12.04? | Firefox Support Forum | Mozilla Support&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:14669-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>openSUSE 安装最新版 Firefox</title>
+      <link>https://www.zfanw.com/blog/opensuse-install-latest-firefox.html</link>
+      <pubDate>Tue, 02 Dec 2014 12:30:08 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/opensuse-install-latest-firefox.html</guid>
+      <description>&lt;p&gt;openSUSE 官方提供的 Firefox &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:14654-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:14654-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;版本通常要低于最新发布的 Firefox。比如现在，Firefox 最新版本是 34，但 openSUSE 源上提供的还是 Firefox 33。所以，如果你要在 Firefox 最新版本发布后尽快使用到，则最好使用 Mozilla 提供的第三方软件源&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:14654-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:14654-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+
+&lt;p&gt;操作步骤如下（下面我以 openSUSE 13.2 操作系统为例）：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;添加 Mozilla 软件源&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo zypper ar -f http://download.opensuse.org/repositories/mozilla/openSUSE_13.2/ Mozilla
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;更新软件源&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo zypper ref
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;安装 Mozilla 软件源下的 Firefox&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo zypper in Mozilla:MozillaFirefox
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 &lt;code&gt;Mozilla&lt;/code&gt; 即第一步中设置的软件源的别名（alias）。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;安装 Firefox 时，可能会有依赖冲突的提示，按 openSUSE 系统的建议操作即可。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:14654-1&#34;&gt;&lt;a href=&#34;http://software.opensuse.org/package/MozillaFirefox&#34;&gt;openSUSE 官方源中的 Firefox&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:14654-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:14654-2&#34;&gt;&lt;a href=&#34;https://en.opensuse.org/Additional_package_repositories#Mozilla&#34;&gt;Mozilla 提供的第三方软件源&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:14654-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>解决 Privoxy 404 No Such Domain 问题</title>
+      <link>https://www.zfanw.com/blog/privoxy-404-no-such-domain.html</link>
+      <pubDate>Tue, 11 Nov 2014 22:23:48 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-404-no-such-domain.html</guid>
+      <description>&lt;p&gt;&lt;em&gt;404 No Such Domain&lt;/em&gt; 错误，在 Privoxy 的 &lt;a href=&#34;http://www.privoxy.org/faq/trouble.html#DNSERRORS&#34;&gt;FAQ&lt;/a&gt; 中有提及，但作者只是提到可能原因，没有提供解决办法。&lt;/p&gt;
+
+&lt;p&gt;在我的 openSUSE 13.1 系统上，这个错误，大致可以按以下步骤重现（作者你神经病）：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;按 &lt;a href=&#34;http://www.zfanw.com/blog/privoxy-forward-ssh.html&#34;&gt;Privoxy 转发到 SOCKS 服务器&lt;/a&gt;一文的说明配置使用 SOCKS 代理&lt;/li&gt;
+&lt;li&gt;删除 &lt;em&gt;config&lt;/em&gt; 文件中 &lt;code&gt;forward-socks5 / 127.0.0.1:9999&lt;/code&gt; 一句&lt;/li&gt;
+&lt;li&gt;未断掉 SSH 连接的情况下重启 openSUSE 系统&lt;/li&gt;
+&lt;li&gt;打开 Firefox&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;之后 Firefox 打开的所有网址都会返回 404 No Such Domain 错误，除了 Privoxy 的配置地址 &lt;a href=&#34;http://p.p。&#34;&gt;http://p.p。&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;而如果我禁止 Firefox 走 Privoxy 代理，则一切均正常。但这没达到我的目的。重启系统也不能解决问题。&lt;/p&gt;
+
+&lt;p&gt;最后找到的解决办法简单得跌破眼镜，就是重启 Privoxy。openSUSE 下执行命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo rcprivoxy restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当然，openSUSE 下可视化的 &lt;strong&gt;Services Manager&lt;/strong&gt; 里重启 Privoxy 也是可以的。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox 22 引入新 Cookies 政策</title>
+      <link>https://www.zfanw.com/blog/firefox-22-new-cookies-policy.html</link>
+      <pubDate>Wed, 27 Feb 2013 05:30:03 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-22-new-cookies-policy.html</guid>
+      <description>&lt;p&gt;Firefox 22 版本中将引入新的 Cookies 政策。&lt;/p&gt;
+
+&lt;p&gt;简单说，第三方 Cookies 将被 Firefox 阻拦，只有用户直接访问过的网站 Cookies 才被允许。&lt;/p&gt;
+
+&lt;p&gt;目前 Google Chrome 默认允许所有 Cookies，作为一个主要靠广告收入的公司，这可以解释；IE 则部分阻拦；而 Safari 很早就不允许第三方网站设置 Cookies。&lt;/p&gt;
+
+&lt;p&gt;附：&lt;a href=&#34;http://webpolicy.org/2013/02/22/the-new-firefox-cookie-policy/#firefox-cookie-policy-fnref:1&#34;&gt;The New Firefox Cookie Policy&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>firefox 19</title>
+      <link>https://www.zfanw.com/blog/firefox-19.html</link>
+      <pubDate>Tue, 26 Feb 2013 11:23:28 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-19.html</guid>
+      <description>&lt;p&gt;firefox 19 于 2013.2.19 正式释出。&lt;/p&gt;
+
+&lt;p&gt;这个版本开始默认启用内置 PDF 阅读器，用户可直接在 firefox 打开 PDF 文件，不需要安装其他插件。&lt;/p&gt;
+
+&lt;p&gt;另外，这个内置 PDF 阅读器还可以使用翻页快捷键：&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;按键&lt;/th&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;j/n&lt;/td&gt;
+&lt;td&gt;下一页&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;k/p&lt;/td&gt;
+&lt;td&gt;上一页&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;如果只是简单的 PDF 阅读需求，firefox 19 一般已经足够。&lt;/p&gt;
+
+&lt;p&gt;附：firefox 19 &lt;a href=&#34;http://www.mozilla.org/en-US/firefox/19.0/releasenotes/&#34;&gt;release notes&lt;/a&gt;。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox 收藏的秘密</title>
+      <link>https://www.zfanw.com/blog/firefox-keyword-search.html</link>
+      <pubDate>Wed, 20 Feb 2013 23:38:26 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-keyword-search.html</guid>
+      <description>
+
+&lt;p&gt;Firefox 下，收藏页面可以通过「书签」菜单，或直接按 &lt;kbd&gt;Ctrl-D&lt;/kbd&gt;，或点击地址栏右侧的&lt;strong&gt;星星&lt;/strong&gt;来收藏，前两种方法中，firefox 会弹出对话框，如下：&lt;/p&gt;
+
+&lt;div id=&#34;attachment_8155&#34; style=&#34;width: 310px&#34; class=&#34;wp-caption alignnone&#34;&gt;
+  &lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-webpage1.jpg&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-webpage1-300x187.jpg&#34; alt=&#34;firefox 收藏网页对话框&#34; width=&#34;300&#34; height=&#34;187&#34; class=&#34;size-medium wp-image-8155&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-webpage1-300x187.jpg 300w, https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-webpage1.jpg 331w&#34; sizes=&#34;(max-width: 300px) 100vw, 300px&#34; /&gt;&lt;/a&gt;
+  
+  &lt;p class=&#34;wp-caption-text&#34;&gt;
+    图1
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Tags 部分表示页面标签，可填可不填，填写的话，可以方便后期检索。&lt;/p&gt;
+
+&lt;p&gt;除此之外，firefox 其实还有一种收藏页面的方式，不过与上面所述方法有所不同，如下：&lt;/p&gt;
+
+&lt;div id=&#34;attachment_8022&#34; style=&#34;width: 310px&#34; class=&#34;wp-caption alignnone&#34;&gt;
+  &lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/Screenshot-from-2013-02-16-225505.png&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/Screenshot-from-2013-02-16-225505-300x124.png&#34; alt=&#34;firefox 收藏 关键字&#34; width=&#34;300&#34; height=&#34;124&#34; class=&#34;alignnone size-medium wp-image-8022&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/Screenshot-from-2013-02-16-225505-300x124.png 300w, https://www.zfanw.com/blog/wp-content/uploads/2013/02/Screenshot-from-2013-02-16-225505.png 400w&#34; sizes=&#34;(max-width: 300px) 100vw, 300px&#34; /&gt;&lt;/a&gt;
+  
+  &lt;p class=&#34;wp-caption-text&#34;&gt;
+    图2
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;图2中显示的这个对话框，是右击我的博客的搜索框后，选择弹出菜单中的 「Add a Keyword for this Search&amp;#8230;」 菜单项后出来的。可以看到，对话框的标题为 &amp;#8220;New Bookmark&amp;#8221;。&lt;/p&gt;
+
+&lt;p&gt;在 &amp;#8220;Keyword&amp;#8221; 框中填入你要设置的&lt;strong&gt;关键字&lt;/strong&gt;，比如，zf。之后按 &lt;kbd&gt;Alt-D&lt;/kbd&gt; 或按 &lt;kbd&gt;Ctrl-L&lt;/kbd&gt; 或通过鼠标聚焦 &lt;a href=&#34;http://support.mozilla.org/en-US/kb/awesome-bar-find-your-bookmarks-history-and-tabs&#34;&gt;firefox 的导航栏&lt;/a&gt;，然后输入 「zf firefox」 就可以搜索博客中带有 「firefox」 关键词的文章，如图3：&lt;/p&gt;
+
+&lt;div id=&#34;attachment_8031&#34; style=&#34;width: 310px&#34; class=&#34;wp-caption alignnone&#34;&gt;
+  &lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-awesome-bar-search1.jpg&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-awesome-bar-search1-300x134.jpg&#34; alt=&#34;firefox 导航栏自动补齐搜索&#34; width=&#34;300&#34; height=&#34;134&#34; class=&#34;alignnone size-medium wp-image-8031&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-awesome-bar-search1-300x134.jpg 300w, https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-awesome-bar-search1.jpg 313w&#34; sizes=&#34;(max-width: 300px) 100vw, 300px&#34; /&gt;&lt;/a&gt;
+  
+  &lt;p class=&#34;wp-caption-text&#34;&gt;
+    图3
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在上面，我强调说，这种方法是别一种&lt;strong&gt;收藏页面&lt;/strong&gt;的方法，因为我们可以从书签管理中找到第二种方法收藏的链接，如下所示，在侧边栏中打开书签管理并搜索：&lt;/p&gt;
+
+&lt;div style=&#34;width: 285px&#34; class=&#34;wp-caption alignnone&#34;&gt;
+  &lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-search.jpg&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-search.jpg&#34; alt=&#34;firefox 书签管理&#34; width=&#34;275&#34; height=&#34;194&#34; class=&#34;alignnone size-full wp-image-8033&#34; /&gt;&lt;/a&gt;
+  
+  &lt;p class=&#34;wp-caption-text&#34;&gt;
+    图4
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;你可以看到，当鼠标放到该链接上时，会浮动出一个 tooltip，显示 Name 与收藏的网址：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Search 陈三
+http://www.zfanw.com/blog/?s=%s
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这正是第二种方法收藏的页面路径。&lt;/p&gt;
+
+&lt;p&gt;请注意 &lt;strong&gt;%s&lt;/strong&gt; 部分。这是 firefox 的 &lt;a href=&#34;http://kb.mozillazine.org/Using_keyword_searches&#34;&gt;Keyword search&lt;/a&gt; 背后实现。&lt;/p&gt;
+
+&lt;p&gt;当我输入 zf firefox&amp;#8221; 时，firefox 其实自动将收藏的网址 &amp;#8220;&lt;a href=&#34;https://www.zfanw.com/blog/?s=%s&amp;amp;#8221&#34;&gt;https://www.zfanw.com/blog/?s=%s&amp;amp;#8221&lt;/a&gt;; 中的 「%s」 替换为 &amp;#8220;zf&amp;#8221; 这个关键字空格后的所有内容即 &amp;#8220;firefox&amp;#8221;，也就是说，访问的页面网址实际上变成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;http://www.zfanw.com/blog/?s=firefox
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样我们就清楚知道这个功能背后的原理。&lt;/p&gt;
+
+&lt;p&gt;当右击搜索框添加关键字保存的页面实现不正常或无法添加关键字时，我们可以自己手动设置收藏地址。&lt;/p&gt;
+
+&lt;p&gt;举 Google+ 为例，如果通过 「Add a Keyword for this Search&amp;#8230;」 方法来添加 「gp」 为关键字，保存的链接地址是 &amp;#8220;&lt;a href=&#34;https://plus.google.com/s/_/search/form?q=%s&amp;amp;#8221;，很不幸，这个搜索网址并不正确。&#34;&gt;https://plus.google.com/s/_/search/form?q=%s&amp;amp;#8221;，很不幸，这个搜索网址并不正确。&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;但我们可以试着输入一两个关键词看看其结构，仍试 &amp;#8220;firefox&amp;#8221;，其链接结构如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;https://plus.google.com/s/firefox
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样我们就可以将先前收藏的链接地址修改为 &amp;#8220;&lt;a href=&#34;https://plus.google.com/s/%s&amp;amp;#8221;，之后在导航栏输入&#34;&gt;https://plus.google.com/s/%s&amp;amp;#8221;，之后在导航栏输入&lt;/a&gt; &amp;#8220;gp firefox&amp;#8221; 即可搜索 Google+ 里的 firefox 内容。&lt;/p&gt;
+
+&lt;p&gt;通过这种办法，我们实际上可以给 firefox 添加无数的「搜索引擎」，而不仅仅默认的 Google、Bing，又或是通过扩展组件添加的搜索引擎。&lt;/p&gt;
+
+&lt;p&gt;如果再配上 Vimperator，则简直行云流水了。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://plus.google.com/104787680206754797134/posts/LHrhpc9DS3V&#34;&gt;Google+ vimperator 中文社群&lt;/a&gt; 及其评论&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox 文推荐</title>
+      <link>https://www.zfanw.com/blog/firefox-post-recommend.html</link>
+      <pubDate>Sat, 15 Dec 2012 11:43:42 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-post-recommend.html</guid>
+      <description>&lt;p&gt;别看我导航上赫然有个 Firefox 分类，其实近于挂羊头卖狗肉，个中真正写 Firefox 的内容很少，多数只是打个擦边球，因为没其他合适分类可放，就只好放入 Firefox 中，如果要脑补下这场景，那就好像下雨天，大家挤在了屋檐下，互相客气地说，不好意思、不好意思。&lt;/p&gt;
+
+&lt;p&gt;我在开始接触 &lt;a href=&#34;http://www.zfanw.com/blog/category/vimperator&#34;&gt;Vimperator&lt;/a&gt; 时，所搜寻的相关资料里，多会出现「不折腾会死系列」。内容丰富，于我是受益颇多。即便是现在偶尔翻起，也还是有新收获，所以略为整理，并作推荐，表示一点鄙人对那位阁下的感谢之情。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://deepintoabyss.appspot.com/minibrowser&#34;&gt;[不折腾会死][恶魔出没注意] 从最简界面的浏览器谈起&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://deepintoabyss.appspot.com/anti-chrome-101201&#34;&gt;[烽火再起][逆袭的圣战] 20+a条技巧，让Chrome无法超越Firefox&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://deepintoabyss.appspot.com/RvsT-Sacred&#34;&gt;[圣战]龟兔赛跑到底谁快？——谈软件效率&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://deepintoabyss.appspot.com/anti-chrome&#34;&gt;[圣战][谷粉慎入] 铬合金终不敌烈焰————喷析试用最新版Chrome各种不爽&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>搜索引擎框中的快捷键</title>
+      <link>https://www.zfanw.com/blog/shortcut-in-search-engine.html</link>
+      <pubDate>Sun, 02 Dec 2012 07:48:07 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/shortcut-in-search-engine.html</guid>
+      <description>&lt;p&gt;搜索引擎框中有许多快捷键可以用，并且与 Bash、Emacs 一类软件相通，如果能熟练使用，可以很好提高效率。&lt;/p&gt;
+
+&lt;p&gt;以下分别列出，其中 &amp;#8220;C&amp;#8221; 表示 Ctrl 键。&lt;/p&gt;
+
+&lt;p&gt;假设搜索框中的字符串为 &amp;#8220;&lt;strong&gt;Hello vi*mperator on firefox&lt;/strong&gt;&amp;#8220;，字符串中的星号表示光标位置。&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;快捷键&lt;/th&gt;
+&lt;th&gt;作用及示例说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-a&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;跳转到搜索框所有字符前（Hello 之前）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-e&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;跳转到搜索框所有字符后（firefox 之后）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-k&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;从光标位置起，删除所有往后的字符（剩下 Hello vi）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-u&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;从光标位置起，删除所有往前的字符（剩下 mperator on firefox）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-d&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;删除光标位置后一个字符（剩下 Hello viperator on firefox）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-h&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;删除光标位置前一个字符（剩下 Hello vmperator on firefox）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-z&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;取消删除&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-w&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;删除光标位置前的一个单词（剩下 Hello perator on firefox）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;在 Bash 中，&lt;kbd&gt;C-f&lt;/kbd&gt; 表示向前（右）移动一个字符，&lt;kbd&gt;C-b&lt;/kbd&gt; 表示向后（左）移动一个字符，但是在 firefox 下，这两个的作用分别是“查找”与“打开书签侧边栏”。在 vimperator 下我并不需要这两个功能，就可以在 .vimperatorrc 配置文件中将其映射给移动字符的功能：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;inoremap &amp;lt;C-f&amp;gt; &amp;lt;Right&amp;gt;
+inoremap &amp;lt;C-b&amp;gt; &amp;lt;Left&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以从上面的表格里看到，我们可以通过 &lt;C-w&gt; 删除光标位置前一个单词，那么要删除光标位置后一个单词如何？Bash 下是通过 &lt;kbd&gt;A-d&lt;/kbd&gt; （A 指 alt 键），firefox 下或 vimperator 下这个键组合是选中导航栏上的网址。当然，我们也可以通过键映射来完成，只是有些复杂：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;inoremap &amp;lt;A-d&amp;gt; &amp;lt;C-t&amp;gt;dwi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当 Vimperator 处于插入模式(insert mode)时，按 &lt;kbd&gt;C-t&lt;/kbd&gt; 可以进入 textarea mode （文本区域模式），可以把它理解为简单的 vi 模式，像 h l ^ $ 之类的键统统可用，这时按 &lt;kbd&gt;dw&lt;/kbd&gt; 可以删除到光标位置后的一个单词，最末的一个 &lt;kbd&gt;i&lt;/kbd&gt; 则是从 textarea mode 转回插入模式。&lt;/p&gt;
+
+&lt;p&gt;当然，以上快捷键并不仅限于搜索引擎中，凡是网页上的文本框基本都可以使用。另外，某些方法比如删除单词在中文里并不适用，因为中文并不通过空格来分词。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox SOCKS 代理切换</title>
+      <link>https://www.zfanw.com/blog/ssh-firefox-sock-proxy-switch.html</link>
+      <pubDate>Thu, 25 Oct 2012 15:14:20 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ssh-firefox-sock-proxy-switch.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 修订历史&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#autoproxychangerjs&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; autoproxychanger.js&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;修订历史&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;span itemprop=dateModified&gt;2012.12.14&lt;/span&gt;：文中介绍的方法，在对待所有网站上，是没有区别的，要么全部走 SOCKS 代理，要么全部不走，而且要经常&lt;strong&gt;手动&lt;/strong&gt;切换，办法太笨，推荐使用更智能的 &lt;a href=&#34;http://getfoxyproxy.org/&#34;&gt;FoxyProxy&lt;/a&gt;。
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    如果你有一个 SSH 账号，允许你登录到远程电脑，那么可以将 Firefox 请求的数据通过 SSH tunnel 发送给远程电脑，借助远程电脑访问你想要访问的信息，保证信息安全。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先，通过 SSH 连接上远程电脑：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ ssh -D 9999 -C samchen@zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;D&lt;/code&gt; 参数表示 SSH 隧道在本地电脑监听的端口，&lt;code&gt;C&lt;/code&gt; 参数表示压缩传输的数据。这样我们就利用 SSH 转发端口功能在本地电脑与远程电脑之间建起一条安全通道。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接着是启用 Firefox 的 SOCKS 代理，打开 firefox 首选项中的网络，选择「设置」，然后进入代理配置对话框，按下图所示填入信息：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [resp_image id=&amp;#8217;15216&amp;#8242; caption=&amp;#8221; ]
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这样，firefox 浏览器所请求的数据将通过 SSH tunnel 发送给远程电脑，再由远程电脑代理我们请求。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    可是，如果经常要切换 SOCKS 代理呢？总不能时不时要打开代理设置对话框。当然，可以考虑装一个 firefox 扩展，不过我 firefox 上扩展的数量已经不下 10 个了，没打算为着这么个小功能特意装个插件。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;autoproxychangerjs&#34;&gt;autoproxychanger.js&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyautoproxychangerjs&#34; href=&#34;#autoproxychangerjs&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如果你使用 Vimperator 扩展，则可以安装 &lt;a href=&#34;https://github.com/vimpr/vimperator-plugins/blob/master/autoproxychanger.js&#34;&gt;autoproxychanger.js&lt;/a&gt;，这是一个 vimperator 脚本扩展，用于通过命令行控制代理的切换、开关。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先将其安装到 .vimperator/plugin/ 目录下，然后打开 .vimperatorrc 配置文件，加入如下两行内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;let autochanger_proxy_settings = &#34;[{ name:&#39;disable&#39;, usage: &#39;direct connection&#39;, proxy:{type:0} },{ name:&#39;socks&#39;, usage: &#39;ssh tunnel&#39;, proxy:{type:1,socks:&#39;localhost&#39;,socks_port:9999,no_proxies_on:&#39;localhost,127.0.0.1&#39;,}}]&#34;
+
+let autochanger_proxy_enabled=&#34;true&#34;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    保存，然后重启 firefox，按 &lt;kbd&gt;:&lt;/kbd&gt; 进入命令行模式，输入命令 &lt;code&gt;proxy&lt;/code&gt;，再按一个空格，可以看到有三个自动补齐项：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      default
+    &lt;/li&gt;
+    &lt;li&gt;
+      disable
+    &lt;/li&gt;
+    &lt;li&gt;
+      socks
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    选择 socks 即可启用 firefox 的 SOCKS 代理，disable 则是不使用代理。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接着再到 vimperator 配置文件中定向两个键映射：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;nnoremap &amp;lt;C-A-p&amp;gt; :proxy socks&amp;lt;CR&amp;gt;
+nnoremap &amp;lt;C-A-d&amp;gt; :proxy disable&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样就可以按 &lt;kbd&gt;Ctrl-Alt-P&lt;/kbd&gt; 启用 SOCKS 代理，按 &lt;kbd&gt;Ctrl-Alt-D&lt;/kbd&gt; 关闭代理。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu 安装 Firefox.tar.bz2</title>
+      <link>https://www.zfanw.com/blog/ubuntu-firefox-tar-bz2.html</link>
+      <pubDate>Mon, 16 Jul 2012 03:00:36 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ubuntu-firefox-tar-bz2.html</guid>
+      <description>&lt;p&gt;&lt;strong&gt;2013.5.8 更新&lt;/strong&gt; firefox 现在版本已经持后台自动更新，所以本篇介绍的仅限在 Ubuntu 上初次安装 firefox。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;到 Mozilla 网站&lt;a href=&#34;http://www.mozilla.org/en-US/firefox/new/&#34;&gt;下载 firefox&lt;/a&gt;，假设保存到 ~/Downloads 目录。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;将 Downloads 下的 firefox-13.0.1.tar.bz2 拷贝到 /opt 文件夹（这个安装位置可选），然后解压：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% cd ~/Downloads
+% sudo cp firefox-13.0.1.tar.bz2 /opt
+% cd /opt
+% sudo tar -xvjf firefox-13.0.1.tar.bz2
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;解压后，/opt 下会出现一个 firefox 文件夹，在 /usr/bin/ 下重建软链接(soft link)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% sudo ln -sf /opt/firefox/firefox /usr/bin/firefox
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 -f 表示强制覆盖原有的软链接。&lt;/p&gt;
+
+&lt;p&gt;之后，就可以在命令行中使用 &amp;#8220;firefox&amp;#8221; 调用浏览器，如果使用 Unity 桌面系统，按 Alt-F2 输入 &amp;#8220;firefox&amp;#8221; 调用。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox 移动端的阅读模式</title>
+      <link>https://www.zfanw.com/blog/firefox-mobile-reader-mode.html</link>
+      <pubDate>Tue, 26 Jun 2012 03:41:46 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-mobile-reader-mode.html</guid>
+      <description>&lt;p&gt;Firefox Mobile 将引入「阅读模式」。效果跟 Readability、Clearly 类似。&lt;/p&gt;
+
+&lt;p&gt;在 Firefox Mobile 中打开一个网页，可以看到，如果网页不曾针对移动设备优化，它的显示效果与桌面版一样：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/06/open-regular-web-page.jpg&#34; alt=&#34;firefox for android 打开正常网页&#34; width=&#34;480&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如果网页可以进入「阅读模式」，则地址栏右侧会有个翻开的书一样的小图标，点击即可进入「阅读模式」，效果如下图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/06/convert-to-reader-mode.jpg&#34; alt=&#34;点击进入 firefox 阅读模式&#34; width=&#34;480&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;进入「阅读模式」后，还能点按页面调出设置菜单：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/06/customer.jpg&#34; alt=&#34;唤出自定义菜单&#34; width=&#34;480&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;除开「阅读模式」，未来版本的 Firefox Mobile 还将引入「阅读列表」，可以将网页暂时加入该列表，方便以后调出，最重要的，加入「阅读列表」的网页可离线使用，还能多平台同步。&lt;/p&gt;
+
+&lt;p&gt;扩展阅读：&lt;a href=&#34;http://lucasr.org/2012/06/21/reader-mode-in-firefox-mobile/&#34;&gt;http://lucasr.org/2012/06/21/reader-mode-in-firefox-mobile/&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox 打开新标签</title>
+      <link>https://www.zfanw.com/blog/firefox-open-new-tab-after-current.html</link>
+      <pubDate>Mon, 11 Jun 2012 03:43:04 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-open-new-tab-after-current.html</guid>
+      <description>&lt;p&gt;Firefox 有两种形式的新标签页，一种全新打开的，比如按 ctrl-t，一种从页面链接打开的，全新打开的标签页是插入到标签栏最右侧，而如果是当前页面链接打开的新标签页，则有两种可选方式：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;插入到标签栏最右边&lt;/li&gt;
+&lt;li&gt;插入到当前标签页右边&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这个可以通过 about:config 中的选项调整：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;在地址栏打开 about:config&lt;/li&gt;
+&lt;li&gt;搜索 browser.tabs.insertRelatedAfterCurrent&lt;/li&gt;
+&lt;li&gt;双击该设置项，值在 true/false 间切换，true 表示插入到当前页右边，false 表示插入到标签栏最后。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;一般来说，我会更喜欢插入到当前分页后，这也是 Firefox 自 3.6 版本起的默认设置。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox 13</title>
+      <link>https://www.zfanw.com/blog/firefox-13.html</link>
+      <pubDate>Sun, 03 Jun 2012 14:50:14 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-13.html</guid>
+      <description>
+
+&lt;p&gt;Mozilla 现在每 6 周推出一个新版本 &lt;a href=&#34;http://www.mozilla.org/en-US/firefox/new/&#34;&gt;Firefox&lt;/a&gt;，最初这些新版本会更新在 ftp 上，然后才推送到其他频道。&lt;/p&gt;
+
+&lt;p&gt;接下来要出场的是 Firefox 13，将于 2012 年 6 月 5 号正式发布。&lt;/p&gt;
+
+&lt;p&gt;此次做出的主要变化有：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;新的主页 (about:home)，主页中心是浏览器默认的搜索引擎搜索框，另外原来需要通过菜单管理的很多内容都可以通过新的主页管理，比如下载、书签、历史记录、扩展、同步、设置。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;新的新标签页 (about:newtab)，快速拨号页面，可以设定一些你经常访问的网站，如果你用过 Opera 或 Google Chrome 的新标签页，相信不会觉得生疏。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;重置 Firefox，可以&lt;q&gt;创建新的 Profile（设定档），然后迁移你的书签、密码、cookies 与表单数据到新设定档，至于其他内容将重置为默认值。于是你就有了全新的 Firefox 而又不丢失任何已有数据。相当便捷。&lt;/q&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;其他一些小变化，比如性能上的改进啦（这是必需的），还有页面滚动的平滑，等等。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;扩展阅读&#34;&gt;扩展阅读：&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.mozilla.org/en-US/firefox/13.0/releasenotes/&#34;&gt;firefox 13 release notes&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>更改 Firefox 界面语言</title>
+      <link>https://www.zfanw.com/blog/firefox-ui-language-change.html</link>
+      <pubDate>Fri, 25 May 2012 07:26:52 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-ui-language-change.html</guid>
+      <description>&lt;p&gt;因为前些日子在台湾正体里打酱油（指翻译些 Firefox 相关文章），用英文界面 Firefox 的话，许多专用名称查找不便，就打算把 Firefox 的界面语言从英文改成台湾正体。&lt;/p&gt;
+
+&lt;p&gt;方法如下：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;下载安装你需要的语言包 (language pack)，&lt;a href=&#34;http://releases.mozilla.org/pub/mozilla.org/firefox/releases/&#34;&gt;下载地址&lt;/a&gt;，请选择相应版本号 -&amp;gt; 操作系统 -&amp;gt; xpi 文件夹 -&amp;gt; 你要安装的语言包插件，即 xpi 组件，我选择的是 zh-TW.xpi。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;打开 &lt;code&gt;about:config&lt;/code&gt;，搜索 “general.useragent.locale” &amp;#8211; 这是在 Firefox 12 里的情况，双击修改默认值 &amp;#8220;en-US&amp;#8221; 为 &amp;#8220;zh-TW&amp;#8221;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改 &lt;code&gt;intl.locale.matchOS&lt;/code&gt; 值为 &lt;code&gt;false&lt;/code&gt;（见评论），然后重启 Firefox 即可。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;当然，你也可以用些扩展组件来切换语言，不过我还是更喜欢上面的办法。个人喜好。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox for Android Beta</title>
+      <link>https://www.zfanw.com/blog/firefox-for-android-beta-out.html</link>
+      <pubDate>Wed, 16 May 2012 08:01:39 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-for-android-beta-out.html</guid>
+      <description>&lt;p&gt;昨天，2012.5.15 日，Mozilla 推出 &lt;a href=&#34;https://play.google.com/store/apps/details?id=org.mozilla.firefox_beta&#34;&gt;Firefox for Android Beta&lt;/a&gt; 版本，版本号为 14.0 beta。&lt;/p&gt;
+
+&lt;p&gt;主要的新特性：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;重新设计的用户界面&lt;/li&gt;
+&lt;li&gt;重大性能改进&lt;/li&gt;
+&lt;li&gt;支持 Flash&lt;/li&gt;
+&lt;li&gt;新启动页&lt;/li&gt;
+&lt;li&gt;暂时仅支持手机，不支持平板 (啥，这也叫特性)&lt;/li&gt;
+&lt;li&gt;目前仅提供英文&lt;/li&gt;
+&lt;li&gt;支持 Android 2.2 以上版本&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;就个人在 Android 4.0.4 上的使用 Firefox 之前正式版的经历，渣得不成样，启动慢不说，打开网页还卡，基本装着只是用来同步数据时配对别台机器。&lt;/p&gt;
+
+&lt;p&gt;对比此前的正式版，Beta 版中不再有滑动拖出的侧边栏，另外也没有主页按钮，需要通过地址栏输入 about:home 来打开，不是很方便。但总体来说，Firefox for Android beta 版本比此前版本可用多了，值得一试，也非常期待正式版。&lt;/p&gt;
+
+&lt;p&gt;via:&lt;a href=&#34;https://www.mozilla.org/en-US/mobile/14.0beta/releasenotes/&#34;&gt;Mozilla&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

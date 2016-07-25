@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Emmet for Brackets禁用CSS浏览器前缀 - 陈三</title>
+<meta property="og:title" content="Emmet for Brackets禁用CSS浏览器前缀 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Emmet for Brackets禁用CSS浏览器前缀</h1>
+
+    
+    <span class="article-date">August 8, 2014</span>
+    
+
+    <div class="article-content">
+      <p>Emmet<sup class="footnote-ref" id="fnref:13389-1"><a rel="footnote" href="#fn:13389-1">1</a></sup>有自动添加CSS<strong>浏览器前缀</strong>(vendor prefix)的功能。</p>
+
+<p>譬如在Brackets输入以下CSS(*表示光标位置)：</p>
+
+<pre><code>div{
+  bgs*
+</code></pre>
+
+<p>按<kbd>Tab</kbd>键展开后如下，</p>
+
+<pre><code>div{
+  -webkit-background-size:
+  background-size:
+</code></pre>
+
+<p>不过我不乐意它来主张。我更愿意用Autoprefixer<sup class="footnote-ref" id="fnref:13389-2"><a rel="footnote" href="#fn:13389-2">2</a></sup>配合Grunt.js或Gulp.js做处理，可控度更高，而且源代码保持干净。</p>
+
+<p>所以我需要禁用这个功能。</p>
+
+<p>Emmet提供了一个配置项：<code>css.autoInsertVendorPrefixes</code><sup class="footnote-ref" id="fnref:13389-3"><a rel="footnote" href="#fn:13389-3">3</a></sup>，但在Brackets下，这个配置过程非常纠结。</p>
+
+<p>我的系统是openSUSE 13.1，禁用的步骤如下：</p>
+
+<ol>
+<li>主目录/home/sam下新建一个目录emmet(你要建在其他地方也无妨)</li>
+<li>在emmet目录中添加preferences.json文件</li>
+<li>文件中添加如下代码：<code>{&quot;css.autoInsertVendorPrefixes&quot;: false}</code></li>
+<li>打开Brackets主界面中的<code>Emmet</code>菜单，选择<code>Preferences...</code></li>
+<li>在Extension folder里填入<code>/home/sam/emmet</code>(不能使用~/emmet)</li>
+<li>重启Brackets</li>
+</ol>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:13389-1"><a href="https://github.com/emmetio/brackets-emmet">emmetio/brackets-emmet</a>
+ <a class="footnote-return" href="#fnref:13389-1"><sup>[return]</sup></a></li>
+<li id="fn:13389-2"><a href="https://github.com/ai/autoprefixer">ai/autoprefixer</a>
+ <a class="footnote-return" href="#fnref:13389-2"><sup>[return]</sup></a></li>
+<li id="fn:13389-3"><a href="http://docs.emmet.io/customization/preferences/">preferences.json</a>
+ <a class="footnote-return" href="#fnref:13389-3"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

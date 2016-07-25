@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Markdown on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/markdown/</link>
+    <description>Recent content in Markdown on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 03 May 2015 01:06:41 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Markdown – HTML 标签中的 Markdown 语法</title>
+      <link>https://www.zfanw.com/blog/markdown-inside-html-tag.html</link>
+      <pubDate>Sun, 03 May 2015 01:06:41 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/markdown-inside-html-tag.html</guid>
+      <description>&lt;p&gt;Markdown 官方文档&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:15813-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:15813-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;有一句：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note that Markdown formatting syntax is not processed within block-level HTML tags. E.g., you can’t use Markdown-style &lt;em&gt;emphasis&lt;/em&gt; inside an HTML block.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;markdown 不能写在块级 HTML 标签内，就是说，我们下面这样写是不行的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
+**加粗我**
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;**&lt;/code&gt; 不会解析为 &lt;code&gt;&amp;lt;strong&amp;gt;&amp;lt;/strong&amp;gt;&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;但我在 WordPress 后台用的 Markdown 插件 PHP Markdown Extra &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:15813-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:15813-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;扩展了该功能，可以这样写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div markdown=&amp;quot;1&amp;quot;&amp;gt;
+**加粗我**
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面是输出结果：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;加粗我&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我之所以要用这个功能，是为了添加 Microdata &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:15813-3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:15813-3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;的缘故。拿我的&lt;a href=&#34;http://www.zfanw.com/blog/read&#34;&gt;读书&lt;/a&gt;页面说，现在 Markdown 部分是这样写的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;时间|书名|作者
+---|---|---
+2013.1.27|无中生有|莎士比亚
+2013.1.28|道连·格雷的画像|王尔德
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;添加 microdata 的 HTML 如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div itemscope itemtype=&amp;quot;http://schema.org/Table&amp;quot;&amp;gt;
+  &amp;lt;h2 itemprop=&amp;quot;about&amp;quot;&amp;gt;我喜欢的书&amp;lt;/h2&amp;gt;
+  &amp;lt;!-- 表格内容在这 --&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;借助 PHP Markdown Extra，可以在 div 块中嵌入 markdown 写法：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div itemscope itemtype=&amp;quot;http://schema.org/Table&amp;quot; markdown=&amp;quot;1&amp;quot;&amp;gt;
+  &amp;lt;h2 itemprop=&amp;quot;about&amp;quot;&amp;gt;我喜欢的书&amp;lt;/h2&amp;gt;
+  &amp;lt;!-- markdown 表格在这 --&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样，我就给我的表格加入 Microdata 了。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:15813-1&#34;&gt;&lt;a href=&#34;http://daringfireball.net/projects/markdown/syntax#html&#34;&gt;Markdown 文档&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:15813-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:15813-2&#34;&gt;&lt;a href=&#34;https://michelf.ca/projects/php-markdown/extra/#markdown-attr&#34;&gt;PHP Markdown Extra&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:15813-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:15813-3&#34;&gt;&lt;a href=&#34;https://schema.org/Table&#34;&gt;Microdata Table&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:15813-3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>WordPress 脚注</title>
+      <link>https://www.zfanw.com/blog/wordpress-footnote.html</link>
+      <pubDate>Thu, 26 Dec 2013 23:03:47 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/wordpress-footnote.html</guid>
+      <description>&lt;p&gt;至今为止，我的博客末尾，都是一个「扩展阅读」的外部链接。很多时候，其实想以脚注&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11153-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11153-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;的形式展现，但 WordPress 并没有便捷的工具；写 HTML 代码的话，又嫌冗繁，也就没弄。&lt;/p&gt;
+
+&lt;p&gt;前些日子在某个 feed 里看到 Bigfoot &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11153-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11153-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;这个 jQuery 脚注插件，便收藏起来，想着有空试试。今天一试，还是要写不少 HTML 代码，而我在 WordPress 里是用 Markdown  &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11153-3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11153-3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;写的。要在 Markdown 简洁的语法中混入 HTML 代码，于我实在不忍心。想着又要放弃，结果莫名地又查了遍 PHP Markdown Extra &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11153-4&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11153-4&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;的文档，赫然发现有脚注的用法。&lt;/p&gt;
+
+&lt;p&gt;用法非常简单。&lt;/p&gt;
+
+&lt;p&gt;首先，在要插入脚注的位置插入 &lt;code&gt;[^1]&lt;/code&gt; 这样的内容。&lt;/p&gt;
+
+&lt;p&gt;然后在底部插入 &lt;code&gt;[^1]: 这里是脚注的内容&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;Markdown Extra 插件会自动生成相应的 HTML 代码。需要注意，如果有多个脚注内容，它们之间要换行隔开，比如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[^1]: 我是脚注内容1
+
+[^2]: 我是脚注内容2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最终效果见文末。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:11153-1&#34;&gt;&lt;a href=&#34;http://zh.wikipedia.org/wiki/Help:脚注&#34;&gt;脚注的概念&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11153-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11153-2&#34;&gt;&lt;a href=&#34;http://cmsauve.com/labs/bigfoot/&#34;&gt;Bigfoot&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11153-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11153-3&#34;&gt;&lt;a href=&#34;http://www.zfanw.com/blog/wordpress-markdown.html&#34;&gt;WordPress 的 Markdown 用法&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11153-3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11153-4&#34;&gt;&lt;a href=&#34;http://michelf.ca/projects/php-markdown/extra/#footnotes&#34;&gt;PHP Markdown Extra 文档&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11153-4&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>WordPress 使用 Markdown 语法</title>
+      <link>https://www.zfanw.com/blog/wordpress-markdown.html</link>
+      <pubDate>Fri, 28 Sep 2012 16:59:07 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/wordpress-markdown.html</guid>
+      <description>
+
+&lt;p&gt;现在很多网站都支持 &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;Markdown&lt;/a&gt; 语法，比如 StackOverflow，tumblr。WordPress 官方目前没有提供 Markdown 支持，不过 WordPress 扩展性很强，有插件可以使用。&lt;/p&gt;
+
+&lt;p&gt;我安装的这个 WordPress 插件叫 PHP Markdown，安装很简单：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;首先从&lt;a href=&#34;http://michelf.ca/projects/php-markdown/&#34;&gt;它的网站&lt;/a&gt;下载 zip 压缩包&lt;/li&gt;
+&lt;li&gt;登录 WordPress 后台&lt;/li&gt;
+&lt;li&gt;选择 插件 -&amp;gt; 新插件&lt;/li&gt;
+&lt;li&gt;选择下载的 zip 包，安装并启用插件&lt;/li&gt;
+&lt;li&gt;此后新建的 post 及 page 的内容区域都将默认使用 Markdown 语法&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;PHP Markdown 所应用的 Markdown 语法是忠于原语法的，更加适用平时仅仅是写作的人们使用。而如果要处理其他，比如很多代码，则会带来一些麻烦。譬如我要在 post 里输入代码，则需要按四个空格或一个 Tab 缩进来表示，这还算好，如果要在列表里输入代码呢？需要空出八个空格或两个 Tab 缩进来表示。当然，我可以用 wp-sytax 这样的代码高亮工具管理，但这是题外话。&lt;/p&gt;
+
+&lt;p&gt;也因此，上面介绍的这款插件其实还有加强版的，&lt;a href=&#34;http://michelf.ca/projects/php-markdown/extra/&#34;&gt;PHP Markdown Extra&lt;/a&gt;。在这个加强版里，可以做到很多超出 Markdown 默认语法的东西，比如，可以给标题加 id：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;##这是用 Markdown 语法写的标题二 {#markdown}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;转换成 html 后是下面这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;h2 id=&amp;quot;markdown&amp;quot;&amp;gt;这是用 Markdown 语法写的标题二&amp;lt;/h2&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不过，目前这种用法仅限于标题。&lt;/p&gt;
+
+&lt;p&gt;另外，代码块还可以使用上下两条波浪线包围，注意它们的数量必须大于或等于 3,并且上下两条线数量要一致：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;~~~
+~~~
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;而如果是表格，可以使用以下格式，而不用直接书写 table、thead 等一堆 HTML 代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;语文|英语|数学
+---|---|----
+80|90|100
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;结果是如下表格：&lt;/p&gt;
+
+&lt;table class=&#34;table table-bordered table-striped table-condensed&#34;&gt;
+  &lt;tr&gt;
+    &lt;th&gt;
+      语文
+    &lt;/th&gt;
+    
+    &lt;th&gt;
+      英语
+    &lt;/th&gt;
+    
+    &lt;th&gt;
+      数学
+    &lt;/th&gt;
+  &lt;/tr&gt;
+  
+  &lt;tr&gt;
+    &lt;td&gt;
+      80
+    &lt;/td&gt;
+    
+    &lt;td&gt;
+      90
+    &lt;/td&gt;
+    
+    &lt;td&gt;
+      100
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;比直接书写 table 的代码快捷。&lt;/p&gt;
+
+&lt;p&gt;这样，很多时候，我甚至不用启动 &lt;a href=&#34;http://www.zfanw.com/blog/zencoding-vim-tutorial-chinese.html&#34;&gt;vim + zencoding.vim 写 html 代码&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;附一张用 Markdown 写的这篇 blog 的截图，这比满屏的 html 代码可读性强多了：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/09/Screenshot-from-2012-09-28-231357.png&#34; alt=&#34;php markdown 内容&#34; width=&#34;590&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Update&lt;/strong&gt;：2014.8.28 发现评论区域也可以使用 Markdown。&lt;/p&gt;
+
+&lt;h2 id=&#34;扩展阅读&#34;&gt;扩展阅读&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/List_of_Markdown_implementations&#34;&gt;markdown 的各种实施&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

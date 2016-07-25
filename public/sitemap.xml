@@ -1,0 +1,1729 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/</loc>
+    <lastmod>2016-07-13T03:00:06+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/phoenixframework-deploy.html</loc>
+    <lastmod>2016-07-13T03:00:06+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/browser-cache.html</loc>
+    <lastmod>2016-07-08T05:32:04+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/peerdependencies.html</loc>
+    <lastmod>2016-06-30T06:32:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/react-native-swipeable-listview.html</loc>
+    <lastmod>2016-06-28T10:41:27+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/react-native-navigator-experimental-usage.html</loc>
+    <lastmod>2016-06-22T06:50:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/react-native-redux-expected-a-component-class-got-object-object.html</loc>
+    <lastmod>2016-06-17T08:15:47+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/redux-saga-put-in-callback.html</loc>
+    <lastmod>2016-06-11T08:05:11+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/different-errors.html</loc>
+    <lastmod>2016-06-09T08:41:15+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/no-matching-action-clause-to-process-request.html</loc>
+    <lastmod>2016-06-08T03:15:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/loading-indicator.html</loc>
+    <lastmod>2016-06-06T01:43:29+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/redux-js-prevail.html</loc>
+    <lastmod>2016-06-01T02:35:36+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/elixir-guardian-authentication-current_user.html</loc>
+    <lastmod>2016-05-22T04:50:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/express-js-router-edge-case.html</loc>
+    <lastmod>2016-05-12T12:06:15+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/mongoose-populate.html</loc>
+    <lastmod>2016-05-10T12:14:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/react-native-emoji-invalid-hex-character-pattern-in-string.html</loc>
+    <lastmod>2016-05-07T08:32:23+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ssh-remote-forwarding.html</loc>
+    <lastmod>2016-03-07T06:28:37+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/telegram-bot-with-nodejs.html</loc>
+    <lastmod>2016-02-27T14:16:36+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/what-a-large.html</loc>
+    <lastmod>2016-02-24T14:09:15+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/lunar-year-eve.html</loc>
+    <lastmod>2016-02-07T12:10:24+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/apache-proxy-node-js.html</loc>
+    <lastmod>2016-02-07T04:05:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/react-js-server-render.html</loc>
+    <lastmod>2016-02-05T14:01:43+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/babel-6.html</loc>
+    <lastmod>2016-01-29T10:25:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/about-translation.html</loc>
+    <lastmod>2016-01-06T15:29:56+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/2016-01-01-sunrise.html</loc>
+    <lastmod>2016-01-01T03:29:55+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/chrome-devtools-memory-profiling.html</loc>
+    <lastmod>2015-12-06T12:43:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/chrome-devtools-collect-javascript-cpu-profile.html</loc>
+    <lastmod>2015-10-24T09:46:53+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/why-we-test-code.html</loc>
+    <lastmod>2015-10-17T03:50:12+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/react-pagination.html</loc>
+    <lastmod>2015-10-07T12:26:28+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/my-old-stories.html</loc>
+    <lastmod>2015-10-03T11:06:18+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/react-js-animation.html</loc>
+    <lastmod>2015-09-23T14:24:19+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/react-js-test-and-refactor.html</loc>
+    <lastmod>2015-09-21T23:07:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/react-js-flux-test-store.html</loc>
+    <lastmod>2015-09-21T12:55:26+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/unpredict-css.html</loc>
+    <lastmod>2015-09-19T01:36:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/never-stop-talking.html</loc>
+    <lastmod>2015-09-17T14:37:16+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/require-when-you-need.html</loc>
+    <lastmod>2015-09-15T23:22:56+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/why-alt-for-img-element.html</loc>
+    <lastmod>2015-09-14T23:48:53+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/placeholder-harmful.html</loc>
+    <lastmod>2015-09-14T23:42:34+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/webpack-assets-cache.html</loc>
+    <lastmod>2015-09-11T16:11:23+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/set-up-https.html</loc>
+    <lastmod>2015-09-04T13:43:41+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/webpack-tutorial.html</loc>
+    <lastmod>2015-08-28T13:19:03+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jquery-promise.html</loc>
+    <lastmod>2015-08-24T13:06:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/react-js-flux.html</loc>
+    <lastmod>2015-08-15T11:04:50+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/privoxy-proxy-share.html</loc>
+    <lastmod>2015-07-31T16:41:20+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/react-js-test.html</loc>
+    <lastmod>2015-07-30T14:40:30+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jspm-css-modularize.html</loc>
+    <lastmod>2015-06-26T12:35:17+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ie8-unsupport-attribute.html</loc>
+    <lastmod>2015-06-26T07:24:43+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/year-after-year.html</loc>
+    <lastmod>2015-06-14T22:12:59+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/if-you-blog-then-seo.html</loc>
+    <lastmod>2015-06-14T00:28:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/%E5%8D%9A%E5%AE%A2%E4%B9%A6%E5%86%99%E8%A7%84%E8%8C%83</loc>
+    <lastmod>2015-06-11T02:37:09+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/react-js-modular-css.html</loc>
+    <lastmod>2015-06-09T09:22:51+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jspm-live-reload.html</loc>
+    <lastmod>2015-06-05T10:41:09+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/css-modularize.html</loc>
+    <lastmod>2015-06-01T22:52:24+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/error-while-executing-gem-gem-remote-fetch-error.html</loc>
+    <lastmod>2015-05-19T14:11:02+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/css-worst-practice-complex-tag-selectors.html</loc>
+    <lastmod>2015-05-18T12:06:51+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/about-never-die.html</loc>
+    <lastmod>2015-05-17T07:47:01+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/systemjs-import-css.html</loc>
+    <lastmod>2015-05-09T01:25:42+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jspm-bootstrap-jquery.html</loc>
+    <lastmod>2015-05-08T00:35:15+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jspm-systemjs.html</loc>
+    <lastmod>2015-05-07T12:55:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-settimeout-fire-immediately.html</loc>
+    <lastmod>2015-05-06T04:15:33+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/you-dont-know-settimeout-in-js.html</loc>
+    <lastmod>2015-05-04T11:54:52+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/html-form-element-align.html</loc>
+    <lastmod>2015-05-04T05:14:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/markdown-inside-html-tag.html</loc>
+    <lastmod>2015-05-03T01:06:41+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/blog-change-again.html</loc>
+    <lastmod>2015-05-02T10:43:34+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ios-safari-click-not-working.html</loc>
+    <lastmod>2015-05-01T12:36:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/%E4%BF%AE%E8%AE%A2%E5%8E%86%E5%8F%B2</loc>
+    <lastmod>2015-05-01T04:00:24+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-pass-by-reference-or-value.html</loc>
+    <lastmod>2015-04-28T12:00:27+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/%E8%81%94%E7%B3%BB%E6%88%91</loc>
+    <lastmod>2015-04-22T23:53:50+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-cli-assets-compilation.html</loc>
+    <lastmod>2015-04-20T14:22:08+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/html-inspector.html</loc>
+    <lastmod>2015-04-20T13:28:20+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/winter-is-gone.html</loc>
+    <lastmod>2015-04-20T11:18:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/redemption.html</loc>
+    <lastmod>2015-04-18T14:15:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/%E9%93%BE%E6%8E%A5</loc>
+    <lastmod>2015-04-16T13:30:01+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-with-statement.html</loc>
+    <lastmod>2015-04-12T13:56:12+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/rain-everywhere.html</loc>
+    <lastmod>2015-04-06T15:45:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jquery-animate-promise.html</loc>
+    <lastmod>2015-04-06T05:17:25+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/sftp.html</loc>
+    <lastmod>2015-04-05T14:37:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/mediatomb-with-vlc.html</loc>
+    <lastmod>2015-04-05T02:27:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/htmlbars-syntax.html</loc>
+    <lastmod>2015-03-12T12:33:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/%E6%88%91%E4%B9%B0%E7%9A%84%E8%BD%AF%E4%BB%B6</loc>
+    <lastmod>2015-02-16T05:58:54+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-js-bootstrap-navbar-current.html</loc>
+    <lastmod>2015-02-09T14:23:49+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-js-set-document-title.html</loc>
+    <lastmod>2015-02-09T12:34:43+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/dot-desktop-file-charles-proxy.html</loc>
+    <lastmod>2015-02-03T14:30:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vimprobable2.html</loc>
+    <lastmod>2015-01-30T17:00:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/privoxy-failed-problem.html</loc>
+    <lastmod>2015-01-27T12:01:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/charles-proxy-custom-ca-certificate.html</loc>
+    <lastmod>2015-01-25T05:17:28+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/plasma-5-plasmashell-closed-unexpected.html</loc>
+    <lastmod>2015-01-23T17:45:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/exchange-our-skills.html</loc>
+    <lastmod>2015-01-18T10:50:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/privoxy-remove-iqiyi-ios-client-ad.html</loc>
+    <lastmod>2015-01-11T12:03:52+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/linode-vps-install-ghost.html</loc>
+    <lastmod>2015-01-03T06:20:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-reflect-null-undefined.html</loc>
+    <lastmod>2015-01-02T00:21:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-difference-between-null-undefined.html</loc>
+    <lastmod>2015-01-01T13:51:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/t-a-command-line-power-tool-for-twitter.html</loc>
+    <lastmod>2014-12-20T16:02:37+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/kde-with-xmonad.html</loc>
+    <lastmod>2014-12-06T03:23:11+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/firefox-flash-crash.html</loc>
+    <lastmod>2014-12-04T15:46:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/opensuse-install-latest-firefox.html</loc>
+    <lastmod>2014-12-02T12:30:08+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/apache-under-opensuse.html</loc>
+    <lastmod>2014-11-27T22:26:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/rails-server-fail.html</loc>
+    <lastmod>2014-11-17T05:33:25+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/github-pages-custom-domain.html</loc>
+    <lastmod>2014-11-16T05:27:43+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-fail-to-update-plugin.html</loc>
+    <lastmod>2014-11-14T05:24:37+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jekyll-table-of-content.html</loc>
+    <lastmod>2014-11-13T00:22:24+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jekyll-new-post-rakefile.html</loc>
+    <lastmod>2014-11-12T13:54:21+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/privoxy-shadowsocks.html</loc>
+    <lastmod>2014-11-12T05:37:33+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/privoxy-404-no-such-domain.html</loc>
+    <lastmod>2014-11-11T22:23:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/byobu-startup-problem.html</loc>
+    <lastmod>2014-11-10T19:59:59+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/privoxy-forward-ssh.html</loc>
+    <lastmod>2014-11-10T05:43:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/byobu-keybindings.html</loc>
+    <lastmod>2014-11-06T21:38:11+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-upload-image-problem.html</loc>
+    <lastmod>2014-11-05T11:24:34+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/how-to-use-wordpress-tag.html</loc>
+    <lastmod>2014-11-04T05:45:59+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/opensuse-xmonad.html</loc>
+    <lastmod>2014-11-03T21:45:42+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-move.html</loc>
+    <lastmod>2014-11-02T01:11:55+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/apache-mod_deflate.html</loc>
+    <lastmod>2014-10-31T14:20:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/linode-opensuse-fully-qualified-domain-name.html</loc>
+    <lastmod>2014-10-24T12:54:59+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/srcset-and-sizes.html</loc>
+    <lastmod>2014-10-06T06:10:52+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/a-new-picture-element-in-html.html</loc>
+    <lastmod>2014-09-29T12:44:02+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/privoxy-tutorial.html</loc>
+    <lastmod>2014-09-24T14:29:34+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/best-practice-contribute-on-github.html</loc>
+    <lastmod>2014-09-16T22:44:55+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jquery-postjson.html</loc>
+    <lastmod>2014-09-14T14:12:16+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/magento-clone-site.html</loc>
+    <lastmod>2014-08-26T14:34:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/emmet-for-brackets-diable-css-vendor-prefix.html</loc>
+    <lastmod>2014-08-16T00:44:59+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/mustache-nested-array.html</loc>
+    <lastmod>2014-08-15T05:09:16+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/input-radio-style.html</loc>
+    <lastmod>2014-08-12T12:15:07+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-body_class-customize.html</loc>
+    <lastmod>2014-08-09T14:47:51+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/phonegap-error-exit-code-8.html</loc>
+    <lastmod>2014-07-22T22:31:52+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/css3-flex-shrink.html</loc>
+    <lastmod>2014-07-15T12:02:26+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/css3-flex-basis.html</loc>
+    <lastmod>2014-07-13T04:32:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/css3-flex-grow.html</loc>
+    <lastmod>2014-07-11T05:59:19+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/prevent-layout-thrashing.html</loc>
+    <lastmod>2014-07-05T07:15:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jquery-delegate-event-delegatetarget.html</loc>
+    <lastmod>2014-07-04T16:46:11+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/kendo-ui-mvvm-ie8-problem.html</loc>
+    <lastmod>2014-06-25T14:22:20+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/front-end-development-env.html</loc>
+    <lastmod>2014-06-21T05:30:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/background-position-percentage.html</loc>
+    <lastmod>2014-06-02T11:52:17+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/%E4%BB%8Emeta-viewport%E8%81%8A%E8%B5%B7.html</loc>
+    <lastmod>2014-05-31T03:23:49+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/difference-between-dependencies-and-devdependencies.html</loc>
+    <lastmod>2014-05-23T17:36:09+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/zed-package-manager.html</loc>
+    <lastmod>2014-05-17T05:50:36+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/babun-linux-environment-in-windows.html</loc>
+    <lastmod>2014-05-15T04:31:53+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/chrome-extension-tab-id-change.html</loc>
+    <lastmod>2014-05-14T13:46:23+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jquery-get-element-from-html-string.html</loc>
+    <lastmod>2014-05-13T11:32:03+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/opensuse-boot-into-emergency-mode-2.html</loc>
+    <lastmod>2014-05-08T14:22:27+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/zed-app-tips.html</loc>
+    <lastmod>2014-05-05T11:14:50+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/editor-zed-app.html</loc>
+    <lastmod>2014-05-03T05:53:56+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/gulp-js-watch-error-handle.html</loc>
+    <lastmod>2014-05-01T19:47:17+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-js-checkbox.html</loc>
+    <lastmod>2014-04-28T22:30:49+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/login-without-a-password-is-forbidden-by-configuration.html</loc>
+    <lastmod>2014-04-19T16:44:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/question.html</loc>
+    <lastmod>2014-04-16T14:43:47+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-html-tag-lang-attribute.html</loc>
+    <lastmod>2014-04-15T14:50:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-js-difference-between-model-and-content.html</loc>
+    <lastmod>2014-04-08T22:37:43+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-js-one-model-multi-object.html</loc>
+    <lastmod>2014-04-06T04:44:09+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/coffeescript-settimeout.html</loc>
+    <lastmod>2014-04-05T17:27:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-send-http-header.html</loc>
+    <lastmod>2014-04-05T07:36:15+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/browser-support-in-jquery-1-12-and-beyond.html</loc>
+    <lastmod>2014-04-03T12:17:01+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-js-not-render-in-ie.html</loc>
+    <lastmod>2014-03-25T21:10:25+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-js-jquery-ready.html</loc>
+    <lastmod>2014-03-24T12:24:09+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/coffeescript-global-variable.html</loc>
+    <lastmod>2014-03-23T14:11:08+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-js-template-precompile.html</loc>
+    <lastmod>2014-03-19T22:07:25+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-js-computed-properties.html</loc>
+    <lastmod>2014-03-14T23:57:59+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-js-model-without-ember-data.html</loc>
+    <lastmod>2014-03-13T13:26:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-js-ajax-loading-indicator.html</loc>
+    <lastmod>2014-03-11T22:16:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-js-validate-form-input.html</loc>
+    <lastmod>2014-03-02T04:22:50+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ember-js-template-add-html5-attribute.html</loc>
+    <lastmod>2014-02-27T14:25:59+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vim-filter-match-text.html</loc>
+    <lastmod>2014-02-23T04:22:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jquery-custom-event.html</loc>
+    <lastmod>2014-01-24T16:08:15+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/require-js.html</loc>
+    <lastmod>2014-01-18T22:49:34+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/gulp-js.html</loc>
+    <lastmod>2014-01-12T16:08:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vimperator-copy-footnote-form-text.html</loc>
+    <lastmod>2014-01-12T10:11:53+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/handlebars-js-precompilation.html</loc>
+    <lastmod>2014-01-10T14:10:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/copy-link-as-markdown-format.html</loc>
+    <lastmod>2014-01-07T11:36:23+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/all-roads-lead-to-rome.html</loc>
+    <lastmod>2014-01-06T13:42:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/interviewing-a-front-end-developer.html</loc>
+    <lastmod>2014-01-04T07:47:38+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/on-interviewing-front-end-engineers.html</loc>
+    <lastmod>2014-01-01T04:44:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-footnote.html</loc>
+    <lastmod>2013-12-26T23:03:47+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/json-parse.html</loc>
+    <lastmod>2013-12-24T12:24:54+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-debounce.html</loc>
+    <lastmod>2013-11-28T22:05:50+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/error-failed-to-build-gem-native-extension.html</loc>
+    <lastmod>2013-11-25T22:05:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/the-ruby-openssl-extension-was-not-compiled-missing-the-openssl-lib.html</loc>
+    <lastmod>2013-11-24T11:47:50+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/opensuse-infinality.html</loc>
+    <lastmod>2013-11-22T13:57:23+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jsonp.html</loc>
+    <lastmod>2013-11-20T14:05:25+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/opensuse-upgrade-12-3-to-13-1.html</loc>
+    <lastmod>2013-11-19T22:53:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/opensuse-custom-shortcuts.html</loc>
+    <lastmod>2013-11-04T11:53:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/opensuse-switch-windows.html</loc>
+    <lastmod>2013-11-02T16:43:29+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-same-origin-policy.html</loc>
+    <lastmod>2013-11-01T11:52:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-async-single-thread-queue.html</loc>
+    <lastmod>2013-10-25T12:55:50+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/theseus-javascript-debugger.html</loc>
+    <lastmod>2013-10-23T14:58:23+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/nginx-config.html</loc>
+    <lastmod>2013-10-22T14:13:28+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/opensuse-install-mplayer.html</loc>
+    <lastmod>2013-10-19T04:10:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/%E5%8A%A8%E7%94%BB%E7%89%87</loc>
+    <lastmod>2013-10-12T12:13:41+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jquery-plugin-carousel-slide.html</loc>
+    <lastmod>2013-10-08T11:40:52+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/sass.html</loc>
+    <lastmod>2013-10-07T05:55:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/compass-sprite.html</loc>
+    <lastmod>2013-10-04T14:01:29+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/twitter-bootstrap-affix-js.html</loc>
+    <lastmod>2013-09-10T22:52:31+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/adobe-brackets-css-dont-repeat-youself.html</loc>
+    <lastmod>2013-09-08T11:17:28+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/front-end-toolbox.html</loc>
+    <lastmod>2013-09-06T15:36:21+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/css-style-modifier.html</loc>
+    <lastmod>2013-09-02T13:53:03+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-and-html-element-state.html</loc>
+    <lastmod>2013-08-31T15:56:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/flash-of-unstyled-content.html</loc>
+    <lastmod>2013-08-29T23:33:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jquery-plugin-tab.html</loc>
+    <lastmod>2013-08-26T13:16:02+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/about-work-experience.html</loc>
+    <lastmod>2013-08-24T06:15:25+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/css-architecture.html</loc>
+    <lastmod>2013-08-22T23:35:51+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ie6-7-z-index-bug.html</loc>
+    <lastmod>2013-08-18T12:48:27+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/angularjs-rgba-argb-converter.html</loc>
+    <lastmod>2013-08-16T12:49:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ie6-png-transparent.html</loc>
+    <lastmod>2013-08-14T11:19:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/css-sprite.html</loc>
+    <lastmod>2013-08-11T23:00:01+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/css-image-replacement.html</loc>
+    <lastmod>2013-08-09T22:20:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/input-hint-focus-blur.html</loc>
+    <lastmod>2013-08-08T13:09:18+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/deal-with-old-ie.html</loc>
+    <lastmod>2013-08-07T13:46:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/labjs.html</loc>
+    <lastmod>2013-08-04T10:04:24+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/yui3-css-grid.html</loc>
+    <lastmod>2013-07-23T11:44:23+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/gruntjs-optimize-image-size-loseless.html</loc>
+    <lastmod>2013-07-20T09:32:50+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ie6-ie7-ie8-rgba.html</loc>
+    <lastmod>2013-07-18T14:46:07+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/magento-remove-index-php-in-url.html</loc>
+    <lastmod>2013-07-16T14:08:20+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/elment-overflow-container-top-direction.html</loc>
+    <lastmod>2013-07-13T15:40:50+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/gruntjs.html</loc>
+    <lastmod>2013-07-12T15:15:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/markdown-and-table.html</loc>
+    <lastmod>2013-07-02T16:50:38+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/raphael-js-tutorial.html</loc>
+    <lastmod>2013-06-20T16:12:06+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-closures.html</loc>
+    <lastmod>2013-06-16T14:49:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ubuntu-environment-variable-editor.html</loc>
+    <lastmod>2013-06-13T05:21:37+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/modernizr.html</loc>
+    <lastmod>2013-06-11T06:45:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/css-triangle.html</loc>
+    <lastmod>2013-05-28T05:05:07+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vertical-center-float-element.html</loc>
+    <lastmod>2013-05-23T15:03:31+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ie6-float-new-line.html</loc>
+    <lastmod>2013-05-12T04:13:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/region-select-option-javascript.html</loc>
+    <lastmod>2013-04-28T14:00:30+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-plugin-syntax-highlight-js.html</loc>
+    <lastmod>2013-04-24T23:40:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/cdn-third-party-libraries.html</loc>
+    <lastmod>2013-04-23T02:27:42+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/windows-switch-opened-application.html</loc>
+    <lastmod>2013-04-06T13:43:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jquery-hover-settimeout.html</loc>
+    <lastmod>2013-04-05T14:36:04+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vim-subsitute-one-by-one.html</loc>
+    <lastmod>2013-04-04T14:46:36+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/responsive-web-page-media-queries.html</loc>
+    <lastmod>2013-04-01T16:44:55+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/just-use-sublime-text.html</loc>
+    <lastmod>2013-03-26T13:22:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/adblock-plus-for-android-1-1-apk.html</loc>
+    <lastmod>2013-03-21T09:26:01+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-rss-title-duplicate.html</loc>
+    <lastmod>2013-03-18T13:17:47+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/google-apps-script-userapppanel.html</loc>
+    <lastmod>2013-03-16T23:36:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/center-image.html</loc>
+    <lastmod>2013-03-15T14:14:03+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/privoxy-block-tudou-video-ad.html</loc>
+    <lastmod>2013-03-07T12:07:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/backwpup-3-0-4.html</loc>
+    <lastmod>2013-03-04T23:39:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-add-to-favorite.html</loc>
+    <lastmod>2013-03-03T04:21:28+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/windows-software-i-use.html</loc>
+    <lastmod>2013-03-01T12:12:34+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/firefox-22-new-cookies-policy.html</loc>
+    <lastmod>2013-02-27T05:30:03+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/firefox-19.html</loc>
+    <lastmod>2013-02-26T11:23:28+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/block-webpage-ad-with-privoxy.html</loc>
+    <lastmod>2013-02-23T03:53:08+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/firefox-keyword-search.html</loc>
+    <lastmod>2013-02-20T23:38:26+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jasmine-js.html</loc>
+    <lastmod>2013-02-16T13:59:17+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/we-picture-together-when-young.html</loc>
+    <lastmod>2013-02-10T06:03:55+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/slash-in-url-end.html</loc>
+    <lastmod>2013-02-04T16:07:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-countdown.html</loc>
+    <lastmod>2013-02-01T14:32:29+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/%E8%AF%BB%E4%B9%A6</loc>
+    <lastmod>2013-01-28T14:35:31+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/z-jump.html</loc>
+    <lastmod>2013-01-26T16:17:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/avgrund-modal.html</loc>
+    <lastmod>2013-01-24T17:06:27+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/what-is-mvc.html</loc>
+    <lastmod>2013-01-17T07:50:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-event-order.html</loc>
+    <lastmod>2013-01-14T11:08:38+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/php-mysql-query-sprintf.html</loc>
+    <lastmod>2013-01-12T04:05:34+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/coffeescript-recompile-file-removed.html</loc>
+    <lastmod>2013-01-10T15:14:18+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jquery-dynamic-insert-element-bind-event.html</loc>
+    <lastmod>2013-01-08T06:17:15+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-register-events.html</loc>
+    <lastmod>2013-01-06T03:42:53+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/npm-install-current-location.html</loc>
+    <lastmod>2013-01-04T10:00:08+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/php-printf.html</loc>
+    <lastmod>2012-12-28T12:40:15+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/npm-install-package.html</loc>
+    <lastmod>2012-12-26T12:38:57+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/enlightenment-17-network.html</loc>
+    <lastmod>2012-12-24T23:57:11+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-string-match-regexp-exec.html</loc>
+    <lastmod>2012-12-22T05:32:27+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/firefox-post-recommend.html</loc>
+    <lastmod>2012-12-15T11:43:42+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/javascript-match-all-strings.html</loc>
+    <lastmod>2012-12-12T04:31:04+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vimperator-zh-comunity.html</loc>
+    <lastmod>2012-12-11T01:03:54+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/google-search-url-parameters.html</loc>
+    <lastmod>2012-12-06T05:37:23+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/shortcut-in-search-engine.html</loc>
+    <lastmod>2012-12-02T07:48:07+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vimperator-multi-links.html</loc>
+    <lastmod>2012-11-30T05:28:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/a-tale-of-east-asian-history-british-loan-sharks-and-a-russian-hacker.html</loc>
+    <lastmod>2012-11-25T05:56:30+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/media-queries-image-resize.html</loc>
+    <lastmod>2012-11-15T10:35:57+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/install-software-on-ubuntu.html</loc>
+    <lastmod>2012-11-13T09:50:02+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/mosh.html</loc>
+    <lastmod>2012-11-02T13:50:15+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/linode-fqdn-hostname.html</loc>
+    <lastmod>2012-11-01T13:41:51+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/caching-in-http.html</loc>
+    <lastmod>2012-10-31T06:28:08+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ssh-firefox-sock-proxy-switch.html</loc>
+    <lastmod>2012-10-25T15:14:20+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ssh-usage.html</loc>
+    <lastmod>2012-10-23T04:41:02+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/v6-supercharger.html</loc>
+    <lastmod>2012-10-19T13:13:36+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ubuntu-openvpn.html</loc>
+    <lastmod>2012-10-18T06:35:15+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/android-openvpn-setting.html</loc>
+    <lastmod>2012-10-12T09:41:27+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ubuntu-font-render-with-infinality.html</loc>
+    <lastmod>2012-10-11T05:36:31+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/mpdroid-remote-control-mpd.html</loc>
+    <lastmod>2012-10-08T04:15:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/grep-come-from.html</loc>
+    <lastmod>2012-10-02T13:30:52+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/surround-vim.html</loc>
+    <lastmod>2012-09-30T13:09:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-markdown.html</loc>
+    <lastmod>2012-09-28T16:59:07+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/no-www.html</loc>
+    <lastmod>2012-09-25T05:39:04+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/city-and-imagenation-3.html</loc>
+    <lastmod>2012-09-23T07:58:06+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jquery-scroll-fixed-position.html</loc>
+    <lastmod>2012-09-21T12:12:19+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/52-hertz-the-loneliest-whale-in-the-world.html</loc>
+    <lastmod>2012-09-18T03:58:43+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/firefox-os.html</loc>
+    <lastmod>2012-09-16T13:50:33+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ranger.html</loc>
+    <lastmod>2012-09-15T11:32:42+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-seach-form-append-to-menu.html</loc>
+    <lastmod>2012-09-13T01:33:19+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ubuntu-mpd-ncmpcpp.html</loc>
+    <lastmod>2012-09-11T02:28:21+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/city-and-imagenation-2.html</loc>
+    <lastmod>2012-09-09T10:35:37+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/godaddy-subdomain-setting.html</loc>
+    <lastmod>2012-09-06T03:48:18+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-external-link-icon-jquery.html</loc>
+    <lastmod>2012-09-04T03:58:09+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vimfiler.html</loc>
+    <lastmod>2012-09-02T09:19:12+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/bootstrap-scrollspy.html</loc>
+    <lastmod>2012-09-01T12:49:59+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/city-and-imagenation.html</loc>
+    <lastmod>2012-08-31T12:44:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/city-and-memory.html</loc>
+    <lastmod>2012-08-29T09:51:38+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/sitemap</loc>
+    <lastmod>2012-08-25T12:35:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/xampp-virtual-hosts.html</loc>
+    <lastmod>2012-08-22T13:52:56+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/chinese-lunar-birthday-reminder.html</loc>
+    <lastmod>2012-08-21T04:15:37+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-add-jquery.html</loc>
+    <lastmod>2012-08-06T12:56:54+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vundle-vim-plugin-management.html</loc>
+    <lastmod>2012-08-05T04:35:20+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/reason-to-blog.html</loc>
+    <lastmod>2012-08-02T05:25:32+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/magento-slideshow.html</loc>
+    <lastmod>2012-08-01T08:15:02+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/magento-add-jquery-support.html</loc>
+    <lastmod>2012-07-27T14:59:36+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ubuntu-firefox-tar-bz2.html</loc>
+    <lastmod>2012-07-16T03:00:36+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-wp_title-filter.html</loc>
+    <lastmod>2012-07-13T10:54:09+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/zencoding-vim-error.html</loc>
+    <lastmod>2012-07-04T05:12:26+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/firefox-mobile-reader-mode.html</loc>
+    <lastmod>2012-06-26T03:41:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ghost.html</loc>
+    <lastmod>2012-06-17T14:59:50+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vimperator-add-page-to-pocket.html</loc>
+    <lastmod>2012-06-14T07:03:24+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/firefox-open-new-tab-after-current.html</loc>
+    <lastmod>2012-06-11T03:43:04+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vimperator-navigate-pdf-js.html</loc>
+    <lastmod>2012-06-10T14:34:55+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/my-virtue-to-help-people-got-lost.html</loc>
+    <lastmod>2012-06-05T15:29:37+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/firefox-13.html</loc>
+    <lastmod>2012-06-03T14:50:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/zencoding-vim-tutorial-chinese.html</loc>
+    <lastmod>2012-05-31T10:03:03+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vimperator-is-easy-to-learn.html</loc>
+    <lastmod>2012-05-31T02:16:30+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/firefox-ui-language-change.html</loc>
+    <lastmod>2012-05-25T07:26:52+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/firefox-for-android-beta-out.html</loc>
+    <lastmod>2012-05-16T08:01:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/the-lies-we-tell-ourselves.html</loc>
+    <lastmod>2012-05-11T05:52:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/firefox-new-ui-more-uniform.html</loc>
+    <lastmod>2012-05-03T08:07:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/jquery-next.html</loc>
+    <lastmod>2012-04-25T09:04:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/firefox-12-get-release.html</loc>
+    <lastmod>2012-04-24T23:36:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/how-to-block-ads-on-baidu.html</loc>
+    <lastmod>2012-04-17T23:20:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/for-gods-sake-1-1.html</loc>
+    <lastmod>2012-03-14T05:42:25+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vim-encoding-fileencoding-fileencodings.html</loc>
+    <lastmod>2012-03-10T23:59:16+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/for-gods-sake-1.html</loc>
+    <lastmod>2012-03-09T14:33:29+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vim-file-format-problem.html</loc>
+    <lastmod>2012-03-07T04:05:11+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/%E9%9B%A8%E5%A4%9C.html</loc>
+    <lastmod>2012-02-25T13:56:30+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/%E6%B5%B7%E9%87%8C%E4%B8%96%E7%95%8C.html</loc>
+    <lastmod>2012-02-24T12:50:01+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/zencart-addon-google-base-froogle-feeder.html</loc>
+    <lastmod>2012-01-04T07:46:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/my-uncle-not-exist.html</loc>
+    <lastmod>2011-11-08T06:13:27+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/a-story-i-have-long-ago.html</loc>
+    <lastmod>2011-11-02T08:15:12+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/cheat-on-brain.html</loc>
+    <lastmod>2011-10-09T05:45:55+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/the-fish-swim-in-sky.html</loc>
+    <lastmod>2011-08-23T04:00:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/ie6-position-fixed-hack.html</loc>
+    <lastmod>2011-07-26T08:09:26+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/zencoding-vim-html-css.html</loc>
+    <lastmod>2011-07-22T01:46:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/twitter-global-pluse-chinese.html</loc>
+    <lastmod>2011-06-30T08:54:17+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/mayer-bloomberg-immigration-reform.html</loc>
+    <lastmod>2011-06-18T08:15:47+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/wordpress-drop-ie6-support.html</loc>
+    <lastmod>2011-06-09T16:48:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/google-bing-yahoo-schema-org.html</loc>
+    <lastmod>2011-06-02T18:39:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vimperator-firefox.html</loc>
+    <lastmod>2011-03-16T15:33:30+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/the-best-time-in-the-life.html</loc>
+    <lastmod>2011-01-10T11:55:53+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vimperator%E6%B5%8F%E8%A7%88%E7%BD%91%E9%A1%B5.html</loc>
+    <lastmod>2011-01-06T13:15:04+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/quick-start-tutorial.html</loc>
+    <lastmod>2011-01-03T04:50:43+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/vimperator-introduction.html</loc>
+    <lastmod>2011-01-01T15:55:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.zfanw.com/blog/about</loc>
+    <lastmod>2009-12-29T09:09:34+00:00</lastmod>
+  </url>
+  
+</urlset>

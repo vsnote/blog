@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Highlight.Js on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/highlight/index.js/</link>
+    <description>Recent content in Highlight.Js on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 24 Apr 2013 23:40:46 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/highlight.js/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>WordPress 代码高亮插件 Highlight.js</title>
+      <link>https://www.zfanw.com/blog/wordpress-plugin-syntax-highlight-js.html</link>
+      <pubDate>Wed, 24 Apr 2013 23:40:46 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/wordpress-plugin-syntax-highlight-js.html</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;http://highlightjs.org/&#34;&gt;Highlight.js&lt;/a&gt; 支持71种程序代码的语法高亮，提供&lt;a href=&#34;http://highlightjs.org/static/test.html&#34;&gt;44种样式&lt;/a&gt;及各种&lt;a href=&#34;http://softwaremaniacs.org/soft/highlight/en/addons/&#34;&gt;扩展插件&lt;/a&gt;，其中包括 &lt;a href=&#34;http://wordpress.org/extend/plugins/wp-highlightjs/&#34;&gt;WordPress 插件&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;但用 WordPress 插件做&lt;strong&gt;代码高亮&lt;/strong&gt;时，&lt;a href=&#34;https://developers.google.com/speed/pagespeed/insights&#34;&gt;Google PageSpeed 测试中&lt;/a&gt;，会出现如下建议：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The following external CSS files were included after an external JavaScript file in &lt;a href=&#34;http://www.zfanw.com/blog/wordpress-add-jquery.html&#34;&gt;http://www.zfanw.com/blog/wordpress-add-jquery.html&lt;/a&gt;. To ensure CSS files are downloaded in parallel, always include external CSS before external JavaScript.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.zfanw.com/blog/wp-content/plugins/wp-highlightjs/styles/default.css&#34;&gt;http://www.zfanw.com/blog/wp-content/plugins/wp-highlightjs/styles/default.css&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Highlight.js 插件将 CSS 文件附加到 JS 文件后，并且插件设置中没有提供任何调整顺序的选项。这会导致 CSS 文件不能并行请求。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;类似于 Google 提供的第三方库 CDN 服务，Yandex(俄罗斯的搜索引擎) 也有提供&lt;a href=&#34;http://api.yandex.ru/jslibs/libs.xml&#34;&gt;类似的公共服务&lt;/a&gt;，并且有 highlight.js，我可以在 WordPress 里直接引用 highlight 的 js 与 css 文件，文件出现的顺序就变得可控。&lt;/p&gt;
+
+&lt;p&gt;打开 WordPress 的 functions.php 文件，加入如下代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+    function zfanw_add_highlight_js(){
+        wp_enqueue_style(&#39;highlightcss&#39;,&#39;http://yandex.st/highlightjs/8.0/styles/default.min.css&#39;);
+        wp_enqueue_script(&#39;highlightjs&#39;,&#39;http://yandex.st/highlightjs/8.0/highlight.min.js&#39;,array(),null,true);
+    }
+    add_action(&#39;wp_enqueue_scripts&#39;, &#39;zfanw_add_highlight_js&#39;);
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最后在 Footer.php 或 Header.php 文件中触发：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script&amp;gt;hljs.initHighlightingOnLoad();&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;保存后，highlight.js 会查找页面内的代码片段，自动判断语言类型，并根据 CSS 样式主题高亮显示不同语法。如本页面所示的代码样式。&lt;/p&gt;
+
+&lt;p&gt;如果要换掉代码高亮的样式主题，则只要将调用的 CSS 路径替换掉即可，比如，要从默认主题换成 Zenburn 主题：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; wp_enqueue_style(&#39;highlightcss&#39;,&#39;http://yandex.st/highlightjs/8.0/styles/zenburn.min.css&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/isagalaev/highlight.js&#34;&gt;highlight.js 说明&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://codex.wordpress.org/Function_Reference/wp_enqueue_script&#34;&gt;wp_enqueue_script&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

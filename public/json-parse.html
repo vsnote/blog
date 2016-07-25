@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>JSON 解析 - 陈三</title>
+<meta property="og:title" content="JSON 解析 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">JSON 解析</h1>
+
+    
+    <span class="article-date">December 12, 2013</span>
+    
+
+    <div class="article-content">
+      <p>Ajax 请求返回的 JSON 数据，通过 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse">JSON.parse</a> 或 jQuery 提供的 <a href="http://api.jquery.com/jQuery.parseJSON/">parseJSON</a> 解析后，就可以当成 JavaScript 对象处理：</p>
+
+<pre><code>$.get('http://www.example.com/json', function(data) {
+    var response = JSON.parse(data);
+    console.log(response.result);
+});
+</code></pre>
+
+<p>当然，事情要比上面这种说法复杂一些，这是由 HTTP 响应头的 Content-Type 值决定的。</p>
+
+<p>比如我们的响应头里 Content-Type 如下：</p>
+
+<pre><code>Content-Type: text/plain; charset=utf-8
+</code></pre>
+
+<p>那么，JSON.parse 或 jQuery.parseJSON 都可以并且应该使用，因为返回的是一个 JSON 字符串。</p>
+
+<p>但当 Content-Type 是 <code>application/json;charset=utf-8</code> 时，情况就不一样了，因为返回值本身就是 JavaScript 对象，可以直接访问，这时如果使用 JSON.parse 解析反而是错误的。</p>
+
+<p>还有一种常见的情况，返回的是 JSON 字符串，但 Content-Type 却是 text/html，需要预先使用 <code>eval</code> 将其转化为 JavaScript 对象：</p>
+
+<pre><code>var response = eval(&quot;(&quot; + data + &quot;)&quot;);
+console.log(response.result);
+</code></pre>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

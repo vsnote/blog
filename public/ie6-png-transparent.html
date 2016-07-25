@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>IE6 下的 PNG 透明 - 陈三</title>
+<meta property="og:title" content="IE6 下的 PNG 透明 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">IE6 下的 PNG 透明</h1>
+
+    
+    <span class="article-date">August 8, 2013</span>
+    
+
+    <div class="article-content">
+      
+
+<p>就我的实践经验，IE6 下解决 PNG 图片透明问题，<a href="http://www.dillerdesign.com/experiment/DD_belatedPNG/">DD_belatedPNG</a> 是比较方便的。</p>
+
+<p>它的用法如下：</p>
+
+<pre><code>&lt;!--[if IE 6]&gt;
+&lt;script src=&quot;DD_belatedPNG.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  /* EXAMPLE */
+  DD_belatedPNG.fix('.png_bg');
+
+  /* string argument can be any CSS selector */
+  /* .png_bg example is unnecessary */
+  /* change it to what suits you! */
+&lt;/script&gt;
+&lt;![endif]--&gt; 
+</code></pre>
+
+<p>很多人可能就参照它的示例写，比如，腾讯旗下的导航站是这样写的：</p>
+
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+try{
+    if(DD_belatedPNG){
+        DD_belatedPNG.fix('img,li.png-filter a span.qqicon-logout,li.png-filter a span.qqicon,.icon-weixin,.mailInput-icon-unfold,#changeSearchEngine_ICON,#currentMail-s,.engineWrap a,.game-box .caption a.little-game, .game-box .caption a.page-game, .game-box .caption a.web-game, .xzSelect .drop, .xzClosed, .xzClosed.hover,ul.channel-videoImg span.title em,.down-icon,.history-del,.channel-videoline,.videoplay,.video-pages a,.v-new');
+    }
+}catch(e){};
+&lt;/script&gt;
+</code></pre>
+
+<p>我们能看到，<code>fix</code> 里有一堆的 class 及 id 又或者其他 CSS 选择符。这一堆代码维护起来很困难 &#8211; 写了基本就不要想修改。</p>
+
+<p>我的方法是，只设定一个 CSS 类 <code>pngfix</code>，凡使用 PNG 透明图片的元素，都加上该类，</p>
+
+<pre><code>&lt;h2 class=&quot;pngfix&quot;&gt;Goodbye IE6&lt;/h2&gt;
+</code></pre>
+
+<p>然后 JavaScript 语句只要一句：</p>
+
+<pre><code>DD_belatedPNG.fix('.pngfix');   
+</code></pre>
+
+<p>又因为我在 CSS 中抽象出一个 <a href="http://www.zfanw.com/blog/css-sprite.html">贴图定位的类</a> <code>.sprite</code>，则连 <code>.pngfix</code> 都可以省掉，直接使用 <code>.sprite</code>：</p>
+
+<pre><code>DD_belatedPNG.fix('.sprite');
+</code></pre>
+
+<h2 id="注意事项">注意事项</h2>
+
+<ol>
+<li>如果背景图片使用 CSS 贴图定位，DD_belatedPNG 这个方法同样存在些问题，比如背景图片有1像素的偏移</li>
+<li>如果 PNG 使用 map 热点，则 DD_belatedPNG 处理后，热点的链接会无法点击，一个替代方法是 <a href="http://labs.unitinteractive.com/unitpngfix.php">Unit PNG Fix</a></li>
+</ol>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Grep 的由来 - 陈三</title>
+<meta property="og:title" content="Grep 的由来 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Grep 的由来</h1>
+
+    
+    <span class="article-date">October 10, 2012</span>
+    
+
+    <div class="article-content">
+      <p>如果你用过 <a href="http://en.wikipedia.org/wiki/Ed_(text_editor)">ed 编辑器</a>，你应该知道，除非你要求它，否则它不会显示出文件内容 &#8211; 因为它在交互显示出现来前就被写出来，那时很多使用 ed 的人还只有一台打印机可以输出呢。</p>
+
+<p>经常地，你也没想它显示所有的行，只要一小部分就行。它当然能搞定这个。你可以说“给我显示前 5 行”，又或者“显示下面的 8 行”又或者“给我显示 100-110 行”，这都可以实现。</p>
+
+<p>不过有时你可能想说，“给我显示所有包含 x 的行”，因为你只兴趣这些包含 &#8216;x&#8217; 的文字。ed 也可以搞定。</p>
+
+<p>在 <strong>ed 中搜索，你使用 /</strong></p>
+
+<p>于是 /foo 就会查找下一个 &#8216;foo‘ 实例</p>
+
+<p>不过你可能不想要“下一个“实例，你想要<strong>所有实例</strong>。那么你需要一个<strong>全局搜索</strong>。这是命令 g/foo</p>
+
+<p>目前为止一切都合逻辑吧？</p>
+
+<p>一旦你找到这些行，你想看看它们。于是你告诉 ed 把它们<strong>打印</strong>出来。这样的命令是 g/foo/p &#8211; 全局搜索 &#8216;foo&#8217; 并且打印出匹配的行。</p>
+
+<p>非常不错。不过 ed 可以更聪明，它不仅仅查找字符串字面匹配的，它还能<strong>处理正则表达式</strong>。比如你可以用 g/<sup class="footnote-ref" id="fnref:0-9"><a rel="footnote" href="#fn:0-9">1</a></sup>/p 来显示所有以数字开始的行。又或者 g/;$/p 打印出所有以分号结束的行。</p>
+
+<p>于是这个 ed 用户大量使用的”给我显示匹配的行“的功能就可以总结为“<strong>全局搜索匹配正则表达式的行并且打印出来</strong>” &#8211; 或者，用 ed 的形式表述，<strong>g/regular expression/p</strong>。再简单点，<strong>g/re/p</strong></p>
+
+<p>是的。Grep。这就是它的由来了，感谢 ed。</p>
+
+<p>本篇节译自<a href="http://geekblog.oneandoneis2.org/index.php/2012/09/30/to-understand-the-command-line">这一篇内容</a>，很有意思的文章。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:0-9">0-9 <a class="footnote-return" href="#fnref:0-9"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

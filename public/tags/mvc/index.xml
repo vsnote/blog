@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mvc on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/mvc/</link>
+    <description>Recent content in Mvc on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Thu, 17 Jan 2013 07:50:40 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/mvc/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>MVC 的概念</title>
+      <link>https://www.zfanw.com/blog/what-is-mvc.html</link>
+      <pubDate>Thu, 17 Jan 2013 07:50:40 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/what-is-mvc.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_MVC&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 为什么有 MVC&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_sprintf_Smarty_MVC&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 由 sprintf 与 Smarty 说到 MVC&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#MVC&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; MVC 框架的案例&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    刚开始，MVC 的概念给我这编程经历不多的人的感觉是，无从下口。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    就像面向对象概念。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    前些天看到一篇讲&lt;a href=&#34;http://www.aqee.net/you-wanted-a-banana-but-you-got-a-gorilla-holding-the-banana/&#34;&gt;面向对象的&lt;/a&gt;，说我们本来只是想要香蕉，结果得到的却是一只猩猩拿着香蕉。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我觉得挺有意思，对我这种函数式编程经历远多于面向对象的人来说，面向对象需要经验，不到某个境界，马上就上手，就颇有种造猩猩的感觉。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_MVC&#34;&gt;为什么有 MVC&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_MVC&#34; href=&#34;#_MVC&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    MVC 的概念也一样。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    为什么要把程序分成三个部分？
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    理由当然有不少，比如 MVC 设计模式(Design Pattern)有利于后期维护，程序灵动性强，等等等等。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但这种话就好像教育小孩子说，你一定要怎样怎样，不然会怎样怎样。他们没有情境，并无法领会这种东西。我为了弄清楚 MVC 的概念，看了大量的相关内容，但结果呢？还是不知所谓。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Wikipedia 上 &lt;a href=&#34;https://en.wikipedia.org/wiki/Model–view–controller&#34;&gt;MVC 的词条&lt;/a&gt;配了张图，倒让我有点直观感受(&lt;em&gt;注：图片来自 Wikipedia&lt;/em&gt;)：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;img src=&#34;https://upload.wikimedia.org/wikipedia/commons/f/fd/MVC-Process.png&#34; alt=&#34;model-view-controller&#34; /&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但也只是到此为止。再看再多的内容，也不会有助于我理解这个概念。我只好说，光看手册，不下水，是永远无法学会游泳的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    于是找了个 PHP 的 MVC 框架操作。PHP 的基于 MVC 设计模式的框架不少，我用的是 &lt;a href=&#34;http://ellislab.com/codeigniter/&#34;&gt;CodeIgniter&lt;/a&gt;，原因是以前曾经糊里糊涂地用它做过一个站点。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    再结合点 &lt;a href=&#34;http://www.smarty.net/&#34;&gt;Smarty 模板引擎&lt;/a&gt;与 &lt;a href=&#34;http://www.zfanw.com/blog/php-mysql-query-sprintf.html&#34;&gt;PHP 的 sprintf() 函数&lt;/a&gt;，MVC 的概念就渐渐清晰了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_sprintf_Smarty_MVC&#34;&gt;由 sprintf 与 Smarty 说到 MVC&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_sprintf_Smarty_MVC&#34; href=&#34;#_sprintf_Smarty_MVC&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    来看个 &lt;a href=&#34;http://www.zfanw.com/blog/php-mysql-query-sprintf.html&#34;&gt;PHP 中构建查询语句&lt;/a&gt; 中所举的例子：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;pre&gt;&lt;code&gt;$sql = &#34;SELECT * FROM `SAM` WHERE Reason =&#39;&#34; . $_POST[&#39;why&#39;] . &#34;&#39; AND WHERE Time = &#39;&#34;. $_POST[&#39;when&#39;] . &#34;&#39;&#34;;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    类似上面的查询语句，如果我们的 PHP 页面是由 PHP 语言混合 HTML 语言进行构造的，可以想像，它很乱，让人写过一次后就不想再动它。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    然而，上述查询语句可以通过 sprintf() 函数来改进：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;pre&gt;&lt;code&gt;$sql = sprintf(&#34;SELECT * FROM `SAM` WHERE Reason = &#39;%s&#39; AND WHERE Time = &#39;%s&#39;&#34;,%_POST[&#39;why&#39;],%_POST[&#39;when&#39;];
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    我们先构建 &lt;code&gt;SELECT * FROM &amp;lt;code&gt;SAM&lt;/code&gt; WHERE Reason = &#39;%s&#39; AND WHERE Time = &#39;%s&#39;&lt;/code&gt; 这个字符串，并且用两个 &lt;code&gt;%s&lt;/code&gt; 来暂时占位，然后传入两个变量，做相应的替代。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这样做的好处是，我们清楚的知道第一个字符串说明的是什么，并且将变量从中分离，如果要做修改，无论改变量还是改字符串，都是件很方便的事。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    同理，Smarty 模板引擎，先构建一个模板文件，比如，index.tpl：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;title&amp;gt;{$title}&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    在这个过程中，我们并不管 title 标签对中包含的是什么，我们只要知道，它个变量就行，就像 sprintf 函数里的 &lt;code&gt;%s&lt;/code&gt; 那样，占好位置先。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    有变量给我们在模板中占好位置后，我们就需要往模板中传入变量的值，那才是真正要展现给最终用户看的内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;?php
+require_once(&#39;Smarty.class.php&#39;);
+$smarty = new Smarty();
+$smarty-&amp;gt;assign(&#39;title&#39;,&#39;Hello world!&#39;);
+$smarty-&amp;gt;display(&#39;index.tpl&#39;);
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    在这里，Smarty 将变量 $title 的值通过 &lt;code&gt;$smarty-&amp;gt;assign(&#39;title&#39;,&#39;Hello world!&#39;)&lt;/code&gt; 传入。跟 sprintf 函数的思路很接近。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    也就是这样，我们完成了一个分离，即 &lt;strong&gt;View 与 Controller 的分离&lt;/strong&gt;，在上面所举的例子中，View 可以理解为 Smarty 模板 index.tpl 或 sprintf 的第一个参数字符串。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在上面的例子中可以看到，我所传入的变量值都是随手拿来的，现成的，并没有通过数据库取得。当这些变量值存在「存取」状态，与数据库需要来往时，我们就又能从上面的 「Controller」 概念中分离出 「Model」 &amp;#8211; 即数据哪儿来，怎么来，怎么去。所以，上面所说的 &lt;strong&gt;View 与 Controller 的分离&lt;/strong&gt; 中，Controller 其实是个伪 Controller，我们还可以从中分离出 Model。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    以 Smarty 模板来阐释 MVC 概念，则 index.tpl 负责 View，Controller 负责将数据指定给变量，它相当于程序中的粘合剂，Model 则负责数据哪儿来。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;MVC&#34;&gt;MVC 框架的案例&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyMVC&#34; href=&#34;#MVC&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    再来看 &lt;a href=&#34;http://ellislab.com/codeigniter/user-guide/tutorial/create_news_items.html&#34;&gt;CodeIgniter 的一段教程&lt;/a&gt;，可以加深上面的概念(注：以下代码均来自 CodeIgniter 网站，未作修改)，
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    view 部分
+  &lt;/h3&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;h2&amp;gt;Create a news item&amp;lt;/h2&amp;gt;
+
+&amp;lt;?php echo validation_errors(); ?&amp;gt;
+
+&amp;lt;?php echo form_open(&#39;news/create&#39;) ?&amp;gt;
+
+    &amp;lt;label for=&#34;title&#34;&amp;gt;Title&amp;lt;/label&amp;gt; 
+    &amp;lt;input type=&#34;input&#34; name=&#34;title&#34; /&amp;gt;&amp;lt;br /&amp;gt;
+
+    &amp;lt;label for=&#34;text&#34;&amp;gt;Text&amp;lt;/label&amp;gt;
+    &amp;lt;textarea name=&#34;text&#34;&amp;gt;&amp;lt;/textarea&amp;gt;&amp;lt;br /&amp;gt;
+
+    &amp;lt;input type=&#34;submit&#34; name=&#34;submit&#34; value=&#34;Create news item&#34; /&amp;gt; 
+
+&amp;lt;/form&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    Model 部分
+  &lt;/h3&gt;
+  
+  &lt;pre&gt;&lt;code&gt;public function set_news()
+{
+    $this-&amp;gt;load-&amp;gt;helper(&#39;url&#39;);
+
+    $slug = url_title($this-&amp;gt;input-&amp;gt;post(&#39;title&#39;), &#39;dash&#39;, TRUE);
+
+    $data = array(
+        &#39;title&#39; =&amp;gt; $this-&amp;gt;input-&amp;gt;post(&#39;title&#39;),
+        &#39;slug&#39; =&amp;gt; $slug,
+        &#39;text&#39; =&amp;gt; $this-&amp;gt;input-&amp;gt;post(&#39;text&#39;)
+    );
+
+    return $this-&amp;gt;db-&amp;gt;insert(&#39;news&#39;, $data);
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    Controller 部分
+  &lt;/h3&gt;
+  
+  &lt;pre&gt;&lt;code&gt;public function create()
+{
+    $this-&amp;gt;load-&amp;gt;helper(&#39;form&#39;);
+    $this-&amp;gt;load-&amp;gt;library(&#39;form_validation&#39;);
+
+    $data[&#39;title&#39;] = &#39;Create a news item&#39;;
+
+    $this-&amp;gt;form_validation-&amp;gt;set_rules(&#39;title&#39;, &#39;Title&#39;, &#39;required&#39;);
+    $this-&amp;gt;form_validation-&amp;gt;set_rules(&#39;text&#39;, &#39;text&#39;, &#39;required&#39;);
+
+    if ($this-&amp;gt;form_validation-&amp;gt;run() === FALSE)
+    {
+        $this-&amp;gt;load-&amp;gt;view(&#39;templates/header&#39;, $data);   
+        $this-&amp;gt;load-&amp;gt;view(&#39;news/create&#39;);
+        $this-&amp;gt;load-&amp;gt;view(&#39;templates/footer&#39;);
+
+    }
+    else
+    {
+        $this-&amp;gt;news_model-&amp;gt;set_news();
+        $this-&amp;gt;load-&amp;gt;view(&#39;news/success&#39;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    具体的代码作用且不说，从上面三段代码中，可以看到，View 部分基本只负责页面的展示，它显示一个表单，用于创建新条目；而 Model 部分也只是将新生成的数据插入到数据库；至于 Controller 部分，就负责得比较多：如果表单检测不通过，则调用 View 部分($this-&gt;load-&gt;view&amp;#8230;)，返回原页面；如果表单检测通过，则调用 Model 部分($this-&gt;news_model-&gt;set_news()) 把数据插入到数据库中，并且显示($this-&gt;load-&gt;view(&amp;#8216;news/success&amp;#8217;)) 成功信息。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    你可能觉得 Controller 部分做的事有点多，实际上也有人说 MVC 的设计模式中 Controller 部分堆入了太多内容，而建议 &lt;a href=&#34;http://cirw.in/blog/time-to-move-on&#34;&gt;MOVE&lt;/a&gt; 的设计模式。但那已经是另一个境地。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

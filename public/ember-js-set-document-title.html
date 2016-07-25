@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Ember.js 设置页面标题 - 陈三</title>
+<meta property="og:title" content="Ember.js 设置页面标题 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Ember.js 设置页面标题</h1>
+
+    
+    <span class="article-date">February 2, 2015</span>
+    
+
+    <div class="article-content">
+      <p>ember.js 原生代码中，没有根据路由<a href="https://github.com/emberjs/ember.js/pull/3689">设置页面标题</a>的方法，但可以扩展。</p>
+
+<p>使用 <a href="http://www.ember-cli.com/">ember-cli</a> 安装 [ember.js 原生代码中，没有根据路由<a href="https://github.com/emberjs/ember.js/pull/3689">设置页面标题</a>的方法，但可以扩展。</p>
+
+<p>使用 <a href="http://www.ember-cli.com/">ember-cli</a> 安装]<a href="https://github.com/paddle8/ember-document-title">3</a> ：</p>
+
+<pre><code>$ ember install:npm ember-document-title
+</code></pre>
+
+<p>之后在代码中使用 <code>title</code> 即可：</p>
+
+<pre><code>App.ApplicationRoute = Ember.Route.extend({
+  title: &quot;我的应用&quot;
+});
+
+App.UsersRoute.extend({
+  title: &quot;用户&quot;
+});
+</code></pre>
+
+<p>这样路由切换时，页面的标题就会自动变换。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

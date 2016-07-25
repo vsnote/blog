@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Wp_title on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/wp_title/</link>
+    <description>Recent content in Wp_title on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 13 Jul 2012 10:54:09 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/wp_title/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>WordPress wp_title 过滤器</title>
+      <link>https://www.zfanw.com/blog/wordpress-wp_title-filter.html</link>
+      <pubDate>Fri, 13 Jul 2012 10:54:09 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/wordpress-wp_title-filter.html</guid>
+      <description>
+
+&lt;p&gt;WordPress 里，wp_title() 函数用于显示或返回页面标题 (title of page)，可以用在 header.php 里，但是 WordPress 的文档中又不建议直接在 header.php 中使用。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The wp_title() function should not be used by a theme in conjunction with other strings or functions (like concocting with bloginfo(&amp;#8216;name&amp;#8217;) ) to set the title because it will render plugins unable to rewrite page titles correctly. The best practice is to use the wp_title filter with a callback function. This method is now a requirement for themes.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;就是说，以下形式的用法并不推荐，因为可能会造成 WordPress 插件无法正确重写标题：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+    wp_title();
+    bloginfo(&#39;name&#39;);
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;WordPress 文档的建议的方法是使用 wp_title 过滤器(filter)。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;filter function takes as input the unmodified data, and returns modified data (or in some cases, a null value to indicate the data should be deleted or disregarded).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;按上述定义，过滤器函数接受数据，然后返回改变后的数据。&lt;/p&gt;
+
+&lt;p&gt;也就是说，我们把 wp_title() 函数用 wp_title 过滤器改造。但这个改造有两个条件，一是过滤函数 &amp;#8211; 下面语句中的 $function_to_add，决定怎么改造，一个是过滤勾子(hook) &amp;#8211; 如下的 $tag，决定改造什么内容。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php add_filter( $tag, $function_to_add, $priority, $accepted_args ); ?&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们先在 function.php 中定义一个 wp_title 过滤函数：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+    function yl_filter_wp_title($title,$sep,$seplocation){
+    global $paged,$page;//$paged 定义博客分页的页码，$page 定义单篇内容分页处理的页码
+        $sep=&amp;quot; &amp;quot;.$sep.&amp;quot; &amp;quot;;//给分隔符号前后添加空格
+    if ($seplocation==&#39;right&#39;){//判断分隔符位置是左还是右
+        $title=$title.get_bloginfo(&#39;name&#39;);
+    }else{
+        $title=get_bloginfo(&#39;name&#39;).$title;
+        }
+    if ( $paged &amp;gt;= 2 || $page &amp;gt;= 2 ){
+        if ($seplocation==&#39;right&#39;)
+        $title=sprintf( __( &#39;Page %s&#39;, &#39;&#39; ), max( $paged, $page ) ).$sep.$title;
+        else
+            $title.=$sep.sprintf( __( &#39;Page %s&#39;, &#39;&#39; ), max( $paged, $page ) );
+    }
+    return $title;//返回处理后的 $title 值
+    }
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;接着在 function.php 中加入过滤勾子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+    add_filter(&#39;wp_title&#39;,&#39;yl_filter_wp_title&#39;,10,3);
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后在 header.php 中调用 wp_title() 时就会触发过滤器函数，根据具体情况打印出不同页面标题。&lt;/p&gt;
+
+&lt;p&gt;在编写过滤器函数时，我曾经使用函数名 filter_wp_title，然后出现错误：Warning: Cannot modify header information &amp;#8211; headers already sent by (output started at&amp;#8230;&amp;#8230;，将函数名称改成 yl_filter_wp_title 后错误就消失，大概是函数名已然被占用。&lt;/p&gt;
+
+&lt;h2 id=&#34;扩展阅读&#34;&gt;扩展阅读：&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;http://codex.wordpress.org/Function_Reference/wp_title&#34;&gt;http://codex.wordpress.org/Function_Reference/wp_title&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://codex.wordpress.org/Plugin_API/Filter_Reference/wp_title&#34;&gt;http://codex.wordpress.org/Plugin_API/Filter_Reference/wp_title&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.kutailang.com/wordpress/158.html/&#34;&gt;http://www.kutailang.com/wordpress/158.html/&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

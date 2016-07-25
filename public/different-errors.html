@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>错误分类 - 陈三</title>
+<meta property="og:title" content="错误分类 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">错误分类</h1>
+
+    
+    <span class="article-date">June 6, 2016</span>
+    
+
+    <div class="article-content">
+      <p>​如果你在网页上看到错误提示，它们的来源大致有两种，一种来自前端，一种来自后端。</p>
+
+<p>比如说有一个邮箱地址的输入框，用户试图提交空值，我们会报告一个前端上的错误：</p>
+
+<blockquote>
+<p>请填写邮箱地址</p>
+</blockquote>
+
+<p>在 react.js 里，这个错误是一个 <a href="https://facebook.github.io/react/docs/interactivity-and-dynamic-uis.html#what-shouldnt-go-in-state">computed 值</a>（计算值 &#8211; 即依赖其它 state 计算出来的）：</p>
+
+<pre><code>class Email extends React.Component {
+  state = {
+    email: ''
+  }
+  render () {
+    const computedError = email.trim() === '' ? '请填写邮箱地址' : ''
+    return &lt;div&gt;
+      &lt;input type='text' value={this.state.email}/&gt;
+      &lt;span&gt;{computedError}&lt;/span&gt;
+    &lt;/div&gt;
+}
+</code></pre>
+
+<p>这是因为，<code>state</code> 多了，代码难以管理，所以有些数据我们要尽量从其它数据中推演，而不是新建一个。</p>
+
+<p>但上面的示例里，email 地址提交到服务端，还可能返回一种错误：</p>
+
+<blockquote>
+<p>该邮箱地址已经被人注册</p>
+</blockquote>
+
+<p>这一种错误，并没办法通过 <code>email</code> 数据推演，我的做法是，新建一个 state 用来存储。不过这类表单数据多了，整个组件就会非常庞大，很容易出错。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

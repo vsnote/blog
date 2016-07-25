@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>搜索引擎框中的快捷键 - 陈三</title>
+<meta property="og:title" content="搜索引擎框中的快捷键 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">搜索引擎框中的快捷键</h1>
+
+    
+    <span class="article-date">December 12, 2012</span>
+    
+
+    <div class="article-content">
+      <p>搜索引擎框中有许多快捷键可以用，并且与 Bash、Emacs 一类软件相通，如果能熟练使用，可以很好提高效率。</p>
+
+<p>以下分别列出，其中 &#8220;C&#8221; 表示 Ctrl 键。</p>
+
+<p>假设搜索框中的字符串为 &#8220;<strong>Hello vi*mperator on firefox</strong>&#8220;，字符串中的星号表示光标位置。</p>
+
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>作用及示例说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><kbd>C-a</kbd></td>
+<td>跳转到搜索框所有字符前（Hello 之前）</td>
+</tr>
+
+<tr>
+<td><kbd>C-e</kbd></td>
+<td>跳转到搜索框所有字符后（firefox 之后）</td>
+</tr>
+
+<tr>
+<td><kbd>C-k</kbd></td>
+<td>从光标位置起，删除所有往后的字符（剩下 Hello vi）</td>
+</tr>
+
+<tr>
+<td><kbd>C-u</kbd></td>
+<td>从光标位置起，删除所有往前的字符（剩下 mperator on firefox）</td>
+</tr>
+
+<tr>
+<td><kbd>C-d</kbd></td>
+<td>删除光标位置后一个字符（剩下 Hello viperator on firefox）</td>
+</tr>
+
+<tr>
+<td><kbd>C-h</kbd></td>
+<td>删除光标位置前一个字符（剩下 Hello vmperator on firefox）</td>
+</tr>
+
+<tr>
+<td><kbd>C-z</kbd></td>
+<td>取消删除</td>
+</tr>
+
+<tr>
+<td><kbd>C-w</kbd></td>
+<td>删除光标位置前的一个单词（剩下 Hello perator on firefox）</td>
+</tr>
+</tbody>
+</table>
+
+<p>在 Bash 中，<kbd>C-f</kbd> 表示向前（右）移动一个字符，<kbd>C-b</kbd> 表示向后（左）移动一个字符，但是在 firefox 下，这两个的作用分别是“查找”与“打开书签侧边栏”。在 vimperator 下我并不需要这两个功能，就可以在 .vimperatorrc 配置文件中将其映射给移动字符的功能：</p>
+
+<pre><code>inoremap &lt;C-f&gt; &lt;Right&gt;
+inoremap &lt;C-b&gt; &lt;Left&gt;
+</code></pre>
+
+<p>可以从上面的表格里看到，我们可以通过 <C-w> 删除光标位置前一个单词，那么要删除光标位置后一个单词如何？Bash 下是通过 <kbd>A-d</kbd> （A 指 alt 键），firefox 下或 vimperator 下这个键组合是选中导航栏上的网址。当然，我们也可以通过键映射来完成，只是有些复杂：</p>
+
+<pre><code>inoremap &lt;A-d&gt; &lt;C-t&gt;dwi
+</code></pre>
+
+<p>当 Vimperator 处于插入模式(insert mode)时，按 <kbd>C-t</kbd> 可以进入 textarea mode （文本区域模式），可以把它理解为简单的 vi 模式，像 h l ^ $ 之类的键统统可用，这时按 <kbd>dw</kbd> 可以删除到光标位置后的一个单词，最末的一个 <kbd>i</kbd> 则是从 textarea mode 转回插入模式。</p>
+
+<p>当然，以上快捷键并不仅限于搜索引擎中，凡是网页上的文本框基本都可以使用。另外，某些方法比如删除单词在中文里并不适用，因为中文并不通过空格来分词。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

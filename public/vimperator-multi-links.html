@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Vimperator 打开多个链接 - 陈三</title>
+<meta property="og:title" content="Vimperator 打开多个链接 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Vimperator 打开多个链接</h1>
+
+    
+    <span class="article-date">November 11, 2012</span>
+    
+
+    <div class="article-content">
+      <p>Vimperator 按 <kbd>f</kbd> 或 <kbd>F</kbd> 键进入 hint 模式，就可以通过键盘打开页面内的链接。但是，这种方法只能打个一个链接，总有些人想同时打开多个链接的，比如我。</p>
+
+<p>这个方法使用 Vimperator 的插件 <a href="https://github.com/caisui/vimperator/blob/master/plugin/multi-hints.js">multi-hints.js</a>。</p>
+
+<ol>
+<li>下载 multi-hints.js 到 .vimperator/plugin 目录下</li>
+<li>在 vimperator 命令行运行 <code>:loadplugins</code>，又或者重启 firefox</li>
+<li>在 vimperator 命令行运行 <code>:multihints follow</code>，然后按确定键</li>
+
+<li><p>输入要打开的链接的 hint 数字/字母，不同链接的 hint 值用空格分开，比如下图：</p>
+
+<p><a href="http://www.zfanw.com/blog/wp-content/uploads/2012/11/vimperator-multi-links.png"><img src="http://www.zfanw.com/blog/wp-content/uploads/2012/11/vimperator-multi-links.png" alt="vimperator 打开多链接" title="vimperator-multi-links" width="518" height="106" class="alignnone size-full wp-image-7097" srcset="https://www.zfanw.com/blog/wp-content/uploads/2012/11/vimperator-multi-links.png 518w, https://www.zfanw.com/blog/wp-content/uploads/2012/11/vimperator-multi-links-300x61.png 300w" sizes="(max-width: 518px) 100vw, 518px" /></a></p>
+
+<p>在命令行输入 ll la ls ld 后按确定键，firefox 将在新标签页中打开四个链接</p></li>
+
+<li><p>每次都输入命令行肯定也不方便，就 map 一个快捷键给命令，在vimperator 配置文件中加下以下命令：</p>
+
+<pre><code>:nnoremap &lt;C-A-m&gt; :multihints follow&lt;CR&gt;
+</code></pre></li>
+
+<li><p>重启 firefox 或者 <code>:source ~/.vimperatorrc</code></p></li>
+
+<li><p>之后就可以通过按 <kbd>Ctrl-Alt-m</kbd> 来启用 multihints 打开多个链接</p></li>
+</ol>
+
+<p><strong>Update</strong> &#8211; 2012.12.14</p>
+
+<p>「老杨」在评论里提到 Vimperator 扩展 hint 模式下 <kbd>;F</kbd> 用于打开多个链接，这个在我前文中并没有提到，感谢提醒。</p>
+
+<p>对比我所描述的方法，这两者有一个小小差别：<kbd>;F</kbd> 是「一个一个打开多个链接」，multi-hints.js 则是「一下子打开多个链接」。</p>
+
+<p>从我的体验上说，后者要比前者更流畅。当然，也如回复老杨的评论中我所强调的，之所以我用这个方法，是根据我个人的偏门需求定制的 &#8211; 这是 Vimperator 最大的好处，可定制性。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

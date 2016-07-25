@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>加载中 - 陈三</title>
+<meta property="og:title" content="加载中 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">加载中</h1>
+
+    
+    <span class="article-date">June 6, 2016</span>
+    
+
+    <div class="article-content">
+      <p>在 app 上，我们经常见到“加载中”的图标。这是站在用户的角度看。如果切换到开发者角度，则会有一个疑惑，这个 loading 图标是即刻出现的吗？</p>
+
+<p>如果 http 响应很快，则一闪而过的 loading 对用户来说，体验并不好。</p>
+
+<p>可是，我们怎么知道一个响应是快还是慢？毕竟，网络的状况并不可控，一个响应在美国也许很快，在中国却异常的慢。</p>
+
+<p>一个更友好的解决办法，可能是这样：</p>
+
+<ol>
+<li>http 请求发起</li>
+<li>100ms 内响应，则不需要调出 loading</li>
+<li>如果 100ms 内还未响应，则调出 loading</li>
+</ol>
+
+<p>在 <a href="https://www.nngroup.com/articles/progress-indicators/">nngroup 进度指示条一文里</a> ，作者提到一个参考时间：</p>
+
+<blockquote>
+<p>This indicator should be reserved for actions that take between 2-10 seconds. For anything that takes less than 1 second to load, it is distracting to use a looped animation, because users cannot keep up with what happened and might feel anxious about whatever flashed on the screen.</p>
+
+<p>如果 1s 内能响应，就不该用循环动画来指示进度，因为用户没法跟上，可能会对屏幕上一闪而过的东西感到焦虑。</p>
+</blockquote>
+
+<p>所以上面的解决办法可以修改为：</p>
+
+<ol>
+<li>http 请求发起</li>
+<li>10s 内响应，则不需要调出 loading</li>
+<li>如果 10s 内未响应，则调出 loading</li>
+</ol>
+
+<p>只是这里会有一个问题出现，如果 http 请求在 11s 时响应，则 loading 还是一闪而过。 &#8211; 在 web 的复杂环境下，这近于无解。</p>
+
+<p>至于代码实现上，我们通常需要封装一个专用的 API 来处理 http 请求。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>React.js Flux 概念 - 陈三</title>
+<meta property="og:title" content="React.js Flux 概念 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">React.js Flux 概念</h1>
+
+    
+    <span class="article-date">August 8, 2015</span>
+    
+
+    <div class="article-content">
+      <p>假设一个最简单的 todo 应用，它只有添加 todo 的功能：<div class=demo> <div id=main></div> </div></p>
+
+<p>则应用 <a href="https://facebook.github.io/flux/docs/overview.html">flux 架构</a>的话，整个过程可以做如下描述：</p>
+
+<ol>
+<li>Todo 组件首先从 store 中读入所有的 todos 数据，并赋给 <code>state</code>，<code>render</code> 方法根据 <code>state</code> 的值渲染组件</li>
+<li>Todo 组件在 <code>componentDidMount</code> 中监听 store 中的数据变化，并传入一个回调，回调执行时，会重新设置组件的 <code>state</code>；另外我们还在 <code>componentWillUnmount</code> 中解除监听</li>
+<li>Todo 组件中，<code>新增</code> 按键触发了 <code>ADD_TODO</code> 的动作（action）</li>
+<li>store 中，监听 <code>ADD_TODO</code> 动作的回调接收到 <code>ADD_TODO</code> 的动作而执行，改变了 store 中 todos 数据，并 emit 出 <code>CHANGE</code> 事件</li>
+<li>Todo 组件监听到 store 数据变化，于是执行了重新设置组件 <code>state</code> 值的回调。因为 <code>state</code> 变化，于是组件又重新渲染</li>
+</ol>
+
+<p>在 flux 的设计中，数据是单向流转的。从我们人脑角度说，非常容易理解。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

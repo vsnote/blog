@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>教程 on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/%E6%95%99%E7%A8%8B/</link>
+    <description>Recent content in 教程 on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Thu, 31 May 2012 02:16:30 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Vimperator 其实很简单</title>
+      <link>https://www.zfanw.com/blog/vimperator-is-easy-to-learn.html</link>
+      <pubDate>Thu, 31 May 2012 02:16:30 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimperator-is-easy-to-learn.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Vimperator&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 设置 Vimperator 界面&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 打开网页&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 浏览网页&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 打开页面链接&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-4&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 历史导航&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-5&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;6&lt;/span&gt; 关闭页面&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-6&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;7&lt;/span&gt; 标签页管理&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Vimperator-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;8&lt;/span&gt; 退出 Vimperator&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-7&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;9&lt;/span&gt; 帮助&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-8&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;10&lt;/span&gt; 修订历史&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    在提到 Vimperator 时，许多教程都会说及 Vim，毕竟 Vimperator 的理念来自 Vim，不提下祖籍何方好像不应当，但藉此他们也说，Vimperator 的学习曲线很陡。这句话对没学过 Vim 的人来说，真的阻碍很大。但我个人觉得不必这样描述，试着回想一下，大家平时最常用的操作，大概不会超过几个，只要熟悉这几个，已经可以很大提高浏览网页效率，减少使用鼠标的频次，至于更高阶些的应用，比如自定义命令等等，那完全看个人兴趣，没必要让这些高阶应用成为新手尝试 Vimperator 的拦路虎。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    虽然以前写过一篇 &lt;a href=&#34;http://www.zfanw.com/blog/vimperator-firefox.html&#34; title=&#34;打开文章&#34;&gt;Firefox 利器 Vimperator&lt;/a&gt;，但内容还是偏多，这篇再行精减，挑出最常用的操作。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Vimperator&#34;&gt;设置 Vimperator 界面&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Vimperator&#34; href=&#34;#_Vimperator&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Vimperator 默认界面并没有工具栏、菜单栏，新手可能无法习惯这种简陋。在 Vimperator 下执行：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:set gui=menu
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    就可以显示菜单。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在我们上手基本快捷键后，可以再隐藏它：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:set gui=nomenu
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;打开网页&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    有两种方式打开网页，
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      在当前页打开
+    &lt;/li&gt;
+    &lt;li&gt;
+      在新标签页中打开
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    前面一种按 &lt;kbd&gt;o&lt;/kbd&gt; 键，后面一种按 &lt;kbd&gt;t&lt;/kbd&gt; 键，o 指 open，t 指 tabopen，之后就可以在命令行模式里输入要打开的网址。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    上面的两个按键都是小写，它们有大写的变体，&lt;kbd&gt;O&lt;/kbd&gt; 与 &lt;kbd&gt;T&lt;/kbd&gt;，意义与小写接近，不过网址不是你自己输入的，而是基于当前网页的网址进行编辑，然后再决定是当前页打开还是新标签页里打开。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;浏览网页&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    打开网页后，常见的操作该是浏览，上下左右滚动页面，平时可能要用鼠标滚轮，或者拉动滚动条，但 Vimperator 里，你可以使用简单的几个键：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;h&lt;/kbd&gt; &amp;#8211; 左
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;l&lt;/kbd&gt; &amp;#8211; 右
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;j&lt;/kbd&gt; &amp;#8211; 下
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;k&lt;/kbd&gt; &amp;#8211; 上
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    刚用可能会不习惯，但多用几次，手部肌肉有了记忆，自然就流畅了 &amp;#8211; Vim 之所以用这几个键来表示上下左右，是因为 vi 的开发者当时使用的机器上，&lt;a href=&#34;http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/&#34; title=&#34;vim 的 hljk 移动的由来&#34;&gt;上下左右箭头键就刻在这几个键上&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    大家在浏览网页时，可能会经常看见“返回顶部”的按钮，但应该没人见过“去到底部”的按钮。Vimperator 返回顶部命令是 &lt;kbd&gt;gg&lt;/kbd&gt;，到底部是 &lt;kbd&gt;G&lt;/kbd&gt;，而且你还能明确指定整个页面的百分位置，比如，页面中间是 &lt;kbd&gt;50G&lt;/kbd&gt;，其他可类推。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;打开页面链接&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    互联网的发展始于超链接，你打开的任一网页，基本都会有一个以上的链接，你可能想打开这个链接，用鼠标的话可以左键点击，Vimperator 使用一个 hints 模式，你只要按下 &lt;kbd&gt;f&lt;/kbd&gt; 就可以进入该模式，进入 hint 模式后，Vimperator 会给页面内看得见的链接添加标记（默认为数字，可以自定义），然后键入数字就可以直接在当前页打开该链接。意料之中的是，大写的 &lt;kbd&gt;F&lt;/kbd&gt; 的作用是在新标签页中打开链接。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-4&#34;&gt;历史导航&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-4&#34; href=&#34;#i-4&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    打开页面 -&gt; 打开页面 -&gt; &amp;#8230;&amp;#8230; 如此重复几次后，你可能想后退，想前进，这时可以用 &lt;kbd&gt;H&lt;/kbd&gt; 后退，&lt;kbd&gt;L&lt;/kbd&gt; 前进，也可以 &lt;ctrl-i&gt;/&lt;ctrl-o&gt;来前进后退。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-5&#34;&gt;关闭页面&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-5&#34; href=&#34;#i-5&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    你想关闭页面，简单一个 &lt;kbd&gt;d&lt;/kbd&gt; 就可以关闭当前页面。这时，置为当前的页面是被关闭页面的右侧标签页，如果要激活左侧标签页为当前页面，则是按 &lt;kbd&gt;D&lt;/kbd&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-6&#34;&gt;标签页管理&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-6&#34; href=&#34;#i-6&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    开了好多个标签页，这时可能需要切换:
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;gt&lt;/kbd&gt; &amp;#8211; 下一个标签页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;gT&lt;/kbd&gt; &amp;#8211; 上一个标签页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;ctrl-n&lt;/kbd&gt; &amp;#8211; 下一个标签页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;ctrl-p&lt;/kbd&gt; &amp;#8211; 上一个标签页
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;b&lt;/kbd&gt; &amp;#8211; 个人觉得是最便利的方法，它通过过滤 url 地址来选择页面
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Vimperator-2&#34;&gt;退出 Vimperator&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Vimperator-2&#34; href=&#34;#_Vimperator-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;:exit&lt;/kbd&gt; &amp;#8211; 退出，不保存当前会话历史，下次启动一切再从头
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;:wqall&lt;/kbd&gt; &amp;#8211; 退出，保存当前会话历史，下次启动则恢复此次浏览状况
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-7&#34;&gt;帮助&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-7&#34; href=&#34;#i-7&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;:help&lt;/kbd&gt; &amp;#8211; 目前的帮助文件为英文、日文两种语言，没有中文。
+  &lt;/p&gt;
+  
+  &lt;div class=&#39;timeline&#39;&gt;
+    &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+      &lt;span id=&#34;i-8&#34;&gt;修订历史&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-8&#34; href=&#34;#i-8&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+    &lt;/h2&gt;
+    
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;span itemprop=&#39;dateModified&#39;&gt;2015-06-12&lt;/span&gt; 修订错误，改善排版
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vimperator 简介</title>
+      <link>https://www.zfanw.com/blog/vimperator-introduction.html</link>
+      <pubDate>Sat, 01 Jan 2011 15:55:13 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimperator-introduction.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Vimperator&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; Vimperator 简介&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 捐款支持作者&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 帮助主题&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 特点&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-4&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 版本变化历史&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-5&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;6&lt;/span&gt; 联系&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-6&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;7&lt;/span&gt; 修订历史&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    &lt;strong&gt;注&lt;/strong&gt;：本文译自 Vimperator 英文帮助文件
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    一开始，世上有 Navigator，然后才有 Explorer，继而则是 Konqueror 的时代，而现在，该 Imperator 登场了，这独一无二的 VIMperator :)。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Vimperator&#34;&gt;&lt;em&gt;Vimperator 简介&lt;/em&gt;&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyVimperator&#34; href=&#34;#Vimperator&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://vimperator.org/&#34; title=&#34;vimperator&#34;&gt;Vimperator&lt;/a&gt; 是一个 &lt;a href=&#34;http://www.mozilla.com/firefox/&#34; title=&#34;Firefox&#34;&gt;Firefox&lt;/a&gt; 浏览器扩展，它的大部分灵感来自 Vim 文本编辑器，希望创造出一个更快、更高效的冲浪环境。Vimperator 的键绑定和 Vim 接近，你可以把它叫做模式化 web 浏览器，因为在不同模式里会有不同的键绑定。比如说，它有个很特别的 Hint 模式，在 Hint 模式下，只需要键盘，你就可以轻松跟踪链接。几乎所有的功能都可以通过命令完成，键入 &lt;kbd&gt;:back&lt;/kbd&gt; 会在当前的网页历史中后退，就好像你点击过工具栏上的后退按钮。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    不过，Vimperator 不打算百分百复制 Vim，更确切地说，它是把 Vim 的思想带入21世纪。这意味着充分利用新的图形处理能力，以及更快速的计算机。另外，我们也各方考虑，以使 Vimperator 在统一命令行界面、增强易用性的同时，不失为高级用户的有力扩展。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但 Vimperator 还不仅仅只是个简单的 Firefox 命令入口 &amp;#8211; 它同时也是一个完整的开发环境。如果你是 web 开发者，你就可以用到一个交互式的 JavaScript shell &amp;#8211; 甚至还支持了补全功能。又或你想扩展 Vimperator，要做的很简单，只要拖动 JavaScript 文件到 plugin 文件夹里就好了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;捐款支持作者&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Vimperator 最初由 &lt;a href=&#34;mailto:stubenschrott@vimperator.org&#34;&gt;Martin Stubenschrott&lt;/a&gt; 编写，但得到&lt;a href=&#34;http://vimperator-labs.googlecode.com/hg/vimperator/AUTHORS/&#34; title=&#34;google code vimperator&#34;&gt;众多其他参与者&lt;/a&gt;帮忙解决 bug、增加新特性。如果你欣赏我们在 Vimperator 上的付出，你可以给我们发发感谢信，打打补丁，又或者捐点款。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;span&gt;&lt;strong&gt;&lt;a href=&#34;https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=8323006&#34;&gt;捐献&lt;/a&gt;&lt;/strong&gt;&lt;/span&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    又也许你更愿意给你的钱换点好玩意儿，则你可以通过购买商品如 t 恤杯子来支持我们。当然，如我们在自由、开放软件上所信仰的那样，请只在你真心喜欢 Vimperator 并且钱不会伤的时候给我们财务上的支持，否则的话，请用它、推荐它，然后喜欢它 :)。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;帮助主题&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://www.zfanw.com/blog/quick-start-tutorial.html&#34; title=&#34;vimperator 快速入门教程&#34;&gt;Vimperator 快速入门教程&lt;/a&gt;：为新用户提供的快速入门教程。
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://www.zfanw.com/blog/starting-vimperator.html&#34; title=&#34;启动 Vimperator&#34;&gt;启动 Vimperator&lt;/a&gt;： Vimperator 如何启动，又是从哪儿读取配置文件，诸如此类。
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://www.zfanw.com/blog/vimperator%e6%b5%8f%e8%a7%88%e7%bd%91%e9%a1%b5.html&#34; title=&#34;vimperator 网页浏览&#34;&gt;Web 浏览&lt;/a&gt;：Web 浏览所需的基本映射（mappings）与命令（诸如如何打开网页或退到历史页）。
+    &lt;/li&gt;
+    &lt;li&gt;
+      Buffer：当前页面文件下的操作，如滚动或拷贝文本。
+    &lt;/li&gt;
+    &lt;li&gt;
+      命令行模式：命令行模式下的编辑。
+    &lt;/li&gt;
+    &lt;li&gt;
+      插入模式：插入模式下的编辑。
+    &lt;/li&gt;
+    &lt;li&gt;
+      选项：概述所有的选项。
+    &lt;/li&gt;
+    &lt;li&gt;
+      文本搜索命令：在当前 buffer 页内搜索文本。
+    &lt;/li&gt;
+    &lt;li&gt;
+      标签页：管理浏览标签页。
+    &lt;/li&gt;
+    &lt;li&gt;
+      Hints：选择超链接及其他页面元素。
+    &lt;/li&gt;
+    &lt;li&gt;
+      键映射，缩略词，及用户定义的命令：定义新的键映射，缩略词及用户命令。
+    &lt;/li&gt;
+    &lt;li&gt;
+      表达式执行：执行 JavaScript。
+    &lt;/li&gt;
+    &lt;li&gt;
+      标记：使用书签，QuickMarks（便签），历史，local marks（本地标记）。
+    &lt;/li&gt;
+    &lt;li&gt;
+      重复命令：使用宏命令重做繁复的工作流程。
+    &lt;/li&gt;
+    &lt;li&gt;
+      自动化命令：在某些事件上自动执行代码。
+    &lt;/li&gt;
+    &lt;li&gt;
+      打印：打印页面。
+    &lt;/li&gt;
+    &lt;li&gt;
+      Vimperator 的图形用户界面（GUI）：访问 Firefox 菜单，对话框，及侧边栏。
+    &lt;/li&gt;
+    &lt;li&gt;
+      样式化 GUI 及页面：改变内容页面及 Vimperator 本身的样式。
+    &lt;/li&gt;
+    &lt;li&gt;
+      错误及说明性的信息：信息及错误信息概述。
+    &lt;/li&gt;
+    &lt;li&gt;
+      开发信息：如何写文档或插件。
+    &lt;/li&gt;
+    &lt;li&gt;
+      更多命令：其他不列入上述任何分类的帮助内容。
+    &lt;/li&gt;
+    &lt;li&gt;
+      插件：你可能安装的任何插件的文档。
+    &lt;/li&gt;
+    &lt;li&gt;
+      索引：所有命令及选项的索引。
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    你也可以使用命令如 &lt;kbd&gt;:help o&lt;/kbd&gt; 或 &lt;kbd&gt;:help :set&lt;/kbd&gt; 直接打开相关帮助内容。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;特点&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      类于 Vim 的键组合 (h, j, k, l, gg, G, 0, $, ZZ,等)
+    &lt;/li&gt;
+    &lt;li&gt;
+      Ex 命令 (&lt;kbd&gt;:quit&lt;/kbd&gt;,&lt;kbd&gt;:open www.foo.com&lt;/kbd&gt;)
+    &lt;/li&gt;
+    &lt;li&gt;
+      所有命令都支持按 &lt;kbd&gt;tab&lt;/kbd&gt; 补齐，在你键入时会给出提示建议
+    &lt;/li&gt;
+    &lt;li&gt;
+      hint模式 (按 &lt;kbd&gt;f&lt;/kbd&gt; 启用 hint 跟踪链接)
+    &lt;/li&gt;
+    &lt;li&gt;
+      扩展。你可以用脚本扩展 Vimperator 的功能，正如你可以通过 extensions 来扩展 Firefox 一样。
+    &lt;/li&gt;
+    &lt;li&gt;
+      使用 &lt;kbd&gt;:echo window&lt;/kbd&gt;命令查看 Javascript 对象，上下文相关的 tab 补全。
+    &lt;/li&gt;
+    &lt;li&gt;
+      轻易可定制的 GUI (使用 &lt;kbd&gt;:set gui=none&lt;/kbd&gt; 命令隐藏菜单栏及工具栏)
+    &lt;/li&gt;
+    &lt;li&gt;
+      能够 :source JavaScript 文件，假如你安装了 vimperator.vim 则可以使用语法高亮的 ~/.vimperatorrc 文件
+    &lt;/li&gt;
+    &lt;li&gt;
+      简便快捷的搜索（&lt;kbd&gt;:open foo&lt;/kbd&gt; 命令在 Google 下搜索 foo，&lt;kbd&gt;:open ebay terminator&lt;/kbd&gt; 会在 ebay 上搜索 &amp;#8220;terminator&amp;#8221;) ，支持智能关键字书签与搜索引擎。
+    &lt;/li&gt;
+    &lt;li&gt;
+      许多命令支持数字(比如 &lt;kbd&gt;3&lt;C-o&gt;&lt;/kbd&gt; ）
+    &lt;/li&gt;
+    &lt;li&gt;
+      错误时蜂鸣
+    &lt;/li&gt;
+    &lt;li&gt;
+      支持“标记” (m&lt;em&gt;a&lt;/em&gt; 在网页添加 a 标记, &amp;#8216;&lt;em&gt;a&lt;/em&gt; 跳到该标记处)
+    &lt;/li&gt;
+    &lt;li&gt;
+      支持“便签“:(quickmark) (可以使用 go&lt;a&gt;a-zA-Z0-9 命令迅速打开便签网页&lt;/a&gt;)
+    &lt;/li&gt;
+    &lt;li&gt;
+      支持 &lt;kbd&gt;:map&lt;/kbd&gt; 和 &lt;kbd&gt;:command&lt;/kbd&gt; (脚本作者能够使用到feedkeys())
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;:time&lt;/kbd&gt; 了解代码执行概况
+    &lt;/li&gt;
+    &lt;li&gt;
+      使用 Vim 击键及可视模式移动光标、选择文字。
+    &lt;/li&gt;
+    &lt;li&gt;
+      支持外部编辑器。
+    &lt;/li&gt;
+    &lt;li&gt;
+      宏重放某些键击。
+    &lt;/li&gt;
+    &lt;li&gt;
+      自动命令可以在某些事件上执行动作。
+    &lt;/li&gt;
+    &lt;li&gt;
+      完整的帮忙系统，解释了所有的命令，映射及选项。
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-4&#34;&gt;版本变化历史&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-4&#34; href=&#34;#i-4&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    我们在&lt;a href=&#34;http://vimperator-labs.googlecode.com/hg/vimperator/NEWS&#34;&gt;这儿&lt;/a&gt;保留了各个版本的变化情况。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-5&#34;&gt;联系&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-5&#34; href=&#34;#i-5&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    请使用项目的 &lt;a href=&#34;https://github.com/vimperator/vimperator-labs/issues&#34;&gt;issue&lt;/a&gt; 报告任何 bug 或特性要求，你也可以在那儿推送补丁。另一个方法是使用 &lt;a href=&#34;http://www.mozdev.org/mailman/listinfo/vimperator&#34;&gt;mailing list&lt;/a&gt;，你还可以在 &lt;a href=&#34;http://www.freenode.net/&#34; target=&#34;_blank&#34;&gt;Freenode&lt;/a&gt; 的 IRC 频道 &lt;a href=&#34;irc://irc.freenode.net/vimperator&#34; target=&#34;_blank&#34;&gt;#vimperator&lt;/a&gt; 上找到我们。
+  &lt;/p&gt;
+  
+  &lt;div class=&#39;timeline&#39;&gt;
+    &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+      &lt;span id=&#34;i-6&#34;&gt;修订历史&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-6&#34; href=&#34;#i-6&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+    &lt;/h2&gt;
+    
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;span itemprop=&#39;dateModified&#39;&gt;2015-06-12&lt;/span&gt;： 修订内容
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

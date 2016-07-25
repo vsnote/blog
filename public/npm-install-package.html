@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>NPM 安装包 - 陈三</title>
+<meta property="og:title" content="NPM 安装包 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">NPM 安装包</h1>
+
+    
+    <span class="article-date">December 12, 2012</span>
+    
+
+    <div class="article-content">
+      
+
+<p>打算安装个 <a href="http://twitter.github.com/bower/">Bower</a> 用于一些库文件的管理，Nodejs、NPM 安装完后，运行命令：</p>
+
+<pre><code>npm install -g bower
+</code></pre>
+
+<p>命令卡住很久，然后出错了,大抵是 『tunnel&#8230;socket&#8230;unknown protocol』 之类。</p>
+
+<p>网络是处于完全畅通状态。</p>
+
+<p>有人说是 proxy 的问题，我的系统下安装有 <a href="http://www.privoxy.org/">privoxy</a>，启用了 http 与 https 代理为 『127.0.0.1：8118』。</p>
+
+<p>在 Zsh 下输入：</p>
+
+<pre><code>echo $http_proxy
+</code></pre>
+
+<p>显示为 『<a href="http://127.0.0.1:8118/』，调用">http://127.0.0.1:8118/』，调用</a> <code>unset $http_proxy</code>，再安装 bower，仍然失败。可能因为这个环境变量不是通过 <code>export</code> 命令设置的。</p>
+
+<p>且不说其成功与否，光是为了用 NPM 安装包文件就要取消这系统代理，不免不合理。</p>
+
+<p>再找资料，则知道可以通过 <code>npm config</code> 命令来配置其环境：</p>
+
+<pre><code>npm config set proxy http://127.0.0.1:8118
+npm config set https-proxy http://127.0.0.1:8118
+</code></pre>
+
+<p>之后再运行 <code>npm install</code> 就完全正常 &#8211; 因为安装中使用 /usr/lib/ 目录，所以可能需要管理员权限，在 Ubuntu 下是运行 <code>sudo npm install...</code>。</p>
+
+<p>安装完 bower 后，就可以安装 JavaScript 库：</p>
+
+<pre><code>bower install jquery
+</code></pre>
+
+<h2 id="参考">参考</h2>
+
+<ol>
+<li><a href="http://jjasonclark.com/how-to-setup-node-behind-web-proxy">How to setup Node.js and Npm behind a corporate web proxy</a></li>
+<li><a href="https://npmjs.org/doc/config.html">Manage the npm configuration file</a></li>
+</ol>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

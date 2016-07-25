@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>WordPress 插件更新失败 - 陈三</title>
+<meta property="og:title" content="WordPress 插件更新失败 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">WordPress 插件更新失败</h1>
+
+    
+    <span class="article-date">November 11, 2014</span>
+    
+
+    <div class="article-content">
+      
+
+<p>在我升级 WordPress 插件时，碰到如下错误：</p>
+
+<blockquote>
+<p>Downloading update from <a href="https://downloads.wordpress.org/plugin/akismet.3.0.3.zip…">https://downloads.wordpress.org/plugin/akismet.3.0.3.zip…</a></p>
+
+<p>Unpacking the update…</p>
+
+<p>Could not create directory.</p>
+</blockquote>
+
+<p>原因是 WordPress 没有权限创建新文件夹。</p>
+
+<h2 id="解决办法">解决办法</h2>
+
+<ol>
+<li><p>终端窗口执行 <code>ls -l</code> 命令</p>
+
+<p>查看 <em>wp-content</em> 目录当前所有者（owner）与所属的组（group），结果是 _sam : users_。</p></li>
+
+<li><p>查看 Apache 服务的所有者（owner）：</p>
+
+<pre><code>$ ps aux | grep apache
+</code></pre>
+
+<p>我的 openSUSE 13.2 上显示 <strong>wwwrun</strong>，与第一步得到的用户不一样。我们<strong>需要修改 wp-content 的所有者与组</strong>。</p></li>
+
+<li><p>执行如下命令查看 wwwrun 用户所属的组：</p>
+
+<pre><code>$ groups wwwrun
+</code></pre>
+
+<p>用户 wwwrun 属于 www 组。</p></li>
+
+<li><p>修改 wp-content 目录的所有者与组：</p>
+
+<pre><code>$ sudo chown -R wwwrun:www wp-content
+</code></pre></li>
+</ol>
+
+<p>接下来就能成功更新插件。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

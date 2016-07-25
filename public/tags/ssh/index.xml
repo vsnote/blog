@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ssh on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/ssh/</link>
+    <description>Recent content in Ssh on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 07 Mar 2016 06:28:37 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>SSH 远程端口转发</title>
+      <link>https://www.zfanw.com/blog/ssh-remote-forwarding.html</link>
+      <pubDate>Mon, 07 Mar 2016 06:28:37 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ssh-remote-forwarding.html</guid>
+      <description>&lt;p&gt;我在&lt;a href=&#34;https://www.zfanw.com/blog/telegram-bot-with-nodejs.html&#34; title=&#34;使用 hapi.js 开发 telegram 机器人&#34;&gt;开发 Telegram bot&lt;/a&gt; 时，是先在本地写好代码，上传到服务器再测试的。因为 telegram 的 &lt;a href=&#34;https://core.telegram.org/bots/api#setwebhook&#34;&gt;setWebhook&lt;/a&gt; 指定的网址是线上的。这一点，与微信公众号开发时的&lt;a href=&#34;https://mp.weixin.qq.com/wiki/8/f9a0b8382e0b77d87b3bcc1ce6fbc104.html#.E7.AC.AC.E4.B8.80.E6.AD.A5.EF.BC.9A.E5.A1.AB.E5.86.99.E6.9C.8D.E5.8A.A1.E5.99.A8.E9.85.8D.E7.BD.AE&#34; title=&#34;微信开发者文档&#34;&gt;接入服务器配置&lt;/a&gt;是一样的。&lt;/p&gt;
+
+&lt;p&gt;当然，这样谈不上什么开发效率。&lt;/p&gt;
+
+&lt;p&gt;网上有些端口映射的工具，比如 ngrok，但 SSH 本身就带了这样一个工具。&lt;/p&gt;
+
+&lt;p&gt;假设我 telegram webhook 地址是 &lt;a href=&#34;https://www.zfanw.com/telegram，服务器运行在&#34;&gt;https://www.zfanw.com/telegram，服务器运行在&lt;/a&gt; 3344 端口，本地的开发环境运行在 localhost:3344 地址上，则运行如下命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ssh -R 3344:localhost:3344 admin@zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;就可以完成远程端口转发到本地。这样，telegram 往 &lt;a href=&#34;https://www.zfanw.com/telegram&#34;&gt;https://www.zfanw.com/telegram&lt;/a&gt; 地址 POST 的数据都会被转发到我本地上的 localhost:3344。&lt;/p&gt;
+
+&lt;p&gt;等等，要怎么断掉转发？首先，SSH 连接并不稳定，很容易就断掉。如果万幸不掉，则输入&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;exit
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;回车即可退出。&lt;/p&gt;
+
+&lt;p&gt;当然，我们也可以按 &lt;kbd&gt;CTRL - C&lt;/kbd&gt; 强制退出。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Privoxy 转发 SSH</title>
+      <link>https://www.zfanw.com/blog/privoxy-forward-ssh.html</link>
+      <pubDate>Mon, 10 Nov 2014 05:43:44 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-forward-ssh.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_socks&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 搭建 socks 代理服务器&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 配置 Privoxy 转发&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    前一阵子，有人在我博客&lt;a href=&#34;http://www.zfanw.com/blog/privoxy-tutorial.html/comment-page-1#comment-6238&#34;&gt;留言&lt;/a&gt;，对我没有 Privoxy 转发需求表示“大吃一惊”。我倒是淡然地说，因为一直都在用 VPN，至今还算稳定，所以就没去想备用方案。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    后来想到我以前曾写过 &lt;a href=&#34;http://www.zfanw.com/blog/ssh-firefox-sock-proxy-switch.html&#34;&gt;SSH Firefox SOCKS 代理切换&lt;/a&gt;一文，其实雏形已经有了，所以本文再略为修饰增补。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_socks&#34;&gt;搭建 socks 代理服务器&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_socks&#34; href=&#34;#_socks&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;pre&gt;&lt;code&gt;ssh -D 9999 -C zfanw@zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;D&lt;/code&gt; 参数表示在本机 9999 端口创建一个 &lt;a href=&#34;http://en.wikipedia.org/wiki/SOCKS&#34;&gt;SOCKS 代理服务器&lt;/a&gt;，并且通过 SSH 通道建立与远程服务器（zfanw.com 的主机）的安全连接。&lt;code&gt;C&lt;/code&gt; 用于压缩传送数据，为可选参数。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy&#34;&gt;配置 Privoxy 转发&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy&#34; href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    于是我们现在在本机上有两个代理服务器：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      SOCKS 代理服务器，端口为 9999
+    &lt;/li&gt;
+    &lt;li&gt;
+      Privoxy 的 HTTP 代理服务器，&lt;a href=&#34;http://www.zfanw.com/blog/privoxy-tutorial.html#i&#34;&gt;端口为 8118&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    接下来要做的，就是把 Privoxy 代理服务器的流量转发到 SOCKS 代理上。打开 Privoxy 的 &lt;em&gt;config&lt;/em&gt; 文件，添加如下代码：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;forward-socks5 / 127.0.0.1:9999 .
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.privoxy.org/user-manual/config.html#SOCKS&#34;&gt;其中&lt;/a&gt; &lt;em&gt;forward-socks5&lt;/em&gt; 表示转发目标是 SOCKS 服务器，&lt;em&gt;5&lt;/em&gt; 是协议版本，&lt;em&gt;/&lt;/em&gt; 表示转发所有 HTTP 请求，&lt;em&gt;127.0.0.1:9999&lt;/em&gt; 即第一步中搭建的 SOCKS 代理服务器，最末的 &lt;em&gt;.&lt;/em&gt; 表示经过 SOCKS 代理的请求不再过 HTTP 代理服务器。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Privoxy 支持多个版本 SOCKS 转发协议。其中 forward-socks4 与 forward-socks4a 的区别是，后者 DNS 解析发生在 SOCKS 服务器上，前者则是在本地，forward-socks5 同样是在 SOCKS 服务器上。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Mosh 安装使用</title>
+      <link>https://www.zfanw.com/blog/mosh.html</link>
+      <pubDate>Fri, 02 Nov 2012 13:50:15 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/mosh.html</guid>
+      <description>&lt;p&gt;如果用过 ssh 连接远程电脑，就会发现，无论是哪个系统，Ubuntu，或者 Windows，输入都会有很大的延迟。你输入了好多文字，它却要缓上好一会儿才显示得出来。&lt;/p&gt;
+
+&lt;p&gt;这是折腾 &lt;a href=&#34;http://mosh.mit.edu/&#34;&gt;Mosh&lt;/a&gt;(Mobile shell) 的初衷。&lt;/p&gt;
+
+&lt;p&gt;首先，要使用 Mosh，需要在客户端及服务器端都安装它，或者在服务器端至少安装 mosh-server。Ubuntu 下可以通过 ppa 安装的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo apt-get install python-software-properties
+$ sudo add-apt-repository ppa:keithw/mosh
+$ sudo apt-get update
+$ sudo apt-get install mosh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;因为 Mosh 使用的是 UDP 端口，所以服务器上需要打开某 UDP 端口。&lt;/p&gt;
+
+&lt;p&gt;假设 Mosh 使用 60001 UDP 端口，则在服务器上运行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo iptables -I INPUT -p udp --dport 60001 -j ACCEPT
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样就在服务器上打开 60001 UDP 端口。当然，最好是把上一条命令写入服务器 firewall 的规则中，这样不必要每次都手动打开这个端口。&lt;/p&gt;
+
+&lt;p&gt;接下来就是从客户端连接：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ mosh -p 60001 sam@zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;p&lt;/code&gt; 参数用于指定 UDP 端口。&lt;/p&gt;
+
+&lt;p&gt;假如你的 &lt;a href=&#34;http://www.zfanw.com/blog/ssh-usage.html&#34;&gt;SSH 连接&lt;/a&gt; 设置公钥/私钥连接，比如 &lt;code&gt;ssh zfanw&lt;/code&gt; 即可直接连接服务器而无需输入密码，则 mosh 命令也可以以 &lt;code&gt;mosh zfanw&lt;/code&gt; 的形式连接，基本上，可以把它当作 ssh 命令的替换，只不过 ssh 开的是 TCP 口，mosh 开的是 UDP 口。&lt;/p&gt;
+
+&lt;p&gt;效果如何？开两个窗口，一个直接 ssh 登录，一个通过 mosh 登录，对比输入一下就知道了 &amp;#8211; 当然是 mosh 的输入流畅。&lt;/p&gt;
+
+&lt;p&gt;Mosh 有很多强于 ssh 的特性，比如连接不会掉，你可以盖上笔记本电脑让它休眠，然后再打开，mosh 的连接还在，而如果是 ssh 的话，直接就断掉。&lt;/p&gt;
+
+&lt;p&gt;不过折腾过程中真是碰上不少问题，比如 locale 问题，后来莫名地就折腾好了 &amp;#8211; 本来还想写一篇关于 Locale 的内容，现在省了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox SOCKS 代理切换</title>
+      <link>https://www.zfanw.com/blog/ssh-firefox-sock-proxy-switch.html</link>
+      <pubDate>Thu, 25 Oct 2012 15:14:20 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ssh-firefox-sock-proxy-switch.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 修订历史&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#autoproxychangerjs&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; autoproxychanger.js&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;修订历史&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;span itemprop=dateModified&gt;2012.12.14&lt;/span&gt;：文中介绍的方法，在对待所有网站上，是没有区别的，要么全部走 SOCKS 代理，要么全部不走，而且要经常&lt;strong&gt;手动&lt;/strong&gt;切换，办法太笨，推荐使用更智能的 &lt;a href=&#34;http://getfoxyproxy.org/&#34;&gt;FoxyProxy&lt;/a&gt;。
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    如果你有一个 SSH 账号，允许你登录到远程电脑，那么可以将 Firefox 请求的数据通过 SSH tunnel 发送给远程电脑，借助远程电脑访问你想要访问的信息，保证信息安全。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先，通过 SSH 连接上远程电脑：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ ssh -D 9999 -C samchen@zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;D&lt;/code&gt; 参数表示 SSH 隧道在本地电脑监听的端口，&lt;code&gt;C&lt;/code&gt; 参数表示压缩传输的数据。这样我们就利用 SSH 转发端口功能在本地电脑与远程电脑之间建起一条安全通道。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接着是启用 Firefox 的 SOCKS 代理，打开 firefox 首选项中的网络，选择「设置」，然后进入代理配置对话框，按下图所示填入信息：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [resp_image id=&amp;#8217;15216&amp;#8242; caption=&amp;#8221; ]
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这样，firefox 浏览器所请求的数据将通过 SSH tunnel 发送给远程电脑，再由远程电脑代理我们请求。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    可是，如果经常要切换 SOCKS 代理呢？总不能时不时要打开代理设置对话框。当然，可以考虑装一个 firefox 扩展，不过我 firefox 上扩展的数量已经不下 10 个了，没打算为着这么个小功能特意装个插件。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;autoproxychangerjs&#34;&gt;autoproxychanger.js&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyautoproxychangerjs&#34; href=&#34;#autoproxychangerjs&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如果你使用 Vimperator 扩展，则可以安装 &lt;a href=&#34;https://github.com/vimpr/vimperator-plugins/blob/master/autoproxychanger.js&#34;&gt;autoproxychanger.js&lt;/a&gt;，这是一个 vimperator 脚本扩展，用于通过命令行控制代理的切换、开关。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先将其安装到 .vimperator/plugin/ 目录下，然后打开 .vimperatorrc 配置文件，加入如下两行内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;let autochanger_proxy_settings = &#34;[{ name:&#39;disable&#39;, usage: &#39;direct connection&#39;, proxy:{type:0} },{ name:&#39;socks&#39;, usage: &#39;ssh tunnel&#39;, proxy:{type:1,socks:&#39;localhost&#39;,socks_port:9999,no_proxies_on:&#39;localhost,127.0.0.1&#39;,}}]&#34;
+
+let autochanger_proxy_enabled=&#34;true&#34;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    保存，然后重启 firefox，按 &lt;kbd&gt;:&lt;/kbd&gt; 进入命令行模式，输入命令 &lt;code&gt;proxy&lt;/code&gt;，再按一个空格，可以看到有三个自动补齐项：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      default
+    &lt;/li&gt;
+    &lt;li&gt;
+      disable
+    &lt;/li&gt;
+    &lt;li&gt;
+      socks
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    选择 socks 即可启用 firefox 的 SOCKS 代理，disable 则是不使用代理。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接着再到 vimperator 配置文件中定向两个键映射：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;nnoremap &amp;lt;C-A-p&amp;gt; :proxy socks&amp;lt;CR&amp;gt;
+nnoremap &amp;lt;C-A-d&amp;gt; :proxy disable&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样就可以按 &lt;kbd&gt;Ctrl-Alt-P&lt;/kbd&gt; 启用 SOCKS 代理，按 &lt;kbd&gt;Ctrl-Alt-D&lt;/kbd&gt; 关闭代理。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>SSH 使用方法</title>
+      <link>https://www.zfanw.com/blog/ssh-usage.html</link>
+      <pubDate>Tue, 23 Oct 2012 04:41:02 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ssh-usage.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 服务器上生成公钥/私钥&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 本地电脑生成公/私钥&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 参考&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    前些日子，花钱买了个 SSH，想着总有机会用到，但来来去去，却实在找不到用处，后来都差点忘了这回事。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    很多空间服务器商在卖空间的同时，其实都配有一个 ssh 账号，用于建立安全通道，保证访问空间数据的安全性。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    比如我的博客，可以通过以下命令连接到服务器：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ ssh zfanwcom@zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    zfanwcom 指用户名，zfanw.com 指 ssh 服务器地址。随后会要求输入登录密码。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    登录到服务器上后，可以使用 &lt;code&gt;ls&lt;/code&gt; 命令查看默认目录下的内容，这些内容与用 ftp 连接看到的内容一样，只不过数据的传输说是要比 ftp 安连接全。而如果使用命令 &lt;code&gt;pwd&lt;/code&gt; 查看当前目录，则显示的是 /home/zfanwcom，即用户主目录。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    输入密码的方式有几个不好之处，一是如果密码太复杂太长，命令行里不便输入，另外安全性也差，因为只是个密码。因此 ssh 还有其他方式登录，比如公钥/私钥。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;服务器上生成公钥/私钥&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    我们先在服务器上生成一对公钥/私钥，然后将私钥下载到本地电脑，假设名称为 id_rsa，保存到 ~/.ssh/ 目录下，
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    注意，需要更改该私钥的读写权限为 &lt;code&gt;rw-------&lt;/code&gt;，如果权限设置不正确，ssh 会拒绝使用。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ chmod 600 id_rsa
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    接下来可以通过如下命令来访问服务器：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ ssh -i $HOME/.ssh/id_rsa server
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样我们就不需要输入密码。但这样还是需要输入服务器地址，所以还有一个更简便的方法，就是配置 ssh config 文件。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    打开 ~/.ssh/config 文件(如果没有请创建一个)，写入以下内容
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;Host zfanw
+    HostName zfanw.com
+    Port    22
+    User    zfanwcom
+    IdentityFile    ~/.ssh/id_rsa
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    保存后，在命令行输入 &lt;code&gt;ssh zfanw&lt;/code&gt; 即可以不输入密码访问空间服务器，但可能还需要输入一个 passphrase，这是用于加密私钥用的，如果偷懒，可以设置得简单一点，又或者不设置。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    以上是在空间服务器上生成一对公钥/私钥的，显然，我们的私钥也在上面 &amp;#8211; 出于安全考虑，我想应该把它删除。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;本地电脑生成公/私钥&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如果在本机生成一对公钥/私钥，则可以使用 ssh-keygen 命令：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ mkdir -p $HOME/.ssh
+$ chmod 0700 $HOME/.ssh
+$ ssh-keygen -t rsa
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    根据提示操作，这样就在 ~/.ssh/ 目录下会生成一个私钥 id_rsa，一个公钥 id_rsa.pub，接着用 ssh-copy-id 命令将公钥拷贝到 ssh 服务器上，这个方法能省去很多拷贝、设置权限的操作：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ ssh-copy-id -i ~/.ssh/id_rsa.pub zfanwcom@zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后输入密码，就将公钥加入到 ssh 服务器上的 ~/.ssh/authorized_keys 文件里。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接下来通过配置 .ssh/config 文件来更简便地连接 ssh 服务器。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    据我理解，一对公钥/私钥应该可以通用，也可以分别针对不同服务器生成各自的公钥/私钥，比如为 github 服务器生成 github_id_rsa/github_id_rsa.pub，zfanw 服务器则使用 zfanw_id_rsa/zfanw_id_rsa.pub，这是鸡蛋放不同的篮子。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;参考&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://en.wikipedia.org/wiki/Ssh-keygen&#34;&gt;Wikipedia 上的 ssh-keygen 词条&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://nerderati.com/2011/03/simplify-your-life-with-an-ssh-config-file/&#34;&gt;Simplify Your Life With an SSH Config File&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://help.github.com/articles/generating-ssh-keys&#34;&gt;Generating SSH Keys &amp;#8211; github&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

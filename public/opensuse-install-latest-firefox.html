@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>openSUSE 安装最新版 Firefox - 陈三</title>
+<meta property="og:title" content="openSUSE 安装最新版 Firefox - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">openSUSE 安装最新版 Firefox</h1>
+
+    
+    <span class="article-date">December 12, 2014</span>
+    
+
+    <div class="article-content">
+      <p>openSUSE 官方提供的 Firefox <sup class="footnote-ref" id="fnref:14654-1"><a rel="footnote" href="#fn:14654-1">1</a></sup>版本通常要低于最新发布的 Firefox。比如现在，Firefox 最新版本是 34，但 openSUSE 源上提供的还是 Firefox 33。所以，如果你要在 Firefox 最新版本发布后尽快使用到，则最好使用 Mozilla 提供的第三方软件源<sup class="footnote-ref" id="fnref:14654-2"><a rel="footnote" href="#fn:14654-2">2</a></sup>。</p>
+
+<p>操作步骤如下（下面我以 openSUSE 13.2 操作系统为例）：</p>
+
+<ol>
+<li><p>添加 Mozilla 软件源</p>
+
+<pre><code>$ sudo zypper ar -f http://download.opensuse.org/repositories/mozilla/openSUSE_13.2/ Mozilla
+</code></pre></li>
+
+<li><p>更新软件源</p>
+
+<pre><code>$ sudo zypper ref
+</code></pre></li>
+
+<li><p>安装 Mozilla 软件源下的 Firefox</p>
+
+<pre><code>$ sudo zypper in Mozilla:MozillaFirefox
+</code></pre>
+
+<p>其中 <code>Mozilla</code> 即第一步中设置的软件源的别名（alias）。</p></li>
+</ol>
+
+<p>安装 Firefox 时，可能会有依赖冲突的提示，按 openSUSE 系统的建议操作即可。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:14654-1"><a href="http://software.opensuse.org/package/MozillaFirefox">openSUSE 官方源中的 Firefox</a>
+ <a class="footnote-return" href="#fnref:14654-1"><sup>[return]</sup></a></li>
+<li id="fn:14654-2"><a href="https://en.opensuse.org/Additional_package_repositories#Mozilla">Mozilla 提供的第三方软件源</a>
+ <a class="footnote-return" href="#fnref:14654-2"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

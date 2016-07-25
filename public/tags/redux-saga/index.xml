@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Redux Saga on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/redux-saga/</link>
+    <description>Recent content in Redux Saga on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 11 Jun 2016 08:05:11 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/redux-saga/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>redux-saga 回调中执行 put</title>
+      <link>https://www.zfanw.com/blog/redux-saga-put-in-callback.html</link>
+      <pubDate>Sat, 11 Jun 2016 08:05:11 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/redux-saga-put-in-callback.html</guid>
+      <description>&lt;p&gt;在 &lt;a href=&#34;https://github.com/yelouafi/redux-saga&#34;&gt;redux-saga&lt;/a&gt; 下，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;postWithLoadingEffect(API.user, user).then(
+    (response) =&amp;gt; {
+      console.log(response)
+      // yield put(userActions.setCurrentUser(response.data))
+    }
+  ).catch(
+    (error) =&amp;gt; {
+      console.error(error)
+    }
+  )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;yield put&lt;/code&gt; 放在回调中是不会执行的，因为回调函数并不是 generator 函数。&lt;/p&gt;
+
+&lt;p&gt;但这种需求在实际代码里会经常出现。我们可以绕个圈子实现它：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  try {
+    let response = yield call(postWithLoadingEffect, API.user, user)
+    if (response) {
+      console.log(response)
+      window.localStorage.setItem(&#39;authToken&#39;, response.meta.jwt)
+      yield put(userActions.setCurrentUser(response.data))
+    }
+  } catch (error) {
+    console.error(error)
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://yelouafi.github.io/redux-saga/docs/api/index.html#callfn-args&#34;&gt;call&lt;/a&gt; 是 redux-saga 提供的一个 effect，它会执行传递给它的函数。这样我们就取得了结果，可以正常使用 &lt;code&gt;yield put&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;但很多时候，我觉得在 saga 中直接使用 &lt;code&gt;dispatch&lt;/code&gt; 会更方便，只是这样 redux-saga 的好处便又丢了 &amp;#8211; 不如回去写 redux-thunk。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

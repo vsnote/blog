@@ -1,0 +1,1213 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Privoxy on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/privoxy/</link>
+    <description>Recent content in Privoxy on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 31 Jul 2015 16:41:20 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/privoxy/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Privoxy 共享代理</title>
+      <link>https://www.zfanw.com/blog/privoxy-proxy-share.html</link>
+      <pubDate>Fri, 31 Jul 2015 16:41:20 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-proxy-share.html</guid>
+      <description>
+
+&lt;p&gt;Privoxy 在启动后，会在电脑上创建一个代理服务器，默认监听端口 8118。它的这个行为定义在它的 &lt;code&gt;config&lt;/code&gt; 配置文件中：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;listen-address 127.0.0.1:8118
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我用 Privoxy，主要目的是去除广告，当然，它也可以转发流量，所以绕过 gfw 也是十分容易。&lt;/p&gt;
+
+&lt;p&gt;比如你的代理地址是 &lt;code&gt;127.0.0.1:11111&lt;/code&gt;，则在 Privoxy 的 &lt;code&gt;config&lt;/code&gt; 文件中加一行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;forward / 127.0.0.1:11111
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;就可以把 Privoxy 代理的流量全然转发给代理。&lt;/p&gt;
+
+&lt;p&gt;说来，这年头，谁家没几台设备呢？&lt;/p&gt;
+
+&lt;p&gt;比如我主要用 MacBook，配了代理，早先退下来的 openSUSE，偶尔也用，但又不想重复操作 &amp;#8211; 再配一次互联网代理。那么，MacBook 上的互联网代理有没有办法共享出来给同一个 wifi 环境下的其它设备使用？比如我的 openSUSE、或手机？&lt;/p&gt;
+
+&lt;p&gt;答案是，有的。&lt;/p&gt;
+
+&lt;h2 id=&#34;添加新的监听地址&#34;&gt;添加新的监听地址&lt;/h2&gt;
+
+&lt;p&gt;如上所说，Privoxy 在 &lt;code&gt;config&lt;/code&gt; 配置中有一行 &lt;code&gt;listen-address 127.0.0.1:8118&lt;/code&gt;，这一行允许本机软件使用 Privoxy 的代理服务器，如果我们要让该 Privoxy 代理在同一 wifi 环境下其它设备也可用，则需要再添加一个监听地址，比如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;listen-address 192.168.1.110:8118
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;192.168.1.110&lt;/code&gt; 是电脑的 ip 地址。&lt;/p&gt;
+
+&lt;p&gt;然后在其它设备上，比如我的 openSUSE 下的 firefox 里，将代理指向 192.168.1.110:8118 即可。&lt;/p&gt;
+
+&lt;p&gt;这个办法会有一个问题，比如换个网络，路由分配的 ip 地址变了，会导致 Privoxy 启动失败。也就是说，每次电脑的 ip 变化，都需要修改 &lt;code&gt;config&lt;/code&gt; 中的 &lt;code&gt;listen-address&lt;/code&gt;，比较麻烦。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Privoxy 无法启动的问题</title>
+      <link>https://www.zfanw.com/blog/privoxy-failed-problem.html</link>
+      <pubDate>Tue, 27 Jan 2015 12:01:00 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-failed-problem.html</guid>
+      <description>&lt;p&gt;我的经验，Privoxy 无法启动的问题，百八十都是因为 config 文件配置错了。&lt;/p&gt;
+
+&lt;p&gt;比如我这一次的问题：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sam@orchid:~|master⚡⇒  systemctl status privoxy.service
+privoxy.service - Privoxy Web Proxy With Advanced Filtering Capabilities
+   Loaded: loaded (/usr/lib/systemd/system/privoxy.service; enabled)
+   Active: failed (Result: exit-code) since Tue 2015-01-27 16:00:31 HKT; 16s ago
+  Process: 9156 ExecStart=/usr/sbin/privoxy --chroot --pidfile /run/privoxy.pid --user privoxy /etc/config (code=exited, status=1/FAILURE)
+  Process: 9154 ExecStartPre=/usr/bin/cp -upf /lib/libresolv.so.2 /lib/libnss_dns.so.2 /var/lib/privoxy/lib/ (code=exited, status=0/SUCCESS)
+  Process: 9151 ExecStartPre=/usr/bin/cp -upf /etc/resolv.conf /etc/host.conf /etc/hosts /etc/localtime /var/lib/privoxy/etc/ (code=exited, status=0/SUCCESS)
+ Main PID: 4310 (code=exited, status=15)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Privoxy 无法启动。&lt;/p&gt;
+
+&lt;p&gt;后来发现是因为在住处的网络环境下给 config 文件添加了一行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;listen-address 192.168.1.100:8118
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;而办公室里分配给我电脑的 IP 地址并不是这样，于是就出错。&lt;/p&gt;
+
+&lt;p&gt;去掉这一行，再重启 Privoxy 就搞定问题。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Privoxy 去除 iOS 爱奇艺客户端广告</title>
+      <link>https://www.zfanw.com/blog/privoxy-remove-iqiyi-ios-client-ad.html</link>
+      <pubDate>Sun, 11 Jan 2015 12:03:52 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-remove-iqiyi-ios-client-ad.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 分析&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 设定 Privoxy 规则&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 修改 Privoxy 监听地址&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 更新&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    此前有人写邮件问我，Privoxy 如何去掉 iOS 上爱奇艺客户端的视频广告。当时我没时间，只大致给了几个建议，然后不了了之，没了下文。但心里记挂，想着什么时候有时间，要认真看看。所以就有了这一篇。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;分析&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    涉及的设备及软件等如下：
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      iPhone 4s, 7.1.2 版本
+    &lt;/li&gt;
+    &lt;li&gt;
+      ThinkPad，装有 openSUSE 13.2 32 位操作系统
+    &lt;/li&gt;
+    &lt;li&gt;
+      Charles Proxy，收费的，Windows 系统下可以使用免费的 Fiddler2
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;h3&gt;
+    预备工具
+  &lt;/h3&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      将 iPhone 与 ThinkPad 连入同一个 WIFI 环境
+    &lt;/li&gt;
+    &lt;li&gt;
+      打开 iPhone 的 WIFI 连接设置，设置 HTTP Proxy（代理）为 ThinkPad 上 Charles Proxy 的 ip:port，比如我的：&lt;code&gt;192.168.1.102:8888&lt;/code&gt;，手机上如有开启 VPN 之类的，请暂先关闭
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    现在查看 charles 的话，应该已经能看见 iPhone 上的 HTTP 请求/响应进出了。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    打开爱奇艺客户端
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    现在打开爱奇艺客户端，点开一个视频，就能看到类似如下的请求：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      http://iface2.iqiyi.com/php/xyz/entry/nebula.php?key=8e48946f144759d86a50075555fd5862&amp;app_key=8e48946f144759d86a50075555fd5862&amp;did=b1f4b27f4627d038&amp;type=json&amp;id=&amp;deviceid=&amp;version=5.7.1&amp;os=7.1.2&amp;ua=iPhone4,1&amp;network=1&amp;screen_status=1&amp;udid=aeb89eb1a451f9e6082246e79e077bc543e327ae&amp;ss=1&amp;ppid=&amp;uid=&amp;uniqid=0f607264fc6318a92b9e13c65db7cd3c&amp;openudid=aeb89eb1a451f9e6082246e79e077bc543e327ae&amp;idfv=5D1578BE-ECE1-406E-A99F-42AB99A71130&amp;idfa=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;qyid=aeb89eb1a451f9e6082246e79e077bc543e327ae&amp;mac_md5=e3f5536a141811db40efd6400f1d0a4e&amp;cc=%257B%250A%2520%2520%2520%2520cc%2520%253D%2520%2522%255CU6d77%255CU5916%255CU8fd0%255CU8425%255CU5546%2522%253B%250A%2520%2520%2520%2520city%2520%253D%2520%2522%255CU6d77%255CU5916%2522%253B%250A%2520%2520%2520%2520province%2520%253D%2520%2522%255CU6d77%255CU5916%2522%253B%250A%2520%2520%2520%2520respcode%2520%253D%25200%253B%250A%2520%2520%2520%2520timeout%2520%253D%25200%253B%250A%257D&amp;agenttype=20&amp;screen_res=640&lt;em&gt;960&amp;resolution=640&lt;/em&gt;960&amp;cookie=0&amp;ppid=(null)&amp;user_res=4&amp;js=0&amp;a=0&amp;b=0&amp;x=0&amp;y=5&amp;z=0&amp;r=0&amp;v_m=2.5_002&amp;vs=0&amp;vt=0.000000&amp;other=1&amp;block=0&amp;ad=2&amp;ad_str=1&amp;w=0&amp;compat=1&amp;v5=1&amp;core=0&amp;sn=1420974668080402944&amp;api=2.4&amp;cts=1420974668&amp;platform=iPhone&amp;pps=0&amp;support_db=&amp;many_id=331794000_331794000_0
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    广告就隐藏在这条请求的响应中：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      HTTP/1.1 200 OK
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Server: nginx
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Date: Sun, 11 Jan 2015 11:11:09 GMT
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Content-Type: text/json
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Connection: close
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      X-Powered-By: PHP/5.3.6
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Vary: Accept-Encoding
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Expires: 0
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Cache-Control: no-cache
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;blockquote&gt;
+    {&amp;#8220;_as&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;_blk&amp;#8221;:0,&amp;#8221;_cid&amp;#8221;:4,&amp;#8221;_ct&amp;#8221;:&amp;#8221;2014-12-05 16:35:45&amp;#8243;,&amp;#8221;_da&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;_dl&amp;#8221;:1,&amp;#8221;_dn&amp;#8221;:&amp;#8221;219&amp;#8243;,&amp;#8221;_id&amp;#8221;:&amp;#8221;331794000&amp;#8243;,&amp;#8221;_img&amp;#8221;:&amp;#8221;http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_120_160.jpg&amp;#8221;,&amp;#8221;_ip&amp;#8221;:0,&amp;#8221;_ma&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;_pc&amp;#8221;:0,&amp;#8221;_pid&amp;#8221;:0,&amp;#8221;_reseftv&amp;#8221;:175,&amp;#8221;_t&amp;#8221;:&amp;#8221;\u3010\u521d\u97f3miku\u3011\u30a2\u30ea\u30a2\u30c9\u30cd\u3010\u9ed2\u3046\u3055P\u3011&amp;#8243;,&amp;#8221;_tvct&amp;#8221;:5,&amp;#8221;_tvs&amp;#8221;:1,&amp;#8221;_vt&amp;#8221;:12,&amp;#8221;a_av&amp;#8221;:1,&amp;#8221;a_pro&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;bpt&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;clm&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;cn_year&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;co_album_id&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;ctype&amp;#8221;:0,&amp;#8221;desc&amp;#8221;:&amp;#8221;\u65e0&amp;#8243;,&amp;#8221;down&amp;#8221;:3,&amp;#8221;down2&amp;#8243;:&amp;#8221;3&amp;#8243;,&amp;#8221;drm&amp;#8221;:0,&amp;#8221;fst_time&amp;#8221;:&amp;#8221;2014-12-05&amp;#8243;,&amp;#8221;h1_img&amp;#8221;:&amp;#8221;http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_180_236.jpg&amp;#8221;,&amp;#8221;h2_img&amp;#8221;:&amp;#8221;http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_195_260.jpg&amp;#8221;,&amp;#8221;is_h&amp;#8221;:0,&amp;#8221;is_n&amp;#8221;:0,&amp;#8221;is_zb&amp;#8221;:0,&amp;#8221;k_word&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;language&amp;#8221;:0,&amp;#8221;live_center&amp;#8221;:0,&amp;#8221;live_start_time&amp;#8221;:0,&amp;#8221;live_stop_time&amp;#8221;:0,&amp;#8221;logo&amp;#8221;:1,&amp;#8221;m_av&amp;#8221;:1,&amp;#8221;mts&amp;#8221;:0,&amp;#8221;p_av&amp;#8221;:1,&amp;#8221;p_s&amp;#8221;:1,&amp;#8221;p_s_1&amp;#8243;:1,&amp;#8221;p_s_4&amp;#8243;:1,&amp;#8221;p_s_8&amp;#8243;:1,&amp;#8221;qct&amp;#8221;:25,&amp;#8221;qiyi_pro&amp;#8221;:0,&amp;#8221;qiyi_year&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;qt_id&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;s_TT&amp;#8221;:&amp;#8221;sm25051115&amp;#8243;,&amp;#8221;songname&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;t_pc&amp;#8221;:0,&amp;#8221;tag&amp;#8221;:&amp;#8221;\u65e5\u672c \u540c\u4eba ACG \u7279\u522b\u7248&amp;#8243;,&amp;#8221;tv_eftv&amp;#8221;:1,&amp;#8221;tv_pha&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;tv_pro&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;tv_ss&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;tvfcs&amp;#8221;:&amp;#8221;\u7231\u5947\u827a\u7231\u52a8\u6f2b&amp;#8221;,&amp;#8221;up&amp;#8221;:9,&amp;#8221;up2&amp;#8243;:&amp;#8221;9&amp;#8243;,&amp;#8221;upcl&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;v2_img&amp;#8221;:&amp;#8221;http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_284_160.jpg&amp;#8221;,&amp;#8221;v3_img&amp;#8221;:&amp;#8221;http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_480_270.jpg&amp;#8221;,&amp;#8221;vv&amp;#8221;:&amp;#8221;5403&amp;#8243;,&amp;#8221;year&amp;#8221;:&amp;#8221;2014&amp;#8243;,&amp;#8221;tv_id&amp;#8221;:331794000,&amp;#8221;vv_p&amp;#8221;:61,&amp;#8221;vv_f&amp;#8221;:2,&amp;#8221;vv_m&amp;#8221;:39,&amp;#8221;_sc&amp;#8221;:7.5,&amp;#8221;r_vv&amp;#8221;:5403,&amp;#8221;cpt_l&amp;#8221;:0,&amp;#8221;cpt_r&amp;#8221;:0,&amp;#8221;load_img&amp;#8221;:&amp;#8221;st&amp;#8221;,&amp;#8221;fst_time2&amp;#8243;:&amp;#8221;&amp;#8221;,&amp;#8221;disable&amp;#8221;:0,&amp;#8221;weburl&amp;#8221;:&amp;#8221;http:\/\/m.iqiyi.com\/v_19rrn82058.html&amp;#8221;,&amp;#8221;auth&amp;#8221;:1,&amp;#8221;auth_error&amp;#8221;:0,&amp;#8221;tv&amp;#8221;:{&amp;#8220;block&amp;#8221;:[],&amp;#8221;block_now&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;count&amp;#8221;:1,&amp;#8221;other&amp;#8221;:[&amp;#8220;331794000~331794000~\u3010\u521d\u97f3miku\u3011\u30a2\u30ea\u30a2\u30c9\u30cd\u3010\u9ed2\u3046\u3055P\u3011~1~2014~http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_160_90.jpg~~~~~~sm25051115~0~1~5403~http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_284_160.jpg~2014~2014-12-05~~~\u65e5\u672c \u540c\u4eba ACG \u7279\u522b\u7248~219~0~1~1~0~0~\u7231\u5947\u827a\u7231\u52a8\u6f2b~~~0~http:\/\/m.iqiyi.com\/v_19rrn82058.html~0~0~0~0~0&amp;#8243;],&amp;#8221;0&amp;#8221;:{&amp;#8220;_id&amp;#8221;:&amp;#8221;331794000&amp;#8243;,&amp;#8221;_n&amp;#8221;:&amp;#8221;\u3010\u521d\u97f3miku\u3011\u30a2\u30ea\u30a2\u30c9\u30cd\u3010\u9ed2\u3046\u3055P\u3011&amp;#8243;,&amp;#8221;desc&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;_od&amp;#8221;:1,&amp;#8221;_dn&amp;#8221;:219,&amp;#8221;s_t&amp;#8221;:-1,&amp;#8221;e_t&amp;#8221;:-1,&amp;#8221;res&amp;#8221;:[{&amp;#8220;s&amp;#8221;:1,&amp;#8221;t&amp;#8221;:&amp;#8221;TS2&amp;#8243;,&amp;#8221;_v&amp;#8221;:&amp;#8221;e9898ca6870778b9a6f6a909fc763646&amp;#8243;,&amp;#8221;r_t&amp;#8221;:&amp;#8221;8&amp;#8243;,&amp;#8221;url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;len&amp;#8221;:24230959,&amp;#8221;vid&amp;#8221;:&amp;#8221;http:\/\/cache.m.iqiyi.com\/dc\/dt\/mobile\/20141205\/dd\/6d\/c495ecbe9e6cace8c70d627f97113b69.m3u8?qypid=331794000_32&amp;qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887&amp;qd_tm=1420974669000&amp;qd_ip=104.200.18.10&amp;qd_sc=41c33c35701ea3789da74f6233714380&amp;#8243;,&amp;#8221;fid&amp;#8221;:&amp;#8221;OEVB5H6VUDZNWECGMJKPU3KRH7XLIO6B&amp;#8221;,&amp;#8221;pps&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;pps_url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;uniq_id&amp;#8221;:&amp;#8221;100080001&amp;#8243;,&amp;#8221;_tsurl&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;type&amp;#8221;:1,&amp;#8221;f4v_url&amp;#8221;:&amp;#8221;http:\/\/cache.video.qiyi.com\/vp\/331794000\/e9898ca6870778b9a6f6a909fc763646\/&amp;#8221;},{&amp;#8220;s&amp;#8221;:2,&amp;#8221;t&amp;#8221;:&amp;#8221;TS1&amp;#8243;,&amp;#8221;_v&amp;#8221;:&amp;#8221;bb620e84cffc480d53f85d8842697cee&amp;#8221;,&amp;#8221;r_t&amp;#8221;:&amp;#8221;4&amp;#8243;,&amp;#8221;url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;len&amp;#8221;:11113689,&amp;#8221;vid&amp;#8221;:&amp;#8221;http:\/\/cache.m.iqiyi.com\/dc\/dt\/mobile\/20141205\/95\/52\/cf82ab38c9949b20b2bf82ccab67777e.m3u8?qypid=331794000_32&amp;qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887&amp;qd_tm=1420974669000&amp;qd_ip=104.200.18.10&amp;qd_sc=c920c9a8c06403a72e0e149661aa683e&amp;#8221;,&amp;#8221;fid&amp;#8221;:&amp;#8221;34DSQJCHX6YW46NDC4KU7CVWZXCT5MVU&amp;#8221;,&amp;#8221;pps&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;pps_url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;uniq_id&amp;#8221;:&amp;#8221;100040001&amp;#8243;,&amp;#8221;_tsurl&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;type&amp;#8221;:1,&amp;#8221;f4v_url&amp;#8221;:&amp;#8221;http:\/\/cache.video.qiyi.com\/vp\/331794000\/bb620e84cffc480d53f85d8842697cee\/&amp;#8221;},{&amp;#8220;s&amp;#8221;:3,&amp;#8221;t&amp;#8221;:&amp;#8221;TS4&amp;#8243;,&amp;#8221;_v&amp;#8221;:&amp;#8221;bd5ea43cdb556e035fa5ee99d2157e12&amp;#8243;,&amp;#8221;r_t&amp;#8221;:&amp;#8221;128&amp;#8243;,&amp;#8221;url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;len&amp;#8221;:4673682,&amp;#8221;vid&amp;#8221;:&amp;#8221;http:\/\/cache.m.iqiyi.com\/dc\/dt\/mobile\/20141205\/2a\/74\/4f64780f9f4524311fa367414d8e5666.m3u8?qypid=331794000_32&amp;qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887&amp;qd_tm=1420974669000&amp;qd_ip=104.200.18.10&amp;qd_sc=4fbf13db970809a4e16ac3270f17f688&amp;#8243;,&amp;#8221;fid&amp;#8221;:&amp;#8221;CXFDFGWWNA6NVMBD7RHLEY2X7DQK7QTE&amp;#8221;,&amp;#8221;pps&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;pps_url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;uniq_id&amp;#8221;:&amp;#8221;101280001&amp;#8243;,&amp;#8221;_tsurl&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;type&amp;#8221;:1,&amp;#8221;f4v_url&amp;#8221;:&amp;#8221;http:\/\/cache.video.qiyi.com\/vp\/331794000\/bd5ea43cdb556e035fa5ee99d2157e12\/&amp;#8221;}],&amp;#8221;len&amp;#8221;:11113689,&amp;#8221;vid&amp;#8221;:&amp;#8221;http:\/\/cache.m.iqiyi.com\/dc\/dt\/mobile\/20141205\/95\/52\/cf82ab38c9949b20b2bf82ccab67777e.m3u8?qypid=331794000_32&amp;qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887&amp;qd_tm=1420974669000&amp;qd_ip=104.200.18.10&amp;qd_sc=c920c9a8c06403a72e0e149661aa683e&amp;#8221;,&amp;#8221;url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;_img&amp;#8221;:&amp;#8221;http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_160_90.jpg&amp;#8221;,&amp;#8221;web_url&amp;#8221;:&amp;#8221;http:\/\/m.iqiyi.com\/v_19rrn82058.html&amp;#8221;,&amp;#8221;albumid&amp;#8221;:&amp;#8221;331794000&amp;#8243;,&amp;#8221;subtitle&amp;#8221;:&amp;#8221;sm25051115&amp;#8243;,&amp;#8221;comment_on&amp;#8221;:1,&amp;#8221;_dv&amp;#8221;:&amp;#8221;e9898ca6870778b9a6f6a909fc763646&amp;#8243;,&amp;#8221;vote_id&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;_durl&amp;#8221;:&amp;#8221;http:\/\/data.video.qiyi.com\/videos\/v0\/20141205\/3d\/e7\/5d6c11ae9b1d465afd506c5fefbe4559.mp4?qypid=331794000_32&amp;v=827122190&amp;qd_src=app&amp;qd_tm=1420974669000&amp;qd_ip=104.200.18.10&amp;qd_sc=92f4366fcb5a64db3c00a706388d7fe2&amp;#8243;,&amp;#8221;_dlen&amp;#8221;:11971286,&amp;#8221;pps&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;fid&amp;#8221;:&amp;#8221;34DSQJCHX6YW46NDC4KU7CVWZXCT5MVU&amp;#8221;,&amp;#8221;_res&amp;#8221;:&amp;#8221;4&amp;#8243;,&amp;#8221;_v&amp;#8221;:&amp;#8221;bb620e84cffc480d53f85d8842697cee&amp;#8221;,&amp;#8221;pps_url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;f4v_url&amp;#8221;:&amp;#8221;http:\/\/cache.video.qiyi.com\/vp\/331794000\/bb620e84cffc480d53f85d8842697cee\/&amp;#8221;,&amp;#8221;ad_str&amp;#8221;:&amp;#8221;{\&amp;#8221;ip\&amp;#8221;:\&amp;#8221;10.11.49.120\&amp;#8221;,\&amp;#8221;cupidExtras\&amp;#8221;:{\&amp;#8221;enableMiaozhenSDK\&amp;#8221;:1,\&amp;#8221;enableAdMasterSDK\&amp;#8221;:1,\&amp;#8221;enableAlimama\&amp;#8221;:0,\&amp;#8221;enableMmaMiaozhen\&amp;#8221;:1,\&amp;#8221;enableMmaCtr\&amp;#8221;:1,\&amp;#8221;alimamaId\&amp;#8221;:71000017,\&amp;#8221;enableMmaNielsen\&amp;#8221;:1,\&amp;#8221;enableMmaAdMaster\&amp;#8221;:1},\&amp;#8221;futureSlots\&amp;#8221;:[{\&amp;#8221;startTime\&amp;#8221;:300,\&amp;#8221;type\&amp;#8221;:4}],\&amp;#8221;reqUrl\&amp;#8221;:\&amp;#8221;\\\/mixer?a=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;b=331794000&amp;c=bb620e84cffc480d53f85d8842697cee&amp;d=qc_100001_100070&amp;e=5.7.1&amp;f=4&amp;g=104.200.18.10&amp;h=331794000&amp;i=iPhone&amp;k=4&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4%2C1&amp;n=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=0b05078afb5a24f5f97fadac83632383&amp;vn=0&amp;vd=0&amp;r=2.5_002&amp;rn=0&amp;bd=219&amp;p=-1&amp;x=0&amp;tp=0&amp;nw=1&amp;vs=0&amp;pi=&amp;pc=0&amp;cts=1420974668&amp;lts=&amp;y=103,1,2&amp;fa=4&amp;ut=0\&amp;#8221;,\&amp;#8221;version\&amp;#8221;:\&amp;#8221;2.0.8526\&amp;#8221;,\&amp;#8221;adSlots\&amp;#8221;:[{\&amp;#8221;startTime\&amp;#8221;:0,\&amp;#8221;duration\&amp;#8221;:30,\&amp;#8221;type\&amp;#8221;:1,\&amp;#8221;slotExtras\&amp;#8221;:{},\&amp;#8221;adZoneId\&amp;#8221;:\&amp;#8221;1000000000381\&amp;#8221;,\&amp;#8221;ads\&amp;#8221;:[{\&amp;#8221;adExtras\&amp;#8221;:{},\&amp;#8221;clickTracking\&amp;#8221;:{\&amp;#8221;adxTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000678217&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=1&amp;b=1420974669\&amp;#8221;],\&amp;#8221;cupidTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/track2?a=1&amp;b=1420974669&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;d=5000000675829&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000678217&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=dafea75e967cef6a25e0060b5aefbeb4&amp;t=iPhone&amp;u=1&amp;w=2&amp;up=&amp;v=5000000675829\&amp;#8221;]},\&amp;#8221;impressionId\&amp;#8221;:\&amp;#8221;1a9d6aa5607c24198908e4ecb7f36971\&amp;#8221;,\&amp;#8221;vid\&amp;#8221;:\&amp;#8221;327d76cda8d3e7c29a41a52f1cb41ff8\&amp;#8221;,\&amp;#8221;priority\&amp;#8221;:88,\&amp;#8221;dspId\&amp;#8221;:71000001,\&amp;#8221;order\&amp;#8221;:1,\&amp;#8221;duration\&amp;#8221;:15,\&amp;#8221;clickThroughUrl\&amp;#8221;:\&amp;#8221;http:\\\/\\\/wt.game.pps.tv\\\/index.php?m=adsmd&amp;c=tiepian&amp;a=index&amp;id=7421\&amp;#8221;,\&amp;#8221;impressionTracking\&amp;#8221;:{\&amp;#8221;adxTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000678217&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=0&amp;b=1420974669\&amp;#8221;],\&amp;#8221;cupidTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/track2?a=0&amp;b=1420974669&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;d=5000000675829&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000678217&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=dafea75e967cef6a25e0060b5aefbeb4&amp;t=iPhone&amp;u=1&amp;w=2&amp;up=&amp;v=5000000675829\&amp;#8221;]},\&amp;#8221;creativeType\&amp;#8221;:\&amp;#8221;video_m3u8\&amp;#8221;,\&amp;#8221;clickThroughType\&amp;#8221;:\&amp;#8221;0\&amp;#8221;,\&amp;#8221;orderItemId\&amp;#8221;:\&amp;#8221;5000000675829\&amp;#8221;,\&amp;#8221;timePosition\&amp;#8221;:\&amp;#8221;2\&amp;#8221;,\&amp;#8221;adId\&amp;#8221;:\&amp;#8221;5000000677723\&amp;#8221;,\&amp;#8221;creativeObject\&amp;#8221;:{},\&amp;#8221;creativeUrl\&amp;#8221;:\&amp;#8221;\&amp;#8221;,\&amp;#8221;creativeId\&amp;#8221;:\&amp;#8221;5000000678217\&amp;#8221;},{\&amp;#8221;adExtras\&amp;#8221;:{},\&amp;#8221;clickTracking\&amp;#8221;:{\&amp;#8221;adxTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000591849&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=1&amp;b=1420974669\&amp;#8221;],\&amp;#8221;cupidTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/track2?a=1&amp;b=1420974669&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;d=5000000589321&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000591849&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=ddfc1cc2443276e5f8a2ea298a7774a8&amp;t=iPhone&amp;u=1&amp;w=3&amp;up=&amp;v=5000000589321\&amp;#8221;]},\&amp;#8221;impressionId\&amp;#8221;:\&amp;#8221;84e5330e3497a4c52b4ecfcd84e98f05\&amp;#8221;,\&amp;#8221;vid\&amp;#8221;:\&amp;#8221;7d1bf186a55a5ae0bb2ad051666adb89\&amp;#8221;,\&amp;#8221;priority\&amp;#8221;:88,\&amp;#8221;dspId\&amp;#8221;:71000001,\&amp;#8221;order\&amp;#8221;:2,\&amp;#8221;duration\&amp;#8221;:15,\&amp;#8221;clickThroughUrl\&amp;#8221;:\&amp;#8221;http:\\\/\\\/serv.vip.iqiyi.com\\\/order\\\/preview.action?pid=a0226bd958843452&amp;platform=bb35a104d95490f6&amp;fc=a3dbfe9e7b9dba94#type=0\&amp;#8221;,\&amp;#8221;impressionTracking\&amp;#8221;:{\&amp;#8221;adxTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000591849&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=0&amp;b=1420974669\&amp;#8221;],\&amp;#8221;cupidTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/track2?a=0&amp;b=1420974669&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;d=5000000589321&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000591849&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=ddfc1cc2443276e5f8a2ea298a7774a8&amp;t=iPhone&amp;u=1&amp;w=3&amp;up=&amp;v=5000000589321\&amp;#8221;]},\&amp;#8221;creativeType\&amp;#8221;:\&amp;#8221;video_m3u8\&amp;#8221;,\&amp;#8221;clickThroughType\&amp;#8221;:\&amp;#8221;3\&amp;#8221;,\&amp;#8221;orderItemId\&amp;#8221;:\&amp;#8221;5000000589321\&amp;#8221;,\&amp;#8221;timePosition\&amp;#8221;:\&amp;#8221;3\&amp;#8221;,\&amp;#8221;adId\&amp;#8221;:\&amp;#8221;5000000591634\&amp;#8221;,\&amp;#8221;creativeObject\&amp;#8221;:{},\&amp;#8221;creativeUrl\&amp;#8221;:\&amp;#8221;\&amp;#8221;,\&amp;#8221;creativeId\&amp;#8221;:\&amp;#8221;5000000591849\&amp;#8221;}]}],\&amp;#8221;videoEventId\&amp;#8221;:\&amp;#8221;0b05078afb5a24f5f97fadac83632383\&amp;#8221;,\&amp;#8221;finalUrl\&amp;#8221;:\&amp;#8221;http:\\\/\\\/cache.m.iqiyi.com\\\/dc\\\/amdt\\\/ae7578x3cd43d3f\\\/327d76cda8d3e7c29a41a52f1cb41ff8-7d1bf186a55a5ae0bb2ad051666adb89\\\/331794000\\\/bb620e84cffc480d53f85d8842697cee.m3u8?qd_asc=ae4f1fc1098e13132ea08c9490e419ee&amp;qd_asrc=8c40568b52a2483ea7e88a948c7ed664&amp;qd_at=1420974669569&amp;qypid=331794000_32\&amp;#8221;}&amp;#8221;}},&amp;#8221;sn&amp;#8221;:&amp;#8221;1420974668080402944&amp;#8243;,&amp;#8221;_tab&amp;#8221;:[{&amp;#8220;id&amp;#8221;:2,&amp;#8221;name&amp;#8221;:&amp;#8221;\u8be6\u60c5\u8bc4\u8bba&amp;#8221;,&amp;#8221;default&amp;#8221;:0},{&amp;#8220;id&amp;#8221;:3,&amp;#8221;name&amp;#8221;:&amp;#8221;\u731c\u4f60\u559c\u6b22&amp;#8243;,&amp;#8221;default&amp;#8221;:1}],&amp;#8221;cupid_app_on&amp;#8221;:1,&amp;#8221;cupid_app_tab&amp;#8221;:3,&amp;#8221;_av&amp;#8221;:1,&amp;#8221;album_barrage&amp;#8221;:1,&amp;#8221;album_barrage_lines&amp;#8221;:3,&amp;#8221;cupid_ut&amp;#8221;:0,&amp;#8221;cupid_nw&amp;#8221;:1,&amp;#8221;cupid_expire&amp;#8221;:3}
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    以上是请求的原始响应报文，可以借用 charles 提供的 JSON 方式查看：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [resp_image id=&amp;#8217;14942&amp;#8242; caption=&amp;#8221; ]
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    由于对 iOS 上视频播放的机制并不熟悉，所以我只能一个一个测试过去，然后大致了解返回的数据是什么意思：
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;code&gt;tv&lt;/code&gt; 键名下有个 &lt;code&gt;res&lt;/code&gt;，里面有三个对象，包含的是三个清晰度的视频版本，其中有视频路径，格式为 m3u8，比如 &lt;code&gt;http://cache.m.iqiyi.com/dc/dt/mobile/20141205/dd/6d/c495ecbe9e6cace8c70d627f97113b69.m3u8?qypid=331794000_32&amp;qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887&amp;qd_tm=1420974669000&amp;qd_ip=104.200.18.10&amp;qd_sc=41c33c35701ea3789da74f6233714380&lt;/code&gt;，在浏览器中打开这个路径，就可以下载 m3u8 文件，然后用 mplayer 等工具即可播放，借助 ffmpeg 工具也可以将它下载到本地。
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;code&gt;tab&lt;/code&gt; 键名下有两个对象，包含是的”详情评论“和”猜你喜欢“，这是视频下的两个标签页。
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    经过排查，大致锁定一个叫 &lt;code&gt;ad_str&lt;/code&gt; 的键名，其值如下：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      {&amp;#8220;ip&amp;#8221;:&amp;#8221;10.11.49.120&amp;#8243;,&amp;#8221;cupidExtras&amp;#8221;:{&amp;#8220;enableMiaozhenSDK&amp;#8221;:1,&amp;#8221;enableAdMasterSDK&amp;#8221;:1,&amp;#8221;enableAlimama&amp;#8221;:0,&amp;#8221;enableMmaMiaozhen&amp;#8221;:1,&amp;#8221;enableMmaCtr&amp;#8221;:1,&amp;#8221;alimamaId&amp;#8221;:71000017,&amp;#8221;enableMmaNielsen&amp;#8221;:1,&amp;#8221;enableMmaAdMaster&amp;#8221;:1},&amp;#8221;futureSlots&amp;#8221;:[{&amp;#8220;startTime&amp;#8221;:300,&amp;#8221;type&amp;#8221;:4}],&amp;#8221;reqUrl&amp;#8221;:&amp;#8221;\/mixer?a=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;b=331794000&amp;c=bb620e84cffc480d53f85d8842697cee&amp;d=qc_100001_100070&amp;e=5.7.1&amp;f=4&amp;g=104.200.18.10&amp;h=331794000&amp;i=iPhone&amp;k=4&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4%2C1&amp;n=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=0b05078afb5a24f5f97fadac83632383&amp;vn=0&amp;vd=0&amp;r=2.5_002&amp;rn=0&amp;bd=219&amp;p=-1&amp;x=0&amp;tp=0&amp;nw=1&amp;vs=0&amp;pi=&amp;pc=0&amp;cts=1420974668&amp;lts=&amp;y=103,1,2&amp;fa=4&amp;ut=0&amp;#8243;,&amp;#8221;version&amp;#8221;:&amp;#8221;2.0.8526&amp;#8243;,&amp;#8221;adSlots&amp;#8221;:[{&amp;#8220;startTime&amp;#8221;:0,&amp;#8221;duration&amp;#8221;:30,&amp;#8221;type&amp;#8221;:1,&amp;#8221;slotExtras&amp;#8221;:{},&amp;#8221;adZoneId&amp;#8221;:&amp;#8221;1000000000381&amp;#8243;,&amp;#8221;ads&amp;#8221;:[{&amp;#8220;adExtras&amp;#8221;:{},&amp;#8221;clickTracking&amp;#8221;:{&amp;#8220;adxTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000678217&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=1&amp;b=1420974669&amp;#8243;],&amp;#8221;cupidTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/track2?a=1&amp;b=1420974669&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;d=5000000675829&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000678217&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=dafea75e967cef6a25e0060b5aefbeb4&amp;t=iPhone&amp;u=1&amp;w=2&amp;up=&amp;v=5000000675829&amp;#8243;]},&amp;#8221;impressionId&amp;#8221;:&amp;#8221;1a9d6aa5607c24198908e4ecb7f36971&amp;#8243;,&amp;#8221;vid&amp;#8221;:&amp;#8221;327d76cda8d3e7c29a41a52f1cb41ff8&amp;#8243;,&amp;#8221;priority&amp;#8221;:88,&amp;#8221;dspId&amp;#8221;:71000001,&amp;#8221;order&amp;#8221;:1,&amp;#8221;duration&amp;#8221;:15,&amp;#8221;clickThroughUrl&amp;#8221;:&amp;#8221;http:\/\/wt.game.pps.tv\/index.php?m=adsmd&amp;c=tiepian&amp;a=index&amp;id=7421&amp;#8243;,&amp;#8221;impressionTracking&amp;#8221;:{&amp;#8220;adxTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000678217&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=0&amp;b=1420974669&amp;#8243;],&amp;#8221;cupidTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/track2?a=0&amp;b=1420974669&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;d=5000000675829&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000678217&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=dafea75e967cef6a25e0060b5aefbeb4&amp;t=iPhone&amp;u=1&amp;w=2&amp;up=&amp;v=5000000675829&amp;#8243;]},&amp;#8221;creativeType&amp;#8221;:&amp;#8221;video_m3u8&amp;#8243;,&amp;#8221;clickThroughType&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;orderItemId&amp;#8221;:&amp;#8221;5000000675829&amp;#8243;,&amp;#8221;timePosition&amp;#8221;:&amp;#8221;2&amp;#8243;,&amp;#8221;adId&amp;#8221;:&amp;#8221;5000000677723&amp;#8243;,&amp;#8221;creativeObject&amp;#8221;:{},&amp;#8221;creativeUrl&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;creativeId&amp;#8221;:&amp;#8221;5000000678217&amp;#8243;},{&amp;#8220;adExtras&amp;#8221;:{},&amp;#8221;clickTracking&amp;#8221;:{&amp;#8220;adxTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000591849&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=1&amp;b=1420974669&amp;#8243;],&amp;#8221;cupidTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/track2?a=1&amp;b=1420974669&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;d=5000000589321&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000591849&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=ddfc1cc2443276e5f8a2ea298a7774a8&amp;t=iPhone&amp;u=1&amp;w=3&amp;up=&amp;v=5000000589321&amp;#8243;]},&amp;#8221;impressionId&amp;#8221;:&amp;#8221;84e5330e3497a4c52b4ecfcd84e98f05&amp;#8243;,&amp;#8221;vid&amp;#8221;:&amp;#8221;7d1bf186a55a5ae0bb2ad051666adb89&amp;#8243;,&amp;#8221;priority&amp;#8221;:88,&amp;#8221;dspId&amp;#8221;:71000001,&amp;#8221;order&amp;#8221;:2,&amp;#8221;duration&amp;#8221;:15,&amp;#8221;clickThroughUrl&amp;#8221;:&amp;#8221;http:\/\/serv.vip.iqiyi.com\/order\/preview.action?pid=a0226bd958843452&amp;platform=bb35a104d95490f6&amp;fc=a3dbfe9e7b9dba94#type=0&amp;#8243;,&amp;#8221;impressionTracking&amp;#8221;:{&amp;#8220;adxTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000591849&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=0&amp;b=1420974669&amp;#8243;],&amp;#8221;cupidTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/track2?a=0&amp;b=1420974669&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;d=5000000589321&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000591849&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=ddfc1cc2443276e5f8a2ea298a7774a8&amp;t=iPhone&amp;u=1&amp;w=3&amp;up=&amp;v=5000000589321&amp;#8243;]},&amp;#8221;creativeType&amp;#8221;:&amp;#8221;video_m3u8&amp;#8243;,&amp;#8221;clickThroughType&amp;#8221;:&amp;#8221;3&amp;#8243;,&amp;#8221;orderItemId&amp;#8221;:&amp;#8221;5000000589321&amp;#8243;,&amp;#8221;timePosition&amp;#8221;:&amp;#8221;3&amp;#8243;,&amp;#8221;adId&amp;#8221;:&amp;#8221;5000000591634&amp;#8243;,&amp;#8221;creativeObject&amp;#8221;:{},&amp;#8221;creativeUrl&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;creativeId&amp;#8221;:&amp;#8221;5000000591849&amp;#8243;}]}],&amp;#8221;videoEventId&amp;#8221;:&amp;#8221;0b05078afb5a24f5f97fadac83632383&amp;#8243;,&amp;#8221;finalUrl&amp;#8221;:&amp;#8221;http:\/\/cache.m.iqiyi.com\/dc\/amdt\/ae7578x3cd43d3f\/327d76cda8d3e7c29a41a52f1cb41ff8-7d1bf186a55a5ae0bb2ad051666adb89\/331794000\/bb620e84cffc480d53f85d8842697cee.m3u8?qd_asc=ae4f1fc1098e13132ea08c9490e419ee&amp;qd_asrc=8c40568b52a2483ea7e88a948c7ed664&amp;qd_at=1420974669569&amp;qypid=331794000_32&amp;#8243;}
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    又一段非常长的文本，我想你我都懒得看内容了 &amp;#8211; 不过拜语义化带来的好处，我们一眼就能从 &lt;code&gt;ad_str&lt;/code&gt; 里判断它可能是广告入口。且在 Privoxy 里换掉它试试。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy&#34;&gt;设定 Privoxy 规则&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy&#34; href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    因为是过滤文本，所以要涉及 Privoxy 的两个文件：
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      user.filter
+    &lt;/li&gt;
+    &lt;li&gt;
+      user.action
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        首先在 user.filter 文件中添加如下规则：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;FILTER: blockQiyiAd 去除爱奇艺 iOS 版本视频广告
+s|&#34;ad_str&#34;|&#34;fuck_ad_str&#34;|g
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        这里，我创建了一条规则，把 &lt;code&gt;ad_str&lt;/code&gt; 键名替换掉。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        然后在 user.action 文件中启用过滤规则：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;{+filter{blockQiyiAd}}
+iface2.iqiyi.com
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        再开启爱奇艺的客户端，视频广告已经不见。感谢语义，蒙对了。目前来看，也没有其他引发异常的副作用。
+      &lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy-2&#34;&gt;修改 Privoxy 监听地址&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy-2&#34; href=&#34;#_Privoxy-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    上面说明的是开启 charles 的情况，一旦 charles 关闭，我们就要把 iPhone 上的 HTTP PROXY 改为电脑上的 Privoxy 端口，比如 &lt;code&gt;192.168.1.102:8118&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但 Privoxy 默认监听的地址是 &lt;code&gt;127.0.0.1:8118&lt;/code&gt;，如果不做修改，会导致 iPhone 设置的 HTTP 代理无法访问。所以我新增一个 Privoxy 的监听地址。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    打开 &lt;code&gt;config&lt;/code&gt; 文件，查找 &lt;code&gt;listen-address  127.0.0.1:8118&lt;/code&gt;，在它下一行新增如下内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;listen-address  192.168.1.102:8118
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    其中 192.168.1.102 是我笔记本电脑的 IP。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    最后，重启 Privoxy。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    更多规则，请看我维护的 &lt;a href=&#34;https://github.com/chenxsan/Privoxy&#34;&gt;Privoxy 配置文件库&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;更新&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    2015.2.8 爱奇艺把 &amp;#8216;ad_str&amp;#8217; 换成 &amp;#8216;ad_info&amp;#8217; 了，配置文件已更新。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Privoxy shadowsocks</title>
+      <link>https://www.zfanw.com/blog/privoxy-shadowsocks.html</link>
+      <pubDate>Wed, 12 Nov 2014 05:37:33 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-shadowsocks.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_shadowsocks&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 服务器端安装 shadowsocks&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_shadowsocks-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 本地安装 shadowsocks&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Privoxy&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; Privoxy 转发&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    &lt;a href=&#34;https://github.com/clowwindy/shadowsocks&#34;&gt;shadowsocks&lt;/a&gt; 是一个 SOCKS5 代理，所以，它的用法跟 SSH 搭建 SOCKS 代理服务器差不多。至于谁好谁坏，谁快谁慢，环境不一样，我觉得很难有固定标准，所以还是靠自己的感受判断。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_shadowsocks&#34;&gt;服务器端安装 shadowsocks&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_shadowsocks&#34; href=&#34;#_shadowsocks&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    首先根据 &lt;a href=&#34;https://github.com/clowwindy/shadowsocks/wiki/Shadowsocks-使用说明&#34;&gt;shadownsocks 安装说明&lt;/a&gt; 在服务器（比如 VPS）上安装 shadowsocks 并配置、启用。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_shadowsocks-2&#34;&gt;本地安装 shadowsocks&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_shadowsocks-2&#34; href=&#34;#_shadowsocks-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在本机上，我们还需要一个 shadowsocks 客户端。通常照服务器端一样安装，安装后 shadowsocks 提供有 &lt;code&gt;sslocal&lt;/code&gt; 命令。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    以我的 openSUSE 13.2 为例，安装完 &lt;a href=&#34;https://github.com/madeye/shadowsocks-libev&#34;&gt;shadowsocks-libev&lt;/a&gt;，根据服务器端的配置修改 &lt;em&gt;/etc/shadowsocks/shadowsocks-libev-config.json&lt;/em&gt; 文件，然后执行 &lt;code&gt;ss-local&lt;/code&gt; 命令（注意，libev 版本的命令比其他版本的 shadowsocks 命令多出中间一个连字符）：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;ss-local -c /etc/shadowsocks/shadowsocks-libev-config.json
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    运行的结果如下：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      2014-11-12 09:49:44 INFO: initialize ciphers&amp;#8230; aes-256-cfb
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      2014-11-12 09:49:44 INFO: server listening at port 1080.
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    说明本地 shadowsocks 服务器已经在 127.0.0.1:1080 上监听。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Privoxy&#34;&gt;Privoxy 转发&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyPrivoxy&#34; href=&#34;#Privoxy&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    接下来就是把 Privoxy 的流量转发到本机的 1080 端口。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    打开 Privoxy 的 &lt;em&gt;config&lt;/em&gt; 文件，添加如下规则：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;forward-socks5 / 127.0.0.1:1080 .
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    规则的具体意义见 &lt;a href=&#34;http://www.zfanw.com/blog/privoxy-forward-ssh.html&#34;&gt;SSH 搭建 SOCKS 代理服务器&lt;/a&gt;一篇。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>解决 Privoxy 404 No Such Domain 问题</title>
+      <link>https://www.zfanw.com/blog/privoxy-404-no-such-domain.html</link>
+      <pubDate>Tue, 11 Nov 2014 22:23:48 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-404-no-such-domain.html</guid>
+      <description>&lt;p&gt;&lt;em&gt;404 No Such Domain&lt;/em&gt; 错误，在 Privoxy 的 &lt;a href=&#34;http://www.privoxy.org/faq/trouble.html#DNSERRORS&#34;&gt;FAQ&lt;/a&gt; 中有提及，但作者只是提到可能原因，没有提供解决办法。&lt;/p&gt;
+
+&lt;p&gt;在我的 openSUSE 13.1 系统上，这个错误，大致可以按以下步骤重现（作者你神经病）：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;按 &lt;a href=&#34;http://www.zfanw.com/blog/privoxy-forward-ssh.html&#34;&gt;Privoxy 转发到 SOCKS 服务器&lt;/a&gt;一文的说明配置使用 SOCKS 代理&lt;/li&gt;
+&lt;li&gt;删除 &lt;em&gt;config&lt;/em&gt; 文件中 &lt;code&gt;forward-socks5 / 127.0.0.1:9999&lt;/code&gt; 一句&lt;/li&gt;
+&lt;li&gt;未断掉 SSH 连接的情况下重启 openSUSE 系统&lt;/li&gt;
+&lt;li&gt;打开 Firefox&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;之后 Firefox 打开的所有网址都会返回 404 No Such Domain 错误，除了 Privoxy 的配置地址 &lt;a href=&#34;http://p.p。&#34;&gt;http://p.p。&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;而如果我禁止 Firefox 走 Privoxy 代理，则一切均正常。但这没达到我的目的。重启系统也不能解决问题。&lt;/p&gt;
+
+&lt;p&gt;最后找到的解决办法简单得跌破眼镜，就是重启 Privoxy。openSUSE 下执行命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo rcprivoxy restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当然，openSUSE 下可视化的 &lt;strong&gt;Services Manager&lt;/strong&gt; 里重启 Privoxy 也是可以的。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Privoxy 转发 SSH</title>
+      <link>https://www.zfanw.com/blog/privoxy-forward-ssh.html</link>
+      <pubDate>Mon, 10 Nov 2014 05:43:44 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-forward-ssh.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_socks&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 搭建 socks 代理服务器&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 配置 Privoxy 转发&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    前一阵子，有人在我博客&lt;a href=&#34;http://www.zfanw.com/blog/privoxy-tutorial.html/comment-page-1#comment-6238&#34;&gt;留言&lt;/a&gt;，对我没有 Privoxy 转发需求表示“大吃一惊”。我倒是淡然地说，因为一直都在用 VPN，至今还算稳定，所以就没去想备用方案。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    后来想到我以前曾写过 &lt;a href=&#34;http://www.zfanw.com/blog/ssh-firefox-sock-proxy-switch.html&#34;&gt;SSH Firefox SOCKS 代理切换&lt;/a&gt;一文，其实雏形已经有了，所以本文再略为修饰增补。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_socks&#34;&gt;搭建 socks 代理服务器&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_socks&#34; href=&#34;#_socks&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;pre&gt;&lt;code&gt;ssh -D 9999 -C zfanw@zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;D&lt;/code&gt; 参数表示在本机 9999 端口创建一个 &lt;a href=&#34;http://en.wikipedia.org/wiki/SOCKS&#34;&gt;SOCKS 代理服务器&lt;/a&gt;，并且通过 SSH 通道建立与远程服务器（zfanw.com 的主机）的安全连接。&lt;code&gt;C&lt;/code&gt; 用于压缩传送数据，为可选参数。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy&#34;&gt;配置 Privoxy 转发&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy&#34; href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    于是我们现在在本机上有两个代理服务器：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      SOCKS 代理服务器，端口为 9999
+    &lt;/li&gt;
+    &lt;li&gt;
+      Privoxy 的 HTTP 代理服务器，&lt;a href=&#34;http://www.zfanw.com/blog/privoxy-tutorial.html#i&#34;&gt;端口为 8118&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    接下来要做的，就是把 Privoxy 代理服务器的流量转发到 SOCKS 代理上。打开 Privoxy 的 &lt;em&gt;config&lt;/em&gt; 文件，添加如下代码：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;forward-socks5 / 127.0.0.1:9999 .
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.privoxy.org/user-manual/config.html#SOCKS&#34;&gt;其中&lt;/a&gt; &lt;em&gt;forward-socks5&lt;/em&gt; 表示转发目标是 SOCKS 服务器，&lt;em&gt;5&lt;/em&gt; 是协议版本，&lt;em&gt;/&lt;/em&gt; 表示转发所有 HTTP 请求，&lt;em&gt;127.0.0.1:9999&lt;/em&gt; 即第一步中搭建的 SOCKS 代理服务器，最末的 &lt;em&gt;.&lt;/em&gt; 表示经过 SOCKS 代理的请求不再过 HTTP 代理服务器。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Privoxy 支持多个版本 SOCKS 转发协议。其中 forward-socks4 与 forward-socks4a 的区别是，后者 DNS 解析发生在 SOCKS 服务器上，前者则是在本地，forward-socks5 同样是在 SOCKS 服务器上。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Privoxy 简明教程</title>
+      <link>https://www.zfanw.com/blog/privoxy-tutorial.html</link>
+      <pubDate>Wed, 24 Sep 2014 14:29:34 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-tutorial.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Privoxy&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; Privoxy 用途&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Privoxy-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; Privoxy 安装&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 启动 Privoxy&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 配置浏览器&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 设置 Privoxy&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    我估计八成人第一遍看 &lt;a href=&#34;http://www.privoxy.org/3.0.21/user-manual/index.html&#34;&gt;Privoxy 手册&lt;/a&gt;，只一头雾水。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我此前写过&lt;a href=&#34;http://www.zfanw.com/blog/tag/privoxy&#34;&gt;两篇&lt;/a&gt;相关教程，介绍 Privoxy 中屏蔽网页广告、视频广告的用法，较为具体。这里概括性地写一篇简明教程。所谓「站得高，看得远」，一旦对 Privoxy 整体结构有把握，自然胸有成竹，做得到有的放矢地查阅手册，而不是一头栽进茫茫的配置项中。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Privoxy&#34;&gt;Privoxy 用途&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyPrivoxy&#34; href=&#34;#Privoxy&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Privoxy 是一个代理软件，代理 &amp;#8211; 简单说，就是进出你电脑的流量的中介。借由它，我们可以控制出去的请求、返回的响应。不必要的请求 &amp;#8211; 比如视频广告的地址、图片广告的地址，我们可以直接 &lt;code&gt;block&lt;/code&gt; 掉；不必要的响应内容 &amp;#8211; 比如页面中的文字广告，我们可以借由 &lt;code&gt;filter&lt;/code&gt; 过滤掉，不让其显示。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当然，上面只是 Privoxy 最常见、最普通的用法，Privoxy 还有其它用法，这里且按下。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Privoxy-2&#34;&gt;Privoxy 安装&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyPrivoxy-2&#34; href=&#34;#Privoxy-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Privoxy 支持的平台非常多：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      Windows 95 and later versions (98, ME, 2000, XP, Vista, Windows 7 etc.), GNU/Linux (RedHat, SuSE, Debian, Fedora, Gentoo, Slackware and others), Mac OS X (10.4 and upwards on PPC and Intel processors), OS/2, Haiku, DragonFly, FreeBSD, NetBSD, OpenBSD, Solaris, and various other flavors of Unix.
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    Windows 平台的安装自不用说，下载一个 exe 文件一路点击下一步；Linux 平台多数可以通过仓库安装。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    比如 Ubuntu：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;sudo apt-get install privoxy
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    又比如 openSUSE：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;sudo zypper install privoxy
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    一般也建议使用仓库安装。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    或者你实在愿意折腾，那就下载&lt;a href=&#34;http://sourceforge.net/projects/ijbswa/files/Sources/&#34;&gt;源代码&lt;/a&gt;自己编译安装。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy&#34;&gt;启动 Privoxy&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy&#34; href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    安装完 Privoxy 后，需要启动它，因为各平台下的各个系统情况不一，这里就不一一介绍，请看&lt;a href=&#34;http://www.privoxy.org/user-manual/startup.html&#34;&gt;手册说明&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    openSUSE 下按 &lt;kbd&gt;Alt + F1&lt;/kbd&gt; 搜索并打开 &lt;em&gt;Service Manager&lt;/em&gt;，查找 privoxy 项，启用并启动它，Privoxy 就会以系统服务的形态运行。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;配置浏览器&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    大部分时候，我们可能只需要浏览器走 Privoxy 代理，则打开浏览器的代理设置，将 HTTP 与 SSL 代理设置为 &lt;code&gt;127.0.0.1&lt;/code&gt;，端口为 8118。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    如果想省事，也可以配置系统代理。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    配置完浏览器后，在浏览器中打开 &lt;a href=&#34;http://p.p&#34;&gt;http://p.p&lt;/a&gt; 网址，看是否显示如下内容：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      This is Privoxy 3.0.21 on unknown (127.0.0.1), port 8118, enabled
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    如果有，说明 Privoxy 正常运行且浏览器配置正确。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy-2&#34;&gt;设置 Privoxy&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy-2&#34; href=&#34;#_Privoxy-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    以上准备就绪后，可以开始定制我们的 Privoxy 了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    一切从 config 文件说起。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    config 文件在各种系统下位置、名称可能并不一样，比如 Windows 系统下，它其实叫 config.txt，在 openSUSE 系统下，它所在的目录为 &lt;em&gt;/etc/privoxy&lt;/em&gt;，这个目录是个软链接，指向 &lt;em&gt;/var/lib/privoxy/etc&lt;/em&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但通常，我们并不需要修改 config 文件，这里且让它默认着。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    再来介绍两类文件：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      action 文件 &lt;ol&gt;
+        &lt;li&gt;
+          match-all.action
+        &lt;/li&gt;
+        &lt;li&gt;
+          default.action
+        &lt;/li&gt;
+        &lt;li&gt;
+          user.action
+        &lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      filter 文件 &lt;ol&gt;
+        &lt;li&gt;
+          default.filter
+        &lt;/li&gt;
+        &lt;li&gt;
+          user.filter
+        &lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    match-all.action、default.action、default.filter 这几个文件，建议不要做修改，因为 Privoxy 升级时会覆盖掉。所以把我们的配置内容写到 user.action 及 user.filter 中 &amp;#8211; 这也是为什么两个文件叫 user.* 的缘故。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    action 文件
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    action 文件定义 Privoxy 的动作，比如 &lt;code&gt;{+block}&lt;/code&gt;：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{+block{干掉陈三的 blog}}
+.zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这一句，把我的网址挡掉，凡是 zfanw.com 的请求，均会返回 403 &amp;#8211; Privoxy 直接返回一个被 blocked 的提示页面，内容大概如下：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      Your request for http://www.zfanw.com/blog/ was blocked. Block reason: .zfanw.com
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    分析下代码的意义：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      第一行，&lt;code&gt;{+block}&lt;/code&gt; 是一个指令，&lt;code&gt;block&lt;/code&gt;后的 &lt;code&gt;{}&lt;/code&gt; 写的是要 block 的原因，不写也可以，作用类似于注释。
+    &lt;/li&gt;
+    &lt;li&gt;
+      第二行， &lt;code&gt;.zfanw.com&lt;/code&gt;，这是一个上述指令要应用的网址，分两个部分，一个 domain，一个 path，domain 部分支持部分通配符，比如 &lt;code&gt;*&lt;/code&gt;、&lt;code&gt;?&lt;/code&gt;、&lt;code&gt;[0-9]&lt;/code&gt;、&lt;code&gt;[a-z]&lt;/code&gt;；path 部分是指第一个 &lt;code&gt;/&lt;/code&gt; 后的部分网址，支持 POSIX 1003.2 正则表达式，比 domain 部分灵活。具体见&lt;a href=&#34;http://www.privoxy.org/user-manual/actions-file.html&#34;&gt;手册&lt;/a&gt;。
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;h3&gt;
+    filter 文件
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    filter 文件定义过滤&lt;strong&gt;响应&lt;/strong&gt;的规则，比如：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;FILTER: blockBaiduAd 去除百度推广广告
+s|&amp;lt;/head&amp;gt;|&amp;lt;style type=text/css&amp;gt;\#content_left&amp;gt;table,[id*=&#39;00&#39;],\#ec_im_container,\#ec_im_container+div,.ad-block,.EC_zwd_table{display: none !important;}&amp;lt;/style&amp;gt;&amp;lt;/head&amp;gt;|g
+s|&amp;lt;/body&amp;gt;&amp;lt;script.*&amp;lt;/script&amp;gt;&amp;lt;/html&amp;gt;|&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;|g
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    第一行中，大写的 &lt;code&gt;FILTER&lt;/code&gt; 表示定义一个过滤规则，&lt;code&gt;blockBaiduAd&lt;/code&gt; 表示规则名称，再后面是说明。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    第二行及第三行，是对返回的页面进行修改。比如你用过 Vi/Vim 或 sed 等工具，应该对 &lt;code&gt;s&lt;/code&gt; 这个替换命令很熟悉。简单说，上面的语句就是把页面内的代码作过更换，这样一些文字广告就不在浏览器中显示了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但是，user.filter 中只是定义过滤的规则，规则的应用，还是要在 action 文件中，所以以上规则写到 user.action 中，如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;# 清理百度推广广告
+{+filter{blockBaiduAd}}
+.baidu.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    我想看过 action 文件配置结构的话，就已经知道这一句是什么意思：&lt;code&gt;#&lt;/code&gt; 后是一个注释，&lt;code&gt;filter&lt;/code&gt; 是指令，要求执行 &lt;code&gt;blockBaiduAd&lt;/code&gt; 这条规则，&lt;code&gt;.baidu.com&lt;/code&gt; 是应用到的网址。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在整个使用过程中，要多多借助 Privoxy 提供的工具，比如 &lt;a href=&#34;http://config.privoxy.org/show-url-info&#34;&gt;http://config.privoxy.org/show-url-info&lt;/a&gt;，可以查看你定义的规则是否对某一条 URL 生效。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    最后，如果已经看明白 Privoxy 的用法，并且打算自定义一些规则，欢迎关注我 &lt;a href=&#34;https://github.com/chenxsan/Privoxy&#34;&gt;Github 上的配置文件库&lt;/a&gt;。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>使用 Privoxy 屏蔽土豆网视频广告</title>
+      <link>https://www.zfanw.com/blog/privoxy-block-tudou-video-ad.html</link>
+      <pubDate>Thu, 07 Mar 2013 12:07:22 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-block-tudou-video-ad.html</guid>
+      <description>&lt;p&gt;之前写过一篇&lt;a href=&#34;http://www.zfanw.com/blog/block-webpage-ad-with-privoxy.html&#34;&gt;利用 Privoxy 屏蔽网页广告的介绍文&lt;/a&gt;，稍稍介绍怎样应用它来屏蔽网页中的图片及不需要的内容。这里，再举个实例介绍下屏蔽土豆网视频播放前的广告。&lt;/p&gt;
+
+&lt;p&gt;首先，需要查找出视频广告的地址，土豆网的视频广告是 .flv 扩展名，firefox 下，可以借助 firebug 来查看这些广告的网址，Google Chrome 则使用它的开发者工具查看，这些广告的大小约摸大于500K：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2013/03/Screenshot-from-2013-03-06-2200162.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2013/03/Screenshot-from-2013-03-06-2200162.png&#34; alt=&#34;firebug 检查网站流媒体&#34; width=&#34;659&#34; height=&#34;106&#34; class=&#34;alignnone size-full wp-image-8340&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/03/Screenshot-from-2013-03-06-2200162.png 659w, https://www.zfanw.com/blog/wp-content/uploads/2013/03/Screenshot-from-2013-03-06-2200162-300x48.png 300w&#34; sizes=&#34;(max-width: 659px) 100vw, 659px&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;找出广告的地址后，就是通过 Privoxy 的 user.action 文件来屏蔽了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{+block{土豆网视频广告}}
+27.221.18.172/youku/*
+27.221.18.173/youku/*
+27.221.18.174/youku/*
+27.221.18.179/youku/*
+27.221.18.182/youku/*
+27.221.18.185/youku/*
+60.217.245.11/youku/*
+60.217.245.12/youku/*
+60.217.245.13/youku/*
+60.217.245.14/youku/*
+60.217.245.16/youku/*
+60.217.246.13/youku/*
+60.217.250.11/youku/*
+60.217.250.12/youku/*
+60.217.250.13/youku/*
+60.217.250.15/youku/*
+60.217.251.15/youku/*
+60.217.251.16/youku/*
+60.217.253.11/youku/*
+60.217.253.13/youku/*
+60.217.253.14/youku/*
+119.167.129.11/youku/*
+119.167.129.12/youku/*
+119.167.129.13/youku/*
+119.167.129.14/youku/*
+119.167.129.16/youku/*
+119.167.129.23/youku/*
+119.167.129.24/youku/*
+119.167.129.17/youku/*
+119.167.129.19/youku/*
+119.167.152.41/youku/*
+119.167.152.43/youku/*
+119.167.152.44/youku/*
+119.167.152.49/youku/*
+119.167.152.50/youku/*
+119.167.152.53/youku/*
+119.167.152.54/youku/*
+119.167.152.55/youku/*
+119.188.0.201/youku/*
+119.188.0.202/youku/*
+182.118.6.72/youku/*
+182.118.6.73/youku/*
+182.118.6.74/youku/*
+182.118.6.78/youku/*
+182.118.6.83/youku/*
+182.118.6.85/youku/*
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;列表有点长，但我想这可能还只是一部分，因此以后可能继续更新该列表，具体见 &lt;a href=&#34;https://github.com/chenxsan/Privoxy&#34;&gt;Github 上的库&lt;/a&gt;。如果你也有 github，可以考虑克隆一份，用于维护自己的 Privoxy 配置文件。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>使用 Privoxy 屏蔽网页广告</title>
+      <link>https://www.zfanw.com/blog/block-webpage-ad-with-privoxy.html</link>
+      <pubDate>Sat, 23 Feb 2013 03:53:08 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/block-webpage-ad-with-privoxy.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 安装 Privoxy&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 启动 Privoxy&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 配置浏览器&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 测试 Privoxy&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 屏蔽图片广告&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;6&lt;/span&gt; 屏蔽文字广告&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_gif&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;7&lt;/span&gt; 定住 gif 动画&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-4&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;8&lt;/span&gt; 补充&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-5&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;9&lt;/span&gt; 更新&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    很多浏览器扩展可以屏蔽网页广告，比如 &lt;a href=&#34;https://addons.mozilla.org/en-US/firefox/addon/adblock-plus/&#34;&gt;Firefox 下的 Adblock Plus&lt;/a&gt;，Google Chrome 下同样有 &lt;a href=&#34;https://chrome.google.com/webstore/detail/adblock-plus/cfhdojbkjhnklbpkdaibdccddilifddb?hl=en&#34;&gt;Adblock Plus&lt;/a&gt;；在 Firefox 下，甚至可以通过 &lt;a href=&#34;https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/&#34;&gt;GreaseMonkey&lt;/a&gt; 或 &lt;a href=&#34;https://addons.mozilla.org/en-US/firefox/addon/scriptish/&#34;&gt;Scriptish&lt;/a&gt; 来编写 JavaScript 脚本移除广告。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    如果只使用一个浏览器，则装插件来屏蔽广告可能没什么问题，而且即装即用，省事。但如果用多个浏览器，每个浏览器都得装一遍就非常麻烦。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.privoxy.org/&#34;&gt;Privoxy&lt;/a&gt; 可以解决这种问题。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在我们的电脑上，它扮演的是中间&lt;strong&gt;代理服务器&lt;/strong&gt;的角色。浏览器通过它向远程服务器发出请求，远程服务器返回文件后经过 Privoxy 过滤后再发送回浏览器。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    因为它的网站上文档太&lt;strong&gt;不入门&lt;/strong&gt;了，所以写一篇介绍下&lt;strong&gt;怎么使用 Privoxy&lt;/strong&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy&#34;&gt;安装 Privoxy&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy&#34; href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Privoxy 提供了多个平台的支持，比如 Windows、Linux、Macintosh 等。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Ubuntu 下可以通过如下命令安装：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;sudo apt-get install privoxy
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    Mac OS 上可以通过 brew 安装：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;brew install privoxy
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    Windows 平台可以下载 &lt;a href=&#34;http://sourceforge.net/projects/ijbswa/files/Win32/&#34;&gt;EXE&lt;/a&gt; 文件安装。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    更多系统下的安装方法参见 &lt;a href=&#34;http://www.privoxy.org/user-manual/installation.html&#34;&gt;Privoxy 网站说明&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy-2&#34;&gt;启动 Privoxy&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy-2&#34; href=&#34;#_Privoxy-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    同样的，Privoxy 网站上提供有各平台&lt;a href=&#34;http://www.privoxy.org/user-manual/startup.html&#34;&gt;启动&lt;/a&gt;的说明。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;配置浏览器&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Privoxy 服务器在电脑上的 ip 是 127.0.0.1，端口默认为 8118。根据需要，将个别浏览器或系统的 HTTP 与 HTTPS 代理服务器地址设置为 127.0.0.1,端口设置为 8118。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.privoxy.org/user-manual/startup.html&#34;&gt;Privoxy 上&lt;/a&gt;同样有配图说明。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy-3&#34;&gt;测试 Privoxy&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy-3&#34; href=&#34;#_Privoxy-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Privoxy 提供 &lt;a href=&#34;http://p.p/&#34;&gt;http://p.p/&lt;/a&gt; 来测试它的运行是否在当前浏览器下正常。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    如果该页面头部显示诸如：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      This is Privoxy 3.0.19 on localhost (127.0.0.1), port 8118, enabled&amp;#8221;
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    则说明 Privoxy 已经在正常使用中。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在 Privoxy 提供的默认配置文件下，如果仅是浏览英文站，则大部分广告已经可以对付掉。至于中文的，则需要自行调配配置文件了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Privoxy 提供多个&lt;a href=&#34;http://www.privoxy.org/user-manual/configuration.html#CONFOVERVIEW&#34;&gt;配置文件&lt;/a&gt;，比如
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      match-all.action
+    &lt;/li&gt;
+    &lt;li&gt;
+      default.action
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    但不要去动这些配置文件，因为升级时这些文件会被覆盖，而 user.action、user.filter 这类文件在升级不会被覆盖，我们的规则就写在这些 user.* 的配置文件里。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;屏蔽图片广告&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    先来说怎样用 Privoxy 来屏蔽图片。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;strong style=&#39;color:red;&#39;&gt;说明（ 2015.09.30）：&lt;/strong&gt;因为我的博客迁移到 https，所以以下涉及图片 url 的规则不再有效，这是因为 Privoxy &lt;a href=&#34;http://www.privoxy.org/faq/misc.html#AEN909&#34;&gt;仅能处理 https 协议的 url 的 host 部分&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    举个最简单的例子，打开 user.action 文件，在文件末加入以下内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{+block}
+www.zfanw.com/blog/wp-content/uploads/2013/02/0-300x169.png
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这是最直白的方法，&lt;code&gt;+block&lt;/code&gt; 指示 Privoxy 屏蔽随后的内容，这个内容由一个 &lt;a href=&#34;http://www.privoxy.org/user-manual/actions-file.html#AF-PATTERNS&#34;&gt;URL 规则&lt;/a&gt; 指定，这个 URL 规则的格式为 &lt;code&gt;&amp;lt;domain&amp;gt;&amp;lt;port&amp;gt;/&amp;lt;path&amp;gt;&lt;/code&gt;，三个值均为可选，另外需要注意，domain 部分不需要写 &amp;#8220;http://&amp;#8221;，因为 Privoxy 已经默认这个协议。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    保存 user.action 配置文件后强制刷新&lt;a href=&#34;http://www.zfanw.com/blog/we-picture-together-when-young.html&#34;&gt;页面&lt;/a&gt;可以看到，图片已经被一个丑陋的 Pattern 替换掉。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    页面中被屏蔽的图片需要一个东西来替代，这个可以通过 &lt;code&gt;+set-image-blocker&lt;/code&gt; 设置：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{+block +set-image-blocker{pattern}}
+www.zfanw.com/blog/wp-content/uploads/2013/02/0-300x169.png
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    其中 &lt;code&gt;pattern&lt;/code&gt; 为该命令的默认参数值，即是你所见的丑陋的 Pattern；另两个取值分别是 &amp;#8220;blank&amp;#8221; 与「图片地址」。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &amp;#8220;blank&amp;#8221; 使用一个 1&amp;#215;1 像素的白色 gif 文件填充被屏蔽的图片位置。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    而第三个取值，即「图片地址」，可以是本地，也可以是网络上：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{+block +handle-as-image +set-image-blocker{http://farm9.staticflickr.com/8298/7976223037_941a1ed84f_z.jpg}}
+www.zfanw.com/blog/wp-content/uploads/2013/02/0-300x169.png
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    当在 user.action 文件中写入上面的命令并保存后，强制刷新页面，你看到的将是一朵茶花，而不是原来的几个男性图片。是的，Privoxy 用你指定的图片替换被屏蔽的广告图片。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    规则写好后，你可能想检查它是否生效，Privoxy 提供一个网页工具 &lt;a href=&#34;http://config.privoxy.org/show-url-info&#34;&gt;http://config.privoxy.org/show-url-info&lt;/a&gt;，可以用来查看规则是否对某 URL 生效，借此我们可以检查规则是不是写对，是不是能达到我们的目的。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;屏蔽文字广告&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在屏蔽图片广告时，Privoxy 用到的是 action，动作，指示在匹配相应的 URL 时执行动作。屏蔽文字广告则有所不同，需要用到 &lt;a href=&#34;http://www.privoxy.org/user-manual/filter-file.html&#34;&gt;filter&lt;/a&gt;，如果你接触过 WordPress 的代码，则相信对这个概念很了解。简单地理解，就是对相应的内容进行处理后再输出。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    同样的，我们将把规则写在 user.filter 文件中。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    先拿 Privoxy 上的示例做个说明：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;FILTER: foo Replace all &#34;foo&#34; with &#34;bar&#34;
+s/foo/bar/g
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;FILTER&lt;/code&gt; 是 Privoxy 关键词，表示过滤文本，另外还有两个关键词，这里不做介绍。foo 是这个 filter 的名称，「Replace all &amp;#8220;foo&amp;#8221; with &amp;#8220;bar&amp;#8221;」则是描述。&lt;code&gt;s/foo/bar/g&lt;/code&gt; 则是替换命令，如果熟悉 Vim 或 Sed 则应该对这个命令非常清楚。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    定义名称为 foo 的过滤器后，我们需要在 user.action 中调用它：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{+filter{foo}}
+.privoxy.org/user-manual/filter-file.html
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    强制刷新该页面后，就会看到，页面内的所有 foo 都被换成 bar 了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    然后进入实战，如何屏蔽百度的广告 &amp;#8211; 这里，需要 HTML/CSS 知识来找出广告部分的代码。比如百度搜索结果前的推广有个 class 为 &lt;code&gt;ec_pp_f&lt;/code&gt;，右侧推广链接的 id 为 &lt;code&gt;content_right&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先定义一个 filter:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;FILTER: block-baidu 屏蔽百度广告
+s|&amp;lt;/head&amp;gt;|&amp;lt;style type=&#34;text/css&#34;&amp;gt;table.ec_pp_f,\#content_right,.ec_pp_f+br,[class~=EC_mr15]{display:none;}&amp;lt;/style&amp;gt;&amp;lt;/head&amp;gt;|
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    注意 # 前的 \，因为在 user.filter 文件中 # 开头的行表示注释，所以需要转义。至于 s 命令后使用 | 而非 / 是因为 HTML 标签中带有 /，为避免加转义符号，就另外找个字符分隔，Privoxy 的 default.filter 文件中是使用 @ 符号来分隔的，我这里用 |。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    之后在 user.action 文件中调用该 filter:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{+filter{block-baidu}}
+.baidu.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    刷新页面后就可以看到，百度的推广广告已经屏蔽掉了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在写规则时，需要小心，因为 Privoxy 对配置文件非常敏感，一旦写错，就会退出，所以，如果发现代理不正常了，请重启 Privoxy。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_gif&#34;&gt;定住 gif 动画&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_gif&#34; href=&#34;#_gif&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如果你对 gif 动画不耐烦，则 Privoxy 提供方法来「定」住它不动。在 user.action 文件中加入如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{+deanimate-gifs{last}}
+.tumblr.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;last&lt;/code&gt; 表示定在最后一帧，还有个 &lt;code&gt;first&lt;/code&gt; 表示定在最前一帧。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这样，tumblr.com 网站上的 gif 动画就不会闪瞎眼了。不过据我测试，还是有些漏网之鱼。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-4&#34;&gt;补充&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-4&#34; href=&#34;#i-4&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    补充中是我添加到 user.action 与 user.filter 文件的内容，以后可能会进行更新。仅作参考。
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://gist.github.com/chenxsan/5004046&#34;&gt;user.action gist 文件&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://gist.github.com/chenxsan/5004032&#34;&gt;user.filter gist 文件&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-5&#34;&gt;更新&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-5&#34; href=&#34;#i-5&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    因为 gist 的更新非常不便，就在 github 上创建了&lt;a href=&#34;https://github.com/chenxsan/Privoxy&#34;&gt;一个库&lt;/a&gt;，专门用来存放这两个配置文件。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

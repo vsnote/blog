@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>IE6 的固定定位 - 陈三</title>
+<meta property="og:title" content="IE6 的固定定位 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">IE6 的固定定位</h1>
+
+    
+    <span class="article-date">July 7, 2011</span>
+    
+
+    <div class="article-content">
+      
+
+<p>IE6 不支持<strong>固定定位</strong>，它会把 <code>position:fixed</code> 理解成 <code>position:static</code>，本该固定定位的块仍处于正常流中。</p>
+
+<p>解决办法是通过 <code>position:absolute</code>。</p>
+
+<pre><code> html.lt-ie7,
+.lt-ie7 body{
+    background-image:url(about:blank);
+    background-attachment:fixed;
+}
+.lt-ie7 .fixMeTopPlease{
+    position:absolute;
+    left:0;
+    top:expression(eval(document.documentElement.scrollTop));
+}
+</code></pre>
+
+<p>这样，我们就可以在 IE6 下模仿出固定定位效果。</p>
+
+<h2 id="附录">附录</h2>
+
+<ol>
+<li><a href="https://gist.github.com/subtleGradient/158243">ie6 fixed position gist</a></li>
+</ol>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

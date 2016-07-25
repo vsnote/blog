@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nodejs on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/nodejs/</link>
+    <description>Recent content in Nodejs on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 26 Dec 2012 12:38:57 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/nodejs/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>NPM 安装包</title>
+      <link>https://www.zfanw.com/blog/npm-install-package.html</link>
+      <pubDate>Wed, 26 Dec 2012 12:38:57 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/npm-install-package.html</guid>
+      <description>
+
+&lt;p&gt;打算安装个 &lt;a href=&#34;http://twitter.github.com/bower/&#34;&gt;Bower&lt;/a&gt; 用于一些库文件的管理，Nodejs、NPM 安装完后，运行命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;npm install -g bower
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;命令卡住很久，然后出错了,大抵是 『tunnel&amp;#8230;socket&amp;#8230;unknown protocol』 之类。&lt;/p&gt;
+
+&lt;p&gt;网络是处于完全畅通状态。&lt;/p&gt;
+
+&lt;p&gt;有人说是 proxy 的问题，我的系统下安装有 &lt;a href=&#34;http://www.privoxy.org/&#34;&gt;privoxy&lt;/a&gt;，启用了 http 与 https 代理为 『127.0.0.1：8118』。&lt;/p&gt;
+
+&lt;p&gt;在 Zsh 下输入：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;echo $http_proxy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;显示为 『&lt;a href=&#34;http://127.0.0.1:8118/』，调用&#34;&gt;http://127.0.0.1:8118/』，调用&lt;/a&gt; &lt;code&gt;unset $http_proxy&lt;/code&gt;，再安装 bower，仍然失败。可能因为这个环境变量不是通过 &lt;code&gt;export&lt;/code&gt; 命令设置的。&lt;/p&gt;
+
+&lt;p&gt;且不说其成功与否，光是为了用 NPM 安装包文件就要取消这系统代理，不免不合理。&lt;/p&gt;
+
+&lt;p&gt;再找资料，则知道可以通过 &lt;code&gt;npm config&lt;/code&gt; 命令来配置其环境：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;npm config set proxy http://127.0.0.1:8118
+npm config set https-proxy http://127.0.0.1:8118
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后再运行 &lt;code&gt;npm install&lt;/code&gt; 就完全正常 &amp;#8211; 因为安装中使用 /usr/lib/ 目录，所以可能需要管理员权限，在 Ubuntu 下是运行 &lt;code&gt;sudo npm install...&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;安装完 bower 后，就可以安装 JavaScript 库：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;bower install jquery
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;http://jjasonclark.com/how-to-setup-node-behind-web-proxy&#34;&gt;How to setup Node.js and Npm behind a corporate web proxy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://npmjs.org/doc/config.html&#34;&gt;Manage the npm configuration file&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mongoose.Js on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/mongoose/index.js/</link>
+    <description>Recent content in Mongoose.Js on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 10 May 2016 12:14:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/mongoose.js/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Mongoose populate 预填充字段</title>
+      <link>https://www.zfanw.com/blog/mongoose-populate.html</link>
+      <pubDate>Tue, 10 May 2016 12:14:00 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/mongoose-populate.html</guid>
+      <description>
+
+&lt;p&gt;举这个博客说，它有两个模型（model），&lt;code&gt;User&lt;/code&gt; 和 &lt;code&gt;Post&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;一个 User 可以有多篇 Post，创建 Post 的时候，我们要存一个作者信息，假定是 &lt;code&gt;author&lt;/code&gt; 字段，它的值指向用户的 &lt;code&gt;_id&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var mongoose = require(&#39;mongoose&#39;)
+  , Schema = mongoose.Schema
+var userSchema = Schema({
+  name: String
+})
+var postSchema = Schema({
+  title: String,
+  content: String,
+  author: String
+})
+var User = mongoose.model(&#39;User&#39;, userSchema)
+var Post = mongoose.model(&#39;Post&#39;, postSchema)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上是我还不知道 &lt;code&gt;populate&lt;/code&gt; 时的写法，&lt;code&gt;Post&lt;/code&gt; 模型里，&lt;code&gt;author&lt;/code&gt; 指向了用户的 &lt;code&gt;_id&lt;/code&gt;，这样，每次查询 post 都需要查询两个模型：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Post.findOne({title: &#39;mongoose populate&#39;}).then((doc) =&amp;gt; {
+  User.findOne({_id: doc.author}).then((user) =&amp;gt; {
+    return Object.assign({}, doc, {author: user})
+  })
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但 mongoose 提供了 &lt;code&gt;populate&lt;/code&gt; 方法，可以在查询时，预先填充字段：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var mongoose = require(&#39;mongoose&#39;)
+  , Schema = mongoose.Schema
+var userSchema = Schema({
+  name: String
+})
+// 这里，我们给 author 定义了一个 `ref` 指向了 User 模型
+var postSchema = Schema({
+  title: String,
+  content: String,
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: &#39;User&#39;
+  }
+})
+// `findOne` 勾子，在使用 `findOne` 时，mongoose 会预填充 `author` 字段的数据
+postSchema.pre(&#39;findOne&#39;, function (next) {
+  this.populate(&#39;author&#39;, &#39;name&#39;)
+  next()
+})
+var User = mongoose.model(&#39;User&#39;, userSchema)
+var Post = mongoose.model(&#39;Post&#39;, postSchema)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们的查询 post 语句可以写成这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Post.findOne({title: &#39;mongoose populate&#39;}).then((doc) =&amp;gt; {
+  return doc
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 &lt;code&gt;doc&lt;/code&gt; 里的 &lt;code&gt;author&lt;/code&gt; 是一个对象，包含一个 &lt;code&gt;_id&lt;/code&gt; 和一个 &lt;code&gt;name&lt;/code&gt;，非常便捷、简洁。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;http://mongoosejs.com/docs/populate.html&#34;&gt;Mongoose Query Population v4.4.16&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

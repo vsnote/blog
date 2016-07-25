@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gem on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/gem/</link>
+    <description>Recent content in Gem on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 19 May 2015 14:11:02 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/gem/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>ERROR:  While executing gem … (Gem::RemoteFetcher::FetchError)</title>
+      <link>https://www.zfanw.com/blog/error-while-executing-gem-gem-remote-fetch-error.html</link>
+      <pubDate>Tue, 19 May 2015 14:11:02 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/error-while-executing-gem-gem-remote-fetch-error.html</guid>
+      <description>&lt;p&gt;我对命令行下安装 gem 包或是 npm 包有很大的心理阴影，因为出现无法​安装的概率实在太大了 &amp;#8211; 每次都要破口大骂 gfw。&lt;/p&gt;
+
+&lt;p&gt;这一回是在更新 gem 时：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;gem update --system
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;返回的错误如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;ERROR: While executing gem &amp;#8230; (Gem::RemoteFetcher::FetchError)&lt;/p&gt;
+
+&lt;p&gt;Errno::ETIMEDOUT: Operation timed out &amp;#8211; connect(2) for &amp;#8220;s3.amazonaws.com&amp;#8221; port 443 (&lt;a href=&#34;https://api.rubygems.org/specs.4.8.gz&#34;&gt;https://api.rubygems.org/specs.4.8.gz&lt;/a&gt;)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;出现 s3 的地址是因为此前 &lt;a href=&#34;https://rubygems.org&#34;&gt;https://rubygems.org&lt;/a&gt; 源地址不行，所以执行了 &lt;code&gt;gem source&lt;/code&gt; 添加源库：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;gem source --add https://s3.amazonaws.com/production.s3.rubygems.org/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如你所见，还是报错。&lt;/p&gt;
+
+&lt;p&gt;查了资料，不巧 &lt;a href=&#34;http://stackoverflow.com/a/11128293&#34;&gt;StackOverflow 上这个问题提到了 Proxy&lt;/a&gt;，我国的国情，不挂代理简直混不下去 IT 业，所以我的 Mac OSX 的代理环境是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;privoxy(http://localhost:8118) -&amp;gt; sslEdge(http://localhost:100010)全局
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Privoxy 我是用来去除一些广告。且把死马当活马医吧：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export http_proxy=http://localhost:8118
+export https_proxy=http://localhost:8118 
+gem update --system
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后目瞪口呆：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Updating rubygems-update
+Fetching: rubygems-update-2.4.7.gem (100%)
+Successfully installed rubygems-update-2.4.7
+Parsing documentation for rubygems-update-2.4.7
+Installing ri documentation for rubygems-update-2.4.7
+Installing darkfish documentation for rubygems-update-2.4.7
+Done installing documentation for rubygems-update after 2 seconds
+Installing RubyGems 2.4.7
+RubyGems 2.4.7 installed
+Parsing documentation for rubygems-2.4.7
+Installing ri documentation for rubygems-2.4.7
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;竟然真是代理的问题。所以我猜想是 iterm2 不支持 socks 代理，因此全局并未生效。而通过 Privoxy 的 HTTP 代理做一次转发，就正常了 &amp;#8211; 所以，还是 gfw 的问题。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

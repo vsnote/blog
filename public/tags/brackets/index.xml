@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Brackets on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/brackets/</link>
+    <description>Recent content in Brackets on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 16 Aug 2014 00:44:59 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/brackets/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Emmet for Brackets禁用CSS浏览器前缀</title>
+      <link>https://www.zfanw.com/blog/emmet-for-brackets-diable-css-vendor-prefix.html</link>
+      <pubDate>Sat, 16 Aug 2014 00:44:59 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/emmet-for-brackets-diable-css-vendor-prefix.html</guid>
+      <description>&lt;p&gt;Emmet&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:13389-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:13389-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;有自动添加CSS&lt;strong&gt;浏览器前缀&lt;/strong&gt;(vendor prefix)的功能。&lt;/p&gt;
+
+&lt;p&gt;譬如在Brackets输入以下CSS(*表示光标位置)：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;div{
+  bgs*
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;按&lt;kbd&gt;Tab&lt;/kbd&gt;键展开后如下，&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;div{
+  -webkit-background-size:
+  background-size:
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不过我不乐意它来主张。我更愿意用Autoprefixer&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:13389-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:13389-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;配合Grunt.js或Gulp.js做处理，可控度更高，而且源代码保持干净。&lt;/p&gt;
+
+&lt;p&gt;所以我需要禁用这个功能。&lt;/p&gt;
+
+&lt;p&gt;Emmet提供了一个配置项：&lt;code&gt;css.autoInsertVendorPrefixes&lt;/code&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:13389-3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:13389-3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;，但在Brackets下，这个配置过程非常纠结。&lt;/p&gt;
+
+&lt;p&gt;我的系统是openSUSE 13.1，禁用的步骤如下：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;主目录/home/sam下新建一个目录emmet(你要建在其他地方也无妨)&lt;/li&gt;
+&lt;li&gt;在emmet目录中添加preferences.json文件&lt;/li&gt;
+&lt;li&gt;文件中添加如下代码：&lt;code&gt;{&amp;quot;css.autoInsertVendorPrefixes&amp;quot;: false}&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;打开Brackets主界面中的&lt;code&gt;Emmet&lt;/code&gt;菜单，选择&lt;code&gt;Preferences...&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;在Extension folder里填入&lt;code&gt;/home/sam/emmet&lt;/code&gt;(不能使用~/emmet)&lt;/li&gt;
+&lt;li&gt;重启Brackets&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:13389-1&#34;&gt;&lt;a href=&#34;https://github.com/emmetio/brackets-emmet&#34;&gt;emmetio/brackets-emmet&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:13389-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:13389-2&#34;&gt;&lt;a href=&#34;https://github.com/ai/autoprefixer&#34;&gt;ai/autoprefixer&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:13389-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:13389-3&#34;&gt;&lt;a href=&#34;http://docs.emmet.io/customization/preferences/&#34;&gt;preferences.json&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:13389-3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

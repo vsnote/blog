@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>IE6、7、8 与 RGBA - 陈三</title>
+<meta property="og:title" content="IE6、7、8 与 RGBA - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">IE6、7、8 与 RGBA</h1>
+
+    
+    <span class="article-date">July 7, 2013</span>
+    
+
+    <div class="article-content">
+      
+
+<p>Google Chrome 自 1.0 开始支持 RGBA，Firefox 从 3.0 开始，IE 比较晚，从 IE9 才开始。</p>
+
+<p>rgba 很常用，可以给颜色设置透明度，比如：</p>
+
+<pre><code>&lt;p style=&quot;background:rgba(0,255,0,.3);&quot;&gt;hello rgba&lt;/p&gt;
+</code></pre>
+
+<p>显示效果如下：</p>
+
+<p style="background:rgba(0,255,0,.3)">
+  hello rgba
+</p>
+
+<p>现代浏览器中，我们看到的是浅绿色背景，黑色字体。IE6、7、8 不认识 rgba 规则，所以会忽略它，就像没有声明过背景一样 &#8211; 所以是白底黑字。</p>
+
+<p>但借助 IE 私有滤镜(filter)，我们可以达到同样效果：</p>
+
+<pre><code>&lt;p class=&quot;bga&quot;&gt;hello rgba&lt;/p&gt;
+
+&lt;!--[if IE]&gt; 
+&lt;style&gt;
+.bga{
+    background:transparent;
+    -ms-filter: &quot;progid:DXImageTransform.Microsoft.gradient(GradientType=1, StartColorStr='#4C00FF00', EndColorStr='#4C00FF00')&quot;;/* IE8 */
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#4C00FF00', EndColorStr='#4C00FF00');/* IE6、7 */
+    zoom: 1;
+}
+&lt;![endif]--&gt;
+</code></pre>
+
+<p>现在，IE6、7、8 中，效果就跟现代浏览器一样了：</p>
+
+<p class="bga">
+  hello rgba
+</p>
+
+<!--[if IE]> 
+
+<![endif]-->
+
+<h2 id="参考">参考</h2>
+
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value">MDN &#8211; CSS color value</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ie/ms530752(v=vs.85).aspx">MSDN -ms-filter property</a></li>
+<li><a href="http://www.zfanw.com/tools/argb-rgba.html">rgba &#8211; argb 转换工具</a></li>
+</ol>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>jQuery 事件委托中的被委托者 - 陈三</title>
+<meta property="og:title" content="jQuery 事件委托中的被委托者 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">jQuery 事件委托中的被委托者</h1>
+
+    
+    <span class="article-date">July 7, 2014</span>
+    
+
+    <div class="article-content">
+      <p>jQuery 的事件委托<sup class="footnote-ref" id="fnref:13011-1"><a rel="footnote" href="#fn:13011-1">1</a></sup>是个很有用的特性，适用动态插入的元素。</p>
+
+<p>举个例子：</p>
+
+<pre><code>$(document).on('click', '#tab &gt; li', function(e){
+  console.log($(this)); 
+});
+</code></pre>
+
+<p>上面的代码中，<code>this</code> 指向当前点击的 li 元素。</p>
+
+<p>但偶尔，会有需要取得被委托者的必要，比如：</p>
+
+<pre><code>$('#tab').on('click', '&gt; li', function(e){
+  // some code here
+});
+</code></pre>
+
+<p>用户单击 li 元素的时候，我想取得被委托者 <code>#tab</code> 对象的引用，这样我可以对它进行些样式上的处理。</p>
+
+<p>以上代码中，可以很明显地取得，</p>
+
+<pre><code>var delegated = $(this).parent('#tab');
+</code></pre>
+
+<p>但 jQuery 本身提供了一个语义化的对象，event.delegateTarget<sup class="footnote-ref" id="fnref:13011-2"><a rel="footnote" href="#fn:13011-2">2</a></sup>，它指向事件绑定(被委托)的元素。</p>
+
+<p>于是取得被委托者的代码可以这样写：</p>
+
+<pre><code>var delegated = e.delegateTarget;
+</code></pre>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:13011-1"><a href="http://api.jquery.com/delegate/">.delegate() | jQuery API Documentation</a>
+ <a class="footnote-return" href="#fnref:13011-1"><sup>[return]</sup></a></li>
+<li id="fn:13011-2"><a href="http://api.jquery.com/event.delegateTarget/">event.delegateTarget | jQuery API Documentation</a>
+ <a class="footnote-return" href="#fnref:13011-2"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

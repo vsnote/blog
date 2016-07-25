@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>ERROR: Failed to build gem native extension - 陈三</title>
+<meta property="og:title" content="ERROR: Failed to build gem native extension - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">ERROR: Failed to build gem native extension</h1>
+
+    
+    <span class="article-date">November 11, 2013</span>
+    
+
+    <div class="article-content">
+      <p><a href="http://rubyonrails.org/download">Ruby on Rails</a> 网站上说，安装好 Ruby 后运行 <code>gem install rails</code> 就好了。</p>
+
+<p>但整个过程折腾了我好几个小时。首先，openSUSE 13.1 自带有 Ruby 2.0.0p-247，我因为打算用 rbenv 管理 Ruby，就草率地把 Ruby 卸载：</p>
+
+<pre><code>$ sudo zypper rm ruby
+</code></pre>
+
+<p>结果 Konsole 没了，YAST 没了，似乎连着 KDE 桌面都被卸掉。</p>
+
+<p>那么就先将就用系统自带的吧。但 <code>gem install rails</code> 报错了：</p>
+
+<blockquote>
+<p>Building native extensions. This could take a while&#8230;</p>
+
+<p>ERROR: Error installing rails:</p>
+
+<p>ERROR: Failed to build gem native extension.</p>
+
+<p>/usr/bin/ruby2.0 extconf.rb</p>
+
+<p>mkmf.rb can&#8217;t find header files for ruby at /usr/lib/ruby/include/ruby.h</p>
+
+<p>Gem files will remain installed in /usr/lib/ruby/gems/2.0.0/gems/atomic-1.1.14 for inspection.</p>
+
+<p>Results logged to /usr/lib/ruby/gems/2.0.0/gems/atomic-1.1.14/ext/gem_make.out</p>
+</blockquote>
+
+<p><code>gem install compass</code> 却是没有任何问题。</p>
+
+<p>网上的资料说要安装 ruby-devel：</p>
+
+<pre><code>sudo zypper in ruby-devel
+</code></pre>
+
+<p>再次安装 Rails，如你所见，从我开始写这篇到现在，还在安装中。但后来总算安装完成。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

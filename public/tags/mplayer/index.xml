@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mplayer on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/mplayer/</link>
+    <description>Recent content in Mplayer on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 19 Oct 2013 04:10:32 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/mplayer/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>openSUSE 安装 MPlayer</title>
+      <link>https://www.zfanw.com/blog/opensuse-install-mplayer.html</link>
+      <pubDate>Sat, 19 Oct 2013 04:10:32 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/opensuse-install-mplayer.html</guid>
+      <description>&lt;p&gt;在 Ubuntu 上，我一直都用 MPlayer 播放视频，简单的几个快捷键就可以控制快进、音量等，非常方便。&lt;/p&gt;
+
+&lt;p&gt;这次切换系统到 openSUSE 12.3 上也不想例外。&lt;/p&gt;
+
+&lt;p&gt;安装方法如下。&lt;/p&gt;
+
+&lt;p&gt;首先是添加 PackMan 源：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo zypper ar http://mirror.pcbeta.com/packman/suse/openSUSE_12.3/Essentials/ packman-essentials
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;附：&lt;small&gt;更多 &lt;a href=&#34;http://packman.links2linux.org/mirrors&#34;&gt;PackMan 源链接&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;
+
+&lt;p&gt;然后就可以使用 zypper 命令安装 MPlayer 了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo zypper install mplayer
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;命令行里输入：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mplayer
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果有显示相关信息，则说明安装成功。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

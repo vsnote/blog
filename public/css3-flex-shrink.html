@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>CSS3 flex-shrink - 陈三</title>
+<meta property="og:title" content="CSS3 flex-shrink - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">CSS3 flex-shrink</h1>
+
+    
+    <span class="article-date">July 7, 2014</span>
+    
+
+    <div class="article-content">
+      <p><code>flex-grow</code>控制flex container有多余空间的时候怎么分配，默认值为0，即所有的flex items都不分配。</p>
+
+<p><code>flex-shrink</code><sup class="footnote-ref" id="fnref:13081-1"><a rel="footnote" href="#fn:13081-1">1</a></sup>则控制flex container空间不足以包含flex items时，flex items怎样缩小所占空间，来防止溢出container。其默认值为1，flex items们根据自身的<code>flex-basis</code>值做相应调整。</p>
+
+<p>看一个示例：</p>
+
+<pre><code>&lt;div class='example-Grid'&gt;
+  &lt;div class='example-first'&gt;汇成一道道光的流河&lt;/div&gt;
+  &lt;div class='example-last'&gt;我曾在天上见过地的繁华&lt;/div&gt;
+&lt;/div&gt;
+&lt;style&gt;
+.example-Grid{
+  display: flex;
+  border: 2px solid black;
+  width: 250px;
+}
+.example-first{
+  background: red;
+  flex-basis: 150px;
+  flex-shrink: 1;
+}
+.example-last{
+  background:orange;
+  flex-basis: 200px;
+  flex-shrink:1;
+}
+&lt;/style&gt;
+</code></pre>
+
+<div class='example-Grid'>
+  <div class='example-first'>
+    汇成一道道光的流河
+  </div>
+  
+
+<p><div class='example-last'>
+    我曾在天上见过地的繁华
+  </div>
+</div></p>
+
+<p>在上面的代码中，flex container宽度为250px，而两个flex item宽度加起来有350px，所以要腾100px空间出来。</p>
+
+<p>计算的方式是，每个flex item的<code>flex-basis</code>值乘以<code>flex-shrink</code>值求积，求和所有flex items的乘积，然后求占比，再乘以要腾出的空间。</p>
+
+<blockquote>
+<p>.example-first: (150 * 1) / ((200 * 1) + (150 * 1)) * 100 = 42.8571428571</p>
+
+<p>.exampel-last: (200 * 1) / ((200 * 1) + (150 * 1)) * 100 = 57.1428571429</p>
+</blockquote>
+
+<p>所以.example-first的宽度为150 &#8211; 42.8571428571 = 107px，.example-last的宽度为200 &#8211; 57.1428571429 = 143px。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:13081-1"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink">flex-shrink &#8211; CSS | MDN</a>
+ <a class="footnote-return" href="#fnref:13081-1"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

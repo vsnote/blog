@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>JavaScript 倒计时 - 陈三</title>
+<meta property="og:title" content="JavaScript 倒计时 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">JavaScript 倒计时</h1>
+
+    
+    <span class="article-date">February 2, 2013</span>
+    
+
+    <div class="article-content">
+      
+
+<p>最近经常用 JavaScript 写倒计时程序，略为整理：</p>
+
+<pre><code>function countdown(){// 先定义函数 countdown
+    var endTime = (new Date(2013,1,10)).getTime();
+    //使用 getTime 函数取得2013.2.10的时间数值，JavaScript 中的时间数值是以1970.1.1当天起算的，以毫秒为单位。另外需要特别注意的是，传递给 Date 的月份是从0开始算起的，0表示1月份，11表示12月份
+    var now = (new Date()).getTime();//取得当前时间
+    var dhms = endTime - now;
+    var dd = Math.floor(dhms/3600/24/1000);// 计算天数
+    var hms = dhms-(dd*24*3600*1000);// 扣除天数后所剩下的时间，单位毫秒
+    var hh = Math.floor(hms/3600/1000);// 计算小时数
+    var ms = hms-(hh*3600*1000);// 扣除天数、小时后剩下的时间，单位毫秒
+    var mm = Math.floor(ms/60/1000);// 计算分钟数
+    var s = ms-(mm*60*1000);// 扣除天数、小时、分钟后剩下的时间，单位毫秒
+    var ss = Math.floor(s/1000);// 计算秒数
+    if (hh &lt; 10){hh = &quot;0&quot; + hh;} // 如果小时数小于10,在左侧补充一个 &quot;0&quot;，保证两位数，下同
+    if (mm &lt; 10){mm = &quot;0&quot; + mm;}
+    if (ss &lt; 10){ss = &quot;0&quot; + ss;}
+    var output = &quot;倒计时：&quot; + dd + &quot;天&quot; + hh +&quot;小时&quot; + mm +&quot;分钟&quot; + ss + &quot;秒&quot;;
+    document.getElementById('countdown').innerHTML = output; // 将文档中 ID 为 &quot;countdown&quot; 的元素内容替换成 output
+    setTimeout(function(){countdown();},1000);// 1秒后调用自己
+}
+</code></pre>
+
+<p>在定义函数后，就可以在脚本中调用：</p>
+
+<pre><code>    countdown();
+</code></pre>
+
+<p>见 <a href="http://jsfiddle.net/chenxsan/sUrLj/1">jsfiddle</a> 的效果。</p>
+
+<p>另一种更简单的，比如从当下开始倒计时：</p>
+
+<pre><code>function countDown(t){ // t 为秒数
+ if (t &gt; 0) {
+    $('.js-countDown').text(t);
+    setTimeout(function(){countDown(t-1);}, 1000);
+  }
+}
+countDown(10); // 倒数10秒
+</code></pre>
+
+<h2 id="扩展阅读">扩展阅读</h2>
+
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Date/getTime">getTime</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Date">Date</a></li>
+</ol>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

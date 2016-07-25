@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>JavaScript 地区选择代码 - 陈三</title>
+<meta property="og:title" content="JavaScript 地区选择代码 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">JavaScript 地区选择代码</h1>
+
+    
+    <span class="article-date">April 4, 2013</span>
+    
+
+    <div class="article-content">
+      <p>先看个网易的一个前端框架提供的 <a href="http://nej.netease.com/code/10018/">JavaScript 地区选择控件</a>。当你选择省份或直辖市，同时会显示其下属的市，直到区或县。</p>
+
+<p>但它的这个控件并不独立，并不像 jQuery 插件一样，可以单独引用一个js文件，又或者它可以，但因为它的文档太过简单而没有提及？总之我是没看到。</p>
+
+<p>不过还是可以借用下它里面的中国行政区域数据，来写段 JavaScript 代码实现这种功能。</p>
+
+<p>首先是 HTML 代码：</p>
+
+<pre><code>&lt;select id=&quot;province&quot; class=&quot;province&quot;&gt;&lt;/select&gt;
+&lt;select id=&quot;city&quot; class=&quot;city&quot;&gt;&lt;/select&gt;
+&lt;select id=&quot;area&quot; class=&quot;area&quot;&gt;&lt;/select&gt;
+</code></pre>
+
+<p>我们将在以上SELECT元素中插入OPTION元素，经过 JavaScript 处理后的HTML代码会变成如下：</p>
+
+<pre><code>&lt;select class=&quot;province&quot; id=&quot;province&quot;&gt;
+&lt;option value=&quot;北京市&quot;&gt;北京市&lt;/option&gt;
+&lt;option value=&quot;天津市&quot;&gt;天津市&lt;/option&gt;
+&lt;option value=&quot;上海市&quot;&gt;上海市&lt;/option&gt;
+&lt;option value=&quot;重庆市&quot;&gt;重庆市&lt;/option&gt;
+&lt;option value=&quot;河北省&quot;&gt;河北省&lt;/option&gt;
+......
+&lt;/select&gt;
+</code></pre>
+
+<p>接下来就是 JavaScript 代码。</p>
+
+<p>代码的逻辑是，</p>
+
+<ol>
+<li>页面加载过程中，根据省、市、区、县的数据生成 option，并将其插入到相应的select元素中；</li>
+<li>当用户做出选择时，相应的，低一级或低一、二级的option做出调整。</li>
+</ol>
+
+<p>因为行政区划的数据很多，所以仅在这儿展示一部分，更多可以看 <a href="http://jsfiddle.net/chenxsan/kGf4K/">jsfiddle</a>：</p>
+
+<pre><code>var _dmap = {
+        s:{'北京市':1,'天津市':1,'上海市':1,'重庆市':1},
+        p:['北京市','天津市','上海市','重庆市','河北省','山西省','辽宁省','吉林省','黑龙江省','江苏省','浙江省','安徽省','福建省','江西省','山东省','河南省','湖北省','湖南省','广东省','海南省','四川省','贵州省','云南省','陕西省','甘肃省','青海省','西藏自治区','内蒙古自治区','广西壮族自治区','宁夏回族自治区','新疆维吾尔自治区'],
+        c:{'北京市':['东城区','西城区','朝阳区','丰台区','石景山区','海淀区','门头沟区','房山区','通州区','顺义区','昌平区','大兴区','怀柔区','平谷区','密云县','延庆县'],
+        '天津市':['和平区','河东区','河西区','南开区','河北区','红桥区','东丽区','西青区','津南区','北辰区','武清区','宝坻区','滨海新区','宁河县','静海县','蓟县'],
+        '河北省':['石家庄市','唐山市','秦皇岛市','邯郸市','邢台市','保定市','张家口市','承德市','沧州市','廊坊市','衡水市'],
+        '山西省':['太原市','大同市','阳泉市','长治市','晋城市','朔州市','晋中市','运城市','忻州市','临汾市','吕梁市'],
+        '内蒙古自治区':['呼和浩特市','包头市','乌海市','赤峰市','通辽市','鄂尔多斯市','呼伦贝尔市','巴彦淖尔市','乌兰察布市','兴安盟','锡林郭勒盟','阿拉善盟'],
+        '辽宁省':['沈阳市','大连市','鞍山市','抚顺市','本溪市','丹东市','锦州市','营口市','阜新市','辽阳市','盘锦市','铁岭市','朝阳市','葫芦岛市'],
+        '吉林省':['长春市','吉林市','四平市','辽源市','通化市','白山市','松原市','白城市','延边朝鲜族自治州'],
+        '黑龙江省':['哈尔滨市','齐齐哈尔市','鸡西市','鹤岗市','双鸭山市','大庆市','伊春市','佳木斯市','七台河市','牡丹江市','黑河市','绥化市','大兴安岭地区'],
+        '上海市':['黄浦区','徐汇区','长宁区','静安区','普陀区','闸北区','虹口区','杨浦区','闵行区','宝山区','嘉定区','浦东新区','金山区','松江区','青浦区','奉贤区','崇明县'],
+        '江苏省':['南京市','无锡市','徐州市','常州市','苏州市','南通市','连云港市','淮安市','盐城市','扬州市','镇江市','泰州市','宿迁市'],
+        ....,
+        '新疆维吾尔自治区':['乌鲁木齐市','克拉玛依市','吐鲁番地区','哈密地区','昌吉回族自治州','博尔塔拉蒙古自治州','巴音郭楞蒙古自治州','阿克苏地区','克孜勒苏柯尔克孜自治州','喀什地区','和田地区','伊犁哈萨克自治州','塔城地区','阿勒泰地区','自治区直辖县级行政区划']
+    },
+    a:{'河北省-石家庄市':['长安区','桥东区','桥西区','新华区','井陉矿区','裕华区','井陉县','正定县','栾城县','行唐县','灵寿县','高邑县','深泽县','赞皇县','无极县','平山县','元氏县','赵县','辛集市','藁城市','晋州市','新乐市','鹿泉市'],
+    '河北省-唐山市':['路南区','路北区','古冶区','开平区','丰南区','丰润区','滦县','滦南县','乐亭县','迁西县','玉田县','唐海县','遵化市','迁安市'],
+    '河北省-秦皇岛市':['海港区','山海关区','北戴河区','青龙满族自治县','昌黎县','抚宁县','卢龙县'],
+    '河北省-邯郸市':['邯山区','丛台区','复兴区','峰峰矿区','邯郸县','临漳县','成安县','大名县','涉县','磁县','肥乡县','永年县','邱县','鸡泽县','广平县','馆陶县','魏县','曲周县','武安市'],
+    ......,
+    '新疆维吾尔自治区-自治区直辖县级行政区划':['石河子市','阿拉尔市','图木舒克市','五家渠市']
+    }
+};
+
+var _p=_dmap.p;//从_dmap对象中取得全部的省、直辖市
+var _c=_dmap.c;//从_dmap对象中取得全部的市
+var _a=_dmap.a;//从_dmap对象中取得全部省、市、区、县信息
+function deployArea(){//定义一个函数，用来生成区、县即第三级的 option 列表
+    var str_province=$('#province option:selected').val();//取得当前选中或默认的省或直辖市名称
+    var str_city=$('#city option:selected').val();//取得当前选中或默认的城市名称
+    var str=str_province+&quot;-&quot;+str_city;//合并省、市名称，用与从_dmap数据中取出区、县信息
+    var _a_all=_a[str];//取得所有区、县信息，并存到 _a_all 数组中
+    $('#area').empty();//首先清空旧的区、县信息
+    if(_a_all.length&gt;0){//如果区、县数目不为空，即第三级存在，则生成区、县列表并插入到 ID 为 #area 的 div 块中
+        $.each(_a_all,function(index,value){
+            $('#area').append('&lt;option value='+value+'&gt;'+value+'&lt;/option&gt;');
+        });
+    }
+}//函数结束
+$.each(_p,function(index,value){//生成省、直辖市列表并插入 #province 块中
+    $('#province').append('&lt;option value='+value+'&gt;'+value+'&lt;/option&gt;');
+    var def_province = $('#province option:selected').val();
+    var def_city = _c[def_province];
+    $('#city').empty();
+    $.each(def_city, function (index, value) {//生成市列表并插入到 #city 块中
+        $('#city').append('&lt;option value=' + value + '&gt;' + value + '&lt;/option&gt;');
+});
+});
+$('#province').change(function(){//当用户开始选择省、直辖市信息时，调整下级市、区、县信息
+    var str=$('#province option:selected').val();//取得选中的直辖市或省名称
+    var _c_a=_c[str];//取得相应的市信息
+    $('#city').empty();
+    $('#area').empty();
+    $.each(_c_a,function(index,value){//生成市一级的列表并插入 div#city 块中
+        $('#city').append('&lt;option value='+value+'&gt;'+value+'&lt;/option&gt;');
+    });
+    deployArea();//生成区、县一级的列表
+});
+$('#city').change(function(){//当用户选择市一级信息时，取得相应区、县信息并生成列表
+    deployArea();
+});
+</code></pre>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

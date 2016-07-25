@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jsonp on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/jsonp/</link>
+    <description>Recent content in Jsonp on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 20 Nov 2013 14:05:25 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/jsonp/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>JSONP</title>
+      <link>https://www.zfanw.com/blog/jsonp.html</link>
+      <pubDate>Wed, 20 Nov 2013 14:05:25 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jsonp.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#JSONP&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; JSONP的由来&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#JSONP-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; JSONP的概念&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#jQueryJSONP&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; jQuery与JSONP&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 参考&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    Ajax 请求如果返回JSON数据，我们可以用&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse&#34;&gt;JSON.parse&lt;/a&gt;析出，又或者用jQuery提供的&lt;a href=&#34;http://api.jquery.com/jQuery.parseJSON/&#34;&gt;parseJSON&lt;/a&gt;。这个概念很容易理解。但名称与它接近的JSONP概念却有些复杂。起码，情况要比返回JSON数据复杂、难理解些。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;JSONP&#34;&gt;JSONP的由来&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyJSONP&#34; href=&#34;#JSONP&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    之所以会有JSONP出现，是因为浏览器的&lt;a href=&#34;http://www.zfanw.com/blog/javascript-same-origin-policy.html&#34;&gt;同源策略限制&lt;/a&gt; &amp;#8211; 我们无法跨域请求数据。但我们又有跨域请求数据的需求，那么我们就需要一个变通方法。既然JavaScript脚本不受同源策略的限制，于是它就被应用到跨域请求数据的实践中。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;JSONP-2&#34;&gt;JSONP的概念&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyJSONP-2&#34; href=&#34;#JSONP-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    JSONP的全文是JSON with padding，表示一串JSON数据用函数名称包装起来。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    举个例子：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{&#34;firstName&#34;:&#34;Sam&#34;,&#34;lastName&#34;:&#34;Chen&#34;,&#34;gender&#34;:&#34;male&#34;}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    上面是一串JSON数据，假设它放在github.com/chenxsan域上的human.json文件里，因为它与我的博客不同源，所以我并无法从我的博客发Ajax请求，要求github说返回该文件然后解析。但我可以把该数据包装在一个JavaScript函数里，保存为human.js文件：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;human({&#34;firstName&#34;:&#34;Sam&#34;,&#34;lastName&#34;:&#34;Chen&#34;,&#34;gender&#34;:&#34;male&#34;});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这其实就是一个函数传入一个对象并执行的代码。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    而我在我博客页面可预先定义一个同名函数：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;function human(data) {
+    console.log(data.firstName + data.lastName + &#34;is&#34; + data.gender);
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    之后在博客页面通过script标签动态调用github.com域上的human.js文件，这就类似于在页面插入如下语句：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;script src = &#34;https://raw.github.com/chenxsan/blog/master/human.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样，通过在博客页面上定义函数，并且调用不同域上的JS传入数据执行了函数，我得到JSON数据 &amp;#8211; 查看浏览器的控制台信息，我可以看到字符串&amp;#8217;Sam Chen is male&amp;#8217;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    上面的说明中，包含JSON数据的文件是保存为human.js的，实际上，src并不介意它是什么文件格式，我甚至可以把它保存为.html或者其他格式，照样可以用，没有影响。在实际应用中，服务器端语言可以自由定义请求的URL &amp;#8211; 前端页面只关心服务器端能不能返回相应格式的数据。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;jQueryJSONP&#34;&gt;jQuery与JSONP&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyjQueryJSONP&#34; href=&#34;#jQueryJSONP&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    jQuery中，JSONP的实现与上面描述的差别不大。jQuery通过在URL附加&lt;code&gt;?callback=?&lt;/code&gt;这样的参数提交请求给服务器(参数名称是客户端和服务器共同协定的，不必要叫callback，比如接下来的例子中，回调名用的是jsoncallback。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    例子：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$.getJSON(&#39;http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&amp;tagmode=any&amp;format=json&amp;jsoncallback=?&#39;,function(data){
+    console.log(data.title);
+    console.log(typeof data);
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    demo如下，请按console中的run按钮：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a class=&#34;jsbin-embed&#34; href=&#34;http://jsbin.com/aceGoruq/2/embed?js,console&#34;&gt;测试JSONP&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    用浏览器开发者工具查看请求的URL：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2013/11/jsonp-flickr.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2013/11/jsonp-flickr.png&#34; alt=&#34;jsonp 请求 flickr 数据&#34; width=&#34;617&#34; height=&#34;343&#34; class=&#34;alignnone size-full wp-image-11007&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/11/jsonp-flickr.png 617w, https://www.zfanw.com/blog/wp-content/uploads/2013/11/jsonp-flickr-300x166.png 300w&#34; sizes=&#34;(max-width: 617px) 100vw, 617px&#34; /&gt;&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我们能看到，我们请求的URL地址中最后一个问号被替换成&lt;code&gt;jQuery20206085280561819673_1384954063431&amp;_=1384954063432&lt;/code&gt;。这是jQuery处理的结果，不需要我们打理。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    HTTP 返回的数据则是下面这样：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      jQuery20206085280561819673_1384954063431&amp;_=1384954063432({&amp;#8230;&amp;#8230;});
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    还有些情况下，需要特定的回调名称，则可以设置 &lt;code&gt;jsonpCallback&lt;/code&gt;：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$.ajax({
+    url: &#39;http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&amp;tagmode=any&amp;format=json&amp;jsoncallback=?&#39;, 
+    dataType: &#34;jsonp&#34;,
+    jsonpCallback: &#34;_preloadCallback&#34;,
+    success: function(data) {
+        alert(data.title);
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    既然有了定义好的回调函数，又有了远程取回的带数据的执行函数，我们就得到不同域的JSON数据。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;参考&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://www.ibm.com/developerworks/cn/web/wa-aj-jsonp1/&#34;&gt;使用 JSONP 实现跨域通信&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://www.flickr.com/services/feeds/docs/photos_public/&#34;&gt;flickr 公開的 Feed&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

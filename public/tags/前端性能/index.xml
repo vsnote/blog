@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>前端性能 on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/</link>
+    <description>Recent content in 前端性能 on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 05 Jul 2014 07:15:00 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>防止布局振荡</title>
+      <link>https://www.zfanw.com/blog/prevent-layout-thrashing.html</link>
+      <pubDate>Sat, 05 Jul 2014 07:15:00 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/prevent-layout-thrashing.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 快速解决办法？&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 现实世界又如何？&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#requestAnimationFrame&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 来认识requestAnimationFrame&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    原文地址：&lt;a href=&#34;http://wilsonpage.co.uk/preventing-layout-thrashing/&#34;&gt;Preventing &amp;#8216;layout thrashing&amp;#8217; | Wilson Page&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    最近接触页面性能的东西，有很多细微又原始的内容，比如浏览器渲染。资料非常多，所以选一些做节译，备忘。
+  &lt;/p&gt;
+  
+  &lt;hr /&gt;
+  
+  &lt;p&gt;
+    JavaScript多次写、读DOM就会发生「布局振荡」，引起文档重排&lt;fnref target=&#34;13021.2&#34; /&gt;(reflow &amp;#8211; the process of constructing a render tree from a DOM tree&lt;fnref target=&#34;13021.1&#34; /&gt;)。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;// 读
+var h1 = element1.clientHeight;
+
+// 写 (布局作废)
+element1.style.height = (h1 * 2) + &#39;px&#39;;
+
+// 读 (触发布局)
+var h2 = element2.clientHeight;
+
+// 写 (布局作废)
+element2.style.height = (h2 * 2) + &#39;px&#39;;
+
+// 读 (触发布局)
+var h3 = element3.clientHeight;
+
+// 写 (布局作废)
+element3.style.height = (h3 * 2) + &#39;px&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    DOM被写时，布局就作废了，需要在某个时间点重排。但浏览器很懒，它想等到当前操作(或说帧)结束前再来重排。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    不过，如果我们在当前操作(或说帧)结束前从DOM中读取几何数值，那么我们就强制浏览器提前重排布局，这就是所谓的「强制同步布局」(forced synchonous layout)，它会要了性能的命。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在现代的桌面浏览器上，布局振荡的副作用可能并不明显；但放到低端移动设备上，问题就很严重了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;快速解决办法？&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在一个理想世界里，我们只要简单地重新排列代码执行顺序，就可以批量读DOM、批量写DOM。这意味着，文档只需一次重排。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;// 读
+var h1 = element1.clientHeight;
+var h2 = element2.clientHeight;
+var h3 = element3.clientHeight;
+
+// 写 (布局作废)
+element1.style.height = (h1 * 2) + &#39;px&#39;;
+element2.style.height = (h2 * 2) + &#39;px&#39;;
+element3.style.height = (h3 * 2) + &#39;px&#39;;
+
+// 文档在帧末重排
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;现实世界又如何？&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    现实中可就没那么简单。大型程序中，代码散播各处，个个都存在这类危险的DOM。我们没法轻松(显然也不应该)把我们漂亮的、解藕的代码揉合一块，就只是为了控制住执行顺序。那么为了优化性能，我们怎样把读和写做批量处理？
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;requestAnimationFrame&#34;&gt;来认识requestAnimationFrame&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyrequestAnimationFrame&#34; href=&#34;#requestAnimationFrame&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;window.requestAnimationFrame&lt;/code&gt;安排一个函数在下一帧执行，类似于&lt;code&gt;setTimout(fn, 0)&lt;/code&gt;。这非常有用，因为我们可以用它来排定所有的DOM写操作在下一帧一同执行，DOM读操作就按现在的顺序同步执行。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;// 读
+var h1 = element1.clientHeight;
+
+// 写
+requestAnimationFrame(function() {
+  element1.style.height = (h1 * 2) + &#39;px&#39;;
+});
+
+// 读
+var h2 = element2.clientHeight;
+
+// 写
+requestAnimationFrame(function() {
+  element2.style.height = (h2 * 2) + &#39;px&#39;;
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &amp;#8230;&amp;#8230;
+  &lt;/p&gt;
+  
+  &lt;footnotes&gt;
+    &lt;fn name=&#34;13021.2&#34;&gt;
+      &lt;p&gt;
+        注意，重排不要理解成中文的「重新排布」，而是「布局」、「布置」的意思，确切说，reflow是webkit的说法，layout是Gecko的说法。
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;13021.1&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://gent.ilcore.com/2011/03/how-not-to-trigger-layout-in-webkit.html&#34;&gt;Fastersite: How (not) to trigger a layout in WebKit&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+  &lt;/footnotes&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

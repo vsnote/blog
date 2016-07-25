@@ -1,0 +1,1638 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Opensuse on 陈三</title>
+    <link>https://www.zfanw.com/blog/categories/opensuse/</link>
+    <description>Recent content in Opensuse on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 03 Feb 2015 14:30:58 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/categories/opensuse/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Charles Proxy 的 .desktop 文件</title>
+      <link>https://www.zfanw.com/blog/dot-desktop-file-charles-proxy.html</link>
+      <pubDate>Tue, 03 Feb 2015 14:30:58 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/dot-desktop-file-charles-proxy.html</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.charlesproxy.com/download/&#34;&gt;Charles Proxy 的 Linux 版本&lt;/a&gt; 只是一个压缩包，解压到 &lt;em&gt;/opt&lt;/em&gt; 目录后，如果希望从 openSUSE 的 kickoff 开始菜单中启动，就需要创建一个 &lt;a href=&#34;http://standards.freedesktop.org/desktop-entry-spec/latest/&#34;&gt;.desktop&lt;/a&gt; 文件。&lt;/p&gt;
+
+&lt;p&gt;我的电脑环境：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;openSUSE 13.2 32 位&lt;/li&gt;
+&lt;li&gt;Plasma 5.2 桌面环境&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;在 &lt;em&gt;~/.local/share/applications&lt;/em&gt; 目录下新建一个 &lt;strong&gt;charles.desktop&lt;/strong&gt; 文件，添加如下内容：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[Desktop Entry] 
+Version=3.9.3 
+Type=Application 
+Name=Charles 
+Icon=/opt/charles/icon/charles_icon512.png 
+Exec=&amp;quot;/opt/charles/bin/charles&amp;quot; %f 
+Categories=Development;IDE; 
+Terminal=false 
+StartupWMClass=com-xk72-charles-gui-MainWithClassLoader 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 &lt;code&gt;StartupWMClass&lt;/code&gt; 可以通过执行 &lt;a href=&#34;http://www.xfree86.org/4.0/xprop.1.html&#34;&gt;&lt;code&gt;xprop&lt;/code&gt;&lt;/a&gt; 命令取得。&lt;/p&gt;
+
+&lt;p&gt;最终效果如下图：&lt;/p&gt;
+
+&lt;p&gt;[resp_image id=&amp;#8217;15134&amp;#8242; caption=&amp;#8221; ]&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>vimprobable2</title>
+      <link>https://www.zfanw.com/blog/vimprobable2.html</link>
+      <pubDate>Fri, 30 Jan 2015 17:00:13 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimprobable2.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 简介&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 安装&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 配置&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-4&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 问题&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    Vimprobable 的 &lt;a href=&#34;http://sourceforge.net/p/vimprobable/wiki/FAQ/&#34;&gt;FAQ&lt;/a&gt; 里有一个问答是这样的：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      Why not just use Vimperator?
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Mozilla Firefox (and also its variants like Iceweasel) gets worse with every version. It behaves like a molasse by now.
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      为什么不就用 Vimperator？
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Mozilla Firefox（包括它的变体，比如 Iceweasel），越做越糟。
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    如果你是 vimperator 用户，估计也能体会到 vimprobable 开发者的这句话。每一次 Firefox 升级，vimperator 基本都会出些小问题，然后要等开发者修复，再自己编译、重新安装。但很多人是在 Windows 环境下使用，要跑个简单的 &lt;code&gt;make xpi&lt;/code&gt; 命令估计都要先花时间折腾环境。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    所以，试试 vimprobable？
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;简介&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    vimprobable 基于 webkit，它是已经停止开发的 vimpression 的分支。它的键操作与 vimperator 很像，如果你用过 vimperator，则非常容易上手。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;安装&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    vimprobable 目前有两个版本，vimprobable1 与 vimprobable2，目前版本 1 只会打些小补丁，主要开发集中在版本 2。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    所以以下说明均指 vimprobable2。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    vimprobable 支持三种操作系统：
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      BSD
+    &lt;/li&gt;
+    &lt;li&gt;
+      Mac
+    &lt;/li&gt;
+    &lt;li&gt;
+      Linux
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    我是在 openSUSE 13.2 上安装使用。
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        下载源代码
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        下载源代码有两种方式：
+      &lt;/p&gt;
+      
+      &lt;ul&gt;
+        &lt;li&gt;
+          下载&lt;a href=&#34;http://sourceforge.net/projects/vimprobable/files/latest/download&#34;&gt;压缩包&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;code&gt;git clone git://git.code.sf.net/p/vimprobable/code&lt;/code&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        安装 vimprobable
+      &lt;/p&gt;
+      
+      &lt;ol&gt;
+        &lt;li&gt;
+          &lt;code&gt;cd&lt;/code&gt; 到代码目录中
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;code&gt;sudo make install&lt;/code&gt;
+        &lt;/li&gt;
+      &lt;/ol&gt;
+      
+      &lt;p&gt;
+        注意 vimprobable 需要三个依赖：
+      &lt;/p&gt;
+      
+      &lt;ul&gt;
+        &lt;li&gt;
+          libwebkit-1.0 &gt;= 1.1.11
+        &lt;/li&gt;
+        &lt;li&gt;
+          libgtk+-2.0
+        &lt;/li&gt;
+        &lt;li&gt;
+          libsoup-2.4
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    安装完成后，即可以通过命令行执行 vimprobable2 了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;配置&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    vimprobable2 的&lt;a href=&#34;http://www.vimprobable.org/man/vimprobablerc.5.htm&#34;&gt;配置&lt;/a&gt;有以下几种方式，
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;code&gt;make install&lt;/code&gt; 前修改 &lt;em&gt;config.h&lt;/em&gt; 及 &lt;em&gt;keymap.h&lt;/em&gt; 文件
+    &lt;/li&gt;
+    &lt;li&gt;
+      通过 &lt;code&gt;:set&lt;/code&gt; 命令临时修改
+    &lt;/li&gt;
+    &lt;li&gt;
+      通过指定 rc 配置文件，默认为 &lt;em&gt;~/.config/vimprobable/vimprobablerc&lt;/em&gt;，这是永久的
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    比如我们想改它的默认主页：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;:set homepage=https://www.google.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    有兴趣可以看看&lt;a href=&#34;https://github.com/chenxsan/rc-files/blob/master/.config/vimprobable/vimprobablerc&#34;&gt;我的配置文件&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-4&#34;&gt;问题&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-4&#34; href=&#34;#i-4&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    我在使用过程中有碰到几个问题，
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        ssl 错误。
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        这是在访问一些 https 网址时出现的：
+      &lt;/p&gt;
+      
+      &lt;blockquote&gt;
+        &lt;p&gt;
+          Unable to load page
+        &lt;/p&gt;
+        
+        &lt;p&gt;
+          Problem occurred while loading the URL https://www.google.co.jp/?gfe_rd=cr&amp;ei=AzXLVIvcFOv98wf4wYCQCw
+        &lt;/p&gt;
+        
+        &lt;p&gt;
+          Unacceptable TLS certificate
+        &lt;/p&gt;
+      &lt;/blockquote&gt;
+      
+      &lt;p&gt;
+        vimprobable 默认使用 &lt;em&gt;/etc/ssl/certs/ca-certificates.crt&lt;/em&gt; 检查网站证书，而我的系统下该路径并没有文件，当然你可以自己指定路径，
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;:set cabundle=/path/to/file
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        但我因为不确定要指向哪里，所以更宁愿简单粗野处理：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;:set strictssl=false
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        不过请注意这样可能带来中间人攻击的风险。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        &lt;kbd&gt;gi&lt;/kbd&gt; 无法进入 Insert 模式
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        这是 vimprobable 使用 GTK 绑定或某些网站使用不规范的 HTML 元素的缘故，暂时无法避免。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        使用代理
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        我的电脑上安装有 &lt;a href=&#34;http://www.zfanw.com/blog/tag/privoxy&#34;&gt;Privoxy&lt;/a&gt;，vimprobable 也支持开启 proxy，但它是根据 &lt;code&gt;http_proxy&lt;/code&gt; 这个环境变量来走的，所以我在 .zshrc 文件中添加如下一行：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;alias vimpr=&#39;export HTTP_PROXY=&#34;127.0.0.1:8118&#34;; vimprobable2&#39;
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        这样我不必修改整个系统的代理设置，只需要在运行 vimprobable2 前对当前会话配置即可。
+      &lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Privoxy 无法启动的问题</title>
+      <link>https://www.zfanw.com/blog/privoxy-failed-problem.html</link>
+      <pubDate>Tue, 27 Jan 2015 12:01:00 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-failed-problem.html</guid>
+      <description>&lt;p&gt;我的经验，Privoxy 无法启动的问题，百八十都是因为 config 文件配置错了。&lt;/p&gt;
+
+&lt;p&gt;比如我这一次的问题：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sam@orchid:~|master⚡⇒  systemctl status privoxy.service
+privoxy.service - Privoxy Web Proxy With Advanced Filtering Capabilities
+   Loaded: loaded (/usr/lib/systemd/system/privoxy.service; enabled)
+   Active: failed (Result: exit-code) since Tue 2015-01-27 16:00:31 HKT; 16s ago
+  Process: 9156 ExecStart=/usr/sbin/privoxy --chroot --pidfile /run/privoxy.pid --user privoxy /etc/config (code=exited, status=1/FAILURE)
+  Process: 9154 ExecStartPre=/usr/bin/cp -upf /lib/libresolv.so.2 /lib/libnss_dns.so.2 /var/lib/privoxy/lib/ (code=exited, status=0/SUCCESS)
+  Process: 9151 ExecStartPre=/usr/bin/cp -upf /etc/resolv.conf /etc/host.conf /etc/hosts /etc/localtime /var/lib/privoxy/etc/ (code=exited, status=0/SUCCESS)
+ Main PID: 4310 (code=exited, status=15)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Privoxy 无法启动。&lt;/p&gt;
+
+&lt;p&gt;后来发现是因为在住处的网络环境下给 config 文件添加了一行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;listen-address 192.168.1.100:8118
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;而办公室里分配给我电脑的 IP 地址并不是这样，于是就出错。&lt;/p&gt;
+
+&lt;p&gt;去掉这一行，再重启 Privoxy 就搞定问题。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Charles Proxy 自定义 CA 证书</title>
+      <link>https://www.zfanw.com/blog/charles-proxy-custom-ca-certificate.html</link>
+      <pubDate>Sun, 25 Jan 2015 05:17:28 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/charles-proxy-custom-ca-certificate.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_CA&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 自建 CA 证书&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_charles&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 配置 charles&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Firefox&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 导入证书到 Firefox&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.charlesproxy.com/documentation/using-charles/ssl-certificates/&#34;&gt;Charles Proxy&lt;/a&gt; 跟 Windows 平台下的 &lt;a href=&#34;http://www.telerik.com/fiddler&#34;&gt;Fiddler&lt;/a&gt; 一样可以查看 HTTPS 流量，但使用 Charles 官方提供的 &lt;a href=&#34;http://www.charlesproxy.com/documentation/using-charles/ssl-certificates/&#34;&gt;CA 证书&lt;/a&gt;检查 HTTPS 请求时，Firefox 35 下网页会出现如下错误：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      twitter.com uses an invalid security certificate. The certificate is not trusted because the issuer certificate has expired. (Error code: sec_error_expired_issuer_certificate)
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;https://muffinresearch.co.uk/proxying-connections-from-ffos/&#34;&gt;据说&lt;/a&gt;原因是这样的：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      The more recent versions of Firefox only allow certs with start dates after the unix epoch (1st Jan 1970). As the Charles CA cert has a start year of 1899 it&amp;#8217;s seen as expired.
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    最新版本的 Firefox 只允许证书的起始时间在 1970 以后，而 Charles CA 证书的起始时间是 1899。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    解决办法是&lt;a href=&#34;http://0x74696d.com/posts/CharlesSSL/&#34;&gt;自建一个证书&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_CA&#34;&gt;自建 CA 证书&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_CA&#34; href=&#34;#_CA&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    我的过程基于 openSUSE 13.2 操作系统。
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        逐行执行以下命令（openSUSE 下需要管理员权限）。
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;mkdir -p /usr/local/CharlesCA
+cd /usr/local/CharlesCA
+mkdir certs private newcerts
+echo 01 &amp;gt; serial
+touch index.txt
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        生成 CA 证书
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;openssl req -new -x509 -days 3650 -extensions v3_ca \
+-keyout private/ca_key.pem -out certs/ca_cert.pem \
+-config /etc/ssl/openssl.cnf
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        请注意 &lt;code&gt;-config&lt;/code&gt; 后指向的路径，这里是我 openSUSE 下 openssl.cnf 文件路径，请根据自己的操作系统确认其路径。
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        这一步中也会要求填写 &lt;code&gt;passphrase&lt;/code&gt; 及其它信息，&lt;code&gt;passphrase&lt;/code&gt; 后面在 Charles 中会用到。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        转换为 PKCS12 格式
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        因为 Charles 需要 pkcs12 格式的证书，所以还需要做个转换：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;openssl pkcs12 -export -out ca_cert.pfx -inkey private/ca_key.pem -in certs/ca_cert.pem
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        这样，/usr/local/CharlesCA 目录下会生成 ca_cert.pfx 文件。
+      &lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    我们总共得到了 3 个重要的文件：
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      ca_cert.pfx &amp;#8211; charles 添加自定义证书用的
+    &lt;/li&gt;
+    &lt;li&gt;
+      ca_cert.pem &amp;#8211; 提供给客户端使用的
+    &lt;/li&gt;
+    &lt;li&gt;
+      ca_key.pem &amp;#8211; 钥匙（请保证它的安全）
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_charles&#34;&gt;配置 charles&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_charles&#34; href=&#34;#_charles&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      打开 charles -&gt; Proxy -&gt; Proxy Settings&amp;#8230; 菜单
+    &lt;/li&gt;
+    &lt;li&gt;
+      点击 SSL 标签页
+    &lt;/li&gt;
+    &lt;li&gt;
+      勾选 &amp;#8216;Use a custom CA certificate&amp;#8217;
+    &lt;/li&gt;
+    &lt;li&gt;
+      点击 &lt;kbd&gt;Choose&lt;/kbd&gt; 按键，选择 &lt;code&gt;/usr/local/CharlesCA/ca_cert.pfx&lt;/code&gt; 文件
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    这样就配置好 charles 的证书。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Firefox&#34;&gt;导入证书到 Firefox&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Firefox&#34; href=&#34;#_Firefox&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      打开 Firefox -&gt; Preferences
+    &lt;/li&gt;
+    &lt;li&gt;
+      选择 Advanced -&gt; Certificates 标签页
+    &lt;/li&gt;
+    &lt;li&gt;
+      点击 &lt;kbd&gt;View certificates&lt;/kbd&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      点击 &lt;kbd&gt;Import...&lt;/kbd&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      定位到 &lt;code&gt;/usr/local/CharlesCA/certs/ca_cert.pem&lt;/code&gt; 文件
+    &lt;/li&gt;
+    &lt;li&gt;
+      勾选 &amp;#8216;This certificate can identify websites&amp;#8217;
+    &lt;/li&gt;
+    &lt;li&gt;
+      确认
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    最后重启 Charles，会弹窗口要求填写上面创建证书时设置的 passphrase。之后 https 流量可以正常分析了。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>安装 Plasma 5 的错误 plasmashell closed unexpected</title>
+      <link>https://www.zfanw.com/blog/plasma-5-plasmashell-closed-unexpected.html</link>
+      <pubDate>Fri, 23 Jan 2015 17:45:35 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/plasma-5-plasmashell-closed-unexpected.html</guid>
+      <description>
+
+&lt;p&gt;最近盯上 &lt;a href=&#34;https://www.kde.org/announcements/plasma5.0/&#34;&gt;Plasma 5&lt;/a&gt;，于是就在我的 openSUSE 13.2 上安装。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;先是按照 &lt;a href=&#34;https://en.opensuse.org/SDB:KDE_repositories#KDE_Frameworks_5_.26_Plasma_5&#34;&gt;openSUSE 说明&lt;/a&gt;添加两个库：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$ sudo zypper ar -f http://download.opensuse.org/repositories/KDE:/Frameworks5/openSUSE_13.2/ Frameworks5&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$ sudo zypper ar -f http://download.opensuse.org/repositories/KDE:/Qt5/openSUSE_13.2/ qt5&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;接着安装 Plasma 5：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$ sudo zypper in plasma5-session&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;安装 plasma 5 过程中会卸载掉许多 KDE 4 相关的内容，别怕，如果有冲突，通常选 1 然后回车确认就对了。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;重启系统。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;进入系统后，随即有个窗口报错：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;We are sorry, plasmashell closed unexpectedly. You cannot report this error, because plasmashell does not provide a bug reporting address.&lt;/p&gt;
+
+&lt;p&gt;Detais:&lt;/p&gt;
+
+&lt;p&gt;Executable: plasmashell PID: 1536 Signal: Aborted (6) Time: 1/23/15 14:31:50&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;也可以&lt;a href=&#34;http://drp.io/myk&#34;&gt;点击看图片&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;注意，图中的窗口关掉后桌面只是一片空白。但因为我的 KDE 的窗口管理器用的是 xmonad，所以仍然可以调用出 konsole，通过命令行操作、打开 Firefox、连接网络等。&lt;/p&gt;
+
+&lt;p&gt;找了许多材料，没什么效果，最后跑 &lt;a href=&#34;https://forum.kde.org/viewtopic.php?f=289&amp;amp;t=124595&#34;&gt;KDE 论坛发贴&lt;/a&gt;，但整天下来都没人回复，只好自己再接再厉。最后运气女神终于同情了我。&lt;/p&gt;
+
+&lt;h2 id=&#34;解决办法&#34;&gt;解决办法&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;查看上面添加的两个库的对应 ID：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$ zypper lr&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;我的结果如下：&lt;/p&gt;
+
+&lt;pre&gt;sam@orchid:~|master⚡⇒  zypper lr
+#  | Alias                                  | Name                                   | Enabled | Refresh
+---+----------------------------------------+----------------------------------------+---------+--------
+1 | Firefox                                | Firefox                                | Yes     | Yes    
+2 | Framewordks5                           | Frameworks5                            | Yes     | Yes    
+3 | Java:packages                          | Java:packages                          | Yes     | Yes    
+4 | M17N                                   | M17N                                   | Yes     | Yes    
+5 | MargueriteSu                           | MargueriteSu                           | Yes     | Yes    
+6 | Mozilla                                | Mozilla                                | Yes     | Yes    
+7 | Node.js                                | Node.js                                | Yes     | Yes    
+8 | PackMan_Essentials                     | PackMan_Essentials                     | Yes     | Yes    
+9 | X11:Bumblebee                          | X11:Bumblebee                          | Yes     | Yes    
+10 | X11_WindowManagers                     | X11_WindowManagers                     | Yes     | Yes    
+11 | devel:languages:nodejs                 | devel:languages:nodejs                 | Yes     | Yes    
+12 | dvd                                    | dvd                                    | Yes     | Yes    
+13 | games:tools                            | games:tools                            | Yes     | Yes    
+14 | google-chrome                          | google-chrome                          | Yes     | Yes    
+15 | google-webdesigner                     | google-webdesigner                     | Yes     | Yes    
+16 | home:Mailaender:branches:Java:packages | home:Mailaender:branches:Java:packages | Yes     | Yes    
+17 | home:opensuse_zh                       | home:opensuse_zh                       | Yes     | Yes    
+18 | home:ralflangb1:composer2distribution  | home:ralflangb1:composer2distribution  | No      | Yes    
+19 | home:ruiabreuferreira                  | home:ruiabreuferreira                  | Yes     | Yes    
+20 | home:ykoba                             | home:ykoba                             | Yes     | Yes    
+21 | libdvdcss                              | libdvdcss                              | Yes     | Yes    
+22 | mono-project                           | mono-project                           | Yes     | Yes    
+23 | openSUSE:13.2:NON-OSS                  | openSUSE:13.2:NON-OSS                  | Yes     | Yes    
+24 | openSUSE:13.2:OSS                      | openSUSE:13.2:OSS                      | Yes     | Yes    
+25 | qt5                                    | qt5                                    | Yes     | Yes    
+26 | repo-source                            | openSUSE-13.2-Source                   | Yes     | Yes    
+27 | repo-update                            | openSUSE-13.2-Update                   | Yes     | Yes    
+28 | repo-update-non-oss                    | openSUSE-13.2-Update-Non-Oss           | Yes     | Yes    
+29 | security                               | security                               | Yes     | Yes    
+30 | utilities                              | utilities                              | Yes     | Yes    
+31 | zh                                     | zh   
+&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;更新软件&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$ sudo zypper dup --from 2 --from 25&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这里，我强制要求软件从 ID 为 2 和 25 的库升级。&lt;/ol&gt;&lt;/p&gt;
+
+&lt;p&gt;最后重启系统，能正常进入 Plasma 5 了。&lt;/p&gt;
+
+&lt;p&gt;当然，以上仅是我个人情况，如果你也碰上，并恰巧通过搜索引擎来到这一篇，请仅做参考。如果你因此搞坏了系统，本人不打算心怀歉意。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Privoxy 去除 iOS 爱奇艺客户端广告</title>
+      <link>https://www.zfanw.com/blog/privoxy-remove-iqiyi-ios-client-ad.html</link>
+      <pubDate>Sun, 11 Jan 2015 12:03:52 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-remove-iqiyi-ios-client-ad.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 分析&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 设定 Privoxy 规则&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 修改 Privoxy 监听地址&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 更新&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    此前有人写邮件问我，Privoxy 如何去掉 iOS 上爱奇艺客户端的视频广告。当时我没时间，只大致给了几个建议，然后不了了之，没了下文。但心里记挂，想着什么时候有时间，要认真看看。所以就有了这一篇。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;分析&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    涉及的设备及软件等如下：
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      iPhone 4s, 7.1.2 版本
+    &lt;/li&gt;
+    &lt;li&gt;
+      ThinkPad，装有 openSUSE 13.2 32 位操作系统
+    &lt;/li&gt;
+    &lt;li&gt;
+      Charles Proxy，收费的，Windows 系统下可以使用免费的 Fiddler2
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;h3&gt;
+    预备工具
+  &lt;/h3&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      将 iPhone 与 ThinkPad 连入同一个 WIFI 环境
+    &lt;/li&gt;
+    &lt;li&gt;
+      打开 iPhone 的 WIFI 连接设置，设置 HTTP Proxy（代理）为 ThinkPad 上 Charles Proxy 的 ip:port，比如我的：&lt;code&gt;192.168.1.102:8888&lt;/code&gt;，手机上如有开启 VPN 之类的，请暂先关闭
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    现在查看 charles 的话，应该已经能看见 iPhone 上的 HTTP 请求/响应进出了。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    打开爱奇艺客户端
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    现在打开爱奇艺客户端，点开一个视频，就能看到类似如下的请求：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      http://iface2.iqiyi.com/php/xyz/entry/nebula.php?key=8e48946f144759d86a50075555fd5862&amp;app_key=8e48946f144759d86a50075555fd5862&amp;did=b1f4b27f4627d038&amp;type=json&amp;id=&amp;deviceid=&amp;version=5.7.1&amp;os=7.1.2&amp;ua=iPhone4,1&amp;network=1&amp;screen_status=1&amp;udid=aeb89eb1a451f9e6082246e79e077bc543e327ae&amp;ss=1&amp;ppid=&amp;uid=&amp;uniqid=0f607264fc6318a92b9e13c65db7cd3c&amp;openudid=aeb89eb1a451f9e6082246e79e077bc543e327ae&amp;idfv=5D1578BE-ECE1-406E-A99F-42AB99A71130&amp;idfa=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;qyid=aeb89eb1a451f9e6082246e79e077bc543e327ae&amp;mac_md5=e3f5536a141811db40efd6400f1d0a4e&amp;cc=%257B%250A%2520%2520%2520%2520cc%2520%253D%2520%2522%255CU6d77%255CU5916%255CU8fd0%255CU8425%255CU5546%2522%253B%250A%2520%2520%2520%2520city%2520%253D%2520%2522%255CU6d77%255CU5916%2522%253B%250A%2520%2520%2520%2520province%2520%253D%2520%2522%255CU6d77%255CU5916%2522%253B%250A%2520%2520%2520%2520respcode%2520%253D%25200%253B%250A%2520%2520%2520%2520timeout%2520%253D%25200%253B%250A%257D&amp;agenttype=20&amp;screen_res=640&lt;em&gt;960&amp;resolution=640&lt;/em&gt;960&amp;cookie=0&amp;ppid=(null)&amp;user_res=4&amp;js=0&amp;a=0&amp;b=0&amp;x=0&amp;y=5&amp;z=0&amp;r=0&amp;v_m=2.5_002&amp;vs=0&amp;vt=0.000000&amp;other=1&amp;block=0&amp;ad=2&amp;ad_str=1&amp;w=0&amp;compat=1&amp;v5=1&amp;core=0&amp;sn=1420974668080402944&amp;api=2.4&amp;cts=1420974668&amp;platform=iPhone&amp;pps=0&amp;support_db=&amp;many_id=331794000_331794000_0
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    广告就隐藏在这条请求的响应中：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      HTTP/1.1 200 OK
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Server: nginx
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Date: Sun, 11 Jan 2015 11:11:09 GMT
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Content-Type: text/json
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Connection: close
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      X-Powered-By: PHP/5.3.6
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Vary: Accept-Encoding
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Expires: 0
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Cache-Control: no-cache
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;blockquote&gt;
+    {&amp;#8220;_as&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;_blk&amp;#8221;:0,&amp;#8221;_cid&amp;#8221;:4,&amp;#8221;_ct&amp;#8221;:&amp;#8221;2014-12-05 16:35:45&amp;#8243;,&amp;#8221;_da&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;_dl&amp;#8221;:1,&amp;#8221;_dn&amp;#8221;:&amp;#8221;219&amp;#8243;,&amp;#8221;_id&amp;#8221;:&amp;#8221;331794000&amp;#8243;,&amp;#8221;_img&amp;#8221;:&amp;#8221;http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_120_160.jpg&amp;#8221;,&amp;#8221;_ip&amp;#8221;:0,&amp;#8221;_ma&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;_pc&amp;#8221;:0,&amp;#8221;_pid&amp;#8221;:0,&amp;#8221;_reseftv&amp;#8221;:175,&amp;#8221;_t&amp;#8221;:&amp;#8221;\u3010\u521d\u97f3miku\u3011\u30a2\u30ea\u30a2\u30c9\u30cd\u3010\u9ed2\u3046\u3055P\u3011&amp;#8243;,&amp;#8221;_tvct&amp;#8221;:5,&amp;#8221;_tvs&amp;#8221;:1,&amp;#8221;_vt&amp;#8221;:12,&amp;#8221;a_av&amp;#8221;:1,&amp;#8221;a_pro&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;bpt&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;clm&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;cn_year&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;co_album_id&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;ctype&amp;#8221;:0,&amp;#8221;desc&amp;#8221;:&amp;#8221;\u65e0&amp;#8243;,&amp;#8221;down&amp;#8221;:3,&amp;#8221;down2&amp;#8243;:&amp;#8221;3&amp;#8243;,&amp;#8221;drm&amp;#8221;:0,&amp;#8221;fst_time&amp;#8221;:&amp;#8221;2014-12-05&amp;#8243;,&amp;#8221;h1_img&amp;#8221;:&amp;#8221;http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_180_236.jpg&amp;#8221;,&amp;#8221;h2_img&amp;#8221;:&amp;#8221;http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_195_260.jpg&amp;#8221;,&amp;#8221;is_h&amp;#8221;:0,&amp;#8221;is_n&amp;#8221;:0,&amp;#8221;is_zb&amp;#8221;:0,&amp;#8221;k_word&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;language&amp;#8221;:0,&amp;#8221;live_center&amp;#8221;:0,&amp;#8221;live_start_time&amp;#8221;:0,&amp;#8221;live_stop_time&amp;#8221;:0,&amp;#8221;logo&amp;#8221;:1,&amp;#8221;m_av&amp;#8221;:1,&amp;#8221;mts&amp;#8221;:0,&amp;#8221;p_av&amp;#8221;:1,&amp;#8221;p_s&amp;#8221;:1,&amp;#8221;p_s_1&amp;#8243;:1,&amp;#8221;p_s_4&amp;#8243;:1,&amp;#8221;p_s_8&amp;#8243;:1,&amp;#8221;qct&amp;#8221;:25,&amp;#8221;qiyi_pro&amp;#8221;:0,&amp;#8221;qiyi_year&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;qt_id&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;s_TT&amp;#8221;:&amp;#8221;sm25051115&amp;#8243;,&amp;#8221;songname&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;t_pc&amp;#8221;:0,&amp;#8221;tag&amp;#8221;:&amp;#8221;\u65e5\u672c \u540c\u4eba ACG \u7279\u522b\u7248&amp;#8243;,&amp;#8221;tv_eftv&amp;#8221;:1,&amp;#8221;tv_pha&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;tv_pro&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;tv_ss&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;tvfcs&amp;#8221;:&amp;#8221;\u7231\u5947\u827a\u7231\u52a8\u6f2b&amp;#8221;,&amp;#8221;up&amp;#8221;:9,&amp;#8221;up2&amp;#8243;:&amp;#8221;9&amp;#8243;,&amp;#8221;upcl&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;v2_img&amp;#8221;:&amp;#8221;http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_284_160.jpg&amp;#8221;,&amp;#8221;v3_img&amp;#8221;:&amp;#8221;http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_480_270.jpg&amp;#8221;,&amp;#8221;vv&amp;#8221;:&amp;#8221;5403&amp;#8243;,&amp;#8221;year&amp;#8221;:&amp;#8221;2014&amp;#8243;,&amp;#8221;tv_id&amp;#8221;:331794000,&amp;#8221;vv_p&amp;#8221;:61,&amp;#8221;vv_f&amp;#8221;:2,&amp;#8221;vv_m&amp;#8221;:39,&amp;#8221;_sc&amp;#8221;:7.5,&amp;#8221;r_vv&amp;#8221;:5403,&amp;#8221;cpt_l&amp;#8221;:0,&amp;#8221;cpt_r&amp;#8221;:0,&amp;#8221;load_img&amp;#8221;:&amp;#8221;st&amp;#8221;,&amp;#8221;fst_time2&amp;#8243;:&amp;#8221;&amp;#8221;,&amp;#8221;disable&amp;#8221;:0,&amp;#8221;weburl&amp;#8221;:&amp;#8221;http:\/\/m.iqiyi.com\/v_19rrn82058.html&amp;#8221;,&amp;#8221;auth&amp;#8221;:1,&amp;#8221;auth_error&amp;#8221;:0,&amp;#8221;tv&amp;#8221;:{&amp;#8220;block&amp;#8221;:[],&amp;#8221;block_now&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;count&amp;#8221;:1,&amp;#8221;other&amp;#8221;:[&amp;#8220;331794000~331794000~\u3010\u521d\u97f3miku\u3011\u30a2\u30ea\u30a2\u30c9\u30cd\u3010\u9ed2\u3046\u3055P\u3011~1~2014~http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_160_90.jpg~~~~~~sm25051115~0~1~5403~http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_284_160.jpg~2014~2014-12-05~~~\u65e5\u672c \u540c\u4eba ACG \u7279\u522b\u7248~219~0~1~1~0~0~\u7231\u5947\u827a\u7231\u52a8\u6f2b~~~0~http:\/\/m.iqiyi.com\/v_19rrn82058.html~0~0~0~0~0&amp;#8243;],&amp;#8221;0&amp;#8221;:{&amp;#8220;_id&amp;#8221;:&amp;#8221;331794000&amp;#8243;,&amp;#8221;_n&amp;#8221;:&amp;#8221;\u3010\u521d\u97f3miku\u3011\u30a2\u30ea\u30a2\u30c9\u30cd\u3010\u9ed2\u3046\u3055P\u3011&amp;#8243;,&amp;#8221;desc&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;_od&amp;#8221;:1,&amp;#8221;_dn&amp;#8221;:219,&amp;#8221;s_t&amp;#8221;:-1,&amp;#8221;e_t&amp;#8221;:-1,&amp;#8221;res&amp;#8221;:[{&amp;#8220;s&amp;#8221;:1,&amp;#8221;t&amp;#8221;:&amp;#8221;TS2&amp;#8243;,&amp;#8221;_v&amp;#8221;:&amp;#8221;e9898ca6870778b9a6f6a909fc763646&amp;#8243;,&amp;#8221;r_t&amp;#8221;:&amp;#8221;8&amp;#8243;,&amp;#8221;url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;len&amp;#8221;:24230959,&amp;#8221;vid&amp;#8221;:&amp;#8221;http:\/\/cache.m.iqiyi.com\/dc\/dt\/mobile\/20141205\/dd\/6d\/c495ecbe9e6cace8c70d627f97113b69.m3u8?qypid=331794000_32&amp;qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887&amp;qd_tm=1420974669000&amp;qd_ip=104.200.18.10&amp;qd_sc=41c33c35701ea3789da74f6233714380&amp;#8243;,&amp;#8221;fid&amp;#8221;:&amp;#8221;OEVB5H6VUDZNWECGMJKPU3KRH7XLIO6B&amp;#8221;,&amp;#8221;pps&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;pps_url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;uniq_id&amp;#8221;:&amp;#8221;100080001&amp;#8243;,&amp;#8221;_tsurl&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;type&amp;#8221;:1,&amp;#8221;f4v_url&amp;#8221;:&amp;#8221;http:\/\/cache.video.qiyi.com\/vp\/331794000\/e9898ca6870778b9a6f6a909fc763646\/&amp;#8221;},{&amp;#8220;s&amp;#8221;:2,&amp;#8221;t&amp;#8221;:&amp;#8221;TS1&amp;#8243;,&amp;#8221;_v&amp;#8221;:&amp;#8221;bb620e84cffc480d53f85d8842697cee&amp;#8221;,&amp;#8221;r_t&amp;#8221;:&amp;#8221;4&amp;#8243;,&amp;#8221;url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;len&amp;#8221;:11113689,&amp;#8221;vid&amp;#8221;:&amp;#8221;http:\/\/cache.m.iqiyi.com\/dc\/dt\/mobile\/20141205\/95\/52\/cf82ab38c9949b20b2bf82ccab67777e.m3u8?qypid=331794000_32&amp;qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887&amp;qd_tm=1420974669000&amp;qd_ip=104.200.18.10&amp;qd_sc=c920c9a8c06403a72e0e149661aa683e&amp;#8221;,&amp;#8221;fid&amp;#8221;:&amp;#8221;34DSQJCHX6YW46NDC4KU7CVWZXCT5MVU&amp;#8221;,&amp;#8221;pps&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;pps_url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;uniq_id&amp;#8221;:&amp;#8221;100040001&amp;#8243;,&amp;#8221;_tsurl&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;type&amp;#8221;:1,&amp;#8221;f4v_url&amp;#8221;:&amp;#8221;http:\/\/cache.video.qiyi.com\/vp\/331794000\/bb620e84cffc480d53f85d8842697cee\/&amp;#8221;},{&amp;#8220;s&amp;#8221;:3,&amp;#8221;t&amp;#8221;:&amp;#8221;TS4&amp;#8243;,&amp;#8221;_v&amp;#8221;:&amp;#8221;bd5ea43cdb556e035fa5ee99d2157e12&amp;#8243;,&amp;#8221;r_t&amp;#8221;:&amp;#8221;128&amp;#8243;,&amp;#8221;url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;len&amp;#8221;:4673682,&amp;#8221;vid&amp;#8221;:&amp;#8221;http:\/\/cache.m.iqiyi.com\/dc\/dt\/mobile\/20141205\/2a\/74\/4f64780f9f4524311fa367414d8e5666.m3u8?qypid=331794000_32&amp;qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887&amp;qd_tm=1420974669000&amp;qd_ip=104.200.18.10&amp;qd_sc=4fbf13db970809a4e16ac3270f17f688&amp;#8243;,&amp;#8221;fid&amp;#8221;:&amp;#8221;CXFDFGWWNA6NVMBD7RHLEY2X7DQK7QTE&amp;#8221;,&amp;#8221;pps&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;pps_url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;uniq_id&amp;#8221;:&amp;#8221;101280001&amp;#8243;,&amp;#8221;_tsurl&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;type&amp;#8221;:1,&amp;#8221;f4v_url&amp;#8221;:&amp;#8221;http:\/\/cache.video.qiyi.com\/vp\/331794000\/bd5ea43cdb556e035fa5ee99d2157e12\/&amp;#8221;}],&amp;#8221;len&amp;#8221;:11113689,&amp;#8221;vid&amp;#8221;:&amp;#8221;http:\/\/cache.m.iqiyi.com\/dc\/dt\/mobile\/20141205\/95\/52\/cf82ab38c9949b20b2bf82ccab67777e.m3u8?qypid=331794000_32&amp;qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887&amp;qd_tm=1420974669000&amp;qd_ip=104.200.18.10&amp;qd_sc=c920c9a8c06403a72e0e149661aa683e&amp;#8221;,&amp;#8221;url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;_img&amp;#8221;:&amp;#8221;http:\/\/pic8.qiyipic.com\/image\/20141205\/4e\/7f\/v_108765570_m_601_160_90.jpg&amp;#8221;,&amp;#8221;web_url&amp;#8221;:&amp;#8221;http:\/\/m.iqiyi.com\/v_19rrn82058.html&amp;#8221;,&amp;#8221;albumid&amp;#8221;:&amp;#8221;331794000&amp;#8243;,&amp;#8221;subtitle&amp;#8221;:&amp;#8221;sm25051115&amp;#8243;,&amp;#8221;comment_on&amp;#8221;:1,&amp;#8221;_dv&amp;#8221;:&amp;#8221;e9898ca6870778b9a6f6a909fc763646&amp;#8243;,&amp;#8221;vote_id&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;_durl&amp;#8221;:&amp;#8221;http:\/\/data.video.qiyi.com\/videos\/v0\/20141205\/3d\/e7\/5d6c11ae9b1d465afd506c5fefbe4559.mp4?qypid=331794000_32&amp;v=827122190&amp;qd_src=app&amp;qd_tm=1420974669000&amp;qd_ip=104.200.18.10&amp;qd_sc=92f4366fcb5a64db3c00a706388d7fe2&amp;#8243;,&amp;#8221;_dlen&amp;#8221;:11971286,&amp;#8221;pps&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;fid&amp;#8221;:&amp;#8221;34DSQJCHX6YW46NDC4KU7CVWZXCT5MVU&amp;#8221;,&amp;#8221;_res&amp;#8221;:&amp;#8221;4&amp;#8243;,&amp;#8221;_v&amp;#8221;:&amp;#8221;bb620e84cffc480d53f85d8842697cee&amp;#8221;,&amp;#8221;pps_url&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;f4v_url&amp;#8221;:&amp;#8221;http:\/\/cache.video.qiyi.com\/vp\/331794000\/bb620e84cffc480d53f85d8842697cee\/&amp;#8221;,&amp;#8221;ad_str&amp;#8221;:&amp;#8221;{\&amp;#8221;ip\&amp;#8221;:\&amp;#8221;10.11.49.120\&amp;#8221;,\&amp;#8221;cupidExtras\&amp;#8221;:{\&amp;#8221;enableMiaozhenSDK\&amp;#8221;:1,\&amp;#8221;enableAdMasterSDK\&amp;#8221;:1,\&amp;#8221;enableAlimama\&amp;#8221;:0,\&amp;#8221;enableMmaMiaozhen\&amp;#8221;:1,\&amp;#8221;enableMmaCtr\&amp;#8221;:1,\&amp;#8221;alimamaId\&amp;#8221;:71000017,\&amp;#8221;enableMmaNielsen\&amp;#8221;:1,\&amp;#8221;enableMmaAdMaster\&amp;#8221;:1},\&amp;#8221;futureSlots\&amp;#8221;:[{\&amp;#8221;startTime\&amp;#8221;:300,\&amp;#8221;type\&amp;#8221;:4}],\&amp;#8221;reqUrl\&amp;#8221;:\&amp;#8221;\\\/mixer?a=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;b=331794000&amp;c=bb620e84cffc480d53f85d8842697cee&amp;d=qc_100001_100070&amp;e=5.7.1&amp;f=4&amp;g=104.200.18.10&amp;h=331794000&amp;i=iPhone&amp;k=4&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4%2C1&amp;n=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=0b05078afb5a24f5f97fadac83632383&amp;vn=0&amp;vd=0&amp;r=2.5_002&amp;rn=0&amp;bd=219&amp;p=-1&amp;x=0&amp;tp=0&amp;nw=1&amp;vs=0&amp;pi=&amp;pc=0&amp;cts=1420974668&amp;lts=&amp;y=103,1,2&amp;fa=4&amp;ut=0\&amp;#8221;,\&amp;#8221;version\&amp;#8221;:\&amp;#8221;2.0.8526\&amp;#8221;,\&amp;#8221;adSlots\&amp;#8221;:[{\&amp;#8221;startTime\&amp;#8221;:0,\&amp;#8221;duration\&amp;#8221;:30,\&amp;#8221;type\&amp;#8221;:1,\&amp;#8221;slotExtras\&amp;#8221;:{},\&amp;#8221;adZoneId\&amp;#8221;:\&amp;#8221;1000000000381\&amp;#8221;,\&amp;#8221;ads\&amp;#8221;:[{\&amp;#8221;adExtras\&amp;#8221;:{},\&amp;#8221;clickTracking\&amp;#8221;:{\&amp;#8221;adxTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000678217&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=1&amp;b=1420974669\&amp;#8221;],\&amp;#8221;cupidTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/track2?a=1&amp;b=1420974669&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;d=5000000675829&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000678217&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=dafea75e967cef6a25e0060b5aefbeb4&amp;t=iPhone&amp;u=1&amp;w=2&amp;up=&amp;v=5000000675829\&amp;#8221;]},\&amp;#8221;impressionId\&amp;#8221;:\&amp;#8221;1a9d6aa5607c24198908e4ecb7f36971\&amp;#8221;,\&amp;#8221;vid\&amp;#8221;:\&amp;#8221;327d76cda8d3e7c29a41a52f1cb41ff8\&amp;#8221;,\&amp;#8221;priority\&amp;#8221;:88,\&amp;#8221;dspId\&amp;#8221;:71000001,\&amp;#8221;order\&amp;#8221;:1,\&amp;#8221;duration\&amp;#8221;:15,\&amp;#8221;clickThroughUrl\&amp;#8221;:\&amp;#8221;http:\\\/\\\/wt.game.pps.tv\\\/index.php?m=adsmd&amp;c=tiepian&amp;a=index&amp;id=7421\&amp;#8221;,\&amp;#8221;impressionTracking\&amp;#8221;:{\&amp;#8221;adxTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000678217&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=0&amp;b=1420974669\&amp;#8221;],\&amp;#8221;cupidTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/track2?a=0&amp;b=1420974669&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;d=5000000675829&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000678217&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=dafea75e967cef6a25e0060b5aefbeb4&amp;t=iPhone&amp;u=1&amp;w=2&amp;up=&amp;v=5000000675829\&amp;#8221;]},\&amp;#8221;creativeType\&amp;#8221;:\&amp;#8221;video_m3u8\&amp;#8221;,\&amp;#8221;clickThroughType\&amp;#8221;:\&amp;#8221;0\&amp;#8221;,\&amp;#8221;orderItemId\&amp;#8221;:\&amp;#8221;5000000675829\&amp;#8221;,\&amp;#8221;timePosition\&amp;#8221;:\&amp;#8221;2\&amp;#8221;,\&amp;#8221;adId\&amp;#8221;:\&amp;#8221;5000000677723\&amp;#8221;,\&amp;#8221;creativeObject\&amp;#8221;:{},\&amp;#8221;creativeUrl\&amp;#8221;:\&amp;#8221;\&amp;#8221;,\&amp;#8221;creativeId\&amp;#8221;:\&amp;#8221;5000000678217\&amp;#8221;},{\&amp;#8221;adExtras\&amp;#8221;:{},\&amp;#8221;clickTracking\&amp;#8221;:{\&amp;#8221;adxTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000591849&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=1&amp;b=1420974669\&amp;#8221;],\&amp;#8221;cupidTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/track2?a=1&amp;b=1420974669&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;d=5000000589321&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000591849&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=ddfc1cc2443276e5f8a2ea298a7774a8&amp;t=iPhone&amp;u=1&amp;w=3&amp;up=&amp;v=5000000589321\&amp;#8221;]},\&amp;#8221;impressionId\&amp;#8221;:\&amp;#8221;84e5330e3497a4c52b4ecfcd84e98f05\&amp;#8221;,\&amp;#8221;vid\&amp;#8221;:\&amp;#8221;7d1bf186a55a5ae0bb2ad051666adb89\&amp;#8221;,\&amp;#8221;priority\&amp;#8221;:88,\&amp;#8221;dspId\&amp;#8221;:71000001,\&amp;#8221;order\&amp;#8221;:2,\&amp;#8221;duration\&amp;#8221;:15,\&amp;#8221;clickThroughUrl\&amp;#8221;:\&amp;#8221;http:\\\/\\\/serv.vip.iqiyi.com\\\/order\\\/preview.action?pid=a0226bd958843452&amp;platform=bb35a104d95490f6&amp;fc=a3dbfe9e7b9dba94#type=0\&amp;#8221;,\&amp;#8221;impressionTracking\&amp;#8221;:{\&amp;#8221;adxTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000591849&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=0&amp;b=1420974669\&amp;#8221;],\&amp;#8221;cupidTracking\&amp;#8221;:[\&amp;#8221;http:\\\/\\\/api.cupid.qiyi.com\\\/track2?a=0&amp;b=1420974669&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;d=5000000589321&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000591849&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=ddfc1cc2443276e5f8a2ea298a7774a8&amp;t=iPhone&amp;u=1&amp;w=3&amp;up=&amp;v=5000000589321\&amp;#8221;]},\&amp;#8221;creativeType\&amp;#8221;:\&amp;#8221;video_m3u8\&amp;#8221;,\&amp;#8221;clickThroughType\&amp;#8221;:\&amp;#8221;3\&amp;#8221;,\&amp;#8221;orderItemId\&amp;#8221;:\&amp;#8221;5000000589321\&amp;#8221;,\&amp;#8221;timePosition\&amp;#8221;:\&amp;#8221;3\&amp;#8221;,\&amp;#8221;adId\&amp;#8221;:\&amp;#8221;5000000591634\&amp;#8221;,\&amp;#8221;creativeObject\&amp;#8221;:{},\&amp;#8221;creativeUrl\&amp;#8221;:\&amp;#8221;\&amp;#8221;,\&amp;#8221;creativeId\&amp;#8221;:\&amp;#8221;5000000591849\&amp;#8221;}]}],\&amp;#8221;videoEventId\&amp;#8221;:\&amp;#8221;0b05078afb5a24f5f97fadac83632383\&amp;#8221;,\&amp;#8221;finalUrl\&amp;#8221;:\&amp;#8221;http:\\\/\\\/cache.m.iqiyi.com\\\/dc\\\/amdt\\\/ae7578x3cd43d3f\\\/327d76cda8d3e7c29a41a52f1cb41ff8-7d1bf186a55a5ae0bb2ad051666adb89\\\/331794000\\\/bb620e84cffc480d53f85d8842697cee.m3u8?qd_asc=ae4f1fc1098e13132ea08c9490e419ee&amp;qd_asrc=8c40568b52a2483ea7e88a948c7ed664&amp;qd_at=1420974669569&amp;qypid=331794000_32\&amp;#8221;}&amp;#8221;}},&amp;#8221;sn&amp;#8221;:&amp;#8221;1420974668080402944&amp;#8243;,&amp;#8221;_tab&amp;#8221;:[{&amp;#8220;id&amp;#8221;:2,&amp;#8221;name&amp;#8221;:&amp;#8221;\u8be6\u60c5\u8bc4\u8bba&amp;#8221;,&amp;#8221;default&amp;#8221;:0},{&amp;#8220;id&amp;#8221;:3,&amp;#8221;name&amp;#8221;:&amp;#8221;\u731c\u4f60\u559c\u6b22&amp;#8243;,&amp;#8221;default&amp;#8221;:1}],&amp;#8221;cupid_app_on&amp;#8221;:1,&amp;#8221;cupid_app_tab&amp;#8221;:3,&amp;#8221;_av&amp;#8221;:1,&amp;#8221;album_barrage&amp;#8221;:1,&amp;#8221;album_barrage_lines&amp;#8221;:3,&amp;#8221;cupid_ut&amp;#8221;:0,&amp;#8221;cupid_nw&amp;#8221;:1,&amp;#8221;cupid_expire&amp;#8221;:3}
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    以上是请求的原始响应报文，可以借用 charles 提供的 JSON 方式查看：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [resp_image id=&amp;#8217;14942&amp;#8242; caption=&amp;#8221; ]
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    由于对 iOS 上视频播放的机制并不熟悉，所以我只能一个一个测试过去，然后大致了解返回的数据是什么意思：
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;code&gt;tv&lt;/code&gt; 键名下有个 &lt;code&gt;res&lt;/code&gt;，里面有三个对象，包含的是三个清晰度的视频版本，其中有视频路径，格式为 m3u8，比如 &lt;code&gt;http://cache.m.iqiyi.com/dc/dt/mobile/20141205/dd/6d/c495ecbe9e6cace8c70d627f97113b69.m3u8?qypid=331794000_32&amp;qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887&amp;qd_tm=1420974669000&amp;qd_ip=104.200.18.10&amp;qd_sc=41c33c35701ea3789da74f6233714380&lt;/code&gt;，在浏览器中打开这个路径，就可以下载 m3u8 文件，然后用 mplayer 等工具即可播放，借助 ffmpeg 工具也可以将它下载到本地。
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;code&gt;tab&lt;/code&gt; 键名下有两个对象，包含是的”详情评论“和”猜你喜欢“，这是视频下的两个标签页。
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    经过排查，大致锁定一个叫 &lt;code&gt;ad_str&lt;/code&gt; 的键名，其值如下：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      {&amp;#8220;ip&amp;#8221;:&amp;#8221;10.11.49.120&amp;#8243;,&amp;#8221;cupidExtras&amp;#8221;:{&amp;#8220;enableMiaozhenSDK&amp;#8221;:1,&amp;#8221;enableAdMasterSDK&amp;#8221;:1,&amp;#8221;enableAlimama&amp;#8221;:0,&amp;#8221;enableMmaMiaozhen&amp;#8221;:1,&amp;#8221;enableMmaCtr&amp;#8221;:1,&amp;#8221;alimamaId&amp;#8221;:71000017,&amp;#8221;enableMmaNielsen&amp;#8221;:1,&amp;#8221;enableMmaAdMaster&amp;#8221;:1},&amp;#8221;futureSlots&amp;#8221;:[{&amp;#8220;startTime&amp;#8221;:300,&amp;#8221;type&amp;#8221;:4}],&amp;#8221;reqUrl&amp;#8221;:&amp;#8221;\/mixer?a=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;b=331794000&amp;c=bb620e84cffc480d53f85d8842697cee&amp;d=qc_100001_100070&amp;e=5.7.1&amp;f=4&amp;g=104.200.18.10&amp;h=331794000&amp;i=iPhone&amp;k=4&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4%2C1&amp;n=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=0b05078afb5a24f5f97fadac83632383&amp;vn=0&amp;vd=0&amp;r=2.5_002&amp;rn=0&amp;bd=219&amp;p=-1&amp;x=0&amp;tp=0&amp;nw=1&amp;vs=0&amp;pi=&amp;pc=0&amp;cts=1420974668&amp;lts=&amp;y=103,1,2&amp;fa=4&amp;ut=0&amp;#8243;,&amp;#8221;version&amp;#8221;:&amp;#8221;2.0.8526&amp;#8243;,&amp;#8221;adSlots&amp;#8221;:[{&amp;#8220;startTime&amp;#8221;:0,&amp;#8221;duration&amp;#8221;:30,&amp;#8221;type&amp;#8221;:1,&amp;#8221;slotExtras&amp;#8221;:{},&amp;#8221;adZoneId&amp;#8221;:&amp;#8221;1000000000381&amp;#8243;,&amp;#8221;ads&amp;#8221;:[{&amp;#8220;adExtras&amp;#8221;:{},&amp;#8221;clickTracking&amp;#8221;:{&amp;#8220;adxTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000678217&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=1&amp;b=1420974669&amp;#8243;],&amp;#8221;cupidTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/track2?a=1&amp;b=1420974669&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;d=5000000675829&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000678217&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=dafea75e967cef6a25e0060b5aefbeb4&amp;t=iPhone&amp;u=1&amp;w=2&amp;up=&amp;v=5000000675829&amp;#8243;]},&amp;#8221;impressionId&amp;#8221;:&amp;#8221;1a9d6aa5607c24198908e4ecb7f36971&amp;#8243;,&amp;#8221;vid&amp;#8221;:&amp;#8221;327d76cda8d3e7c29a41a52f1cb41ff8&amp;#8243;,&amp;#8221;priority&amp;#8221;:88,&amp;#8221;dspId&amp;#8221;:71000001,&amp;#8221;order&amp;#8221;:1,&amp;#8221;duration&amp;#8221;:15,&amp;#8221;clickThroughUrl&amp;#8221;:&amp;#8221;http:\/\/wt.game.pps.tv\/index.php?m=adsmd&amp;c=tiepian&amp;a=index&amp;id=7421&amp;#8243;,&amp;#8221;impressionTracking&amp;#8221;:{&amp;#8220;adxTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000678217&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=0&amp;b=1420974669&amp;#8243;],&amp;#8221;cupidTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/track2?a=0&amp;b=1420974669&amp;c=1a9d6aa5607c24198908e4ecb7f36971&amp;d=5000000675829&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000678217&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=dafea75e967cef6a25e0060b5aefbeb4&amp;t=iPhone&amp;u=1&amp;w=2&amp;up=&amp;v=5000000675829&amp;#8243;]},&amp;#8221;creativeType&amp;#8221;:&amp;#8221;video_m3u8&amp;#8243;,&amp;#8221;clickThroughType&amp;#8221;:&amp;#8221;0&amp;#8243;,&amp;#8221;orderItemId&amp;#8221;:&amp;#8221;5000000675829&amp;#8243;,&amp;#8221;timePosition&amp;#8221;:&amp;#8221;2&amp;#8243;,&amp;#8221;adId&amp;#8221;:&amp;#8221;5000000677723&amp;#8243;,&amp;#8221;creativeObject&amp;#8221;:{},&amp;#8221;creativeUrl&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;creativeId&amp;#8221;:&amp;#8221;5000000678217&amp;#8243;},{&amp;#8220;adExtras&amp;#8221;:{},&amp;#8221;clickTracking&amp;#8221;:{&amp;#8220;adxTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000591849&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=1&amp;b=1420974669&amp;#8243;],&amp;#8221;cupidTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/track2?a=1&amp;b=1420974669&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;d=5000000589321&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000591849&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=ddfc1cc2443276e5f8a2ea298a7774a8&amp;t=iPhone&amp;u=1&amp;w=3&amp;up=&amp;v=5000000589321&amp;#8243;]},&amp;#8221;impressionId&amp;#8221;:&amp;#8221;84e5330e3497a4c52b4ecfcd84e98f05&amp;#8243;,&amp;#8221;vid&amp;#8221;:&amp;#8221;7d1bf186a55a5ae0bb2ad051666adb89&amp;#8243;,&amp;#8221;priority&amp;#8221;:88,&amp;#8221;dspId&amp;#8221;:71000001,&amp;#8221;order&amp;#8221;:2,&amp;#8221;duration&amp;#8221;:15,&amp;#8221;clickThroughUrl&amp;#8221;:&amp;#8221;http:\/\/serv.vip.iqiyi.com\/order\/preview.action?pid=a0226bd958843452&amp;platform=bb35a104d95490f6&amp;fc=a3dbfe9e7b9dba94#type=0&amp;#8243;,&amp;#8221;impressionTracking&amp;#8221;:{&amp;#8220;adxTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/etx?i=qc_100001_100070&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;q=5000000591849&amp;v=CAASEGseMM8pVUkpiJFs6m_FE1YaIDlhZTlmN2FkN2I4MzFiMDEyZjkwZjIxMzkyNTlhZmNj&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;k=331794000&amp;j=4&amp;d=81000009&amp;z=1000000000381&amp;ds=71000001&amp;du=15&amp;n=331794000&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;o=1&amp;e=104.200.18.10&amp;l=8e48946f144759d86a50075555fd5862&amp;r=0b05078afb5a24f5f97fadac83632383&amp;a=0&amp;b=1420974669&amp;#8243;],&amp;#8221;cupidTracking&amp;#8221;:[&amp;#8220;http:\/\/api.cupid.qiyi.com\/track2?a=0&amp;b=1420974669&amp;c=84e5330e3497a4c52b4ecfcd84e98f05&amp;d=5000000589321&amp;e=104.200.18.10&amp;f=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;g=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;h=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;i=qc_100001_100070&amp;j=4&amp;k=331794000&amp;kp=EAA3CC99-FAB0-46CC-B1A0-67B9BA89BB7F&amp;l=8e48946f144759d86a50075555fd5862&amp;m=iPhone4,1&amp;n=331794000&amp;o=1&amp;p=1000000000381&amp;q=5000000591849&amp;r=0b05078afb5a24f5f97fadac83632383&amp;s=ddfc1cc2443276e5f8a2ea298a7774a8&amp;t=iPhone&amp;u=1&amp;w=3&amp;up=&amp;v=5000000589321&amp;#8243;]},&amp;#8221;creativeType&amp;#8221;:&amp;#8221;video_m3u8&amp;#8243;,&amp;#8221;clickThroughType&amp;#8221;:&amp;#8221;3&amp;#8243;,&amp;#8221;orderItemId&amp;#8221;:&amp;#8221;5000000589321&amp;#8243;,&amp;#8221;timePosition&amp;#8221;:&amp;#8221;3&amp;#8243;,&amp;#8221;adId&amp;#8221;:&amp;#8221;5000000591634&amp;#8243;,&amp;#8221;creativeObject&amp;#8221;:{},&amp;#8221;creativeUrl&amp;#8221;:&amp;#8221;&amp;#8221;,&amp;#8221;creativeId&amp;#8221;:&amp;#8221;5000000591849&amp;#8243;}]}],&amp;#8221;videoEventId&amp;#8221;:&amp;#8221;0b05078afb5a24f5f97fadac83632383&amp;#8243;,&amp;#8221;finalUrl&amp;#8221;:&amp;#8221;http:\/\/cache.m.iqiyi.com\/dc\/amdt\/ae7578x3cd43d3f\/327d76cda8d3e7c29a41a52f1cb41ff8-7d1bf186a55a5ae0bb2ad051666adb89\/331794000\/bb620e84cffc480d53f85d8842697cee.m3u8?qd_asc=ae4f1fc1098e13132ea08c9490e419ee&amp;qd_asrc=8c40568b52a2483ea7e88a948c7ed664&amp;qd_at=1420974669569&amp;qypid=331794000_32&amp;#8243;}
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    又一段非常长的文本，我想你我都懒得看内容了 &amp;#8211; 不过拜语义化带来的好处，我们一眼就能从 &lt;code&gt;ad_str&lt;/code&gt; 里判断它可能是广告入口。且在 Privoxy 里换掉它试试。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy&#34;&gt;设定 Privoxy 规则&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy&#34; href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    因为是过滤文本，所以要涉及 Privoxy 的两个文件：
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      user.filter
+    &lt;/li&gt;
+    &lt;li&gt;
+      user.action
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        首先在 user.filter 文件中添加如下规则：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;FILTER: blockQiyiAd 去除爱奇艺 iOS 版本视频广告
+s|&#34;ad_str&#34;|&#34;fuck_ad_str&#34;|g
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        这里，我创建了一条规则，把 &lt;code&gt;ad_str&lt;/code&gt; 键名替换掉。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        然后在 user.action 文件中启用过滤规则：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;{+filter{blockQiyiAd}}
+iface2.iqiyi.com
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        再开启爱奇艺的客户端，视频广告已经不见。感谢语义，蒙对了。目前来看，也没有其他引发异常的副作用。
+      &lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy-2&#34;&gt;修改 Privoxy 监听地址&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy-2&#34; href=&#34;#_Privoxy-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    上面说明的是开启 charles 的情况，一旦 charles 关闭，我们就要把 iPhone 上的 HTTP PROXY 改为电脑上的 Privoxy 端口，比如 &lt;code&gt;192.168.1.102:8118&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但 Privoxy 默认监听的地址是 &lt;code&gt;127.0.0.1:8118&lt;/code&gt;，如果不做修改，会导致 iPhone 设置的 HTTP 代理无法访问。所以我新增一个 Privoxy 的监听地址。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    打开 &lt;code&gt;config&lt;/code&gt; 文件，查找 &lt;code&gt;listen-address  127.0.0.1:8118&lt;/code&gt;，在它下一行新增如下内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;listen-address  192.168.1.102:8118
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    其中 192.168.1.102 是我笔记本电脑的 IP。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    最后，重启 Privoxy。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    更多规则，请看我维护的 &lt;a href=&#34;https://github.com/chenxsan/Privoxy&#34;&gt;Privoxy 配置文件库&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;更新&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    2015.2.8 爱奇艺把 &amp;#8216;ad_str&amp;#8217; 换成 &amp;#8216;ad_info&amp;#8217; 了，配置文件已更新。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>t – twitter 的命令行界面客户端</title>
+      <link>https://www.zfanw.com/blog/t-a-command-line-power-tool-for-twitter.html</link>
+      <pubDate>Sat, 20 Dec 2014 16:02:37 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/t-a-command-line-power-tool-for-twitter.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_t&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 安装 t&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_t-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 认证 t&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Twitter_App&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 创建 Twitter App&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    这篇讲 Twitter 的 CLI（command-line interface） 应用 &lt;strong&gt;t&lt;/strong&gt;，是我安装使用中碰上的问题总结。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_t&#34;&gt;安装 t&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_t&#34; href=&#34;#_t&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    t&lt;fnref target=&#34;14785.1&#34; /&gt; 是一个 gem 包，所以你需要事先安装 Ruby 和 RubyGems。准备就绪后：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ sudo gem install t
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_t-2&#34;&gt;认证 t&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_t-2&#34; href=&#34;#_t-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ t authorize -d
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h3&gt;
+    问题
+  &lt;/h3&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        &lt;code&gt;t: command not found&lt;/code&gt;
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        因为 gem 安装路径的问题，你可能碰上 t 命令找不到的情况。可以使用 &lt;code&gt;gem env&lt;/code&gt; 查看 gem 安装路径，然后直接切换到 t 的路径执行 &lt;code&gt;./t authorize&lt;/code&gt;。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        关于 &lt;code&gt;-d&lt;/code&gt; 参数
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        上面使用了 &lt;code&gt;-d&lt;/code&gt; 参数，这是因为我的 openSUSE 13.2　里，t 在命令行下无法打开浏览器网页的缘故，它会报一个错&lt;fnref target=&#34;14785.2&#34; /&gt;：
+      &lt;/p&gt;
+      
+      &lt;blockquote&gt;
+        &lt;p&gt;
+          xprop: unable to open display &amp;#8221;
+        &lt;/p&gt;
+      &lt;/blockquote&gt;
+      
+      &lt;p&gt;
+        使用 &lt;code&gt;-d&lt;/code&gt; 参数可以在终端里生成 URL 地址，以便拷贝到浏览器中。
+      &lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Twitter_App&#34;&gt;创建 Twitter App&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Twitter_App&#34; href=&#34;#_Twitter_App&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    你需要根据提示，在 Twitter Application Management&lt;fnref target=&#34;14785.3&#34; /&gt; 创建一个 app，生成 t 需要的 API Key 及 API Secret。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    验证后期，还会需要一个 PIN 码。正常情况下，t 会打开一个 twitter 网址，非正常情况，就需要你手动拷贝那个认证 URL 到浏览器，生成一个 PIN 码，然后根据 t 的要求填入，即可完成认证。
+  &lt;/p&gt;
+  
+  &lt;footnotes&gt;
+    &lt;fn name=&#34;14785.1&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;https://github.com/sferik/t&#34;&gt;sferik/t 源代码&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;14785.2&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;https://github.com/sferik/t/issues/216&#34;&gt;认证时无法打开浏览器 · Issue #216 · sferik/t&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;14785.3&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;https://apps.twitter.com&#34;&gt;Twitter Application Management&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+  &lt;/footnotes&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>KDE 与 Xmonad</title>
+      <link>https://www.zfanw.com/blog/kde-with-xmonad.html</link>
+      <pubDate>Sat, 06 Dec 2014 03:23:11 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/kde-with-xmonad.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Xmonad&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 安装 Xmonad&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_xmonadhs&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 配置 xmonad.hs&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 设置窗口管理器&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 附录&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    之前我写过一篇博客 &lt;a href=&#34;http://www.zfanw.com/blog/opensuse-xmonad.html&#34;&gt;openSUSE 下的 xmonad&lt;/a&gt;，讲的是完整的 xmonad 环境，这篇讲 &lt;strong&gt;KDE 下如何使用 xmonad&lt;/strong&gt;，好处是 KDE 的许多功能都可以使用，只是窗口管理器换成 xmonad。
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      系统环境：openSUSE 13.2
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Xmonad&#34;&gt;安装 Xmonad&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Xmonad&#34; href=&#34;#_Xmonad&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    参照&lt;a href=&#34;http://www.zfanw.com/blog/opensuse-xmonad.html&#34;&gt;前一篇说明&lt;/a&gt;，使用 &lt;code&gt;cabal&lt;/code&gt; 安装 xmonad。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_xmonadhs&#34;&gt;配置 xmonad.hs&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_xmonadhs&#34; href=&#34;#_xmonadhs&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    打开 &lt;code&gt;~/.xmonad/xmonad.hs&lt;/code&gt; 文件，将内容改为如下&lt;fnref target=&#34;14705.1&#34; /&gt;：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;import System.IO
+
+import XMonad
+import XMonad.Config.Kde
+import XMonad.Hooks.SetWMName
+import XMonad.Util.WindowProperties (getProp32s)
+
+main = do
+  xmonad kde4Config {
+    terminal = &#34;konsole&#34;
+  , modMask = mod4Mask
+  , startupHook = setWMName &#34;LG3D&#34;
+  , manageHook = ((className =? &#34;krunner&#34;) &amp;gt;&amp;gt;= return . not --&amp;gt; manageHook kde4Config)
+      &amp;lt;+&amp;gt; (kdeOverride --&amp;gt; doFloat)
+}
+
+kdeOverride :: Query Bool
+kdeOverride = ask &amp;gt;&amp;gt;= \w -&amp;gt; liftX $ do
+    override &amp;lt;- getAtom &#34;_KDE_NET_WM_WINDOW_TYPE_OVERRIDE&#34;
+    wt &amp;lt;- getProp32s &#34;_NET_WM_WINDOW_TYPE&#34; w
+    return $ maybe False (elem $ fromIntegral override) wt
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;设置窗口管理器&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    先用 &lt;code&gt;which&lt;/code&gt; 命令查看 xmonad 路径：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;sam@linux-qo4p:~|master⚡⇒  which xmonad 
+/home/sam/.cabal/bin/xmonad
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    在 &lt;em&gt;~/.kde4/env&lt;/em&gt; 目录（&lt;strong&gt;如果是 &lt;a href=&#34;https://www.kde.org/announcements/plasma5.0/&#34; title=&#34;plasma 5, kde 5&#34;&gt;Plasma5&lt;/a&gt; 的话则是在 ~/.config/plasma-workspace/env **）下创建 **set_window_manager.sh&lt;/strong&gt; 文件，添加如下内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;export KDEWM=/home/sam/.cabal/bin/xmonad
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    修改文件权限，允许文件执行：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ chmod 755 set_window_manager.sh
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    注销 KDE 会话，然后再登录进去，KDE 的窗口管理器已经从 kwin 换成 Xmonad 了&lt;fnref target=&#34;14705.2&#34; /&gt;，如下图：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [resp_image id=&amp;#8217;14769&amp;#8242; caption=&amp;#8221; ]
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;附录&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://github.com/chenxsan/rc-files/blob/master/.xmonad/xmonad.hs&#34;&gt;存放在 Github 上的我的 xmonad.hs 配置文件&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;footnotes&gt;
+    &lt;fn name=&#34;14705.1&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;https://code.google.com/p/xmonad/issues/attachmentText?id=430&amp;aid=-7752565881665183817&amp;name=xmonad.hs&amp;token=ABZ6GAfGlZ9LEhxXYjzpcH9ZO25qwQmc0w%3A1417834536394&#34;&gt;Google Code 上的一个 xmonad.hs 配置文件（英文）&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;14705.2&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;https://www.haskell.org/haskellwiki/Xmonad/Using_xmonad_in_KDE&#34;&gt;HaskellWiki 教你如何在 KDE 下使用 Xmonad（英文）&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+  &lt;/footnotes&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox flash 崩溃</title>
+      <link>https://www.zfanw.com/blog/firefox-flash-crash.html</link>
+      <pubDate>Thu, 04 Dec 2014 15:46:35 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-flash-crash.html</guid>
+      <description>&lt;p&gt;这一篇介绍 openSUSE 系统下 flash 崩溃的一种解决办法。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;环境&lt;/strong&gt;：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;操作系统：openSUSE 13.2 32 位&lt;/li&gt;
+&lt;li&gt;浏览器：Firefox 34 版本&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;病症&lt;/strong&gt;：使用 flash 的页面均出现 &lt;strong&gt;Adobe Flash 插件已崩溃&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;尝试了 Chrome 浏览器，同样存在问题：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Shockwave Flash has crashed.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;排查如下：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;打开 Firefox 附加组件页面，检查 flash 相关插件的安装情况，如下图：&lt;/p&gt;
+
+&lt;p&gt;[resp_image id=&amp;#8217;14778&amp;#8242;]&lt;/p&gt;
+
+&lt;p&gt;我们能看到两个版本的 flash 插件：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Shockwave Flash 15.0.0.239&lt;/li&gt;
+&lt;li&gt;Shockwave Flash 11.2.202.411
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;两个插件的情况是：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;两个都设置为 active，则 Flash 肯定崩溃&lt;/li&gt;
+&lt;li&gt;只设置一个为 active，则页面总是提示要开启 Flash
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;怀疑是两个版本冲突的问题&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:14669-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:14669-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用 &lt;code&gt;zypper search&lt;/code&gt; 命令检查系统下安装的 flash 相关软件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ zypper search flash
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出结果如下：&lt;/p&gt;
+
+&lt;p&gt;其中 &lt;strong&gt;chromium-pepper-flash&lt;/strong&gt; 比较可疑。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;移除 chromium-pepper-flash：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo zypper rm chromium-pepper-flash 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;弹出提示如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The following 2 packages are going to be REMOVED: chromium-pepper-flash freshplayerplugin&lt;/p&gt;
+
+&lt;p&gt;The following package is going to be upgraded: flash-player&lt;/p&gt;
+
+&lt;p&gt;1 package to upgrade, 2 to remove. Overall download size: 11.6 MiB. Already cached: 0 B After the operation, 13.9 MiB will be freed. Continue? [y/n/p/? shows all options] (y): y (Use arrows or pgUp/pgDown keys to scroll the text by lines or pages.)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;提示说，chromium-pepper-flash 和 freshplayerplugin 将被移除，并且升级 flash-player。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;移除后，重启 Firefox，Flash 可正常使用。&lt;/p&gt;
+
+&lt;p&gt;P.S. 图片由 Luna 提供。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:14669-1&#34;&gt;&lt;a href=&#34;https://support.mozilla.org/en-US/questions/1024170&#34;&gt;How do I totally remove Shockwave Flash 15.0.0152 from my Addons in Ubuntu 12.04? | Firefox Support Forum | Mozilla Support&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:14669-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>openSUSE 安装最新版 Firefox</title>
+      <link>https://www.zfanw.com/blog/opensuse-install-latest-firefox.html</link>
+      <pubDate>Tue, 02 Dec 2014 12:30:08 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/opensuse-install-latest-firefox.html</guid>
+      <description>&lt;p&gt;openSUSE 官方提供的 Firefox &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:14654-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:14654-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;版本通常要低于最新发布的 Firefox。比如现在，Firefox 最新版本是 34，但 openSUSE 源上提供的还是 Firefox 33。所以，如果你要在 Firefox 最新版本发布后尽快使用到，则最好使用 Mozilla 提供的第三方软件源&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:14654-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:14654-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+
+&lt;p&gt;操作步骤如下（下面我以 openSUSE 13.2 操作系统为例）：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;添加 Mozilla 软件源&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo zypper ar -f http://download.opensuse.org/repositories/mozilla/openSUSE_13.2/ Mozilla
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;更新软件源&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo zypper ref
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;安装 Mozilla 软件源下的 Firefox&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo zypper in Mozilla:MozillaFirefox
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 &lt;code&gt;Mozilla&lt;/code&gt; 即第一步中设置的软件源的别名（alias）。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;安装 Firefox 时，可能会有依赖冲突的提示，按 openSUSE 系统的建议操作即可。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:14654-1&#34;&gt;&lt;a href=&#34;http://software.opensuse.org/package/MozillaFirefox&#34;&gt;openSUSE 官方源中的 Firefox&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:14654-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:14654-2&#34;&gt;&lt;a href=&#34;https://en.opensuse.org/Additional_package_repositories#Mozilla&#34;&gt;Mozilla 提供的第三方软件源&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:14654-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>openSUSE 的 Apache 配置</title>
+      <link>https://www.zfanw.com/blog/apache-under-opensuse.html</link>
+      <pubDate>Thu, 27 Nov 2014 22:26:32 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/apache-under-opensuse.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#DNS_A&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; DNS 绑定 A 记录&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 创建站点目录&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Apache&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 配置 Apache&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    我的目的，是在 openSUSE 13.1 系统下，配置 Apache 服务器绑定 &lt;a href=&#34;http://en.zfanw.com&#34; title=&#34;陈三的英文博客&#34;&gt;en.zfanw.com&lt;/a&gt; 域名。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;DNS_A&#34;&gt;DNS 绑定 A 记录&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyDNS_A&#34; href=&#34;#DNS_A&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    首先在 DNS 上创建 A 记录，将域名绑定到相应 IP 上。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;创建站点目录&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在服务器上，添加 &lt;em&gt;/srv/www/vhosts/en.zfanw.com&lt;/em&gt; 目录，并在该目录下创建一个 index.html 文件 &amp;#8211; 用于测试。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Apache&#34;&gt;配置 Apache&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Apache&#34; href=&#34;#_Apache&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;h3&gt;
+    创建虚拟主机配置文件
+  &lt;/h3&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ cd /etc/apache2/vhosts.d
+$ sudo cp vhost.template en.zfanw.com.conf
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    修改 en.zfanw.com.conf 文件内容如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;VirtualHost *:80&amp;gt;
+    ServerName en.zfanw.com
+    ServerAdmin chenxsan@gmail.com
+
+    DocumentRoot /srv/www/vhosts/en.zfanw.com
+
+    ErrorLog /var/log/apache2/en.zfanw.com-error_log
+    CustomLog /var/log/apache2/en.zfanw.com-access_log combined
+
+    # don&#39;t loose time with IP address lookups
+    HostnameLookups Off
+
+    # needed for named virtual hosts
+    UseCanonicalName Off
+
+    # configures the footer on server-generated documents
+    ServerSignature On
+
+    #
+    # This should be changed to whatever you set DocumentRoot to.
+    #
+    &amp;lt;Directory &#34;/srv/www/vhosts/en.zfanw.com&#34;&amp;gt;
+        AllowOverride All
+        Options FollowSymLinks
+
+        Order allow,deny
+        Allow from all
+
+    &amp;lt;/Directory&amp;gt;
+
+&amp;lt;/VirtualHost&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    之后重启 Apache：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ sudo rcapache2 restart
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    访问 en.zfanw.com 网址，已经可以看到 index.html 文件的内容了。如果我们之前未添加 index.html 文件，访问的话，则会出现如下错误信息：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      Access forbidden!
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      You don&amp;#8217;t have permission to access the requested directory. There is either no index document or the directory is read-protected.
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      If you think this is a server error, please contact the webmaster.
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Error 403
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      en.zfanw.com
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>WordPress 插件更新失败</title>
+      <link>https://www.zfanw.com/blog/wordpress-fail-to-update-plugin.html</link>
+      <pubDate>Fri, 14 Nov 2014 05:24:37 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/wordpress-fail-to-update-plugin.html</guid>
+      <description>
+
+&lt;p&gt;在我升级 WordPress 插件时，碰到如下错误：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Downloading update from &lt;a href=&#34;https://downloads.wordpress.org/plugin/akismet.3.0.3.zip…&#34;&gt;https://downloads.wordpress.org/plugin/akismet.3.0.3.zip…&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Unpacking the update…&lt;/p&gt;
+
+&lt;p&gt;Could not create directory.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;原因是 WordPress 没有权限创建新文件夹。&lt;/p&gt;
+
+&lt;h2 id=&#34;解决办法&#34;&gt;解决办法&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;终端窗口执行 &lt;code&gt;ls -l&lt;/code&gt; 命令&lt;/p&gt;
+
+&lt;p&gt;查看 &lt;em&gt;wp-content&lt;/em&gt; 目录当前所有者（owner）与所属的组（group），结果是 _sam : users_。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;查看 Apache 服务的所有者（owner）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ps aux | grep apache
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我的 openSUSE 13.2 上显示 &lt;strong&gt;wwwrun&lt;/strong&gt;，与第一步得到的用户不一样。我们&lt;strong&gt;需要修改 wp-content 的所有者与组&lt;/strong&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;执行如下命令查看 wwwrun 用户所属的组：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ groups wwwrun
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;用户 wwwrun 属于 www 组。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改 wp-content 目录的所有者与组：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo chown -R wwwrun:www wp-content
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;接下来就能成功更新插件。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Privoxy shadowsocks</title>
+      <link>https://www.zfanw.com/blog/privoxy-shadowsocks.html</link>
+      <pubDate>Wed, 12 Nov 2014 05:37:33 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-shadowsocks.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_shadowsocks&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 服务器端安装 shadowsocks&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_shadowsocks-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 本地安装 shadowsocks&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Privoxy&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; Privoxy 转发&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    &lt;a href=&#34;https://github.com/clowwindy/shadowsocks&#34;&gt;shadowsocks&lt;/a&gt; 是一个 SOCKS5 代理，所以，它的用法跟 SSH 搭建 SOCKS 代理服务器差不多。至于谁好谁坏，谁快谁慢，环境不一样，我觉得很难有固定标准，所以还是靠自己的感受判断。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_shadowsocks&#34;&gt;服务器端安装 shadowsocks&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_shadowsocks&#34; href=&#34;#_shadowsocks&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    首先根据 &lt;a href=&#34;https://github.com/clowwindy/shadowsocks/wiki/Shadowsocks-使用说明&#34;&gt;shadownsocks 安装说明&lt;/a&gt; 在服务器（比如 VPS）上安装 shadowsocks 并配置、启用。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_shadowsocks-2&#34;&gt;本地安装 shadowsocks&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_shadowsocks-2&#34; href=&#34;#_shadowsocks-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在本机上，我们还需要一个 shadowsocks 客户端。通常照服务器端一样安装，安装后 shadowsocks 提供有 &lt;code&gt;sslocal&lt;/code&gt; 命令。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    以我的 openSUSE 13.2 为例，安装完 &lt;a href=&#34;https://github.com/madeye/shadowsocks-libev&#34;&gt;shadowsocks-libev&lt;/a&gt;，根据服务器端的配置修改 &lt;em&gt;/etc/shadowsocks/shadowsocks-libev-config.json&lt;/em&gt; 文件，然后执行 &lt;code&gt;ss-local&lt;/code&gt; 命令（注意，libev 版本的命令比其他版本的 shadowsocks 命令多出中间一个连字符）：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;ss-local -c /etc/shadowsocks/shadowsocks-libev-config.json
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    运行的结果如下：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      2014-11-12 09:49:44 INFO: initialize ciphers&amp;#8230; aes-256-cfb
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      2014-11-12 09:49:44 INFO: server listening at port 1080.
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    说明本地 shadowsocks 服务器已经在 127.0.0.1:1080 上监听。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Privoxy&#34;&gt;Privoxy 转发&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyPrivoxy&#34; href=&#34;#Privoxy&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    接下来就是把 Privoxy 的流量转发到本机的 1080 端口。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    打开 Privoxy 的 &lt;em&gt;config&lt;/em&gt; 文件，添加如下规则：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;forward-socks5 / 127.0.0.1:1080 .
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    规则的具体意义见 &lt;a href=&#34;http://www.zfanw.com/blog/privoxy-forward-ssh.html&#34;&gt;SSH 搭建 SOCKS 代理服务器&lt;/a&gt;一篇。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>解决 Privoxy 404 No Such Domain 问题</title>
+      <link>https://www.zfanw.com/blog/privoxy-404-no-such-domain.html</link>
+      <pubDate>Tue, 11 Nov 2014 22:23:48 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-404-no-such-domain.html</guid>
+      <description>&lt;p&gt;&lt;em&gt;404 No Such Domain&lt;/em&gt; 错误，在 Privoxy 的 &lt;a href=&#34;http://www.privoxy.org/faq/trouble.html#DNSERRORS&#34;&gt;FAQ&lt;/a&gt; 中有提及，但作者只是提到可能原因，没有提供解决办法。&lt;/p&gt;
+
+&lt;p&gt;在我的 openSUSE 13.1 系统上，这个错误，大致可以按以下步骤重现（作者你神经病）：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;按 &lt;a href=&#34;http://www.zfanw.com/blog/privoxy-forward-ssh.html&#34;&gt;Privoxy 转发到 SOCKS 服务器&lt;/a&gt;一文的说明配置使用 SOCKS 代理&lt;/li&gt;
+&lt;li&gt;删除 &lt;em&gt;config&lt;/em&gt; 文件中 &lt;code&gt;forward-socks5 / 127.0.0.1:9999&lt;/code&gt; 一句&lt;/li&gt;
+&lt;li&gt;未断掉 SSH 连接的情况下重启 openSUSE 系统&lt;/li&gt;
+&lt;li&gt;打开 Firefox&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;之后 Firefox 打开的所有网址都会返回 404 No Such Domain 错误，除了 Privoxy 的配置地址 &lt;a href=&#34;http://p.p。&#34;&gt;http://p.p。&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;而如果我禁止 Firefox 走 Privoxy 代理，则一切均正常。但这没达到我的目的。重启系统也不能解决问题。&lt;/p&gt;
+
+&lt;p&gt;最后找到的解决办法简单得跌破眼镜，就是重启 Privoxy。openSUSE 下执行命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo rcprivoxy restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当然，openSUSE 下可视化的 &lt;strong&gt;Services Manager&lt;/strong&gt; 里重启 Privoxy 也是可以的。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Byobu 的启动问题</title>
+      <link>https://www.zfanw.com/blog/byobu-startup-problem.html</link>
+      <pubDate>Mon, 10 Nov 2014 19:59:59 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/byobu-startup-problem.html</guid>
+      <description>&lt;p&gt;在我的 openSUSE 13.1 上启动 Byobu 后：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Have a lot of fun&amp;#8230;&lt;/p&gt;
+
+&lt;p&gt;/usr/lib/byobu/include/common:27: command not found: command -v&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;检查该路径下的 &lt;em&gt;common&lt;/em&gt; 文件第 27 行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    for BYOBU_TEST in &amp;quot;command -v&amp;quot; &amp;quot;type&amp;quot; &amp;quot;which&amp;quot;; do
+        $BYOBU_TEST &amp;gt;/dev/null &amp;amp;&amp;amp; break || true
+    done
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;虽然我不懂 Bash 编程，但大致明白，这是在检查三个 bash 内建的命令 &lt;code&gt;command -v&lt;/code&gt;、&lt;code&gt;type&lt;/code&gt;、&lt;code&gt;which&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;比如我们可以输入：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;which command
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;显示的结果是：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;command: shell built-in command&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;所以问题是出在 &lt;code&gt;command -v&lt;/code&gt; 这一条，Byobu 在启动过程中，未检查到该命令。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;快速解决办法&lt;/strong&gt;是，修改 &lt;code&gt;command -v&lt;/code&gt; 为 &lt;code&gt;command&lt;/code&gt;，据我的使用，并没有什么问题。&lt;/p&gt;
+
+&lt;p&gt;当然，放任这个错误信息的话，也不影响使用。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Ember.js 在 IE 下渲染问题 - 陈三</title>
+<meta property="og:title" content="Ember.js 在 IE 下渲染问题 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Ember.js 在 IE 下渲染问题</h1>
+
+    
+    <span class="article-date">March 3, 2014</span>
+    
+
+    <div class="article-content">
+      <p><em>Note：本文基于 Ember.js 1.4.0</em></p>
+
+<p>Google Chrome、Firefox 下，Ember.js 页面均正常渲染，但 IE9 里，却出现页面无法渲染的问题 &#8211; 尤其是在使用国产某所谓极速浏览器下，从 IE9 内核切换到 Chrome 内核，再来回切换几次，就很容易爆出该问题。</p>
+
+<p>根据 Ember.js 最近的一篇博客<sup class="footnote-ref" id="fnref:12010-1"><a rel="footnote" href="#fn:12010-1">1</a></sup>说明，IE 浏览器里，它是<strong>支持 IE8 以上</strong>的，</p>
+
+<blockquote>
+<p>Despite the imminent End of Life status of Windows XP, we will continue supporting Internet Explorer 8. We know many Ember.js users still need to target enterprise and education customers, who will be on IE8 for some time.</p>
+</blockquote>
+
+<p>再来看 Fiddler2 的抓包结果，一切请求均正常，没有丢失或请求失败的情形。初时以为代码逻辑有问题，但找来找去都没有结果。后来灵光一现：<strong>IE 低版本里，以前曾碰上过因为代码里带 <code>console.log()</code> 引起的问题</strong>。于是把 app.js 中所有 <code>console.log</code> 命令全部注释掉，再开 IE9 测试，莫名地恢复正常渲染 &#8211; 但我仍不敢确定，问题是不是真的因 console.log 而起。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:12010-1"><a href="http://emberjs.com/blog/2013/12/17/whats-coming-in-ember-in-2014.html">Ember.js &#8211; What&#8217;s Coming in Ember in 2014</a>
+ <a class="footnote-return" href="#fnref:12010-1"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

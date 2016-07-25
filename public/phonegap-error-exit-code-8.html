@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>PhoneGap打包错误 - 陈三</title>
+<meta property="og:title" content="PhoneGap打包错误 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">PhoneGap打包错误</h1>
+
+    
+    <span class="article-date">July 7, 2014</span>
+    
+
+    <div class="article-content">
+      <p>在我安装、配置好PhoneGap项目的所有依赖后，试图执行</p>
+
+<pre><code>$ cordova run android
+</code></pre>
+
+<p>命令时，出现过如下错误。</p>
+
+<p><code>cordova build android</code>或<code>cordova emulate android</code>的结果也是一样。</p>
+
+<p>但其实真正的问题在上面几行：</p>
+
+<p>这是因为项目下有多个node_modules目录，被重复打包而引发的<code>Command failed with exit code 8</code>问题。</p>
+
+<p>解决办法是修改<code>platforms/android/build.xml</code>：</p>
+
+<pre><code>&lt;property name=&quot;aapt.ignore.assets&quot; value=&quot;&amp;lt;dir&amp;gt;node_*&quot; /&gt;
+</code></pre>
+
+<p>将node_modules目录排除掉，就可以正常执行<code>cordova</code>命令。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>我们为什么写测试 - 陈三</title>
+<meta property="og:title" content="我们为什么写测试 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">我们为什么写测试</h1>
+
+    
+    <span class="article-date">October 10, 2015</span>
+    
+
+    <div class="article-content">
+      <p>我曾在<a href="https://www.zfanw.com/blog/unpredict-css.html">失控的 CSS</a> 里讲到<strong>代码信任</strong>问题。</p>
+
+<blockquote>
+<p>样式 B 基于 A 的存在，如果 A 不存在，B 也就被破坏。</p>
+</blockquote>
+
+<p>但样式很难测试，所以我们要使用约定。约定好了，就不要变；如果有人撕毁了约定，代码质量就会跟台风天的危楼一样。</p>
+
+<p>回到 JavaScript，假定有一个简单的加法函数：</p>
+
+<pre><code>function sum (a, b) {
+  return a + b
+}
+</code></pre>
+
+<p>我们可以测试，1 + 1 = 2：</p>
+
+<pre><code>assert.equal(sum(1, 1), 2)
+</code></pre>
+
+<p>在 1 + 1 = 2 的设定下，我们可以推出：</p>
+
+<blockquote>
+<p>1 + 2 = 3</p>
+
+<p>2 * 3 = 6</p>
+</blockquote>
+
+<p>这十分显然。</p>
+
+<p>可是，<strong>如果有人撕毁了 1 + 1 = 2 这个设定，并且我们并不知情</strong>，会怎样？</p>
+
+<p>我们所有的函数、表达式都会“异常”，我们会一头茫然，甚至砸掉电脑。</p>
+
+<p>但这时，再来跑一遍测试：</p>
+
+<pre><code>assert.equal(sum(1, 1), 2)
+</code></pre>
+
+<p>测试结果会告诉我们，1 + 1 != 2，我们就知道，有人撕毁了约定。</p>
+
+<p>我们无妨把测试看成一种承诺：<strong>我承诺此时以及未来，一加一都会等于二</strong>，你可以安心地在这个承诺基础上做事。如果没有测试，我们就无法知晓，过去的自己或别人是否承诺了什么，现在又是怎样的情况。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

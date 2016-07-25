@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>Ember.js 表单验证 - 陈三</title>
+<meta property="og:title" content="Ember.js 表单验证 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">2 min read</span>
+    
+
+    <h1 class="article-title">Ember.js 表单验证</h1>
+
+    
+    <span class="article-date">March 3, 2014</span>
+    
+
+    <div class="article-content">
+      <p><em>Note：本文基于 Ember.js 1.4.0</em></p>
+
+<p>Ember.js 里，一件事常常有多种做法。虽说灵活，但对新手来说，我认为反是件坏事，因为选择太多。</p>
+
+<p>比如一个表单元素 input 输入框，用于用户注册时填写用户名，则据我了解到的资料，至少可有以下几种写法：</p>
+
+<ul>
+<li><p>handlebars.js 模板<sup class="footnote-ref" id="fnref:11691-1"><a rel="footnote" href="#fn:11691-1">1</a></sup></p>
+
+<pre><code>{{input type='text' placeholder=&quot;请输入用户名&quot; value=username}}
+</code></pre></li>
+
+<li><p>Ember.TextField</p>
+
+<p>Ember.TextField 是 Ember.js 内建的一个 View 类<sup class="footnote-ref" id="fnref:11691-2"><a rel="footnote" href="#fn:11691-2">2</a></sup>，</p>
+
+<pre><code>//template
+{{view Ember.TextField valueBinding=&quot;username&quot; placeholder=&quot;请输入用户名&quot;}}
+</code></pre></li>
+
+<li><p>扩展 Ember.TextField 类</p>
+
+<pre><code>// js
+App.UsernameTextField = Ember.TextField.extend({}); 
+
+// template
+{{view App.UsernameTextField valueBinding=&quot;value&quot; placeholder=&quot;请输入用户名&quot;}}
+</code></pre></li>
+</ul>
+
+<p><strong>我的需求</strong>很简单，对 input 里填写的用户名，发起 ajax 请求到服务器，验证该用户名是否可用。</p>
+
+<p><strong>触发验证的时机</strong>我选在输入框失焦时。在 Ember.js 里，该事件为 foucusOut。</p>
+
+<p>一个最快的解决办法是，直接把事件绑定给 View 类的属性(下面一段代码基于上面的第三种写法)<sup class="footnote-ref" id="fnref:11691-3"><a rel="footnote" href="#fn:11691-3">3</a></sup>：</p>
+
+<pre><code>App.UsernameTextField = Ember.TextField.extend({
+  focusOut: function(evt){
+    var username = this.get('value'); // 注意，上面的模板中之所以写成 valueBinding='value' 是因为写成其他的话，本类中会无法取得 username 的值
+    console.log(username);
+    //这里我用 jQuery 发起 ajax 请求远程服务器进行表单验证
+    $.post('http://www.example.com/api/user', {username: username}, function(response) {
+      console.log(response);
+    });
+  }
+});
+</code></pre>
+
+<p>因为我们在模板里对 <code>value</code> 做了双向绑定<sup class="footnote-ref" id="fnref:11691-4"><a rel="footnote" href="#fn:11691-4">4</a></sup>，所以 View 里可以通过 <code>this.get('value')</code> 取得当前输入框的值。这样，在输入框失去焦点后，就可以将取得的用户名通过 ajax 发送到服务器要求验证。</p>
+
+<p>但我的实践里，上面这种做法虽快，但不方便。一个更灵活的方法是把表单验证过程写在控制器里(Controller)，这样可以直接在控制器修改程序状态值(Application state)，而不必在 View 里通过 <code>this.get('controller').send()</code> 这种方式。</p>
+
+<p>模板部分如下<sup class="footnote-ref" id="fnref:11691-5"><a rel="footnote" href="#fn:11691-5">5</a></sup>，样式基于 Twitter Bootstrap：</p>
+
+<pre><code>&lt;label for=&quot;username&quot; class=&quot;col-sm-2 control-label&quot;&gt;用户名&lt;/label&gt;
+&lt;div {{bind-attr class=&quot;:col-sm-10 usernameExist:has-error&quot; }}&gt;
+  {{view Ember.TextField name='username' value=username type='text' class='form-control' title='请填写用户名' focus-out=&quot;validateUsername&quot;}} &lt;!-- 输入框失去焦点时触发 validateUsername 动作，动作定义在控制器中 --&gt;
+  &lt;p {{bind-attr class=&quot;:text-muted usernameExist:hidden&quot; }}&gt;用来登录网站&lt;/p&gt;
+  &lt;p {{bind-attr class=':text-error usernameExist::hidden' }}&gt;该用户名已被人注册&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>控制器部分代码如下：</p>
+
+<pre><code>App.RegisterController = Ember.Controller.extend({ // 注册页面 controller
+    username: '',
+    usernameExist: false,
+    actions: {
+        validateUsername: function() {
+            var username = this.get('username'),
+                self = this;// 这个 this 指 controller
+            if (username !== '') { // 如果输入框中内容不为空，则发起 POST 请求
+                 $.post('http://www.example.com/user/register', {username: username}, function(response) {
+                    var response = JSON.parse(response);
+                    if ('feedback_negative' in response) { // feedback_negative 键名表示该用户名已经被注册
+                        self.set('usernameExist', true); // 修改 usernameExist 值来影响模板中 CSS 类的显示与隐藏
+                    }
+                });
+            }
+        }
+    }
+});
+</code></pre>
+
+<p>这种方法里，我可以很方便地给 input 绑定各种事件<sup class="footnote-ref" id="fnref:11691-6"><a rel="footnote" href="#fn:11691-6">6</a></sup>，并且模板代码十分直观 &#8211; 一眼就能看出某事件绑定了什么事件处理器。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:11691-1"><a href="http://emberjs.com/guides/templates/input-helpers/">Ember.js &#8211; Templates: Input Helpers</a>
+ <a class="footnote-return" href="#fnref:11691-1"><sup>[return]</sup></a></li>
+<li id="fn:11691-2"><a href="http://emberjs.com/guides/views/built-in-views/">Ember.js &#8211; Views: Built-in Views</a>
+ <a class="footnote-return" href="#fnref:11691-2"><sup>[return]</sup></a></li>
+<li id="fn:11691-3"><a href="http://jsbin.com/pahiwote">Ember.js 表单验证 &#8211; Demo</a>
+ <a class="footnote-return" href="#fnref:11691-3"><sup>[return]</sup></a></li>
+<li id="fn:11691-4"><a href="http://emberjs.com/api/classes/Ember.Binding.html">Ember.js &#8211; Ember.Binding</a>
+ <a class="footnote-return" href="#fnref:11691-4"><sup>[return]</sup></a></li>
+<li id="fn:11691-5"><a href="http://emberjs.com/guides/templates/binding-element-class-names/">Ember.js &#8211; Templates: Binding Element Class Names</a>
+ <a class="footnote-return" href="#fnref:11691-5"><sup>[return]</sup></a></li>
+<li id="fn:11691-6"><a href="http://emberjs.com/api/classes/Ember.View.html#toc_event-names">Ember.js &#8211; Ember.View 事件名称清单</a>
+ <a class="footnote-return" href="#fnref:11691-6"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

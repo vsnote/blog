@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Grunt.Js on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/grunt/index.js/</link>
+    <description>Recent content in Grunt.Js on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 21 Jun 2014 05:30:44 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/grunt.js/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>搭建前端开发环境</title>
+      <link>https://www.zfanw.com/blog/front-end-development-env.html</link>
+      <pubDate>Sat, 21 Jun 2014 05:30:44 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/front-end-development-env.html</guid>
+      <description>&lt;p&gt;如果用&lt;a href=&#34;http://yeoman.io/&#34;&gt;Yeoman&lt;/a&gt;创建前端的开发目录，运行:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grunt serve
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;就可以通过&lt;code&gt;http://localhost:10000&lt;/code&gt;这样的网址访问到开发根目录，&lt;/p&gt;
+
+&lt;p&gt;如果系统有Python 2.x，也可以搭建个简易的服务器。切换到开发目录，执行以下命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ python -m SimpleHTTPServer 10000
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Python 3.x的命令如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;python -m http.server
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后，我们同样可以通过&lt;code&gt;http://localhost:10000&lt;/code&gt;网址访问到开发根目录。&lt;/p&gt;
+
+&lt;p&gt;因为跟后端的开发不同步，所以后端数据通常需要在自己的电脑上模拟。&lt;/p&gt;
+
+&lt;p&gt;Node.js的框架&lt;a href=&#34;http://expressjs.com&#34;&gt;express.js&lt;/a&gt;是个很方便的工具。&lt;/p&gt;
+
+&lt;p&gt;在安装完express.js后，创建一个目录，目录里新建&lt;code&gt;app.js&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var express = require(&#39;express&#39;);
+var app = express();
+
+app.use(function(req, res, next) { // 解决请求跨域
+  res.setHeader(&#39;Access-Control-Allow-Origin&#39;, &#39;*&#39;);
+  next();
+});
+
+app.get(&#39;/&#39;, function(req, res) {
+  res.send(&#39;hello express&#39;);
+});
+
+app.post(&#39;/login&#39;, function(req, res) {
+  res.json({
+    state: 1,
+    info: null
+  });
+});
+
+app.listen(3000);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后运行&lt;code&gt;node app.js&lt;/code&gt;，后端数据就可以通过&lt;code&gt;localhost:3000&lt;/code&gt;接口访问到。代码中&lt;code&gt;app.use&lt;/code&gt;部分用于解决端口不同造成的跨域禁止访问的问题。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gulp.js</title>
+      <link>https://www.zfanw.com/blog/gulp-js.html</link>
+      <pubDate>Sun, 12 Jan 2014 16:08:44 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/gulp-js.html</guid>
+      <description>&lt;p&gt;好像突然间，就看到 twitter 上到处在聊 gulp.js &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11402-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11402-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;了，还拿来跟 grunt.js &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11402-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11402-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;作对比，说它的语法更简洁，说它的速度更快&amp;#8230;&amp;#8230;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;：&lt;em&gt;gulp 在2013.7.18推出0.1版本，grunt 在两年前推出&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;grunt.js 下，加载插件是这样写的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;grunt.loadNpmTasks(&#39;grunt-contrib-uglify&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;gulp.js 下，则是这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var uglify = require(&#39;gulp-uglify&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;gulp 加载插件的语法有点 Node.js 的意思，就我个人喜好说，确实会喜欢 &lt;code&gt;require&lt;/code&gt; 的方式多一点。&lt;/p&gt;
+
+&lt;p&gt;再来看定义任务。&lt;/p&gt;
+
+&lt;p&gt;gulp 下是这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;gulp.task(&#39;scripts&#39;, function() {// 定义一个脚本任务
+  // 最小化、混淆 js 目录下不包括 vendor 子目录的所有 js 文件，并将结果保存到 build/js 目录下
+  return gulp.src([&#39;js/**/*.js&#39;, &#39;!js/vendor/**&#39;])
+    .pipe(uglify()) // pipe 是一个管道，可以连接不同部分
+    .pipe(rename({ // 重命名文件
+        ext: &amp;quot;.min.js&amp;quot;
+    }))
+    .pipe(gulp.dest(&#39;build/js&#39;));
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个任务在 grunt 下写的话：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;uglify: { 
+      build: {
+      files: [
+        {
+          expand: true,     
+          cwd: &#39;js/&#39;,      
+          src: [&#39;**/*.js&#39;, !js/vendor/**], 
+          dest: &#39;build/js&#39;,   
+          ext: &#39;.min.js&#39;,   
+        }
+      }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我觉得 gulp 的 pipe 用法确实要比 grunt 更漂亮。因为很多任务间常常要有联系，比如检查语法后（jshint）后要最小化混淆（uglify）处理，gulp 可以用 pipe 实现，直观明了，grunt 要定义两个任务，一个 jshint，一个 uglify，然后在 uglify 任务中把 &lt;code&gt;src&lt;/code&gt; 设置为 jshint 任务的结果，比如 &lt;code&gt;&amp;lt;%= jshint.all.dest %&amp;gt;&lt;/code&gt; 这样，任务一多，可能就有点乱。&lt;/p&gt;
+
+&lt;p&gt;最后再来看注册任务。&lt;/p&gt;
+
+&lt;p&gt;gulp 下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;gulp.task(&#39;default&#39;, function() {
+  gulp.run(&#39;scripts&#39;, &#39;images&#39;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;grunt 下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;grunt.registerTask(&#39;default&#39;, [&#39;scripts&#39;, &#39;images&#39;]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;一番比较下来，gulp 的语法确实要更讨人喜欢。不过&lt;strong&gt;我猜&lt;/strong&gt; grunt 的插件支持目前应该要更多些。至于 gulp.js &lt;q&gt;速度更快&lt;/q&gt;一说，除非项目很大，否则比较的意义并不大。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:11402-1&#34;&gt;&lt;a href=&#34;http://gulpjs.com/&#34;&gt;gulp.js &amp;#8211; the streaming build system&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11402-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11402-2&#34;&gt;&lt;a href=&#34;http://www.zfanw.com/blog/gruntjs.html&#34;&gt;Gruntjs – 陈三&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11402-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Handlebars.js 预编译</title>
+      <link>https://www.zfanw.com/blog/handlebars-js-precompilation.html</link>
+      <pubDate>Fri, 10 Jan 2014 14:10:14 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/handlebars-js-precompilation.html</guid>
+      <description>
+
+&lt;p&gt;Handlebars.js 官网上对预编译&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11247-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11247-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;是这样说的：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;你需要安装 Node.js&lt;/li&gt;
+&lt;li&gt;你需要在全局环境中，通过 Npm 安装 handlebars 包&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;然后你就可以通过命令预编译你的 handlebars 模板文件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ handlebars &amp;lt;input&amp;gt; --output &amp;lt;output&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;假设我有一个模板文件，名称为 person.handlebars，内容很简单，如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;table&amp;gt;
+    &amp;lt;tr&amp;gt;
+        &amp;lt;td&amp;gt;This is {{firstname}} {{lastname}}&amp;lt;/td&amp;gt;
+    &amp;lt;/tr&amp;gt;
+&amp;lt;/table&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;假定编译后输出文件的名称为 person.js&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11247-2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11247-2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;，检查 person.js 文件内容，可以看到，一个 Handlebars.templates 对象下增加了一个 &lt;code&gt;person&lt;/code&gt; 属性名：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates[&#39;person&#39;] = template(function (Handlebars,depth0,helpers,partials,data) {
+    ......
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后，我们只要在页面 HTML 页面引用 handlebars.runtime.js、person.js 文件，并且通过 js 传入数据：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!doctype html&amp;gt;
+&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
+&amp;lt;head&amp;gt;
+    &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;gt;
+    &amp;lt;title&amp;gt;Handlebar.js 模板&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+    &amp;lt;div id=&amp;quot;person&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+    &amp;lt;script src=&amp;quot;js/handlebars.runtime.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script src=&amp;quot;js/person.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script&amp;gt;
+        var compiledTemplate = Handlebars.templates[&#39;person&#39;],
+        html = compiledTemplate({&amp;quot;firstname&amp;quot;: &amp;quot;三&amp;quot;, &amp;quot;lastname&amp;quot;: &amp;quot;陈&amp;quot;});
+        document.getElementById(&#39;person&#39;).innerHTML = html;
+    &amp;lt;/script&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在浏览器打开 HTML 页面，可以看到最终结果：This is 三 陈。&lt;/p&gt;
+
+&lt;p&gt;OK，看完 Handlebars.js 官网提供的纯手工预编译模板的方法后，再来看看 Grunt.js 是怎样全自动预编译模板的。&lt;/p&gt;
+
+&lt;h2 id=&#34;grunt-contrib-handlebars-11247-3&#34;&gt;grunt-contrib-handlebars&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11247-3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11247-3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
+
+&lt;p&gt;因为是基于 Grunt.js，所以假定环境中已经安装好 Node.js、Npm，&lt;code&gt;grunt&lt;/code&gt; 命令也能正常运行。&lt;/p&gt;
+
+&lt;p&gt;首先，需要在工作目录下需要安装 &lt;code&gt;grunt-contrib-handlebars&lt;/code&gt; 模块：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cd myJob
+$ npm install grunt-contrib-handlebars --save-dev
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;安装完 grunt-contrib-handlebars 模块后，我们需要在 Gruntfile.js 文件中加载它：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;grunt.loadNpmTasks(&#39;grunt-contrib-handlebars&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后，还是在 Gruntfile.js 文件中，配置预编译任务：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;handlebars: { //定义预编译任务
+    compile: {
+        options: {
+            namespace: &amp;quot;JST&amp;quot; //命名空间，这个很重要，后面会提到
+        },
+        files: [{
+            expand: true,
+            cwd: &#39;js/src/handlebars&#39;,
+            src: &#39;**/*.handlebars&#39;, //模板文件
+            dest: &#39;js/dest/handlebars/&#39;, //编译后的文件存放位置
+            ext: &#39;.js&#39; //编译后的文件格式          
+        }]
+        //如果要把所有模板文件编译到一个 .js 文件，则可以写成：
+        //files: {&amp;quot;js/dest/template.js&amp;quot;: [&#39;js/src/handlebars/**/*.handlebars&#39;]}
+    }
+}
+watch: { //监控文件变化并自动执行预编译任务
+    precompile: {
+        files: &#39;js/src/handlebars/**/*.handlebars&#39;,
+        tasks: [&#39;handlebars&#39;]
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里，如果等不及 &lt;code&gt;grunt watch&lt;/code&gt;，可以先执行 &lt;code&gt;grunt handlebars&lt;/code&gt; 命令预编译，得到的 person.js &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11247-4&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11247-4&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;文件如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;this[&amp;quot;JST&amp;quot;] = this[&amp;quot;JST&amp;quot;] || {};
+
+this[&amp;quot;JST&amp;quot;][&amp;quot;js/person.handlebars&amp;quot;] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,&#39;&amp;gt;= 1.0.0&#39;];
+......
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个版本跟手工生成的可不太一样。当然，如果想生成与手工一样的结果也很简单，只要把选项中的 &lt;code&gt;namespace&lt;/code&gt; 设置为 &lt;code&gt;false&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;好了，现在我们的 &lt;code&gt;person&lt;/code&gt; 存放的位置变了，不再是之前的 &lt;code&gt;templates[&#39;person&#39;]&lt;/code&gt;，而是 &lt;code&gt;this[&amp;quot;JST&amp;quot;][&amp;quot;js/person.handlebars&amp;quot;]&lt;/code&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:11247-5&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:11247-5&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;，那么，在 HTML 里，我们的 &lt;code&gt;compiledTemplate&lt;/code&gt; 是怎么获取？很简单：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var compiledTemplate = JST[&amp;quot;js/person.handlebars&amp;quot;],
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这是因为，在 grunt-contrib-handlebars 自动预编译的文件中，&lt;code&gt;this&lt;/code&gt; 在浏览器环境下指向 window 对象，所以我们不过是把模板对象存放到一个新的命名空间 JST 下的 &amp;#8220;js/person.handlebars&amp;#8221; 属性名里，结果是，代码冲突的可能性更小了。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:11247-1&#34;&gt;&lt;a href=&#34;http://handlebarsjs.com/precompilation.html&#34;&gt;Handlebars.js: Minimal Templating on Steroids&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11247-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11247-2&#34;&gt;&lt;a href=&#34;https://gist.github.com/chenxsan/8351314#file-person-js&#34;&gt;Handlebars.js 预编译的结果&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11247-2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11247-3&#34;&gt;&lt;a href=&#34;https://github.com/gruntjs/grunt-contrib-handlebars&#34;&gt;gruntjs/grunt-contrib-handlebars&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11247-3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11247-4&#34;&gt;&lt;a href=&#34;https://gist.github.com/chenxsan/8352178&#34;&gt;Grunt 自动编译的 Handlebars.js 模板&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11247-4&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:11247-5&#34;&gt;&lt;a href=&#34;http://danburzo.ro/grunt/chapters/handlebars/&#34;&gt;Pre-compile your Handlebars templates&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:11247-5&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gruntjs</title>
+      <link>https://www.zfanw.com/blog/gruntjs.html</link>
+      <pubDate>Fri, 12 Jul 2013 15:15:00 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/gruntjs.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Gruntjs&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 安装 Gruntjs&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_packagejson&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 配置 package.json&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Gruntfilejs&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 配置 Gruntfile.js&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    在前端开发中，有很多琐碎要做，比如检查代码语法、压缩 CSS、最小化混淆 JavaScript 代码、优化图片大小等等，如果要一个个处理，会非常耗时，重要的是，会比较无聊。于是就出现 Grunt.js&lt;fnref target=&#34;9479.1&#34; /&gt; 这样的工具，流程化、自动化处理这一系列前端需求。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Gruntjs&#34;&gt;安装 Gruntjs&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Gruntjs&#34; href=&#34;#_Gruntjs&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    首先需要安装 Node.js，因为 Grunt 及其插件通过 NPM 管理。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    安装完 Node.js 后，打开命令行窗口安装 grunt-cli 工具：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;npm install -g grunt-cli
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    如果在 Linux 系统下，一般还需要 &lt;code&gt;sudo&lt;/code&gt; 权限。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    之后我们就可以在命令行下执行 &lt;code&gt;grunt&lt;/code&gt; 命令了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但是如果要 Grunt 运转，还需配置两个文件，package.json 与 Gruntfile.js。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_packagejson&#34;&gt;配置 package.json&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_packagejson&#34; href=&#34;#_packagejson&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    package.json 文件结构如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{
+  &#34;name&#34;: &#34;Hello&#34;,
+  &#34;version&#34;: &#34;0.1.0&#34;,
+  &#34;devDependencies&#34;: {
+    &#34;grunt&#34;: &#34;~0.4.1&#34;,
+    &#34;grunt-contrib-csslint&#34;: &#34;~0.1.2&#34;,
+    &#34;grunt-contrib-jshint&#34;: &#34;~0.6.0&#34;,
+    &#34;grunt-contrib-imagemin&#34;: &#34;~0.1.4&#34;,
+    &#34;grunt-contrib-concat&#34;: &#34;~0.1.3&#34;,
+    &#34;grunt-contrib-cssmin&#34;: &#34;~0.6.1&#34;
+    &#34;grunt-contrib-uglify&#34;: &#34;~0.2.2&#34;,
+    &#34;grunt-contrib-watch&#34;: &#34;~0.2.2&#34;,
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    它定义当前项目的许多信息，比如名称、版本、版权声明，当然还有当前项目依赖的 npm 模块。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    该文件有几种生成方法：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;code&gt;npm init&lt;/code&gt; 命令，命令会问几个问题，我们只要回答或选择默认答案，就可以创建基本的 json 文件
+    &lt;/li&gt;
+    &lt;li&gt;
+      使用某些模板带的
+    &lt;/li&gt;
+    &lt;li&gt;
+      手写
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    我通常更喜欢前端两种。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    不过第一种方法生成的 package.json 文件很简单，只能作为一个起步，在它的基础上依自己的需求再定义。比如，执行下面的命令就会在 package.json 文件的 devDependencies 部分增加 grunt-contrib-jshint 一项：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;npm install grunt-contrib-jshint --save-dev
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    第二种办法，比如使用 &lt;code&gt;grunt-init&lt;/code&gt;&lt;fnref target=&#34;9479.2&#34; /&gt; 来搭脚手架，这样很多东西马上就可用，比较省事。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在创建完 package.json 文件后，命令行中输入：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;npm install
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    会在当前目录下安装所有未安装的依赖模块。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Gruntfilejs&#34;&gt;配置 Gruntfile.js&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Gruntfilejs&#34; href=&#34;#_Gruntfilejs&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在准备好需要的模块后，我们可以开始根据项目的需要来配置任务，这是 Gruntfile.js 起的作用：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;module.exports = function(grunt) {
+
+  // 针对当前项目的配置
+  grunt.initConfig({
+    pkg: grunt.file.readJSON(&#39;package.json&#39;),// 从 package.json 文件读入数据
+    uglify: { //定义任务做什么
+      options: { // 这里，我们可以修改任务的许多行为
+        banner: &#39;/*! &amp;lt;%= pkg.name %&amp;gt; &amp;lt;%= grunt.template.today(&#34;yyyy-mm-dd&#34;) %&amp;gt; */\n&#39;
+      },
+      build: {
+        src: &#39;src/&amp;lt;%= pkg.name %&amp;gt;.js&#39;, // 定义要处理的文件位置
+        dest: &#39;build/&amp;lt;%= pkg.name %&amp;gt;.min.js&#39; //定义处理后的文件存放位置
+      }
+    }
+  });
+
+  // 加载插件 任务谁来做
+  grunt.loadNpmTasks(&#39;grunt-contrib-uglify&#39;);
+
+  // 注册一个默认任务
+  grunt.registerTask(&#39;default&#39;, [&#39;uglify&#39;]);
+
+};
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    Gruntfile.js 的结构还是蛮简单的。我们在其中定义任务（registerTask），这个任务由各个小任务（比如上面代码中的 uglify）组成，小任务里还可以细分出任务目标（比如 uglify 中的 build）。至于各个任务的执行，由相应插件完成，这就需要载入插件 （loadNpmTasks）。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    根据需求完成配置后，命令行下运行：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;grunt
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    就会执行默认任务。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当然，我们也可以指定执行某个任务甚至目标：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;grunt uglify:build
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;footnotes&gt;
+    &lt;fn name=&#34;9479.1&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://gruntjs.com/&#34;&gt;Grunt: The JavaScript Task Runner&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+    
+    &lt;fn name=&#34;9479.2&#34;&gt;
+      &lt;p&gt;
+        &lt;a href=&#34;http://gruntjs.com/project-scaffolding&#34;&gt;Project Scaffolding &amp;#8211; Grunt: The JavaScript Task Runner&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/fn&gt;
+  &lt;/footnotes&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

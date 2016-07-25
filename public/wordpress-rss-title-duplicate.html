@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>WordPress RSS 标题重复 - 陈三</title>
+<meta property="og:title" content="WordPress RSS 标题重复 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">WordPress RSS 标题重复</h1>
+
+    
+    <span class="article-date">March 3, 2013</span>
+    
+
+    <div class="article-content">
+      <p>我的博客标题为「陈三」，RSS 地址为 <a href="http://www.zfanw.com/blog/feed">http://www.zfanw.com/blog/feed</a>，古怪的是，这个 feed 地址的标题重复了一次，显示为「陈三陈三」。</p>
+
+<p>WordPress 网站上也有人报告过<a href="http://wordpress.org/support/topic/rss-feed-title-doubled">同样问题</a>。</p>
+
+<p>在本地安装了全新的 WordPress 3.5.1，然后逐个安装插件进行排查，依然没有结果。至于以前安装的插件是否造成现在的影响，则是不得而知了。</p>
+
+<p>一个粗暴、简单的解决办法是，打开 <code>wp-include/feed-rss2.php</code> 文件，查找如下：</p>
+
+<pre><code>&lt;channel&gt;
+    &lt;title&gt;&lt;?php bloginfo_rss('name');wp_title_rss(); ?&gt;&lt;/title&gt;
+</code></pre>
+
+<p>将 <code>bloginfo_rss('name')</code> 部分移除。</p>
+
+<p>但是，如上所说的，这个方法太过粗暴了。</p>
+
+<p>根据 <a href="http://codex.wordpress.org/Plugin_API/Filter_Reference/wp_title">WordPress</a> 上关于 wp_title 过滤器的说明，则是我在写 wp_title 这个 filter 时少写了如下判断语句：</p>
+
+<pre><code>if ( is_feed() )
+    return $title;
+</code></pre>
+
+<p>在 wp_title 函数中增加该语句后，RSS 的标题就不再重复了。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

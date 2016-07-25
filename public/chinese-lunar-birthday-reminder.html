@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>农历生日提醒 - 陈三</title>
+<meta property="og:title" content="农历生日提醒 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">农历生日提醒</h1>
+
+    
+    <span class="article-date">August 8, 2012</span>
+    
+
+    <div class="article-content">
+      <p>我觉得农历生日存在意义不大。但我妈总提醒我的农历生日，所以，在我妈失忆前，我猜想我得适应她的习惯。</p>
+
+<p>想写这个脚本是因为新近接触 Google Apps script，看到里面提供日历接口，而我又知道 Google 日历里有中国农历，所以猜想可能会有中国农历 API 接口 &#8211; 可惜最后查下，并没有农历接口，只好另想他法。就是这篇内容。</p>
+
+<p>原理很简单，就是每天凌晨检查电子表格列表，看当天是否有人过农历生日，如果有，就发送邮件提醒。</p>
+
+<p>[resp_image id=&#8217;15782&#8242; caption=&#8221; ]</p>
+
+<p>上图是 Google 电子表格，总共三列，第一列为姓名，第二列为农历生日，“8月22日”是为农历，即八月廿二，写成新历形式只是着方便程序书写，第三列为接收邮箱的地址，可以只填写第一个，之后如果留空，则默认使用第一个邮箱接收。</p>
+
+<ol>
+<li><p>首先<a href="https://docs.google.com/spreadsheet/ccc?key=0AntAce2hG9gQdEpDVTVabmcyN19qeWkwZGtNYUtveWc&amp;newcopy=true">复制一份“<strong>农历生日提醒</strong>”电子表格</a>到 Google 文档里,其中包含表格及脚本代码</p></li>
+
+<li><p>打开该文档，访问菜单 Tools -&gt; Script editor&#8230;，然后访问 Resources -&gt; Current script&#8217;s triggers&#8230;</p>
+
+<p>设置触发时间为每天的凌晨0点到1点，这样 Googel Apps script 就会每天运行这个函数，然后根据函数结果决定发送或不发送邮件提醒。设置过程中 Google 会要求授权访问 Google mail 及 Google spreadsheet，请允许。</p></li>
+
+<li><p>感谢台湾中央研究院计算中心提供的<a href="http://sinocal.sinica.edu.tw/">两千年中西历转换工具</a>。根据它的说明，以上方法可以用到 2100 年。希望我还能活到那一天.</p></li>
+</ol>
+
+<p>邮件标题及邮件内容均可以到代码中更改.</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

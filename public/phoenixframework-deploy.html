@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>PhoenixFramework 部署注意事项 - 陈三</title>
+<meta property="og:title" content="PhoenixFramework 部署注意事项 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">PhoenixFramework 部署注意事项</h1>
+
+    
+    <span class="article-date">July 7, 2016</span>
+    
+
+    <div class="article-content">
+      <ol>
+<li><p>编译环境与生产环境<a href="http://www.phoenixframework.org/docs/advanced-deployment">应该一致</a>，</p>
+
+<blockquote>
+<p>We need to be sure that the architectures for both our build and hosting environments are the same, e.g. 64-bit Linux -&gt; 64-bit Linux. If the architectures don&#8217;t match, our application might not run when deployed.</p>
+</blockquote>
+
+<p>比如我在 macOS 上编译的，放到 CentOS 7 上，就跑不起来了。最好在本地弄个与生产环境接近的虚拟机用于编译。</p>
+
+<ol>
+<li>生产环境中一样需要安装 <a href="https://www.erlang-solutions.com/resources/download.html">Erlang</a> 与 <a href="http://elixir-lang.org/install.html">elixir</a>，
+<br /></li>
+</ol>
+
+<p>用 <a href="https://hexdocs.pm/exrm/getting-started.html">exrm</a> 编译不代表万事俱备，生产环境下，Erlang 与 elixir 都需要装一遍。但 PhoenixFramework 就不需要在生产环境中安装了，它只是开发使用。</p></li>
+</ol>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

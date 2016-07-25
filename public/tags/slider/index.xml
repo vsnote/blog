@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Slider on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/slider/</link>
+    <description>Recent content in Slider on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 01 Aug 2012 08:15:02 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/slider/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Magento 幻灯片</title>
+      <link>https://www.zfanw.com/blog/magento-slideshow.html</link>
+      <pubDate>Wed, 01 Aug 2012 08:15:02 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/magento-slideshow.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_jQuery&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 添加 jQuery&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Craftyslide&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 引用 Craftyslide 相关文件&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 添加幻灯片内容&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 执行幻灯片效果&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    如果要在 Magento 主页上添加幻灯片（slideshow）效果，技术上也是比较简单的。这一节所用的材料如下：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://docs.jquery.com/Downloading_jQuery&#34;&gt;jQuery&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://projects.craftedpixelz.co.uk/craftyslide/&#34;&gt;Craftyslide&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    注：jQuery 有许多做幻灯片的插件，Craftyslide 只是一例。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_jQuery&#34;&gt;添加 jQuery&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_jQuery&#34; href=&#34;#_jQuery&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    首先，需要给 Magento 的主页添加 jQuery 支持，按照&lt;a href=&#34;http://www.zfanw.com/blog/magento-add-jquery-support.html&#34;&gt;给 Magento 添加 jQuery&lt;/a&gt; 一篇中的说明，打开 CMS -&gt; Pages -&gt; Home page，将下段代码添加到 Design 标签下的 Layout Update XML 里：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;reference name=&#34;head&#34;&amp;gt;
+   &amp;lt;action method=&#34;addItem&#34;&amp;gt;
+       &amp;lt;type&amp;gt;skin_js&amp;lt;/type&amp;gt;
+       &amp;lt;name&amp;gt;js/jquery.js&amp;lt;/name&amp;gt;
+   &amp;lt;/action&amp;gt;
+&amp;lt;/reference&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Craftyslide&#34;&gt;引用 Craftyslide 相关文件&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Craftyslide&#34; href=&#34;#_Craftyslide&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    下载 Craftyslide，然后将相应文件解压到相应位置，然后在上面一个步骤代码中加入如下内容：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;action method=&#34;addItem&#34;&gt; &lt;type&gt;skin_js&lt;/type&gt; &lt;name&gt;js/craftyslide/js/craftyslide.js&lt;/name&gt; &lt;/action&gt; &lt;action method=&#34;addItem&#34;&gt; &lt;type&gt;skin_css&lt;/type&gt; &lt;name&gt;css/craftyslide.css&lt;/name&gt; &lt;/action&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这样我们在主页里调用 craftyslide 的 js 文件，并应用它的样式。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;添加幻灯片内容&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    然后该是添加幻灯片内容。打开 Home page 页，在 Content 中添加如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div id=&#34;slideshow&#34;&amp;gt;
+&amp;lt;ul&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;img src=&#34;{{skin url=&#39;images/slider/nemo.jpg&#39;}}&#34; alt=&#34;&#34; /&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;a href=&#34;http://www.zfanw.com/blog&#34;&amp;gt;&amp;lt;img title=&#34;#htmlcaption&#34; src=&#34;{{skin url=&#39;images/slider/toystory.jpg&#39;}}&#34; alt=&#34;&#34; /&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;img title=&#34;This is an example of a caption&#34; src=&#34;{{skin url=images/slider/up.jpg}}&#34; alt=&#34;&#34; /&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;img src=&#34;{{skin url=&#39;images/slider/walle.jpg}}&#34; alt=&#34;&#34; /&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;执行幻灯片效果&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    根据插件的使用说明，可以新建一个 slideshow.js 文件，用于执行幻灯片效果，内容如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;var $j=jQuery.noConflict();
+$j(window).load(function() {
+    $j(&#34;#slideshow&#34;).craftyslide();
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后在1步骤的 reference 里添加如下：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;action method=&#34;addItem&#34;&gt; &lt;type&gt;skin_js&lt;/type&gt; &lt;name&gt;js/craftyslide/slideshow.js&lt;/name&gt; &lt;/action&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这样就可以在主页调用该执行代码。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    保存后再刷新网页，已经有下图中的幻灯片效果：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/08/slideshow.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/08/slideshow-300x223.png&#34; alt=&#34;Magento 幻灯片&#34; title=&#34;slideshow&#34; width=&#34;300&#34; class=&#34;alignnone size-medium wp-image-4618&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/08/slideshow-300x223.png 300w, https://www.zfanw.com/blog/wp-content/uploads/2012/08/slideshow.png 686w&#34; sizes=&#34;(max-width: 300px) 100vw, 300px&#34; /&gt;&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当然，上面的方法是直接把幻灯片内容代码写入 Magento 主页内容中，也可以创建一个 Static Blocks，然后再从主页内容里以如下形式引入静态块：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{{block type=&#34;cms/block&#34; block_id=&#34;slider-show&#34;}}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这个就看个人喜好了。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

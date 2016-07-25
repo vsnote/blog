@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>正则表达式 on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
+    <description>Recent content in 正则表达式 on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 22 Dec 2012 05:32:27 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>JavaScript 正则规则的匹配</title>
+      <link>https://www.zfanw.com/blog/javascript-string-match-regexp-exec.html</link>
+      <pubDate>Sat, 22 Dec 2012 05:32:27 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/javascript-string-match-regexp-exec.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#String_match&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; String 对象的 match 方法&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#RegExp_exec&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; RegExp 对象的 exec 方法&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 两种特殊情况&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    上一篇 &lt;a href=&#34;http://www.zfanw.com/blog/javascript-match-all-strings.html&#34;&gt;JavaScript 取得所有匹配字符串&lt;/a&gt;中颇多遗漏，所以补一篇。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在 JavaScript 中，取得匹配字符串主要有两种方法，一种是利用 String 对象的 match() 方法，一种是 RegExp 对象的 exec() 方法。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    预设一个文本变量 str:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;var str = &#34;this is a long story. And we are so sorry.&#34;;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    要取得 「story」 与 「sorry」。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;String_match&#34;&gt;String 对象的 match 方法&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyString_match&#34; href=&#34;#String_match&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    代码如下，match 方法会返回一个数组，数组的每个元素都是匹配项，有 g 的话，会进行全局匹配，&lt;code&gt;alert&lt;/code&gt; 命令显示 「story」 和 「sorry」；没有 g 的话，就只显示 「story」，即数组中只有一个元素。
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;//********代码1
+var str = &#34;this is a long story. And we are so sorry.&#34;;
+var re = /s[^\s]+y/g;
+var ss = str.match(re);
+var i = 0;
+while (i &amp;lt; ss.length){
+    alert(ss[i]);
+    i++;
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    但是，在没有全局匹配 g 这个 flag 的情况下，还有一种特殊情况，就是正则表达式中包括了用一对括号 () 括起来的子规则 &amp;#8211; 更常见的说法可能是「&lt;strong&gt;分组&lt;/strong&gt;」，
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;//********代码2
+var str = &#34;this is a long story. And we are so sorry.&#34;;
+var re = /s([^\s]+)y/;//这个正则表达式中有一对括号
+var ss = str.match(re);
+var i = 0;
+while (i &amp;lt; ss.length){
+    alert(ss[i]);
+    i++;
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这里，&lt;code&gt;alert&lt;/code&gt; 命令显示的结果是 「story」 与 「tor」，即 match 返回的数组中包含两个元素，一个是匹配的第一个字符串，一个是正则规则中括号中的子规则匹配的部分字符串。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;RegExp_exec&#34;&gt;RegExp 对象的 exec 方法&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyRegExp_exec&#34; href=&#34;#RegExp_exec&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    exec() 方法跟 String 对象的 match() 方法颇为接近，先来说正则规则中不带括号的情况：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;//********代码3
+var str = &#34;this is a long story. And we are so sorry.&#34;;
+var re = /s[^\s]+y/;
+var ss = re.exec(str);//与 match() 方法对比，主要是改了这一行
+var i = 0;
+while (i &amp;lt; ss.length){
+    alert(ss[i]);
+    i++;
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    上述代码只显示 「story」。这很容易理解。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但是，正则规则里即使使用全局匹配的标志 g，结果也是一样，浏览器里只弹出 「story」。这是与 String 对象的 match() 方法不同的地方。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    不过 g flag 也不是什么都没做，它会将正则对象 re 的 lastIndex 属性值设置为匹配字符串后一位位置值。比如上述代码匹配了 「story」，这个单词后一个字符为「.」，其在文本 str 中的位置为20，这样当 re 正则对象第二次被调用时，它将从 lastIndex 所指示的位置开始查找，如果没有找到匹配的字符串，就将 lastIndex 值设置为0 &amp;#8211; 因为代码3中直接书写 &lt;code&gt;var ss = re.exec(str);&lt;/code&gt;，这就导致正则对象只调用了一次 exec() 方法，也就取不到所有的匹配项。除非使用上一篇提到的办法：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;//********代码4
+var str = &#34;this is a long story. And we are so sorry.&#34;;
+var re = /s[^\s]+y/g;
+var ss;
+while ((ss = re.exec(str)) !== null){
+    alert(ss[0]);
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样，我们就捕捉到所有匹配的字符串 &amp;#8211; 包括 「story」 和 「sorry」。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    对比两类方法，如果是匹配全部的字符串的话，String 对象的 match 方法显然要比 RegExp 对象的 exec 方法简便易懂多了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;两种特殊情况&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    不管是 String 对象的 match 方法还是 RegExp 对象的 exec 方法，在没有 g 标志的情况下，正则表达式中如果使用括号 &amp;#8211; 即含有子规则，它们的处理方法是一样的：都是一个数组，数组中第一个元素是匹配到的第一个字符串，然后是子规则匹配到的字符串。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但如果全局匹配的情况下兼又含有子规则，则情况又有些不同。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    先说 RegExp 对象的 exec 方法：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;//********代码5
+var str = &#34;this is a long story. And we are so sorry.&#34;;
+var re = /s([^\s]+)y/g;
+var ss;
+while ((ss = re.exec(str)) !== null){
+    alert(ss[0]);
+    alert(ss[1]);
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    上述代码会在浏览器窗口中弹出四个对话框，对话框内容分别是 「story」、「tor」、「sorry」、「orr」。即是说，每次执行 exec 方法时，都会返回一个带有两个元素的数组，一个为匹配的字符串，一个为子规则匹配的字符串。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    String 对象的 match 方法颇有点不同：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;//********代码6
+var str = &#34;this is a long story. And we are so sorry.&#34;;
+var re = /s([^\s]+)y/g;//这个正则表达式中有一对括号
+var ss = str.match(re);
+alert(ss.join(&#34;-&#34;));
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    因为我不知道 ss 这个返回的数组里到底是什么东西，就用数组的 join() 方法将其联合起来，结果是 「story-sorry」，没有任何 「tor」、「orr」 的东西，这里，括号所指示的子规则作用被忽视。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

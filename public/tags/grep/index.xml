@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Grep on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/grep/</link>
+    <description>Recent content in Grep on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 02 Oct 2012 13:30:52 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/grep/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Grep 的由来</title>
+      <link>https://www.zfanw.com/blog/grep-come-from.html</link>
+      <pubDate>Tue, 02 Oct 2012 13:30:52 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/grep-come-from.html</guid>
+      <description>&lt;p&gt;如果你用过 &lt;a href=&#34;http://en.wikipedia.org/wiki/Ed_(text_editor)&#34;&gt;ed 编辑器&lt;/a&gt;，你应该知道，除非你要求它，否则它不会显示出文件内容 &amp;#8211; 因为它在交互显示出现来前就被写出来，那时很多使用 ed 的人还只有一台打印机可以输出呢。&lt;/p&gt;
+
+&lt;p&gt;经常地，你也没想它显示所有的行，只要一小部分就行。它当然能搞定这个。你可以说“给我显示前 5 行”，又或者“显示下面的 8 行”又或者“给我显示 100-110 行”，这都可以实现。&lt;/p&gt;
+
+&lt;p&gt;不过有时你可能想说，“给我显示所有包含 x 的行”，因为你只兴趣这些包含 &amp;#8216;x&amp;#8217; 的文字。ed 也可以搞定。&lt;/p&gt;
+
+&lt;p&gt;在 &lt;strong&gt;ed 中搜索，你使用 /&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;于是 /foo 就会查找下一个 &amp;#8216;foo‘ 实例&lt;/p&gt;
+
+&lt;p&gt;不过你可能不想要“下一个“实例，你想要&lt;strong&gt;所有实例&lt;/strong&gt;。那么你需要一个&lt;strong&gt;全局搜索&lt;/strong&gt;。这是命令 g/foo&lt;/p&gt;
+
+&lt;p&gt;目前为止一切都合逻辑吧？&lt;/p&gt;
+
+&lt;p&gt;一旦你找到这些行，你想看看它们。于是你告诉 ed 把它们&lt;strong&gt;打印&lt;/strong&gt;出来。这样的命令是 g/foo/p &amp;#8211; 全局搜索 &amp;#8216;foo&amp;#8217; 并且打印出匹配的行。&lt;/p&gt;
+
+&lt;p&gt;非常不错。不过 ed 可以更聪明，它不仅仅查找字符串字面匹配的，它还能&lt;strong&gt;处理正则表达式&lt;/strong&gt;。比如你可以用 g/&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:0-9&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:0-9&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;/p 来显示所有以数字开始的行。又或者 g/;$/p 打印出所有以分号结束的行。&lt;/p&gt;
+
+&lt;p&gt;于是这个 ed 用户大量使用的”给我显示匹配的行“的功能就可以总结为“&lt;strong&gt;全局搜索匹配正则表达式的行并且打印出来&lt;/strong&gt;” &amp;#8211; 或者，用 ed 的形式表述，&lt;strong&gt;g/regular expression/p&lt;/strong&gt;。再简单点，&lt;strong&gt;g/re/p&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;是的。Grep。这就是它的由来了，感谢 ed。&lt;/p&gt;
+
+&lt;p&gt;本篇节译自&lt;a href=&#34;http://geekblog.oneandoneis2.org/index.php/2012/09/30/to-understand-the-command-line&#34;&gt;这一篇内容&lt;/a&gt;，很有意思的文章。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:0-9&#34;&gt;0-9 &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:0-9&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

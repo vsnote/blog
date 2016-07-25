@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>解决 Privoxy 404 No Such Domain 问题 - 陈三</title>
+<meta property="og:title" content="解决 Privoxy 404 No Such Domain 问题 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">解决 Privoxy 404 No Such Domain 问题</h1>
+
+    
+    <span class="article-date">November 11, 2014</span>
+    
+
+    <div class="article-content">
+      <p><em>404 No Such Domain</em> 错误，在 Privoxy 的 <a href="http://www.privoxy.org/faq/trouble.html#DNSERRORS">FAQ</a> 中有提及，但作者只是提到可能原因，没有提供解决办法。</p>
+
+<p>在我的 openSUSE 13.1 系统上，这个错误，大致可以按以下步骤重现（作者你神经病）：</p>
+
+<ol>
+<li>按 <a href="http://www.zfanw.com/blog/privoxy-forward-ssh.html">Privoxy 转发到 SOCKS 服务器</a>一文的说明配置使用 SOCKS 代理</li>
+<li>删除 <em>config</em> 文件中 <code>forward-socks5 / 127.0.0.1:9999</code> 一句</li>
+<li>未断掉 SSH 连接的情况下重启 openSUSE 系统</li>
+<li>打开 Firefox</li>
+</ol>
+
+<p>之后 Firefox 打开的所有网址都会返回 404 No Such Domain 错误，除了 Privoxy 的配置地址 <a href="http://p.p。">http://p.p。</a></p>
+
+<p>而如果我禁止 Firefox 走 Privoxy 代理，则一切均正常。但这没达到我的目的。重启系统也不能解决问题。</p>
+
+<p>最后找到的解决办法简单得跌破眼镜，就是重启 Privoxy。openSUSE 下执行命令：</p>
+
+<pre><code>$ sudo rcprivoxy restart
+</code></pre>
+
+<p>当然，openSUSE 下可视化的 <strong>Services Manager</strong> 里重启 Privoxy 也是可以的。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

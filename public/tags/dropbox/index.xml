@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dropbox on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/dropbox/</link>
+    <description>Recent content in Dropbox on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 04 Mar 2013 23:39:22 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/dropbox/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>BackWPup 更新至3.0.4</title>
+      <link>https://www.zfanw.com/blog/backwpup-3-0-4.html</link>
+      <pubDate>Mon, 04 Mar 2013 23:39:22 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/backwpup-3-0-4.html</guid>
+      <description>&lt;p&gt;BackWPup 是我用的一个免费 WordPress 插件，用于定期将网站数据库、文件备份至 Dropbox，但从版本3开始后，在备份数据库过程出现如下错误：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;ERROR: No MySQLi extension found. Please install it.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;因为 BackWPup 自版本3起使用 MySQLi 扩展备份数据库，服务器不曾安装 MySQLi，数据库的备份只能失败并抛出错误。&lt;/p&gt;
+
+&lt;p&gt;而且，看作者的意思，是不打算做任何 fallback 的。&lt;/p&gt;
+
+&lt;p&gt;所以，解决办法是，在服务器上安装 MySQLi 这个 PHP 扩展，或者继续使用 BackWPup 2.xx 版本。&lt;/p&gt;
+
+&lt;p&gt;附：&lt;a href=&#34;http://wordpress.org/extend/plugins/backwpup/changelog/&#34;&gt;它的版本变化说明&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;更新&lt;/strong&gt;：&lt;/p&gt;
+
+&lt;p&gt;2014.4.9 目前 BackWpup 已经更新至3.1.2版本，并且我的情况可正常备份，不知道是作者想不开又继续支持 MySQL 还是主机商安装 MySQLi 了。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

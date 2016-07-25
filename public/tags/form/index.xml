@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Form on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/form/</link>
+    <description>Recent content in Form on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 04 May 2015 05:14:58 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/form/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>HTML 表单元素对齐</title>
+      <link>https://www.zfanw.com/blog/html-form-element-align.html</link>
+      <pubDate>Mon, 04 May 2015 05:14:58 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/html-form-element-align.html</guid>
+      <description>&lt;p&gt;网页里，常见如下的表单代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
+  &amp;lt;label for=&#39;email&#39;&amp;gt;邮箱地址：&amp;lt;/label&amp;gt;
+  &amp;lt;input name=&#39;email&#39; type=&#39;text&#39;/&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div&amp;gt;
+  &amp;lt;label for=&#39;password&#39;&amp;gt;密码：&amp;lt;/label&amp;gt;
+  &amp;lt;input name=&#39;password&#39; type=&#39;text&#39;/&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;通常，我们想达到下面这种排版效果：&lt;/p&gt;
+
+&lt;div class=&#39;u-textRight&#39;&gt;
+  &lt;label for=&#39;email&#39;&gt;邮箱地址：&lt;/label&gt; &lt;input name=&#39;email&#39; type=&#39;text&#39; /&gt;
+&lt;/div&gt;
+
+&lt;div class=&#39;u-textRight&#39;&gt;
+  &lt;label for=&#39;password&#39;&gt;密码：&lt;/label&gt; &lt;input name=&#39;password&#39; type=&#39;text&#39; /&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Bootstrap 里是这么写&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:15858-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:15858-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;form class=&amp;quot;form-horizontal&amp;quot;&amp;gt;
+  &amp;lt;div class=&amp;quot;form-group&amp;quot;&amp;gt;
+    &amp;lt;label for=&amp;quot;inputEmail3&amp;quot; class=&amp;quot;col-sm-2 control-label&amp;quot;&amp;gt;Email&amp;lt;/label&amp;gt;
+    &amp;lt;div class=&amp;quot;col-sm-10&amp;quot;&amp;gt;
+      &amp;lt;input type=&amp;quot;email&amp;quot; class=&amp;quot;form-control&amp;quot; id=&amp;quot;inputEmail3&amp;quot; placeholder=&amp;quot;Email&amp;quot;&amp;gt;
+    &amp;lt;/div&amp;gt;
+  &amp;lt;/div&amp;gt;
+  &amp;lt;div class=&amp;quot;form-group&amp;quot;&amp;gt;
+    &amp;lt;label for=&amp;quot;inputPassword3&amp;quot; class=&amp;quot;col-sm-2 control-label&amp;quot;&amp;gt;Password&amp;lt;/label&amp;gt;
+    &amp;lt;div class=&amp;quot;col-sm-10&amp;quot;&amp;gt;
+      &amp;lt;input type=&amp;quot;password&amp;quot; class=&amp;quot;form-control&amp;quot; id=&amp;quot;inputPassword3&amp;quot; placeholder=&amp;quot;Password&amp;quot;&amp;gt;
+    &amp;lt;/div&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;/form&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;代码中用到了 grid，然后两个 &lt;code&gt;label&lt;/code&gt; 设定同样的宽度，并且 &lt;code&gt;label&lt;/code&gt; 内的文本右对齐。&lt;/p&gt;
+
+&lt;p&gt;但如果不考虑移动端的情况的话，我觉得可以这样写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;style&amp;gt;.u-textRight { text-align: right !important; }&amp;lt;/style&amp;gt;
+
+&amp;lt;div class=&#39;u-textRight&#39;&amp;gt;
+  &amp;lt;label for=&#39;email&#39;&amp;gt;邮箱地址：&amp;lt;/label&amp;gt;
+  &amp;lt;input name=&#39;email&#39; type=&#39;text&#39;/&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div class=&#39;u-textRight&#39;&amp;gt;
+  &amp;lt;label for=&#39;password&#39;&amp;gt;密码：&amp;lt;/label&amp;gt;
+  &amp;lt;input name=&#39;password&#39; type=&#39;text&#39;/&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;label&lt;/code&gt; 与 &lt;code&gt;input&lt;/code&gt; 都是 inline 元素，我在它们的包含块上设定右对齐，这样不需要给 label 指定宽度，代码也更简洁。&lt;/p&gt;
+
+&lt;p&gt;效果如下：&lt;/p&gt;
+
+&lt;div class=&#39;u-textRight&#39;&gt;
+  &lt;label for=&#39;email&#39;&gt;邮箱地址：&lt;/label&gt; &lt;input name=&#39;email&#39; type=&#39;text&#39; /&gt;
+&lt;/div&gt;
+
+&lt;div class=&#39;u-textRight&#39;&gt;
+  &lt;label for=&#39;password&#39;&gt;密码：&lt;/label&gt; &lt;input name=&#39;password&#39; type=&#39;text&#39; /&gt;
+&lt;/div&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:15858-1&#34;&gt;&lt;a href=&#34;http://getbootstrap.com/css/#forms-horizontal&#34;&gt;Bootstrap horizontal form&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:15858-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

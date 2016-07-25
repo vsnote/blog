@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>WordPress 设置 HTTP 响应头 - 陈三</title>
+<meta property="og:title" content="WordPress 设置 HTTP 响应头 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">WordPress 设置 HTTP 响应头</h1>
+
+    
+    <span class="article-date">April 4, 2014</span>
+    
+
+    <div class="article-content">
+      
+
+<p>如果要给 WordPress 设置一个 HTTP 响应头(header)，却在搜索引擎中搜索 「WordPress header 设置」，结果可能会让你失望。因为 WordPress 有一个文件叫 header.php，搜索引擎很容易误会你的意图。</p>
+
+<p>当然，这一篇说的是设置 HTTP 响应头，与 header.php 文件无关。</p>
+
+<p>譬如你要给 WordPress 加一个 <em>X-Frame-Options</em> <sup class="footnote-ref" id="fnref:12062-1"><a rel="footnote" href="#fn:12062-1">1</a></sup>响应头，防止其他网站使用 iframe 嵌入你的网站，则可以通过 WordPress 的 _send<em>headers</em> <sup class="footnote-ref" id="fnref:12062-2"><a rel="footnote" href="#fn:12062-2">2</a></sup>勾子。</p>
+
+<p>打开 <strong>functions.php</strong> 文件，加入如下代码：</p>
+
+<pre><code>add_action( 'send_headers', 'avoid_clickjacking_attacks' );
+function avoid_clickjacking_attacks() {
+    header( 'X-Frame-Options: SAMEORIGIN' ); 
+}
+</code></pre>
+
+<p>非同源的站点如果使用 iframe 嵌入你的网站，浏览器会拒绝渲染。Firefox 控制台会提示错误如下：</p>
+
+<blockquote>
+<p>Load denied by X-Frame-Options: <a href="http://www.zfanw.com/blog/ember-js-template-add-html5-attribute.html">http://www.zfanw.com/blog/ember-js-template-add-html5-attribute.html</a> does not permit cross-origin framing.</p>
+</blockquote>
+
+<h2 id="示例">示例</h2>
+
+<p>以下是两个 iframe，左边一个 src 指向 Vice，右边一个 src 指向 Google 首页。因为 Google 定义了 X-Frame-Options 响应头，所以右边一个 iframe 内容无法渲染，显示一片空白：</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:12062-1"><a href="https://developer.mozilla.org/en-US/docs/HTTP/X-Frame-Options">The X-Frame-Options response header &#8211; HTTP | MDN</a>
+ <a class="footnote-return" href="#fnref:12062-1"><sup>[return]</sup></a></li>
+<li id="fn:12062-2"><a href="https://codex.wordpress.org/Plugin_API/Action_Reference/send_headers">Plugin API/Action Reference/send headers « WordPress Codex</a>
+ <a class="footnote-return" href="#fnref:12062-2"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

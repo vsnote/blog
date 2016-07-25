@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bootstrap on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/bootstrap/</link>
+    <description>Recent content in Bootstrap on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 08 May 2015 00:35:15 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/bootstrap/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>jspm 安装使用 Bootstrap 与 jQuery</title>
+      <link>https://www.zfanw.com/blog/jspm-bootstrap-jquery.html</link>
+      <pubDate>Fri, 08 May 2015 00:35:15 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/jspm-bootstrap-jquery.html</guid>
+      <description>&lt;p&gt;你可能知道，bootstrap 依赖于 jQuery，并且，是依赖全局的 jQuery，即页面的 &lt;code&gt;window&lt;/code&gt; 对象下应该有个 &lt;code&gt;window.jQuery&lt;/code&gt; 或 &lt;code&gt;window.$&lt;/code&gt; 属性。&lt;/p&gt;
+
+&lt;p&gt;我在上一篇 &lt;a href=&#34;http://www.zfanw.com/blog/jspm-systemjs.html&#34;&gt;jspm 与 SystemJS 用法&lt;/a&gt; 中提到，jspm 默认安装 &lt;code&gt;github:components/jquery&lt;/code&gt; 上定义的 jQuery&lt;del&gt;，这个&lt;a href=&#34;https://github.com/components/jquery&#34;&gt;库的维护并不及时&lt;/a&gt;，譬如现在 jQuery 最新版本是 1.11.3 与 2.1.4，而 components/jquery 上仍是 1.11.2 与 2.1.3 版本&lt;/del&gt;。&lt;/p&gt;
+
+&lt;p&gt;对于第三方库，某些版本虽然只是小更新，但也许修复的 &lt;a href=&#34;http://blog.jquery.com/2015/04/28/jquery-1-11-3-and-2-1-4-released-ios-fail-safe-edition/&#34;&gt;bug 比较要命&lt;/a&gt;，所以我通常都喜欢用最新版本。&lt;/p&gt;
+
+&lt;p&gt;但如果在 jspm 里使用 npm 上的 jQuery，会导致 Bootstrap 无法加载 jQuery。&lt;/p&gt;
+
+&lt;p&gt;整个流程如下：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;安装 npm 上的最新版本 jQuery&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;jspm install npm:jquery
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改 config.js 中 bootstrap 的依赖&lt;/p&gt;
+
+&lt;p&gt;打开 config.js，修改 bootstrap 部分如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;System.config({
+  &amp;quot;map&amp;quot;: {
+     &amp;quot;jquery&amp;quot;: &amp;quot;npm:jquery@2.1.4&amp;quot;, // 这一行是 jspm install 时自动配置的
+     &amp;quot;github:twbs/bootstrap@3.3.4&amp;quot;: {
+       &amp;quot;jquery&amp;quot;: &amp;quot;npm:jquery@2.1.4&amp;quot; // 我们要改的是这一行，将 bootstrap 的 jquery 依赖指向 npm/jquery@2.1.4
+      }
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这时，&lt;code&gt;import bootstrap from &#39;bootstrap&#39;&lt;/code&gt; 就会报如下的错误：&lt;/p&gt;
+
+&lt;p&gt;[resp_image id=&amp;#8217;16059&amp;#8242; caption=&amp;#8221; ]&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这个错误的原因在于，Bootstrap 需要全局 &lt;code&gt;jQuery&lt;/code&gt; 或 &lt;code&gt;$&lt;/code&gt;，但是 jspm 从 npm 上安装的 jQuery 是 CommonJS 规范的，我们的 &lt;code&gt;window&lt;/code&gt; 对象下并没有 &lt;code&gt;jQuery&lt;/code&gt; 或 &lt;code&gt;$&lt;/code&gt; 属性，结果就报错。&lt;/p&gt;
+
+&lt;p&gt;所以目前，如果要在 jspm 中用 Bootstrap，就只能用 github:components/jquery 上的 jQuery 了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Twitter bootstrap 的 affix.js 插件</title>
+      <link>https://www.zfanw.com/blog/twitter-bootstrap-affix-js.html</link>
+      <pubDate>Tue, 10 Sep 2013 22:52:31 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/twitter-bootstrap-affix-js.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Affix&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; Affix 效果&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#affixaffix-topaffix-bottom&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; affix、affix-top、affix-bottom 类&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 案例&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 注意事项&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 参考&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    我觉得 Twitter Bootstrap 提供的 JavaScript 插件可用性非常高，但文档多数简单。按部就班操作了，有效果当然好，没效果的话简直不知道为什么。之前我写过 &lt;a href=&#34;http://www.zfanw.com/blog/bootstrap-scrollspy.html&#34;&gt;Scrollspy 用法&lt;/a&gt;，就是我在博客上折腾该插件的一点总结。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这一篇也一样。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Affix&#34;&gt;Affix 效果&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyAffix&#34; href=&#34;#Affix&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    从字面上翻译，则 &lt;a href=&#34;http://getbootstrap.com/javascript/#affix&#34;&gt;affix&lt;/a&gt; 是固定的意义，但这个插件里，这固定是有条件的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    先来看下 affix 的效果，本篇右侧的目录导航。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这一目录部分，在页面刚滚动时，是随页面一起滚动的，但到达某一位置后，它开始固定在页面上；页面滚动到评论部分时，目录不再固定，又随页面一起滚动。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;affixaffix-topaffix-bottom&#34;&gt;affix、affix-top、affix-bottom 类&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyaffixaffix-topaffix-bottom&#34; href=&#34;#affixaffix-topaffix-bottom&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    页面滚动过程中，Affix 插件会根据我们的配置参数切换应用到目录部分的 CSS 类，整个滚动过程会产生三个类：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      affix-top
+    &lt;/li&gt;
+    &lt;li&gt;
+      affix
+    &lt;/li&gt;
+    &lt;li&gt;
+      affix-bottom
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    插件提供的配置参数 &lt;code&gt;offset: { }&lt;/code&gt;，里面包括两个值：top 和 bottom。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    整个过程用文字描述如下：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      页面加载完毕后，应用 affix 效果的内容会增加一个 &lt;code&gt;.affix-top&lt;/code&gt; 样式类
+    &lt;/li&gt;
+    &lt;li&gt;
+      当页面向下滚动了 top 的距离时，&lt;code&gt;.affix-top&lt;/code&gt; 切换成 &lt;code&gt;.affix&lt;/code&gt; 类
+    &lt;/li&gt;
+    &lt;li&gt;
+      页面滚动到离底部距离为 bottom 时，&lt;code&gt;.affix&lt;/code&gt; 类切换成 &lt;code&gt;.affix-bottom&lt;/code&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    这样，我们根据需要定义这三个类的样式就好了。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;案例&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    仍是本篇，
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    目录部分，我添加了一个 ID &lt;code&gt;myaffix&lt;/code&gt;，在引用 jQuery 与 &lt;a href=&#34;http://www.bootstrapcdn.com/&#34;&gt;Bootstrap.js&lt;/a&gt; 后，添加 JavaScript 代码如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$(&#39;#myaffix&#39;).affix({
+    offset: {
+      top: 50
+    , bottom: function () {
+        return (this.bottom = $(&#39;#comments&#39;).outerHeight(true) + $(&#39;#footer&#39;).outerHeight(true))
+      }
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这里我通过 JavaScript 设置 offset 值，而不是直接在 HTML 标签中应用属性 &lt;code&gt;data-spy=&#34;affix&#34;&lt;/code&gt;、&lt;code&gt;data-offset-top&lt;/code&gt; 与 &lt;code&gt;data-offset-bottom&lt;/code&gt;，这是因为评论部分的高度无法确定，bottom 值只能动态计算。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这样，页面加载完成后，#myaffix 有一个 &lt;code&gt;.affix-top&lt;/code&gt; 类，在滚动 50px 后，#myaffix 部分有一个 &lt;code&gt;.affix&lt;/code&gt; 类，在离页面底部距离 bottom 值时，#myaffix 部分的类又变成 &lt;code&gt;.affix-bottom&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    CSS 里，我只定义了两个类：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;.affix{position:fixed;top:30px;}
+.affix-bottom{position:absolute;}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    插件会自动计算 &lt;code&gt;.affix-bottom&lt;/code&gt; 类的 top 值，所以无需我们设置。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;注意事项&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如果发现固定部分在滚动时有抖动现象，需要给 body 设置 &lt;code&gt;position:relative&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;参考&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://github.com/twbs/bootstrap/issues/4647&#34;&gt;bootstrap-affix.js issue&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bootstrap ScrollSpy 用法</title>
+      <link>https://www.zfanw.com/blog/bootstrap-scrollspy.html</link>
+      <pubDate>Sat, 01 Sep 2012 12:49:59 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/bootstrap-scrollspy.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 用法&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 调试&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;用法&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Twitter Bootstrap 的 &lt;a href=&#34;http://getbootstrap.com/javascript/#scrollspy&#34;&gt;ScrollSpy 插件有两种用法&lt;/a&gt;：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        通过 data 属性
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        根据情况，给需要监视的页面元素添加 &lt;code&gt;data-spy=&#34;scroll&#34;&lt;/code&gt; &amp;#8211; 一般是 body 元素，并且通过 &lt;code&gt;data-target&lt;/code&gt; 属性指定目标：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;&amp;lt;body data-spy=&#34;scroll&#34; data-target=&#34;.navbar&#34;&amp;gt;...&amp;lt;/body&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        通过 Javascript 语句
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;$(&#39;#navbar&#39;).scrollspy()
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    举一个例子，如下：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    监控的导航部分 HTML 代码：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&#34;bs-docs-sidebar&#34;&amp;gt;
+    &amp;lt;ul class=&#34;nav&#34;&amp;gt;
+        &amp;lt;li&amp;gt;&amp;lt;a href=&#34;#one&#34;&amp;gt;hello Bootstrp 3&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;&amp;lt;a href=&#34;#two&#34;&amp;gt;hello jQuery&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;&amp;lt;a href=&#34;#three&#34;&amp;gt;hello ScrollSpy&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+    &amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    导航相对应的内容部分代码：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
+    &amp;lt;h2 id=&#34;one&#34;&amp;gt;This is one.&amp;lt;/h2&amp;gt;
+    &amp;lt;p&amp;gt;......&amp;lt;/p&amp;gt;
+    &amp;lt;h2 id=&#34;two&#34;&amp;gt;This is two.&amp;lt;/h2&amp;gt;
+    &amp;lt;p&amp;gt;......&amp;lt;/p&amp;gt;
+    &amp;lt;h2 id=&#34;three&#34;&amp;gt;This is three.&amp;lt;/h2&amp;gt;
+    &amp;lt;p&amp;gt;......&amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    上述代码里，我们点击导航部分的锚链接可以直接跳转到相应的内容部分，这是这最基本的 HTML 结构。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    最重要的，导航代码中 &lt;code&gt;ul&lt;/code&gt; 含有一个 CSS 类 &lt;code&gt;.nav&lt;/code&gt;，它是必需的，没有的话就会导致插件无效果。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    应用第一个方法，在 body 元素添加相关属性：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;&amp;lt;body data-spy=&#34;scroll&#34; data-target=&#34;.bs-docs-sidebar&#34;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;data-target&lt;/code&gt; 属性指向的是 class 为 &lt;code&gt;bs-docs-sidebar&lt;/code&gt; 的 &lt;code&gt;div&lt;/code&gt; 块。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    第二种办法，使用 JavaScript：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$(function(){
+    $(&#39;.bs-docs-sidebar&#39;).scrollspy();
+})
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    Bootstrap 文档推荐第一种方法，因为不用任何的 JavaScript 语句即可实现 ScrollSpy 效果。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    附：&lt;a href=&#34;http://jsfiddle.net/chenxsan/ZgPbZ/&#34;&gt;jsfiddle 示例&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;调试&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如果你的 ScrollSpy 不起作用，则有一个简单的调试办法，利用 &lt;a href=&#34;https://addons.mozilla.org/en-us/firefox/addon/firequery/&#34;&gt;fireQuery&lt;/a&gt;：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/09/Screenshot-from-2013-06-07-010738.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/09/Screenshot-from-2013-06-07-010738.png&#34; alt=&#34;fireQuery&#34; width=&#34;505&#34; height=&#34;57&#34; class=&#34;alignnone size-full wp-image-9063&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/09/Screenshot-from-2013-06-07-010738.png 505w, https://www.zfanw.com/blog/wp-content/uploads/2012/09/Screenshot-from-2013-06-07-010738-300x33.png 300w&#34; sizes=&#34;(max-width: 505px) 100vw, 505px&#34; /&gt;&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    上图是安装 fireQuery 后打开 firebug 面板 HTML 标签页里的截图，因为 fireQuery 会将 jQuery 事件等附加在 HTML 代码中，所以我们可以清楚地看到如下一条规则，
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;selector=&#34;.bs-docs-sidebar .nav li &amp;gt; a&#34;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    如果你的导航部分 HTML 结构与它不一样，则说明 jQuery 找不到它要的元素，也就没法生成效果，解决办法是调整代码结构。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

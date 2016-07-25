@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>WordPress body_class添加自定义类 - 陈三</title>
+<meta property="og:title" content="WordPress body_class添加自定义类 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">WordPress body_class添加自定义类</h1>
+
+    
+    <span class="article-date">August 8, 2014</span>
+    
+
+    <div class="article-content">
+      <p>WordPress的PHP代码里，有如下一段：</p>
+
+<pre><code>&lt;body &lt;?php body_class(); ?&gt;
+</code></pre>
+
+<p>这段代码<sup class="footnote-ref" id="fnref:13295-1"><a rel="footnote" href="#fn:13295-1">1</a></sup>根据当前页面的状态，输出相应的CSS类，比如：</p>
+
+<pre><code>&lt;body class=&quot;single single-post postid-13295 single-format-standard logged-in&quot;
+</code></pre>
+
+<p>这些CSS类都是WordPress自动计算的，如果我们要添加自定义的CSS类，却不能直接在PHP代码中添加。而需要通过WordPress提供的filter。</p>
+
+<p>打开functions.php文件，添加如下代码：</p>
+
+<pre><code>&lt;?php
+function add_custom_body_class( $classes ) {
+  global $post;
+  if ( isset( $post ) ) {
+    $classes[] = 'Grid';
+  }
+  return $classes;
+}
+add_filter( 'body_class', 'add_custom_body_class' );
+?&gt;
+</code></pre>
+
+<p>这样就给WordPress的<code>body</code>标签加了一个<code>Grid</code>的CSS自定义类。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:13295-1"><a href="http://codex.wordpress.org/Function_Reference/body_class">Function Reference/body class « WordPress Codex</a>
+ <a class="footnote-return" href="#fnref:13295-1"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

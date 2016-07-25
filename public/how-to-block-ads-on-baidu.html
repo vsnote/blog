@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>屏蔽百度推广广告 - 陈三</title>
+<meta property="og:title" content="屏蔽百度推广广告 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">屏蔽百度推广广告</h1>
+
+    
+    <span class="article-date">April 4, 2012</span>
+    
+
+    <div class="article-content">
+      <div class='timeline'>
+  <h2>
+    修订历史
+  </h2>
+  
+  <ol>
+    <li>
+      <span itemprop='dateModified'>2015-06-04</span>：如果只是屏蔽 HTTP 页面的广告，推荐使用 Privoxy 软件，<a href="http://www.zfanw.com/blog/block-webpage-ad-with-privoxy.html" title="我的博客上 Privoxy 的教程">更多可以看我博客上的 Privoxy 教程</a>。
+    </li>
+  </ol>
+</div>
+
+<p>百度推广广告也只是 HTML 中的代码，所以屏蔽百度推广广告，其实就是在浏览器展示页面前，先对页面做处理。</p>
+
+<p>这个方法使用的浏览器是 Firefox，配合 <a href="https://addons.mozilla.org/en-US/firefox/addon/scriptish/">Scriptish</a> 扩展，这是 Greasemonkey 的一个分支。</p>
+
+<p>分析百度推广广告代码可以看到，在 <code>div#container</code> 块内, <code>table#1</code> 元素前全部是百度竞价排名广告，包括正常排名前经常多达十个的广告，还有右侧的悬浮广告。所以只要移除 <code>table#1</code> 前的 HTML 代码即可.</p>
+
+<p><code>$(&quot;#container table#1&quot;).prevAll().remove();</code></p>
+
+<p>调用 jQuery 的方法 <code>prevAll()</code> 取得 <code>table#1</code> 前所有的兄弟元素然后移除。</p>
+
+<p><del>具体 <a href="http://userscripts.org/scripts/show/131190" title="屏蔽百度推广广告脚本">userscript 安装地址</a></del>「<strong>说明</strong>：userscript 已死」</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,961 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ubuntu on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/ubuntu/</link>
+    <description>Recent content in Ubuntu on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 24 Dec 2012 23:57:11 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Enlightenment 17 网络管理</title>
+      <link>https://www.zfanw.com/blog/enlightenment-17-network.html</link>
+      <pubDate>Mon, 24 Dec 2012 23:57:11 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/enlightenment-17-network.html</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://enlightenment.org/&#34;&gt;Enlightenment&lt;/a&gt; 新近推出 17，即 0.1.7 版本。&lt;/p&gt;
+
+&lt;p&gt;对我来说，用哪个桌面环境区别不大，只要能让我自定义快捷键。所以很快我就从 Gnome 3.6 切换到 Enlightenment 17 版本。&lt;/p&gt;
+
+&lt;p&gt;Enlightenment 有几个让我惊讶的用法，按它官方的说法，则也是有别于其他桌面环境的特色内容。&lt;/p&gt;
+
+&lt;p&gt;比如当光标放在屏幕右侧时，这时调用 Enlightenment 的菜单，菜单里的子菜单会出现在屏幕外面 &amp;#8211; 这样我们就点击不到子菜单了。常见的软件处理方式是将子菜单自动往左侧展开，但 Enlightenment 不是，你只要将光标继续往右侧子菜单位置上移动时，父菜单会往左移动，然后子菜单从屏幕外退出来。这样的好处是，鼠标不需要再移到左侧去点击，需要移动的距离也短了。&lt;/p&gt;
+
+&lt;p&gt;另外一个是关于虚拟桌面。当光标位于屏幕边缘时，默认情况下会切换到旁边一个虚拟桌面。比如，我把光标往右侧屏幕外移动，Enlightenment 会自动帮我切换到右侧一个虚拟桌面。我可以预见的是，这时的光标位置应该是在右侧的虚拟桌面的屏幕右侧，但恰恰相反，它是在左侧。你要做的是继续往右移。也就是说，这些虚拟桌面是连成一片的。&lt;/p&gt;
+
+&lt;p&gt;以上两种用法算是对我惯常用法的一种颠覆。&lt;/p&gt;
+
+&lt;p&gt;然后再来说网络管理。&lt;/p&gt;
+
+&lt;p&gt;根据 &lt;a href=&#34;https://wiki.archlinux.org/index.php/E17#Configuring_the_Network&#34;&gt;Arch Linux 上的说明&lt;/a&gt;，则 E17 倾向于使用网络管理工具 ConnMan &amp;#8211; 虽然也可以使用 NetworkManager。&lt;/p&gt;
+
+&lt;p&gt;但是，从 E17 加载的 Modules 来看，其中 Connection Manager 调用的是 EconnMan，于是为了在 E17 的 shelf 上使用网络管理功能，需要&lt;a href=&#34;http://blog.gustavobarbieri.com.br/2012/08/12/econnman-1-released/&#34;&gt;安装 EconnMan&lt;/a&gt;，否则 E17 的 Shelf 上会显示一个白色感叹号，点击它的设置时会显示错误 「This module wants to execute an external application EConnMan that does not exist.Please install EConnMan application.」 &amp;#8211; 而况据开发者的说明，它目前并没有管理 VPN 的功能。&lt;/p&gt;
+
+&lt;p&gt;只好另找方法。&lt;/p&gt;
+
+&lt;p&gt;E17 的 Modules 中有个 Systray，类似 Windows 平台下的系统托盘概念，可以用于显示输入法、网络连接等等。&lt;/p&gt;
+
+&lt;p&gt;这里，通过命令行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;nm-applet
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;就可以调用网络连接出来，让它显示在 systray 中。&lt;/p&gt;
+
+&lt;p&gt;为了让 E17 每次启动都自动启用它，打开 E17 菜单：&lt;/p&gt;
+
+&lt;p&gt;Settings -&amp;gt; Settings Panel -&amp;gt; Apps -&amp;gt; Startup Applications -&amp;gt; System -&amp;gt; Network&lt;/p&gt;
+
+&lt;p&gt;然后重启系统，systray 里已经有网络管理，接下来我们就可以像 Gnome 或 Windows 7 里那样通过点击该图标进行网络连接的管理。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu 软件安装</title>
+      <link>https://www.zfanw.com/blog/install-software-on-ubuntu.html</link>
+      <pubDate>Tue, 13 Nov 2012 09:50:02 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/install-software-on-ubuntu.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Ubuntu&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; Ubuntu 软件源&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Deb&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 下载的 Deb 安装包&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#PPA_8211_Personal_Package_Archives&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; PPA &amp;#8211; Personal Package Archives&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 编译源代码&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 参考&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    刚开始接触 Ubuntu 时，对它的软件安装方面，我只觉一片混乱，也是在那时，我觉得 Windows 平台下软件安装的易用性其实非常不错 &amp;#8211; 多时就是一个可执行的 EXE 或 MSI 文件，双击然后一路点击下一步即可；又或者解压，就可以直接运行 &amp;#8211; 基本上，会用电脑的人都知道怎样在 Windows 上安装软件。但 Ubuntu 上有所不同，或者说，Linux 系统下的情况与 Windows 平台不太一样。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先了解一个软件包（Package）的概念。软件包包含程序运行的所需文件。但同样是“包”，又可以分两种，一种是源文件包，一种是已经编译过的二进制包 &amp;#8211; 二进制文件计算机可以直接执行，比如 Windows 下的 exe 文件，或者 Ubuntu 下的 deb 包；而源文件不行，需要编译才行。那为什么 Linux 下软件包不全部以二进制可直接执行的形式提供？这是因为 Linux 系统种类繁多，所使用的二进制有所不同，需要分别打包才行，比如，x86 架构跟 AMD64 的需要分别提供，32 位系统与 64 位的也需要分别提供。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    也就是说，Windows 下提供的软件安装文件基本都是已编译过的，而 Ubuntu 下就不一定。我暂时还没听说过有人在 Windows 平台下载源文件然后编译个一天一夜的，Linux 下却是听了好几次。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    所以，Ubuntu 系统里安装软件的问题在于，&lt;strong&gt;编译&lt;/strong&gt;过的安装软件包怎么取得 &amp;#8211; 或者已有提供，或者自己编译。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Ubuntu&#34;&gt;Ubuntu 软件源&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyUbuntu&#34; href=&#34;#Ubuntu&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Ubuntu 的软件源（software channels/repositories）上包含了许多可以直接下载、安装的软件包，它有四个频道：Main、Restricted、Universe 和 Multiverse，它们的目的有所不同，默认仅 Main 与 Restricted 频道上的软件可以下载安装，但可以设置启用其他两个频道。对普通用户的使用来说，区别并没那么大。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    从这些软件源上下载软件安装的方法有多种：
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    APT 命令行
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    APT 是 Advanced Packaging Tool 的缩写，用于管理软件包。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    通过它的命令行工具来安装软件非常简单。首先打开 shell，
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;sudo apt-get install &amp;lt;package_name&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;package_name&gt; 是软件在源里的名称，如果无法确定，可以通过下列命令来查询：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;apt-cache search &amp;lt;keyword&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    譬如说要在 Ubuntu 下安装 dropbox，可以通过上述命令确定 dropbox 的名称，如下图：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/11/apt-cache-search-dropbox.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/11/apt-cache-search-dropbox.png&#34; alt=&#34;搜索软件源中的 dropbox 关键词&#34; title=&#34;apt-cache-search-dropbox&#34; width=&#34;471&#34; height=&#34;108&#34; class=&#34;alignnone size-full wp-image-6740&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/11/apt-cache-search-dropbox.png 471w, https://www.zfanw.com/blog/wp-content/uploads/2012/11/apt-cache-search-dropbox-300x68.png 300w&#34; sizes=&#34;(max-width: 471px) 100vw, 471px&#34; /&gt;&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    如果不喜欢命令行，Ubuntu 也还有其他可视化的图形操作界面用于安装软件。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    Aptitude
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    Aptitude 是 APT 的前端界面，通过它可以操控真正的 APT 命令。它支持键盘操作 &amp;#8211; 如果熟悉 Vim，就会发现大部分快捷键均可用，它也部分支持鼠标操作。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    个人平时极少使用这个工具，更倾向于用命令行 apt-get 或者下面要介绍的几个方法。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    不过这个软件有个彩蛋，如下图，蛮好玩的：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;img src=&#34;https://upload.wikimedia.org/wikipedia/commons/c/c6/Aptitude_moo.png&#34; alt=&#34;aptitude&#34; /&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    注：图片来自 &lt;a href=&#34;https://en.wikipedia.org/wiki/File:Aptitude_moo.png&#34;&gt;Wikipedia&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    软件中心
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    Ubuntu 软件中心对新手来说，是非常简单明了的软件管理工具。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    打开软件中心，搜索软件，安装软件，就这么简单。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    新立得
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    英文名叫 ”Synaptic“，就我所了解，Ubuntu 12.04 之后的版本中默认并不安装新立得软件包管理器，需要用户自己安装：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;sudo apt-get install synaptic
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    之后打开新立得搜索软件安装即可。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Deb&#34;&gt;下载的 Deb 安装包&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Deb&#34; href=&#34;#_Deb&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    某些软件有提供编译过的安装包文件下载，Ubuntu 下这种安装包文件的格式是 .deb。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    安装 .deb 包的方法如下：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        通过 GDebi 工具，可以直接在命令行中运行，也可以通过图形界面 GDebi-gtk，如下图。
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        &lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/11/gdebi.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/11/gdebi.png&#34; alt=&#34;gdebi 安装 .deb 文件&#34; title=&#34;gdebi&#34; width=&#34;540&#34; class=&#34;alignnone size-full wp-image-6751&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/11/gdebi.png 540w, https://www.zfanw.com/blog/wp-content/uploads/2012/11/gdebi-300x175.png 300w&#34; sizes=&#34;(max-width: 540px) 100vw, 540px&#34; /&gt;&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      dpkg 安装 &amp;#8211; 首先定位到 deb 安装文件目录下，然后运行命令 &lt;code&gt;sudo dpkg -i package_name.deb&lt;/code&gt;。
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;PPA_8211_Personal_Package_Archives&#34;&gt;PPA &amp;#8211; Personal Package Archives&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyPPA_8211_Personal_Package_Archives&#34; href=&#34;#PPA_8211_Personal_Package_Archives&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    因为安全或不稳定或其他种种因素，Ubuntu 软件源中不可能收录所有软件，于是有了 PPA，它的作用类似于 Ubuntu 官方的源，只不过是由个人提供打包，当然也会有某些官方源中的软件通过 PPA 发布不稳定版本等。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    PPA 的使用也非常简单，首先添加 PPA 源到 Ubuntu：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;sudo add-apt-repository ppa:user/ppa-name
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    然后更新所有源：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;sudo apt-get update
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    接着是安装 &amp;#8211; 因为将 PPA 源添加到 Ubuntu 后，安装软件的方法与从官方源中安装并没有两样，所以，第一步中介绍的方法均可以使用：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;sudo apt-get install &amp;lt;package_name&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;编译源代码&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    源代码包中一般均带有 INSTALL 或 README 之类的安装说明文件，根据说明安装即可。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    不过这种方法是我最不愿意碰的，因为往往会为编译一个软件事先折腾一大堆东西 &amp;#8211; 而我可能根本不想了解这些，只是想装好这个软件使用它而已。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;参考&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://help.ubuntu.com/community/Repositories&#34;&gt;Ubuntu 的软件源&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://help.ubuntu.com/community/InstallingSoftware&#34;&gt;Ubuntu 软件安装方法&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://help.ubuntu.com/community/AptGet/Howto?action=show&amp;redirect=AptGetHowto&#34;&gt;APT 管理软件包&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://en.wikipedia.org/wiki/Aptitude_(software)&#34;&gt;Aptitude&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://help.ubuntu.com/community/UbuntuSoftwareCenter?action=show&amp;redirect=SoftwareCenterFAQ&#34;&gt;软件中心&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://help.launchpad.net/Packaging/PPA&#34;&gt;PPA&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://help.launchpad.net/Packaging/PPA/InstallingSoftware&#34;&gt;从 PPA 安装软件&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Linode FQDN 设置</title>
+      <link>https://www.zfanw.com/blog/linode-fqdn-hostname.html</link>
+      <pubDate>Thu, 01 Nov 2012 13:41:51 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/linode-fqdn-hostname.html</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Fully_qualified_domain_name&#34;&gt;FQDN&lt;/a&gt; 全称叫 Fully qualified domain name，举个例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;www.zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 www 是主机名即英文的 &lt;a href=&#34;http://library.linode.com/getting-started#sph_setting-the-hostname&#34;&gt;hostname&lt;/a&gt;，表示域名指向的是 World-Wide Web 服务器，简单地说，可以把它理解成计算机的名称。比如我 Ubuntu 的计算机名称叫 Sam，登录的用户名为 sam，则打开 terminal emulator，命令行上能看到 &lt;code&gt;sam@Sam&lt;/code&gt;，表示 Sam 计算机上的 sam 用户目前正在使用中。如果是 Windows 系统，则可以通过系统属性查看“完整的计算机名”，如果你有打开过 Windows 网上邻居，经常能看到各种五花八门的计算机名，这些就是所谓的 hostname。&lt;/p&gt;
+
+&lt;p&gt;zfanw 是二级域名(&lt;a href=&#34;http://en.wikipedia.org/wiki/Second-level_domain&#34;&gt;Second-Level domain&lt;/a&gt;)，.com 是顶级域名(&lt;a href=&#34;http://en.wikipedia.org/wiki/Top-level_domain&#34;&gt;Top-Level domain&lt;/a&gt;)，类似的顶级域名还有 .org、.net 等。&lt;/p&gt;
+
+&lt;p&gt;至于平时常见的 http，它是个互联网协议，类似的还有 ftp 等，这个与 FQDN 倒是无关。&lt;/p&gt;
+
+&lt;p&gt;在 Linode VPS 文档中，有一节写的是&lt;a href=&#34;http://library.linode.com/getting-started#sph_setting-the-hostname&#34;&gt;设置 hostname&lt;/a&gt;。因为这个设置与后期安装 Apache 有关，所以有此一篇说明。&lt;/p&gt;
+
+&lt;p&gt;Linode 的这节文档中给出的设置 /etc/hosts 文件的参考例子是：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;127.0.0.1        localhost.localdomain    localhost
+12.34.56.78      plato.example.com        plato
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 plato 是主机名，plato.example.com 正是所谓的 FQDN，这需要你先通过 DNS 设置绑定一个子域名到你的 Linode 服务器 ip 上。&lt;/p&gt;
+
+&lt;p&gt;比如我可以到我的域名商 DNS 面板做一个 A 记录，解析 plato.zfanw.com 到 xxx.xxx.xxx.xx 这个 ip 地址，即 Linode 服务器的 ip 上。&lt;/p&gt;
+
+&lt;p&gt;然后到 /etc/hosts 文件中增加如下一行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xxx.xxx.xxx.xxx plato.zfanw.com plato
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;参考例子中，localhost 应该是个特殊的主机名，如果你是第一次通过 ssh 登录到 Linode 服务器，可以看到 shell prompt 显示的是 &lt;code&gt;root@localhost&lt;/code&gt;，按我粗浅的理解，localdomain 应该也是个特殊域名。不过这两个我们可以不用管，默认即可。&lt;/p&gt;
+
+&lt;p&gt;保存 /etc/hosts 文件后 logout 出服务器，再登录可以看到，shell prompt 已经变成 root@plato 而非 root@localhost。&lt;/p&gt;
+
+&lt;p&gt;使用命令 &lt;code&gt;hostname --fqdn&lt;/code&gt; 显示的结果是 &amp;#8220;plato.zfanw.com&amp;#8221;。&lt;/p&gt;
+
+&lt;p&gt;这样，就完成了 Linode FQDN 的设置。如果光设置 hostname 且更新 /etc/hosts 内容而不曾解析二级域名，后期在安装完 Apache 后重启会出现如下错误：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;apache2: apr_sockaddr_info_get() failed for plato&lt;/p&gt;
+
+&lt;p&gt;apache2: Could not reliably determine the server&amp;#8217;s fully qualified domain name, using 127.0.0.1 for ServerName&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;对的，我折腾这一篇纯是因为这个错误，不然我实在懒得再开 DNS 解析一个二级域名。因为 Linode 明明已经有个 FQDN，&lt;a href=&#34;http://forum.linode.com/viewtopic.php?f=19&amp;amp;t=8378&#34;&gt;lixxx-y.members.linode.com 这样的格式&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;最后附一个我的 &lt;a href=&#34;https://www.linode.com/?r=c1160d4e51485f11b9ae6b4cf286ebf455f87613&#34;&gt;Linode Referal URL&lt;/a&gt;，作用是如果你通过这个 URL 购买了 Linode 服务器并且使用达 3 个月以上，我就可以收到 Linode 返还的 $20 美金，相当于 Linode 512 套餐一个月的价格，如果吃快餐的话，可以吃上 10 顿左右，下馆子大概一次搞定 &amp;#8211; 当然，如果你在厦门，我不介意一起下馆子，反正，花的是 Linode 的钱。&lt;/del&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu  OpenVPN 设置</title>
+      <link>https://www.zfanw.com/blog/ubuntu-openvpn.html</link>
+      <pubDate>Thu, 18 Oct 2012 06:35:15 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ubuntu-openvpn.html</guid>
+      <description>&lt;p&gt;Ubuntu 下的 OpenVPN 设置与 &lt;a href=&#34;http://www.zfanw.com/blog/android-openvpn-setting.html&#34;&gt;Android OpenVPN 设置&lt;/a&gt;很相近。&lt;/p&gt;
+
+&lt;p&gt;首先是在 Ubuntu 系统安装 OpenVPN:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo apt-get install openvpn network-manager-openvpn
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;接着打开网络设置，Gnome 下叫 network connections，如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/ubuntu-openvpn-set.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/ubuntu-openvpn-set.png&#34; alt=&#34;ubuntu vpn 设置&#34; title=&#34;ubuntu vpn 设置&#34; width=&#34;507&#34; class=&#34;alignnone size-full wp-image-6294&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/10/ubuntu-openvpn-set.png 507w, https://www.zfanw.com/blog/wp-content/uploads/2012/10/ubuntu-openvpn-set-300x191.png 300w&#34; sizes=&#34;(max-width: 507px) 100vw, 507px&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;选择 &amp;#8220;VPN&amp;#8221; 标签 -&amp;gt; Add&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/ubuntu-choose-openvpn.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/ubuntu-choose-openvpn.png&#34; alt=&#34;ubuntu 选择 vpn 连接类型&#34; title=&#34;ubuntu 选择 vpn 连接类型&#34; width=&#34;565&#34; class=&#34;alignnone size-full wp-image-6293&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/10/ubuntu-choose-openvpn.png 565w, https://www.zfanw.com/blog/wp-content/uploads/2012/10/ubuntu-choose-openvpn-300x146.png 300w&#34; sizes=&#34;(max-width: 565px) 100vw, 565px&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;列表项中选择 OpenVPN，&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/openvpn-setting.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/openvpn-setting.png&#34; alt=&#34;openvpn 具体设置&#34; title=&#34;openvpn-setting&#34; width=&#34;727&#34; class=&#34;alignnone size-full wp-image-6292&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/10/openvpn-setting.png 727w, https://www.zfanw.com/blog/wp-content/uploads/2012/10/openvpn-setting-300x242.png 300w&#34; sizes=&#34;(max-width: 727px) 100vw, 727px&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;填入需要的信息，Authentication 选择 password，CA 文件选择从 VPN 服务器下载的 crt 文件，接着点击 Advanced 进入高级设置：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/openvpn-advance-set.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/openvpn-advance-set.png&#34; alt=&#34;openvpn 高级设置&#34; title=&#34;openvpn-advance-set&#34; width=&#34;570&#34; class=&#34;alignnone size-full wp-image-6291&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/10/openvpn-advance-set.png 570w, https://www.zfanw.com/blog/wp-content/uploads/2012/10/openvpn-advance-set-300x88.png 300w&#34; sizes=&#34;(max-width: 570px) 100vw, 570px&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;将 General 标签页如上图所示的两个选项勾起来，第一个填入相应的端口。&lt;/p&gt;
+
+&lt;p&gt;然后保存。接下来连接这个 OpenVPN 就可以。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu 字体设置与 infinality</title>
+      <link>https://www.zfanw.com/blog/ubuntu-font-render-with-infinality.html</link>
+      <pubDate>Thu, 11 Oct 2012 05:36:31 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ubuntu-font-render-with-infinality.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_fontconfig-infinality&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 安装 fontconfig-infinality 配置文件&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_freetype&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 给 freetype 源文件打补丁&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 其他设置内容&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 效果图&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 鸣谢&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    &lt;strong&gt;说明 2013.11.28&lt;/strong&gt;：本文写于2012年，内容与最新的 infinality 可能不一样，如有出入，请以官网说明为准。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我眼神不大好。见着别人说操作系统的字体可以渲染得怎样清晰和好看，但身边没有样例，就只好发挥自己的想象力。可惜实在想不出来，就找相关图片看了下，确实要比 Ubuntu 默认下的清晰、好看。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    于是想尝试一下，就找来 infinality &amp;#8211; 这是因为在推上见&lt;a href=&#34;https://twitter.com/doublechou&#34;&gt;玛丽苏&lt;/a&gt;提过。结果先是不小心把 /etc/fonts/conf.d 文件夹给删了，当时还没想着处理，只一味担心重启系统后会出问题，结果发现，Ubuntu 竟然还能启动，还能打出中文，只是字体变了样子，与原来见的不一样，如下：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/Screenshot-from-2012-10-09-233813.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/Screenshot-from-2012-10-09-233813.png&#34; alt=&#34;删除 /etc/fonts/conf.d 后的字体&#34; title=&#34;Screenshot from 2012-10-09 23:38:13&#34; width=&#34;617&#34;  class=&#34;alignnone size-full wp-image-6154&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/10/Screenshot-from-2012-10-09-233813.png 617w, https://www.zfanw.com/blog/wp-content/uploads/2012/10/Screenshot-from-2012-10-09-233813-300x70.png 300w&#34; sizes=&#34;(max-width: 617px) 100vw, 617px&#34; /&gt;&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接着找了些资料，心里约摸觉得把 fontconfig-config 包重装一下就好：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ sudo apt-get --reinstall install fontconfig-config
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    切换到 etc/fonts/ 目录下，果然出来 conf.d 文件夹，重启系统，字体如下图：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/Screenshot-from-2012-10-09-234606.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/Screenshot-from-2012-10-09-234606.png&#34; alt=&#34;ubuntu字体设置&#34; title=&#34;Screenshot from 2012-10-09 23:46:06&#34; width=&#34;542&#34;  class=&#34;alignnone size-full wp-image-6155&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/10/Screenshot-from-2012-10-09-234606.png 542w, https://www.zfanw.com/blog/wp-content/uploads/2012/10/Screenshot-from-2012-10-09-234606-300x153.png 300w&#34; sizes=&#34;(max-width: 542px) 100vw, 542px&#34; /&gt;&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    你可能要问：有区别吗？抱歉，这真是难到我了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在我来看，这两张 GVIM 截图并没什么区别，大概是 GVIM 渲染方法不同，又或者我选择的字型的问题。不过在网页里，前后的区别倒一眼就能看出。不过不曾截图。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    以下进入正题，&lt;strong&gt;Ubuntu&lt;/strong&gt; 下如何使用 &lt;strong&gt;infinality&lt;/strong&gt; 美化字体。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_fontconfig-infinality&#34;&gt;安装 fontconfig-infinality 配置文件&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_fontconfig-infinality&#34; href=&#34;#_fontconfig-infinality&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    首先，到 infinality 网站下载两个压缩包：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://www.infinality.net/fedora/linux/zips/freetype-infinality-2.4.10-20120616_01-x86_64.tar.bz2&#34;&gt;freetype-infinality-2.4.10-20120616_01-x86_64.tar.bz2&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://www.infinality.net/fedora/linux/zips/fontconfig-infinality-1-20120615_1.tar.bz2&#34;&gt;fontconfig-infinality-1-20120615_1.tar.bz2&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    譬如都下载到 ~/Downloads 目录下，将 fontconfig-infinality 压缩包解压到 /etc/fonts/ 目录下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ cd ~/Downloads
+$ tar -jfxv fontconfig-infinality-1-20120615_1.tar.bz2 -C /etc/fonts/
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样，/etc/fonts/ 目录下会出现一个子目录 infinality。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    根据 infinality 目录下 README 的说明，需要为 /etc/fonts/conf.d/ 下的 52-infinality-conf 创建一个软链接(symlink)指向 /etc/fonts/infinality/ 下的 infinality.conf：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ cd /etc/fonts/conf.d/
+$ sudo ln -sf ../infinality/infinality.conf 52-infinality-conf
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    接着是调整 /etc/fonts/infinality/infinality.conf 文件配置，这是一个 XML 文件，可以手动修改，也可以通过运行 infinality 目录下的 infctl.sh 来设置：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ cd /etc/fonts/infinality
+$ sudo ./infctl.sh setstyle
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这时会弹出 8 个预设值供你选择: 1) debug 2) infinality 3) linux 4) osx 5) osx2 6) win7 7) win98 8) winxp
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    比如我选择 2，然后按 Enter 确认，会出现一个结果信息：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;conf.d -&amp;gt; styles.conf.avail/infinality
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这是修改了一个软链接指向。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_freetype&#34;&gt;给 freetype 源文件打补丁&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_freetype&#34; href=&#34;#_freetype&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    从 &lt;a href=&#34;http://download.savannah.gnu.org/releases/freetype/&#34;&gt;freetype 网站&lt;/a&gt; 下载 freetype 2.4.10 最新版，假设压缩包名称为 freetype-2.4.10.tar.gz，下载到 ~/Downloads 目录下。将其解压到 ~ 目录下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ cd 
+$ tar -xvzf ~/Downloads/freetype-2.4.10.tar.gz -C .
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    解压出来的新目录名为 freetype-2.4.10。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接着解压 freetype-infinality-2.4.10-20120616_01-x86_64.tar.bz2 压缩包到 ~/bin/ 目录下，当然，要解压到其他地方也无所谓，如果目录不存在，请先建立一个：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ cd ~
+$ mkdir bin
+$ cd bin
+$ tar -xvjf ~/Downloads/freetype-infinality-2.4.10-20120616_01-x86_64.tar.bz2 -C .
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    现在文件都已经备齐，接下来就是开始打补丁：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ cd ~/freetype-2.4.10
+$ patch -p1 &amp;lt; ~/bin/freetype-add-subpixel-hinting-infinality-20120616-01.patch 
+$ patch -p1 &amp;lt; ~/bin/freetype-enable-subpixel-hinting-infinality-20120615-01.patch 
+$ patch -p1 &amp;lt; ~/bin/freetype-entire-infinality-patchset-20120615-01.patch 
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样，就给 freetype 源文件打好 finality 的补丁。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;其他设置内容&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    接下来，还要进行一些设置，仍是在 freetype-2.4.10 目录下操作：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ ./configure
+$ make
+$ sudo mkdir /usr/lib/freetype-infinality/        # 如果跑 64 位系统就把 lib 改成 lib64
+$ sudo find . -name libfreetype.so.6.9.0 -exec mv {} /usr/lib/freetype-infinality/ \;
+$ cd /usr/lib/freetype-infinality
+$ sudo ln -s libfreetype.so.6.9.0 libfreetype.so.6
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    在 ~/bin/ 目录下有两个文件，根据建议需要拷贝到 /etc/profile.d/ 目录下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ cd ~/bin
+$ sudo cp infinality-settings.sh freetype-infinality.sh /etc/profile.d/
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    /etc/profile.d/infinality-settings.sh 这个文件里可以做很多设置，具体根据个人需要进行修改。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接着，登出系统再登入，最好是重启系统。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    不过根据我的经历，将这两个文件拷入 /etc/profilde.d/ 目录后重启系统，差一点都登录不进来，输入密码后迅速地闪了一下屏幕，就又回到登录界面 。后来切换到 tty 下移除这两个文件，这才算进来了，目测没这两个文件 infinality 也起作用，另外，如果只拷贝 infinality-settings.sh 到 /etc/profile.d/ 目录下是没问题的。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;效果图&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/Screenshot-from-2012-10-10-024510.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/Screenshot-from-2012-10-10-024510.png&#34; alt=&#34;ubuntu 字体设置 infinality&#34; title=&#34;ubuntu 字体设置效果&#34; width=&#34;541&#34;  class=&#34;alignnone size-full wp-image-6182&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/10/Screenshot-from-2012-10-10-024510.png 541w, https://www.zfanw.com/blog/wp-content/uploads/2012/10/Screenshot-from-2012-10-10-024510-300x87.png 300w&#34; sizes=&#34;(max-width: 541px) 100vw, 541px&#34; /&gt;&lt;/a&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在其他不曾设置过的屏幕上，将上图与图片上下的文字显示效果对比一下就知道，这字体设置是否成功。最明显的，是字的锯齿不那么了然，每个字像是一笔一划写出来的，而不是点点点组成。这也就是 infinality 的目的之一：&lt;q&gt;freely provide the nicest font rendering of any operating system.&lt;/q&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这样，我们就完成 Ubuntu 系统下的字体设置，即字体渲染的方法的调整，接下来可以针对不同程序进行字型(font)的选择，这就根据个人喜好，没什么规则可言。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;鸣谢&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://www.infinality.net/forum/viewtopic.php?f=2&amp;t=77#p794&#34;&gt;infinality.net 上的安装说明&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://forums.opensuse.org/ae-ae-chinese/aes-aeoe-e-e-ae-zae-aeoe/c-ae-zae-aeoe/470464-opensuse-c-aeoe-oec-zcs-ae-ae-az-e-c-i-oec-ae-mactype.html&#34;&gt;openSUSE 论坛的相关内容&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Android 手机上 MPDroid 遥控 MPD</title>
+      <link>https://www.zfanw.com/blog/mpdroid-remote-control-mpd.html</link>
+      <pubDate>Mon, 08 Oct 2012 04:15:14 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/mpdroid-remote-control-mpd.html</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://play.google.com/store/apps/details?id=com.namelessdev.mpdroid&amp;amp;hl=en&#34;&gt;MPDroid&lt;/a&gt; 是一个 MPD 客户端，从它的名称里的 &amp;#8220;Droid&amp;#8221; 可以看出，它是个 Android 应用软件。既然它是个 MPD 客户端，我们也就可以通过它控制 MPD 服务器里的音乐，还可以 streaming MPD 服务器上的音乐到手机即客户端。&lt;/p&gt;
+
+&lt;p&gt;首先是安装 MPD，我曾经写过一篇简单介绍 &lt;a href=&#34;http://www.zfanw.com/blog/ubuntu-mpd-ncmpcpp.html&#34;&gt;MPD 与 Ncmpcpp 安装使用&lt;/a&gt;的内容，也可以查阅 &lt;a href=&#34;http://mpd.wikia.com/wiki/Music_Player_Daemon_Wiki&#34;&gt;Wikia 上 MPD 相关资料&lt;/a&gt; 进行安装配置。&lt;/p&gt;
+
+&lt;p&gt;安装完 MPD 后是修改 mpd.conf 文件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo gvim /etc/mpd.conf
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;查找下列内容并修改结果如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#bind_to_address     &amp;quot;localhost&amp;quot;
+
+bind_to_address    &amp;quot;0.0.0.0&amp;quot;  #这一行是新增加的内容
+
+port    6600
+
+audio_output {
+    type        &amp;quot;httpd&amp;quot;
+    name        &amp;quot;My HTTP Stream&amp;quot;        # 这个名称可任意修改
+    encoder     &amp;quot;vorbis&amp;quot;        # optional, vorbis or lame
+    port        &amp;quot;8000&amp;quot;
+#   quality     &amp;quot;5.0&amp;quot;           # do not define if bitrate is defined
+    bitrate     &amp;quot;128&amp;quot;           # do not define if quality is defined
+    format      &amp;quot;44100:16:1&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;保存 mpd.conf 文件后需要重启 MPD:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo /etc/init.d/mpd restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;接着，从 Google Play 上下载 &lt;a href=&#34;https://play.google.com/store/apps/details?id=com.namelessdev.mpdroid&amp;amp;hl=en&#34;&gt;MPDroid 应用&lt;/a&gt;到手机，安装好打开，初始界面如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/mpdroid-setting-168x300.jpg&#34; alt=&#34;mpdroid 初始界面&#34; title=&#34;mpdroid 初始设置界面&#34; width=&#34;168&#34;  class=&#34;alignnone size-medium wp-image-6017&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/10/mpdroid-setting-168x300.jpg 168w, https://www.zfanw.com/blog/wp-content/uploads/2012/10/mpdroid-setting.jpg 480w&#34; sizes=&#34;(max-width: 168px) 100vw, 168px&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;选择 &amp;#8220;Default connection settings&amp;#8221;，另外一个是 &amp;#8220;Wlan based connection&amp;#8221;，可以针对不同的无线网络设置不同 ip：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/mpdroid-wlan-setting-168x300.jpg&#34; alt=&#34;mpdroid 无线局域网设置&#34; title=&#34;mpdroid 设置无线局域网连接&#34; width=&#34;168&#34;  class=&#34;alignnone size-medium wp-image-6019&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/10/mpdroid-wlan-setting-168x300.jpg 168w, https://www.zfanw.com/blog/wp-content/uploads/2012/10/mpdroid-wlan-setting.jpg 480w&#34; sizes=&#34;(max-width: 168px) 100vw, 168px&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;填写 &amp;#8220;Host&amp;#8221; 与 &amp;#8220;Streaming Host&amp;#8221;，这是 MPD 服务器所在的电脑的 ip 地址，比如我的电脑在局域网的 ip 为 192.168.1.101，Ubuntu 上可以通过以下命令查看：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ifconfig
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;因为 MPDroid 上使用 MPD 服务器所在电脑的 ip 地址来连接，所以电脑的 ip 最好手动分配，DHCP 分配的话每次的 ip 不同，就需要 MPDroid 设置里每次都做修改。&lt;/p&gt;
+
+&lt;p&gt;设置完成后，通过按 Android 手机的 Menu 键打开 MPDroid 的 ”Main Menu&amp;#8221;，点击进入音乐控制的主界面：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/mpdroid-playing1.jpg&#34; alt=&#34;mpdroid 播放音乐中&#34; title=&#34;mpdroid 控制播放音乐&#34; width=&#34;480&#34;  class=&#34;alignnone size-full wp-image-6028&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/10/mpdroid-playing1.jpg 480w, https://www.zfanw.com/blog/wp-content/uploads/2012/10/mpdroid-playing1-168x300.jpg 168w&#34; sizes=&#34;(max-width: 480px) 100vw, 480px&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;一目了然的界面。&lt;/p&gt;
+
+&lt;p&gt;要将 MPD 服务器上的音乐 streaming 到手机，即通过手机播放 MPD 服务器上的音乐，如下图所示，可以通过 Android 手机的 Menu 按键调用该菜单，勾选 streaming 就可以开始播放，如果没有声音，请点击上一张图片的&lt;strong&gt;音响&lt;/strong&gt;图标进入查看 OUTPUTS 是否勾选了名称为 &amp;#8220;My HTTP Stream&amp;#8221; 的声音输出。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/10/mpdroid-playing-streaming.jpg&#34; alt=&#34;mpdroid streaming 播放中&#34; title=&#34;mpdroid-playing-streaming&#34; width=&#34;168&#34;  class=&#34;alignnone size-full wp-image-6024&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/10/mpdroid-playing-streaming.jpg 480w, https://www.zfanw.com/blog/wp-content/uploads/2012/10/mpdroid-playing-streaming-168x300.jpg 168w&#34; sizes=&#34;(max-width: 480px) 100vw, 480px&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这样，我就可以把手机当成电脑上音乐播放的遥控器；如果无聊，也可以同时在电脑和手机上播放音乐，不过如果在电脑/手机上同时播放时，因为 MPDroid 在手机上 streaming 会有缓冲，于是会慢电脑上几秒，结果就演成“二重唱”了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu 下使用 MPD 与 Ncmpcpp</title>
+      <link>https://www.zfanw.com/blog/ubuntu-mpd-ncmpcpp.html</link>
+      <pubDate>Tue, 11 Sep 2012 02:28:21 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ubuntu-mpd-ncmpcpp.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_MPD_Ncmpcpp&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 安装 MPD 与 Ncmpcpp&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_MPD&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 配置 MPD&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_ncmpcpp&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 使用 ncmpcpp&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 鸣谢&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    先说个我作为新手使用 MPD 的一个经历，在启用 ncmpcpp 客户端播放《虫师》的音乐后，我退出 ncmpcpp，音乐仍在播放，我决定 log out 当前用户看看，它仍在播放，我心里大笑，想着说重启你总不会再播放了吧，关机那时显然是没了声音，等重启进入登录界面时，音乐继续。那个时候我觉得时光美好。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_MPD_Ncmpcpp&#34;&gt;安装 MPD 与 Ncmpcpp&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_MPD_Ncmpcpp&#34; href=&#34;#_MPD_Ncmpcpp&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    我的 Ubuntu 版本为 12.04,
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ sudo apt-get install mpd ncmpcpp
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_MPD&#34;&gt;配置 MPD&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_MPD&#34; href=&#34;#_MPD&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    打开 /etc/mpd.conf 文件，
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ sudo gvim /etc/mpd.conf
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    修改 music_directory 内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;music_directory     &#34;/home/sam/music&#34;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    将其指向音乐文件夹即可。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    并且注释掉以下内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;#audio_output {
+#  type    &#34;alsa&#34;
+#  name    &#34;Sound Card&#34;
+#  device    &#34;hw:0,0&#34;  # optional
+#  format    &#34;44100:16:2&#34;  # optional
+#  mixer_device  &#34;default&#34; # optional
+#  mixer_control &#34;PCM&#34;   # optional
+#  mixer_index &#34;0&#34;   # optional
+#}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    增加如下内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;audio_output {
+  type    &#34;pulse&#34;
+  name    &#34;MPD&#34;
+}
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    如果声音会有问题，将下一行的注释#符号去掉，没问题则忽略：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;#mixer_type &#34;software&#34;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    保存 mpd.conf 文件并重启 mpd:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ sudo /etc/init.d/mpd restart
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    又因为默认情况下 MPD 可能没有权限访问 PulseAudio，如下命令用于将它加入拥有访问权限的组中：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ sudo usermod -aG pulse,pulse-access mpd
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样，MPD 就以系统服务的形式在系统后台运行。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    另外，如果要使用 tag editor，需要拷贝一份 config 文件到 ~/.ncmpcpp/ 下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ cd ~/.ncmpcpp
+$ cp /usr/share/doc/ncmpcpp/examples/config.gz .
+$ gunzip config.gz
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    打开 config 文件，将 mpd_music_dir 一行注释取消，并将值改为 /home/sam/music，即你的音乐文件夹。如果不做这一步，试图编辑音乐文件的 tag 时会出现错误：configuration variable mpd_music_dir is not set。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    然后重启 mpd，进入 ncmpcpp 后按数字 7 即可以进入 tag editor。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_ncmpcpp&#34;&gt;使用 ncmpcpp&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_ncmpcpp&#34; href=&#34;#_ncmpcpp&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Ncmpcpp 全称为 NCurses Music Player Client (Plus Plus)，界面与 Ncmpc 相近，但提供更多新特性，这也是加两个 Plus 的意思。另外，Ncmpcpp 只是 MPD 许多客户端中的一个，更多请见 &lt;a href=&#34;http://mpd.wikia.com/wiki/Clients&#34;&gt;http://mpd.wikia.com/wiki/Clients&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我们可以通过命令行输入 &lt;code&gt;ncmpcpp&lt;/code&gt; 启用它。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    更新数据库
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    上面我们虽然为 MPD 配置了音乐文件夹位置，但数据库内并没有更新文件内容，这需要通过客户端来完成，在进入 ncmpcpp 后，我们可以按 u 键来更新数据库：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;kbd&gt;u&lt;/kbd&gt; &amp;#8211; 更新音乐数据库
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    网络上还能看到 &lt;code&gt;mpd --create-db&lt;/code&gt; 这个命令，但这个命令在 MPD 最近版本中显然已经被取消。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    Ncmpcpp 常用快捷键
+  &lt;/h3&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;j&lt;/kbd&gt; &amp;#8211; 向下移动
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;k&lt;/kbd&gt; &amp;#8211; 向上移动
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;1&lt;/kbd&gt; &amp;#8211; 这是数字 1，打开帮助，可以查看各种快捷键的用法
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;3&lt;/kbd&gt; &amp;#8211; Browser，可以查看音乐文件夹下的内容，在 Browser 里，可以按空格将文件加入播放列表，也可以按 Enter 键将文件加入播放列表并开始播放；如果要添加全部文件到播放列表，先按 a 键，然后 / 键，接着回车。
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;2&lt;/kbd&gt; &amp;#8211; Playlist，播放列表，在播放列表中按 c 可以清空列表，按 d 可以删除条目，按 S 可以保存列表，小写 s 则是停止播放，P 是暂停播放，再按一次 P 继续播放
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;l&lt;/kbd&gt; &amp;#8211; 这是字母，小写的 L，表示 lyric，取得歌词
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;kbd&gt;q&lt;/kbd&gt; &amp;#8211; 退出 ncmpcpp
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    其实 Vim 里的许多快捷键都可以在 Ncmpcpp 中使用。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    另外，Ncmpcpp 有几个让人郁结的地方，比如按 S 保存播放列表，输入几个字母后你改变主意不想保存了，想取消这个动作，抱歉，没有快捷键，只能按 &lt;kbd&gt;Ctrl-c&lt;/kbd&gt; 退出 ncmpcpp。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    更多快捷键按 1 键进入帮助查看，更多配置可以参见以下链接。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;鸣谢&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://help.ubuntu.com/community/MPD&#34;&gt;https://help.ubuntu.com/community/MPD&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://wiki.archlinux.org/index.php/Ncmpcpp&#34;&gt;https://wiki.archlinux.org/index.php/Ncmpcpp&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://ncmpcpp.rybczak.net/&#34;&gt;http://ncmpcpp.rybczak.net/&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://bbs.archlinux.org/viewtopic.php?pid=1033566&#34;&gt;https://bbs.archlinux.org/viewtopic.php?pid=1033566&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;http://manpages.ubuntu.com/manpages/lucid/man1/ncmpcpp.1.html&#34;&gt;http://manpages.ubuntu.com/manpages/lucid/man1/ncmpcpp.1.html&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu 安装 Firefox.tar.bz2</title>
+      <link>https://www.zfanw.com/blog/ubuntu-firefox-tar-bz2.html</link>
+      <pubDate>Mon, 16 Jul 2012 03:00:36 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ubuntu-firefox-tar-bz2.html</guid>
+      <description>&lt;p&gt;&lt;strong&gt;2013.5.8 更新&lt;/strong&gt; firefox 现在版本已经持后台自动更新，所以本篇介绍的仅限在 Ubuntu 上初次安装 firefox。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;到 Mozilla 网站&lt;a href=&#34;http://www.mozilla.org/en-US/firefox/new/&#34;&gt;下载 firefox&lt;/a&gt;，假设保存到 ~/Downloads 目录。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;将 Downloads 下的 firefox-13.0.1.tar.bz2 拷贝到 /opt 文件夹（这个安装位置可选），然后解压：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% cd ~/Downloads
+% sudo cp firefox-13.0.1.tar.bz2 /opt
+% cd /opt
+% sudo tar -xvjf firefox-13.0.1.tar.bz2
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;解压后，/opt 下会出现一个 firefox 文件夹，在 /usr/bin/ 下重建软链接(soft link)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% sudo ln -sf /opt/firefox/firefox /usr/bin/firefox
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 -f 表示强制覆盖原有的软链接。&lt;/p&gt;
+
+&lt;p&gt;之后，就可以在命令行中使用 &amp;#8220;firefox&amp;#8221; 调用浏览器，如果使用 Unity 桌面系统，按 Alt-F2 输入 &amp;#8220;firefox&amp;#8221; 调用。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

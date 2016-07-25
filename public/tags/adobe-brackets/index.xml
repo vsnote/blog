@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Adobe Brackets on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/adobe-brackets/</link>
+    <description>Recent content in Adobe Brackets on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 23 Oct 2013 14:58:23 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/adobe-brackets/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Theseus – JavaScript 调试工具</title>
+      <link>https://www.zfanw.com/blog/theseus-javascript-debugger.html</link>
+      <pubDate>Wed, 23 Oct 2013 14:58:23 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/theseus-javascript-debugger.html</guid>
+      <description>&lt;p&gt;我现在用 &lt;a href=&#34;http://www.brackets.io/&#34;&gt;Adobe Brackets&lt;/a&gt;做前端开发，它有一个扩展 &lt;a href=&#34;https://github.com/adobe-research/theseus&#34;&gt;Theseus&lt;/a&gt;，用于 JavaScript 调试。跟浏览器自带的调试工具不太一样，所以小小介绍下。&lt;/p&gt;
+
+&lt;p&gt;在浏览器中实时预览 HTML 文件时，Theseus 会用标示 JavaScript 各个函数运行的次数，未曾运行的函数以灰色背景突出显示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.github.com/adobe-research/theseus/gh-pages/call-counts.png&#34; alt=&#34;Theseus Real-time code coverage&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;small&gt;注：如没有特殊说明，本篇图片均引用自 Theseus 库。&lt;/small&gt;&lt;/p&gt;
+
+&lt;p&gt;如果我们点击&lt;strong&gt;次数&lt;/strong&gt;，Theseus 会在 Brackets 窗口底部调出一个面板，显示函数的输入/输出值以及异常：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.github.com/adobe-research/theseus/gh-pages/log1.png&#34; alt=&#34;监控函数的输入/输出值、异常&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如果我们点击多个&lt;strong&gt;次数&lt;/strong&gt;，函数间有依赖关系，则面板中也会表示出来：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.github.com/adobe-research/theseus/gh-pages/log2.png&#34; alt=&#34;函数的关系&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;那么我们常用的 console.log 命令呢？类似的，Theseus 会在窗口底部显示 Events:console.log 字样，点击它就会调出一个面板：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2013/10/theseus-console-log.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2013/10/theseus-console-log.png&#34; alt=&#34;Theseus 使用 console.log 命令&#34; width=&#34;700&#34; class=&#34;alignnone size-full wp-image-10728&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/10/theseus-console-log.png 813w, https://www.zfanw.com/blog/wp-content/uploads/2013/10/theseus-console-log-300x163.png 300w&#34; sizes=&#34;(max-width: 813px) 100vw, 813px&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;面板中显示了 console.log 命令在 JavaScript 文件中的行位置，命令的运行时间、输出内容等。&lt;/p&gt;
+
+&lt;p&gt;你可能要好奇，这东西没有提供断点工具吗？答案是没有。我觉得结合上面提到的方法，完全可以流畅地完成(我目前的) JavaScript 调试工作了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Adobe Brackets 与 CSS DRY 原则</title>
+      <link>https://www.zfanw.com/blog/adobe-brackets-css-dont-repeat-youself.html</link>
+      <pubDate>Sun, 08 Sep 2013 11:17:28 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/adobe-brackets-css-dont-repeat-youself.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 快速编辑&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 妙用&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    在后端程序里，随处可见强调 &lt;a href=&#34;http://zh.wikipedia.org/wiki/一次且仅一次&#34;&gt;DRY&lt;/a&gt;(don&amp;#8217;t repeat youself) 原则，我想前端开发中也不应该例外。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    一个样式类，在 CSS 文件中多处出现，就会造成后期修改的困难。谁也不能保证，我多处都做好修改。但如果我们只定义一次，就很容易确信，我们已经修改好了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    那么，我们又如何确定自己只定义了一次？
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;快速编辑&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Adobe Brackets 的 &lt;a href=&#34;https://github.com/adobe/brackets/wiki/How-to-Use-Brackets#quick-edit&#34;&gt;Quick Edit&lt;/a&gt;(&lt;strong&gt;快速编辑&lt;/strong&gt;样式) 工具可以很好地帮助解决这个问题。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在 Brackets 中，打开 HTML 文件，光标定位到类名位置，然后按 &lt;kbd&gt;Ctrl-E&lt;/kbd&gt; 快捷键，就会在当前 HTML 编辑窗口内调出快速样式编辑面板：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2013/09/adobe-brackets-quick-edit.jpg&#34; alt=&#34;adobe brackets 快速编辑&#34; width=&#34;700&#34; height=&#34;114&#34; class=&#34;alignnone size-full wp-image-10399&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/09/adobe-brackets-quick-edit.jpg 700w, https://www.zfanw.com/blog/wp-content/uploads/2013/09/adobe-brackets-quick-edit-300x48.jpg 300w&#34; sizes=&#34;(max-width: 700px) 100vw, 700px&#34; /&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    面板分左右两列，左列显示样式规则，右列显示所有定义有该样式的 CSS 文件名称、代码位置。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    比如上图中，我定义了一个 &lt;code&gt;.rom-comment-num&lt;/code&gt; 的类，该类出现在 main.css 样式文件中，并且出现了两次。当类出现在许多样式文件中，或者在一个样式文件中出现多处，我们就要认真考虑一下，我们是否正在违背 DRY 原则，正在给我们的后期维护制造困难。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;妙用&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    上面我们已经知道快速编辑样式怎么用，这样，从中就能延展出一个不错的用处。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当我们给 CSS 类命名时，即便有一定的规范在，我们也会担心，这个命名是不是已经被定义过了？毕竟，页面一多，参与开发的人一多，谁也不好保证这种问题。这时按快捷键 &lt;kbd&gt;Ctrl-E&lt;/kbd&gt;，如果没能调出快速编辑面板，则该类名还没有被用过，我们可以放心使用。当然，Firebug 之类的网页调试工具也可以达到这种功能，但毕竟不如在编辑器中确认来得方便。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

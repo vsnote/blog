@@ -1,0 +1,1446 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Firefox on 陈三</title>
+    <link>https://www.zfanw.com/blog/categories/firefox/</link>
+    <description>Recent content in Firefox on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 25 Jan 2015 05:17:28 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/categories/firefox/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Charles Proxy 自定义 CA 证书</title>
+      <link>https://www.zfanw.com/blog/charles-proxy-custom-ca-certificate.html</link>
+      <pubDate>Sun, 25 Jan 2015 05:17:28 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/charles-proxy-custom-ca-certificate.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_CA&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 自建 CA 证书&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_charles&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 配置 charles&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Firefox&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 导入证书到 Firefox&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.charlesproxy.com/documentation/using-charles/ssl-certificates/&#34;&gt;Charles Proxy&lt;/a&gt; 跟 Windows 平台下的 &lt;a href=&#34;http://www.telerik.com/fiddler&#34;&gt;Fiddler&lt;/a&gt; 一样可以查看 HTTPS 流量，但使用 Charles 官方提供的 &lt;a href=&#34;http://www.charlesproxy.com/documentation/using-charles/ssl-certificates/&#34;&gt;CA 证书&lt;/a&gt;检查 HTTPS 请求时，Firefox 35 下网页会出现如下错误：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      twitter.com uses an invalid security certificate. The certificate is not trusted because the issuer certificate has expired. (Error code: sec_error_expired_issuer_certificate)
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;https://muffinresearch.co.uk/proxying-connections-from-ffos/&#34;&gt;据说&lt;/a&gt;原因是这样的：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      The more recent versions of Firefox only allow certs with start dates after the unix epoch (1st Jan 1970). As the Charles CA cert has a start year of 1899 it&amp;#8217;s seen as expired.
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    最新版本的 Firefox 只允许证书的起始时间在 1970 以后，而 Charles CA 证书的起始时间是 1899。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    解决办法是&lt;a href=&#34;http://0x74696d.com/posts/CharlesSSL/&#34;&gt;自建一个证书&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_CA&#34;&gt;自建 CA 证书&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_CA&#34; href=&#34;#_CA&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    我的过程基于 openSUSE 13.2 操作系统。
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;p&gt;
+        逐行执行以下命令（openSUSE 下需要管理员权限）。
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;mkdir -p /usr/local/CharlesCA
+cd /usr/local/CharlesCA
+mkdir certs private newcerts
+echo 01 &amp;gt; serial
+touch index.txt
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        生成 CA 证书
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;openssl req -new -x509 -days 3650 -extensions v3_ca \
+-keyout private/ca_key.pem -out certs/ca_cert.pem \
+-config /etc/ssl/openssl.cnf
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        请注意 &lt;code&gt;-config&lt;/code&gt; 后指向的路径，这里是我 openSUSE 下 openssl.cnf 文件路径，请根据自己的操作系统确认其路径。
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        这一步中也会要求填写 &lt;code&gt;passphrase&lt;/code&gt; 及其它信息，&lt;code&gt;passphrase&lt;/code&gt; 后面在 Charles 中会用到。
+      &lt;/p&gt;
+    &lt;/li&gt;
+    
+    &lt;li&gt;
+      &lt;p&gt;
+        转换为 PKCS12 格式
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        因为 Charles 需要 pkcs12 格式的证书，所以还需要做个转换：
+      &lt;/p&gt;
+      
+      &lt;pre&gt;&lt;code&gt;openssl pkcs12 -export -out ca_cert.pfx -inkey private/ca_key.pem -in certs/ca_cert.pem
+&lt;/code&gt;&lt;/pre&gt;
+      
+      &lt;p&gt;
+        这样，/usr/local/CharlesCA 目录下会生成 ca_cert.pfx 文件。
+      &lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    我们总共得到了 3 个重要的文件：
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      ca_cert.pfx &amp;#8211; charles 添加自定义证书用的
+    &lt;/li&gt;
+    &lt;li&gt;
+      ca_cert.pem &amp;#8211; 提供给客户端使用的
+    &lt;/li&gt;
+    &lt;li&gt;
+      ca_key.pem &amp;#8211; 钥匙（请保证它的安全）
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_charles&#34;&gt;配置 charles&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_charles&#34; href=&#34;#_charles&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      打开 charles -&gt; Proxy -&gt; Proxy Settings&amp;#8230; 菜单
+    &lt;/li&gt;
+    &lt;li&gt;
+      点击 SSL 标签页
+    &lt;/li&gt;
+    &lt;li&gt;
+      勾选 &amp;#8216;Use a custom CA certificate&amp;#8217;
+    &lt;/li&gt;
+    &lt;li&gt;
+      点击 &lt;kbd&gt;Choose&lt;/kbd&gt; 按键，选择 &lt;code&gt;/usr/local/CharlesCA/ca_cert.pfx&lt;/code&gt; 文件
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    这样就配置好 charles 的证书。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Firefox&#34;&gt;导入证书到 Firefox&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Firefox&#34; href=&#34;#_Firefox&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      打开 Firefox -&gt; Preferences
+    &lt;/li&gt;
+    &lt;li&gt;
+      选择 Advanced -&gt; Certificates 标签页
+    &lt;/li&gt;
+    &lt;li&gt;
+      点击 &lt;kbd&gt;View certificates&lt;/kbd&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      点击 &lt;kbd&gt;Import...&lt;/kbd&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      定位到 &lt;code&gt;/usr/local/CharlesCA/certs/ca_cert.pem&lt;/code&gt; 文件
+    &lt;/li&gt;
+    &lt;li&gt;
+      勾选 &amp;#8216;This certificate can identify websites&amp;#8217;
+    &lt;/li&gt;
+    &lt;li&gt;
+      确认
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    最后重启 Charles，会弹窗口要求填写上面创建证书时设置的 passphrase。之后 https 流量可以正常分析了。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>解决 Privoxy 404 No Such Domain 问题</title>
+      <link>https://www.zfanw.com/blog/privoxy-404-no-such-domain.html</link>
+      <pubDate>Tue, 11 Nov 2014 22:23:48 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/privoxy-404-no-such-domain.html</guid>
+      <description>&lt;p&gt;&lt;em&gt;404 No Such Domain&lt;/em&gt; 错误，在 Privoxy 的 &lt;a href=&#34;http://www.privoxy.org/faq/trouble.html#DNSERRORS&#34;&gt;FAQ&lt;/a&gt; 中有提及，但作者只是提到可能原因，没有提供解决办法。&lt;/p&gt;
+
+&lt;p&gt;在我的 openSUSE 13.1 系统上，这个错误，大致可以按以下步骤重现（作者你神经病）：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;按 &lt;a href=&#34;http://www.zfanw.com/blog/privoxy-forward-ssh.html&#34;&gt;Privoxy 转发到 SOCKS 服务器&lt;/a&gt;一文的说明配置使用 SOCKS 代理&lt;/li&gt;
+&lt;li&gt;删除 &lt;em&gt;config&lt;/em&gt; 文件中 &lt;code&gt;forward-socks5 / 127.0.0.1:9999&lt;/code&gt; 一句&lt;/li&gt;
+&lt;li&gt;未断掉 SSH 连接的情况下重启 openSUSE 系统&lt;/li&gt;
+&lt;li&gt;打开 Firefox&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;之后 Firefox 打开的所有网址都会返回 404 No Such Domain 错误，除了 Privoxy 的配置地址 &lt;a href=&#34;http://p.p。&#34;&gt;http://p.p。&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;而如果我禁止 Firefox 走 Privoxy 代理，则一切均正常。但这没达到我的目的。重启系统也不能解决问题。&lt;/p&gt;
+
+&lt;p&gt;最后找到的解决办法简单得跌破眼镜，就是重启 Privoxy。openSUSE 下执行命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo rcprivoxy restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当然，openSUSE 下可视化的 &lt;strong&gt;Services Manager&lt;/strong&gt; 里重启 Privoxy 也是可以的。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox 22 引入新 Cookies 政策</title>
+      <link>https://www.zfanw.com/blog/firefox-22-new-cookies-policy.html</link>
+      <pubDate>Wed, 27 Feb 2013 05:30:03 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-22-new-cookies-policy.html</guid>
+      <description>&lt;p&gt;Firefox 22 版本中将引入新的 Cookies 政策。&lt;/p&gt;
+
+&lt;p&gt;简单说，第三方 Cookies 将被 Firefox 阻拦，只有用户直接访问过的网站 Cookies 才被允许。&lt;/p&gt;
+
+&lt;p&gt;目前 Google Chrome 默认允许所有 Cookies，作为一个主要靠广告收入的公司，这可以解释；IE 则部分阻拦；而 Safari 很早就不允许第三方网站设置 Cookies。&lt;/p&gt;
+
+&lt;p&gt;附：&lt;a href=&#34;http://webpolicy.org/2013/02/22/the-new-firefox-cookie-policy/#firefox-cookie-policy-fnref:1&#34;&gt;The New Firefox Cookie Policy&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>firefox 19</title>
+      <link>https://www.zfanw.com/blog/firefox-19.html</link>
+      <pubDate>Tue, 26 Feb 2013 11:23:28 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-19.html</guid>
+      <description>&lt;p&gt;firefox 19 于 2013.2.19 正式释出。&lt;/p&gt;
+
+&lt;p&gt;这个版本开始默认启用内置 PDF 阅读器，用户可直接在 firefox 打开 PDF 文件，不需要安装其他插件。&lt;/p&gt;
+
+&lt;p&gt;另外，这个内置 PDF 阅读器还可以使用翻页快捷键：&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;按键&lt;/th&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;j/n&lt;/td&gt;
+&lt;td&gt;下一页&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;k/p&lt;/td&gt;
+&lt;td&gt;上一页&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;如果只是简单的 PDF 阅读需求，firefox 19 一般已经足够。&lt;/p&gt;
+
+&lt;p&gt;附：firefox 19 &lt;a href=&#34;http://www.mozilla.org/en-US/firefox/19.0/releasenotes/&#34;&gt;release notes&lt;/a&gt;。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>使用 Privoxy 屏蔽网页广告</title>
+      <link>https://www.zfanw.com/blog/block-webpage-ad-with-privoxy.html</link>
+      <pubDate>Sat, 23 Feb 2013 03:53:08 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/block-webpage-ad-with-privoxy.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 安装 Privoxy&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 启动 Privoxy&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 配置浏览器&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Privoxy-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 测试 Privoxy&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 屏蔽图片广告&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;6&lt;/span&gt; 屏蔽文字广告&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_gif&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;7&lt;/span&gt; 定住 gif 动画&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-4&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;8&lt;/span&gt; 补充&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-5&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;9&lt;/span&gt; 更新&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    很多浏览器扩展可以屏蔽网页广告，比如 &lt;a href=&#34;https://addons.mozilla.org/en-US/firefox/addon/adblock-plus/&#34;&gt;Firefox 下的 Adblock Plus&lt;/a&gt;，Google Chrome 下同样有 &lt;a href=&#34;https://chrome.google.com/webstore/detail/adblock-plus/cfhdojbkjhnklbpkdaibdccddilifddb?hl=en&#34;&gt;Adblock Plus&lt;/a&gt;；在 Firefox 下，甚至可以通过 &lt;a href=&#34;https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/&#34;&gt;GreaseMonkey&lt;/a&gt; 或 &lt;a href=&#34;https://addons.mozilla.org/en-US/firefox/addon/scriptish/&#34;&gt;Scriptish&lt;/a&gt; 来编写 JavaScript 脚本移除广告。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    如果只使用一个浏览器，则装插件来屏蔽广告可能没什么问题，而且即装即用，省事。但如果用多个浏览器，每个浏览器都得装一遍就非常麻烦。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.privoxy.org/&#34;&gt;Privoxy&lt;/a&gt; 可以解决这种问题。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在我们的电脑上，它扮演的是中间&lt;strong&gt;代理服务器&lt;/strong&gt;的角色。浏览器通过它向远程服务器发出请求，远程服务器返回文件后经过 Privoxy 过滤后再发送回浏览器。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    因为它的网站上文档太&lt;strong&gt;不入门&lt;/strong&gt;了，所以写一篇介绍下&lt;strong&gt;怎么使用 Privoxy&lt;/strong&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy&#34;&gt;安装 Privoxy&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy&#34; href=&#34;#_Privoxy&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Privoxy 提供了多个平台的支持，比如 Windows、Linux、Macintosh 等。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Ubuntu 下可以通过如下命令安装：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;sudo apt-get install privoxy
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    Mac OS 上可以通过 brew 安装：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;brew install privoxy
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    Windows 平台可以下载 &lt;a href=&#34;http://sourceforge.net/projects/ijbswa/files/Win32/&#34;&gt;EXE&lt;/a&gt; 文件安装。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    更多系统下的安装方法参见 &lt;a href=&#34;http://www.privoxy.org/user-manual/installation.html&#34;&gt;Privoxy 网站说明&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy-2&#34;&gt;启动 Privoxy&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy-2&#34; href=&#34;#_Privoxy-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    同样的，Privoxy 网站上提供有各平台&lt;a href=&#34;http://www.privoxy.org/user-manual/startup.html&#34;&gt;启动&lt;/a&gt;的说明。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;配置浏览器&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Privoxy 服务器在电脑上的 ip 是 127.0.0.1，端口默认为 8118。根据需要，将个别浏览器或系统的 HTTP 与 HTTPS 代理服务器地址设置为 127.0.0.1,端口设置为 8118。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;a href=&#34;http://www.privoxy.org/user-manual/startup.html&#34;&gt;Privoxy 上&lt;/a&gt;同样有配图说明。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Privoxy-3&#34;&gt;测试 Privoxy&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Privoxy-3&#34; href=&#34;#_Privoxy-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Privoxy 提供 &lt;a href=&#34;http://p.p/&#34;&gt;http://p.p/&lt;/a&gt; 来测试它的运行是否在当前浏览器下正常。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    如果该页面头部显示诸如：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      This is Privoxy 3.0.19 on localhost (127.0.0.1), port 8118, enabled&amp;#8221;
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    则说明 Privoxy 已经在正常使用中。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在 Privoxy 提供的默认配置文件下，如果仅是浏览英文站，则大部分广告已经可以对付掉。至于中文的，则需要自行调配配置文件了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Privoxy 提供多个&lt;a href=&#34;http://www.privoxy.org/user-manual/configuration.html#CONFOVERVIEW&#34;&gt;配置文件&lt;/a&gt;，比如
+  &lt;/p&gt;
+  
+  &lt;ul&gt;
+    &lt;li&gt;
+      match-all.action
+    &lt;/li&gt;
+    &lt;li&gt;
+      default.action
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  
+  &lt;p&gt;
+    但不要去动这些配置文件，因为升级时这些文件会被覆盖，而 user.action、user.filter 这类文件在升级不会被覆盖，我们的规则就写在这些 user.* 的配置文件里。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;屏蔽图片广告&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    先来说怎样用 Privoxy 来屏蔽图片。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;strong style=&#39;color:red;&#39;&gt;说明（ 2015.09.30）：&lt;/strong&gt;因为我的博客迁移到 https，所以以下涉及图片 url 的规则不再有效，这是因为 Privoxy &lt;a href=&#34;http://www.privoxy.org/faq/misc.html#AEN909&#34;&gt;仅能处理 https 协议的 url 的 host 部分&lt;/a&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    举个最简单的例子，打开 user.action 文件，在文件末加入以下内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{+block}
+www.zfanw.com/blog/wp-content/uploads/2013/02/0-300x169.png
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这是最直白的方法，&lt;code&gt;+block&lt;/code&gt; 指示 Privoxy 屏蔽随后的内容，这个内容由一个 &lt;a href=&#34;http://www.privoxy.org/user-manual/actions-file.html#AF-PATTERNS&#34;&gt;URL 规则&lt;/a&gt; 指定，这个 URL 规则的格式为 &lt;code&gt;&amp;lt;domain&amp;gt;&amp;lt;port&amp;gt;/&amp;lt;path&amp;gt;&lt;/code&gt;，三个值均为可选，另外需要注意，domain 部分不需要写 &amp;#8220;http://&amp;#8221;，因为 Privoxy 已经默认这个协议。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    保存 user.action 配置文件后强制刷新&lt;a href=&#34;http://www.zfanw.com/blog/we-picture-together-when-young.html&#34;&gt;页面&lt;/a&gt;可以看到，图片已经被一个丑陋的 Pattern 替换掉。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    页面中被屏蔽的图片需要一个东西来替代，这个可以通过 &lt;code&gt;+set-image-blocker&lt;/code&gt; 设置：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{+block +set-image-blocker{pattern}}
+www.zfanw.com/blog/wp-content/uploads/2013/02/0-300x169.png
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    其中 &lt;code&gt;pattern&lt;/code&gt; 为该命令的默认参数值，即是你所见的丑陋的 Pattern；另两个取值分别是 &amp;#8220;blank&amp;#8221; 与「图片地址」。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &amp;#8220;blank&amp;#8221; 使用一个 1&amp;#215;1 像素的白色 gif 文件填充被屏蔽的图片位置。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    而第三个取值，即「图片地址」，可以是本地，也可以是网络上：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{+block +handle-as-image +set-image-blocker{http://farm9.staticflickr.com/8298/7976223037_941a1ed84f_z.jpg}}
+www.zfanw.com/blog/wp-content/uploads/2013/02/0-300x169.png
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    当在 user.action 文件中写入上面的命令并保存后，强制刷新页面，你看到的将是一朵茶花，而不是原来的几个男性图片。是的，Privoxy 用你指定的图片替换被屏蔽的广告图片。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    规则写好后，你可能想检查它是否生效，Privoxy 提供一个网页工具 &lt;a href=&#34;http://config.privoxy.org/show-url-info&#34;&gt;http://config.privoxy.org/show-url-info&lt;/a&gt;，可以用来查看规则是否对某 URL 生效，借此我们可以检查规则是不是写对，是不是能达到我们的目的。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;屏蔽文字广告&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在屏蔽图片广告时，Privoxy 用到的是 action，动作，指示在匹配相应的 URL 时执行动作。屏蔽文字广告则有所不同，需要用到 &lt;a href=&#34;http://www.privoxy.org/user-manual/filter-file.html&#34;&gt;filter&lt;/a&gt;，如果你接触过 WordPress 的代码，则相信对这个概念很了解。简单地理解，就是对相应的内容进行处理后再输出。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    同样的，我们将把规则写在 user.filter 文件中。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    先拿 Privoxy 上的示例做个说明：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;FILTER: foo Replace all &#34;foo&#34; with &#34;bar&#34;
+s/foo/bar/g
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;FILTER&lt;/code&gt; 是 Privoxy 关键词，表示过滤文本，另外还有两个关键词，这里不做介绍。foo 是这个 filter 的名称，「Replace all &amp;#8220;foo&amp;#8221; with &amp;#8220;bar&amp;#8221;」则是描述。&lt;code&gt;s/foo/bar/g&lt;/code&gt; 则是替换命令，如果熟悉 Vim 或 Sed 则应该对这个命令非常清楚。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    定义名称为 foo 的过滤器后，我们需要在 user.action 中调用它：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{+filter{foo}}
+.privoxy.org/user-manual/filter-file.html
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    强制刷新该页面后，就会看到，页面内的所有 foo 都被换成 bar 了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    然后进入实战，如何屏蔽百度的广告 &amp;#8211; 这里，需要 HTML/CSS 知识来找出广告部分的代码。比如百度搜索结果前的推广有个 class 为 &lt;code&gt;ec_pp_f&lt;/code&gt;，右侧推广链接的 id 为 &lt;code&gt;content_right&lt;/code&gt;。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先定义一个 filter:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;FILTER: block-baidu 屏蔽百度广告
+s|&amp;lt;/head&amp;gt;|&amp;lt;style type=&#34;text/css&#34;&amp;gt;table.ec_pp_f,\#content_right,.ec_pp_f+br,[class~=EC_mr15]{display:none;}&amp;lt;/style&amp;gt;&amp;lt;/head&amp;gt;|
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    注意 # 前的 \，因为在 user.filter 文件中 # 开头的行表示注释，所以需要转义。至于 s 命令后使用 | 而非 / 是因为 HTML 标签中带有 /，为避免加转义符号，就另外找个字符分隔，Privoxy 的 default.filter 文件中是使用 @ 符号来分隔的，我这里用 |。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    之后在 user.action 文件中调用该 filter:
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{+filter{block-baidu}}
+.baidu.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    刷新页面后就可以看到，百度的推广广告已经屏蔽掉了。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在写规则时，需要小心，因为 Privoxy 对配置文件非常敏感，一旦写错，就会退出，所以，如果发现代理不正常了，请重启 Privoxy。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_gif&#34;&gt;定住 gif 动画&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_gif&#34; href=&#34;#_gif&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如果你对 gif 动画不耐烦，则 Privoxy 提供方法来「定」住它不动。在 user.action 文件中加入如下：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;{+deanimate-gifs{last}}
+.tumblr.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;last&lt;/code&gt; 表示定在最后一帧，还有个 &lt;code&gt;first&lt;/code&gt; 表示定在最前一帧。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这样，tumblr.com 网站上的 gif 动画就不会闪瞎眼了。不过据我测试，还是有些漏网之鱼。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-4&#34;&gt;补充&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-4&#34; href=&#34;#i-4&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    补充中是我添加到 user.action 与 user.filter 文件的内容，以后可能会进行更新。仅作参考。
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://gist.github.com/chenxsan/5004046&#34;&gt;user.action gist 文件&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href=&#34;https://gist.github.com/chenxsan/5004032&#34;&gt;user.filter gist 文件&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-5&#34;&gt;更新&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-5&#34; href=&#34;#i-5&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    因为 gist 的更新非常不便，就在 github 上创建了&lt;a href=&#34;https://github.com/chenxsan/Privoxy&#34;&gt;一个库&lt;/a&gt;，专门用来存放这两个配置文件。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox 收藏的秘密</title>
+      <link>https://www.zfanw.com/blog/firefox-keyword-search.html</link>
+      <pubDate>Wed, 20 Feb 2013 23:38:26 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-keyword-search.html</guid>
+      <description>
+
+&lt;p&gt;Firefox 下，收藏页面可以通过「书签」菜单，或直接按 &lt;kbd&gt;Ctrl-D&lt;/kbd&gt;，或点击地址栏右侧的&lt;strong&gt;星星&lt;/strong&gt;来收藏，前两种方法中，firefox 会弹出对话框，如下：&lt;/p&gt;
+
+&lt;div id=&#34;attachment_8155&#34; style=&#34;width: 310px&#34; class=&#34;wp-caption alignnone&#34;&gt;
+  &lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-webpage1.jpg&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-webpage1-300x187.jpg&#34; alt=&#34;firefox 收藏网页对话框&#34; width=&#34;300&#34; height=&#34;187&#34; class=&#34;size-medium wp-image-8155&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-webpage1-300x187.jpg 300w, https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-webpage1.jpg 331w&#34; sizes=&#34;(max-width: 300px) 100vw, 300px&#34; /&gt;&lt;/a&gt;
+  
+  &lt;p class=&#34;wp-caption-text&#34;&gt;
+    图1
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Tags 部分表示页面标签，可填可不填，填写的话，可以方便后期检索。&lt;/p&gt;
+
+&lt;p&gt;除此之外，firefox 其实还有一种收藏页面的方式，不过与上面所述方法有所不同，如下：&lt;/p&gt;
+
+&lt;div id=&#34;attachment_8022&#34; style=&#34;width: 310px&#34; class=&#34;wp-caption alignnone&#34;&gt;
+  &lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/Screenshot-from-2013-02-16-225505.png&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/Screenshot-from-2013-02-16-225505-300x124.png&#34; alt=&#34;firefox 收藏 关键字&#34; width=&#34;300&#34; height=&#34;124&#34; class=&#34;alignnone size-medium wp-image-8022&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/Screenshot-from-2013-02-16-225505-300x124.png 300w, https://www.zfanw.com/blog/wp-content/uploads/2013/02/Screenshot-from-2013-02-16-225505.png 400w&#34; sizes=&#34;(max-width: 300px) 100vw, 300px&#34; /&gt;&lt;/a&gt;
+  
+  &lt;p class=&#34;wp-caption-text&#34;&gt;
+    图2
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;图2中显示的这个对话框，是右击我的博客的搜索框后，选择弹出菜单中的 「Add a Keyword for this Search&amp;#8230;」 菜单项后出来的。可以看到，对话框的标题为 &amp;#8220;New Bookmark&amp;#8221;。&lt;/p&gt;
+
+&lt;p&gt;在 &amp;#8220;Keyword&amp;#8221; 框中填入你要设置的&lt;strong&gt;关键字&lt;/strong&gt;，比如，zf。之后按 &lt;kbd&gt;Alt-D&lt;/kbd&gt; 或按 &lt;kbd&gt;Ctrl-L&lt;/kbd&gt; 或通过鼠标聚焦 &lt;a href=&#34;http://support.mozilla.org/en-US/kb/awesome-bar-find-your-bookmarks-history-and-tabs&#34;&gt;firefox 的导航栏&lt;/a&gt;，然后输入 「zf firefox」 就可以搜索博客中带有 「firefox」 关键词的文章，如图3：&lt;/p&gt;
+
+&lt;div id=&#34;attachment_8031&#34; style=&#34;width: 310px&#34; class=&#34;wp-caption alignnone&#34;&gt;
+  &lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-awesome-bar-search1.jpg&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-awesome-bar-search1-300x134.jpg&#34; alt=&#34;firefox 导航栏自动补齐搜索&#34; width=&#34;300&#34; height=&#34;134&#34; class=&#34;alignnone size-medium wp-image-8031&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-awesome-bar-search1-300x134.jpg 300w, https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-awesome-bar-search1.jpg 313w&#34; sizes=&#34;(max-width: 300px) 100vw, 300px&#34; /&gt;&lt;/a&gt;
+  
+  &lt;p class=&#34;wp-caption-text&#34;&gt;
+    图3
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在上面，我强调说，这种方法是别一种&lt;strong&gt;收藏页面&lt;/strong&gt;的方法，因为我们可以从书签管理中找到第二种方法收藏的链接，如下所示，在侧边栏中打开书签管理并搜索：&lt;/p&gt;
+
+&lt;div style=&#34;width: 285px&#34; class=&#34;wp-caption alignnone&#34;&gt;
+  &lt;a href=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-search.jpg&#34;&gt;&lt;img src=&#34;https://www.zfanw.com/blog/wp-content/uploads/2013/02/firefox-bookmark-search.jpg&#34; alt=&#34;firefox 书签管理&#34; width=&#34;275&#34; height=&#34;194&#34; class=&#34;alignnone size-full wp-image-8033&#34; /&gt;&lt;/a&gt;
+  
+  &lt;p class=&#34;wp-caption-text&#34;&gt;
+    图4
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;你可以看到，当鼠标放到该链接上时，会浮动出一个 tooltip，显示 Name 与收藏的网址：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Search 陈三
+http://www.zfanw.com/blog/?s=%s
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这正是第二种方法收藏的页面路径。&lt;/p&gt;
+
+&lt;p&gt;请注意 &lt;strong&gt;%s&lt;/strong&gt; 部分。这是 firefox 的 &lt;a href=&#34;http://kb.mozillazine.org/Using_keyword_searches&#34;&gt;Keyword search&lt;/a&gt; 背后实现。&lt;/p&gt;
+
+&lt;p&gt;当我输入 zf firefox&amp;#8221; 时，firefox 其实自动将收藏的网址 &amp;#8220;&lt;a href=&#34;https://www.zfanw.com/blog/?s=%s&amp;amp;#8221&#34;&gt;https://www.zfanw.com/blog/?s=%s&amp;amp;#8221&lt;/a&gt;; 中的 「%s」 替换为 &amp;#8220;zf&amp;#8221; 这个关键字空格后的所有内容即 &amp;#8220;firefox&amp;#8221;，也就是说，访问的页面网址实际上变成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;http://www.zfanw.com/blog/?s=firefox
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样我们就清楚知道这个功能背后的原理。&lt;/p&gt;
+
+&lt;p&gt;当右击搜索框添加关键字保存的页面实现不正常或无法添加关键字时，我们可以自己手动设置收藏地址。&lt;/p&gt;
+
+&lt;p&gt;举 Google+ 为例，如果通过 「Add a Keyword for this Search&amp;#8230;」 方法来添加 「gp」 为关键字，保存的链接地址是 &amp;#8220;&lt;a href=&#34;https://plus.google.com/s/_/search/form?q=%s&amp;amp;#8221;，很不幸，这个搜索网址并不正确。&#34;&gt;https://plus.google.com/s/_/search/form?q=%s&amp;amp;#8221;，很不幸，这个搜索网址并不正确。&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;但我们可以试着输入一两个关键词看看其结构，仍试 &amp;#8220;firefox&amp;#8221;，其链接结构如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;https://plus.google.com/s/firefox
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样我们就可以将先前收藏的链接地址修改为 &amp;#8220;&lt;a href=&#34;https://plus.google.com/s/%s&amp;amp;#8221;，之后在导航栏输入&#34;&gt;https://plus.google.com/s/%s&amp;amp;#8221;，之后在导航栏输入&lt;/a&gt; &amp;#8220;gp firefox&amp;#8221; 即可搜索 Google+ 里的 firefox 内容。&lt;/p&gt;
+
+&lt;p&gt;通过这种办法，我们实际上可以给 firefox 添加无数的「搜索引擎」，而不仅仅默认的 Google、Bing，又或是通过扩展组件添加的搜索引擎。&lt;/p&gt;
+
+&lt;p&gt;如果再配上 Vimperator，则简直行云流水了。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://plus.google.com/104787680206754797134/posts/LHrhpc9DS3V&#34;&gt;Google+ vimperator 中文社群&lt;/a&gt; 及其评论&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox 文推荐</title>
+      <link>https://www.zfanw.com/blog/firefox-post-recommend.html</link>
+      <pubDate>Sat, 15 Dec 2012 11:43:42 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-post-recommend.html</guid>
+      <description>&lt;p&gt;别看我导航上赫然有个 Firefox 分类，其实近于挂羊头卖狗肉，个中真正写 Firefox 的内容很少，多数只是打个擦边球，因为没其他合适分类可放，就只好放入 Firefox 中，如果要脑补下这场景，那就好像下雨天，大家挤在了屋檐下，互相客气地说，不好意思、不好意思。&lt;/p&gt;
+
+&lt;p&gt;我在开始接触 &lt;a href=&#34;http://www.zfanw.com/blog/category/vimperator&#34;&gt;Vimperator&lt;/a&gt; 时，所搜寻的相关资料里，多会出现「不折腾会死系列」。内容丰富，于我是受益颇多。即便是现在偶尔翻起，也还是有新收获，所以略为整理，并作推荐，表示一点鄙人对那位阁下的感谢之情。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://deepintoabyss.appspot.com/minibrowser&#34;&gt;[不折腾会死][恶魔出没注意] 从最简界面的浏览器谈起&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://deepintoabyss.appspot.com/anti-chrome-101201&#34;&gt;[烽火再起][逆袭的圣战] 20+a条技巧，让Chrome无法超越Firefox&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://deepintoabyss.appspot.com/RvsT-Sacred&#34;&gt;[圣战]龟兔赛跑到底谁快？——谈软件效率&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://deepintoabyss.appspot.com/anti-chrome&#34;&gt;[圣战][谷粉慎入] 铬合金终不敌烈焰————喷析试用最新版Chrome各种不爽&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>搜索引擎框中的快捷键</title>
+      <link>https://www.zfanw.com/blog/shortcut-in-search-engine.html</link>
+      <pubDate>Sun, 02 Dec 2012 07:48:07 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/shortcut-in-search-engine.html</guid>
+      <description>&lt;p&gt;搜索引擎框中有许多快捷键可以用，并且与 Bash、Emacs 一类软件相通，如果能熟练使用，可以很好提高效率。&lt;/p&gt;
+
+&lt;p&gt;以下分别列出，其中 &amp;#8220;C&amp;#8221; 表示 Ctrl 键。&lt;/p&gt;
+
+&lt;p&gt;假设搜索框中的字符串为 &amp;#8220;&lt;strong&gt;Hello vi*mperator on firefox&lt;/strong&gt;&amp;#8220;，字符串中的星号表示光标位置。&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;快捷键&lt;/th&gt;
+&lt;th&gt;作用及示例说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-a&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;跳转到搜索框所有字符前（Hello 之前）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-e&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;跳转到搜索框所有字符后（firefox 之后）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-k&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;从光标位置起，删除所有往后的字符（剩下 Hello vi）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-u&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;从光标位置起，删除所有往前的字符（剩下 mperator on firefox）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-d&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;删除光标位置后一个字符（剩下 Hello viperator on firefox）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-h&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;删除光标位置前一个字符（剩下 Hello vmperator on firefox）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-z&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;取消删除&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;kbd&gt;C-w&lt;/kbd&gt;&lt;/td&gt;
+&lt;td&gt;删除光标位置前的一个单词（剩下 Hello perator on firefox）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;在 Bash 中，&lt;kbd&gt;C-f&lt;/kbd&gt; 表示向前（右）移动一个字符，&lt;kbd&gt;C-b&lt;/kbd&gt; 表示向后（左）移动一个字符，但是在 firefox 下，这两个的作用分别是“查找”与“打开书签侧边栏”。在 vimperator 下我并不需要这两个功能，就可以在 .vimperatorrc 配置文件中将其映射给移动字符的功能：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;inoremap &amp;lt;C-f&amp;gt; &amp;lt;Right&amp;gt;
+inoremap &amp;lt;C-b&amp;gt; &amp;lt;Left&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以从上面的表格里看到，我们可以通过 &lt;C-w&gt; 删除光标位置前一个单词，那么要删除光标位置后一个单词如何？Bash 下是通过 &lt;kbd&gt;A-d&lt;/kbd&gt; （A 指 alt 键），firefox 下或 vimperator 下这个键组合是选中导航栏上的网址。当然，我们也可以通过键映射来完成，只是有些复杂：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;inoremap &amp;lt;A-d&amp;gt; &amp;lt;C-t&amp;gt;dwi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当 Vimperator 处于插入模式(insert mode)时，按 &lt;kbd&gt;C-t&lt;/kbd&gt; 可以进入 textarea mode （文本区域模式），可以把它理解为简单的 vi 模式，像 h l ^ $ 之类的键统统可用，这时按 &lt;kbd&gt;dw&lt;/kbd&gt; 可以删除到光标位置后的一个单词，最末的一个 &lt;kbd&gt;i&lt;/kbd&gt; 则是从 textarea mode 转回插入模式。&lt;/p&gt;
+
+&lt;p&gt;当然，以上快捷键并不仅限于搜索引擎中，凡是网页上的文本框基本都可以使用。另外，某些方法比如删除单词在中文里并不适用，因为中文并不通过空格来分词。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vimperator 打开多个链接</title>
+      <link>https://www.zfanw.com/blog/vimperator-multi-links.html</link>
+      <pubDate>Fri, 30 Nov 2012 05:28:14 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimperator-multi-links.html</guid>
+      <description>&lt;p&gt;Vimperator 按 &lt;kbd&gt;f&lt;/kbd&gt; 或 &lt;kbd&gt;F&lt;/kbd&gt; 键进入 hint 模式，就可以通过键盘打开页面内的链接。但是，这种方法只能打个一个链接，总有些人想同时打开多个链接的，比如我。&lt;/p&gt;
+
+&lt;p&gt;这个方法使用 Vimperator 的插件 &lt;a href=&#34;https://github.com/caisui/vimperator/blob/master/plugin/multi-hints.js&#34;&gt;multi-hints.js&lt;/a&gt;。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;下载 multi-hints.js 到 .vimperator/plugin 目录下&lt;/li&gt;
+&lt;li&gt;在 vimperator 命令行运行 &lt;code&gt;:loadplugins&lt;/code&gt;，又或者重启 firefox&lt;/li&gt;
+&lt;li&gt;在 vimperator 命令行运行 &lt;code&gt;:multihints follow&lt;/code&gt;，然后按确定键&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;输入要打开的链接的 hint 数字/字母，不同链接的 hint 值用空格分开，比如下图：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/11/vimperator-multi-links.png&#34;&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/11/vimperator-multi-links.png&#34; alt=&#34;vimperator 打开多链接&#34; title=&#34;vimperator-multi-links&#34; width=&#34;518&#34; height=&#34;106&#34; class=&#34;alignnone size-full wp-image-7097&#34; srcset=&#34;https://www.zfanw.com/blog/wp-content/uploads/2012/11/vimperator-multi-links.png 518w, https://www.zfanw.com/blog/wp-content/uploads/2012/11/vimperator-multi-links-300x61.png 300w&#34; sizes=&#34;(max-width: 518px) 100vw, 518px&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;在命令行输入 ll la ls ld 后按确定键，firefox 将在新标签页中打开四个链接&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;每次都输入命令行肯定也不方便，就 map 一个快捷键给命令，在vimperator 配置文件中加下以下命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:nnoremap &amp;lt;C-A-m&amp;gt; :multihints follow&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;重启 firefox 或者 &lt;code&gt;:source ~/.vimperatorrc&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;之后就可以通过按 &lt;kbd&gt;Ctrl-Alt-m&lt;/kbd&gt; 来启用 multihints 打开多个链接&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;Update&lt;/strong&gt; &amp;#8211; 2012.12.14&lt;/p&gt;
+
+&lt;p&gt;「老杨」在评论里提到 Vimperator 扩展 hint 模式下 &lt;kbd&gt;;F&lt;/kbd&gt; 用于打开多个链接，这个在我前文中并没有提到，感谢提醒。&lt;/p&gt;
+
+&lt;p&gt;对比我所描述的方法，这两者有一个小小差别：&lt;kbd&gt;;F&lt;/kbd&gt; 是「一个一个打开多个链接」，multi-hints.js 则是「一下子打开多个链接」。&lt;/p&gt;
+
+&lt;p&gt;从我的体验上说，后者要比前者更流畅。当然，也如回复老杨的评论中我所强调的，之所以我用这个方法，是根据我个人的偏门需求定制的 &amp;#8211; 这是 Vimperator 最大的好处，可定制性。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox SOCKS 代理切换</title>
+      <link>https://www.zfanw.com/blog/ssh-firefox-sock-proxy-switch.html</link>
+      <pubDate>Thu, 25 Oct 2012 15:14:20 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ssh-firefox-sock-proxy-switch.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; 修订历史&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#autoproxychangerjs&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; autoproxychanger.js&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;修订历史&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;span itemprop=dateModified&gt;2012.12.14&lt;/span&gt;：文中介绍的方法，在对待所有网站上，是没有区别的，要么全部走 SOCKS 代理，要么全部不走，而且要经常&lt;strong&gt;手动&lt;/strong&gt;切换，办法太笨，推荐使用更智能的 &lt;a href=&#34;http://getfoxyproxy.org/&#34;&gt;FoxyProxy&lt;/a&gt;。
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    如果你有一个 SSH 账号，允许你登录到远程电脑，那么可以将 Firefox 请求的数据通过 SSH tunnel 发送给远程电脑，借助远程电脑访问你想要访问的信息，保证信息安全。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先，通过 SSH 连接上远程电脑：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;$ ssh -D 9999 -C samchen@zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    &lt;code&gt;D&lt;/code&gt; 参数表示 SSH 隧道在本地电脑监听的端口，&lt;code&gt;C&lt;/code&gt; 参数表示压缩传输的数据。这样我们就利用 SSH 转发端口功能在本地电脑与远程电脑之间建起一条安全通道。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接着是启用 Firefox 的 SOCKS 代理，打开 firefox 首选项中的网络，选择「设置」，然后进入代理配置对话框，按下图所示填入信息：
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    [resp_image id=&amp;#8217;15216&amp;#8242; caption=&amp;#8221; ]
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这样，firefox 浏览器所请求的数据将通过 SSH tunnel 发送给远程电脑，再由远程电脑代理我们请求。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    可是，如果经常要切换 SOCKS 代理呢？总不能时不时要打开代理设置对话框。当然，可以考虑装一个 firefox 扩展，不过我 firefox 上扩展的数量已经不下 10 个了，没打算为着这么个小功能特意装个插件。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;autoproxychangerjs&#34;&gt;autoproxychanger.js&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyautoproxychangerjs&#34; href=&#34;#autoproxychangerjs&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如果你使用 Vimperator 扩展，则可以安装 &lt;a href=&#34;https://github.com/vimpr/vimperator-plugins/blob/master/autoproxychanger.js&#34;&gt;autoproxychanger.js&lt;/a&gt;，这是一个 vimperator 脚本扩展，用于通过命令行控制代理的切换、开关。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    首先将其安装到 .vimperator/plugin/ 目录下，然后打开 .vimperatorrc 配置文件，加入如下两行内容：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;let autochanger_proxy_settings = &#34;[{ name:&#39;disable&#39;, usage: &#39;direct connection&#39;, proxy:{type:0} },{ name:&#39;socks&#39;, usage: &#39;ssh tunnel&#39;, proxy:{type:1,socks:&#39;localhost&#39;,socks_port:9999,no_proxies_on:&#39;localhost,127.0.0.1&#39;,}}]&#34;
+
+let autochanger_proxy_enabled=&#34;true&#34;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    保存，然后重启 firefox，按 &lt;kbd&gt;:&lt;/kbd&gt; 进入命令行模式，输入命令 &lt;code&gt;proxy&lt;/code&gt;，再按一个空格，可以看到有三个自动补齐项：
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      default
+    &lt;/li&gt;
+    &lt;li&gt;
+      disable
+    &lt;/li&gt;
+    &lt;li&gt;
+      socks
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    选择 socks 即可启用 firefox 的 SOCKS 代理，disable 则是不使用代理。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    接着再到 vimperator 配置文件中定向两个键映射：
+  &lt;/p&gt;
+  
+  &lt;pre&gt;&lt;code&gt;nnoremap &amp;lt;C-A-p&amp;gt; :proxy socks&amp;lt;CR&amp;gt;
+nnoremap &amp;lt;C-A-d&amp;gt; :proxy disable&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  
+  &lt;p&gt;
+    这样就可以按 &lt;kbd&gt;Ctrl-Alt-P&lt;/kbd&gt; 启用 SOCKS 代理，按 &lt;kbd&gt;Ctrl-Alt-D&lt;/kbd&gt; 关闭代理。
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox OS 有其神奇之处</title>
+      <link>https://www.zfanw.com/blog/firefox-os.html</link>
+      <pubDate>Sun, 16 Sep 2012 13:50:33 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-os.html</guid>
+      <description>&lt;div id=&#34;toc_container&#34; class=&#34;ml-l u-floatRight pure-u-1-1 pure-u-sm-2-5 toc_white no_bullets&#34;&gt;
+  &lt;nav id=&#34;myaffix&#34;&gt;
+  
+  &lt;p class=&#34;toc-title&#34;&gt;
+    目录
+  &lt;/p&gt;
+  
+  &lt;ul class=&#34;toc-list nav&#34; role=&#34;menu&#34;&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Firefox_OS&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;1&lt;/span&gt; Firefox OS 是什么&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#_Firefox_OS&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;2&lt;/span&gt; 为什么要 Firefox OS&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;3&lt;/span&gt; 绝好的时机&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#Blown_minds&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;4&lt;/span&gt; 炸开的大脑（Blown minds）&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-2&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;5&lt;/span&gt; 许多的挑战&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&#34;toc-list__item&#34; role=&#34;menuitem&#34;&gt;
+      &lt;a href=&#34;#i-3&#34;&gt;&lt;span class=&#34;toc_number toc_depth_1&#34;&gt;6&lt;/span&gt; 在移动手机之外&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;&#34;&gt;
+  &lt;p&gt;
+    声明：本文译自&lt;a href=&#34;http://rawkes.com/articles/there-is-something-magical-about-firefox-os&#34;&gt;这篇内容&lt;/a&gt;，版权归原作者所有。本人仅做义务翻译，与 Mozilla 没有任何关系，本人水平也不代表 Mozilla 水平。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在这篇里我想聊聊 Firefox OS 项目，它意味了什么，未来在哪里，以及为什么说它有些神奇的地方。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在过去的一年半时间里，我花费越来越多的时间在 Mozilla 的最新项目 Firefox OS 上。也就在那段时间里，我爱上了这个项目，以及它所主张的。这种体验在我以前从来没有过。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/09/robhawkes_cc-by-sa.jpg&#34; alt=&#34;Firefox OS screenshots&#34; /&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    Firefox OS 截屏
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    让我说得再明白点：Firefox OS 只是个开始，在它后面将会有更多呈现。它是一个静待发生的革新。它让人耳目一新。它是前沿科技的鼎盛期。它是神奇的，它将改变一切。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Firefox_OS&#34;&gt;Firefox OS 是什么&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyFirefox_OS&#34; href=&#34;#Firefox_OS&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    对根本不知道我在讲什么的人们，我迅速地介绍一下：
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      Firefox OS 是一个新的手机操作系统，由 Mozilla 的 Boot to Gecko(B2G) 项目开发。它使用 Linux 内核，然后启动进入基于 Gecko 的 runtime 引擎，该引擎允许用户运行完全基于 HTML，JavaScript 及其他开放的 Web 应用 APIs 开发的程序。
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      &amp;#8212;&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Mozilla/Firefox_OS&#34;&gt;Mozilla Developer Network&lt;/a&gt;
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    简单说，Firefox OS 是关于如何使用 Web 背后的技术，比如 JavaScript，应用它们来开发一个完整的手机操作系统。花点时间消化一下 &amp;#8211; 它是个由 JavaScipt 驱动的手机系统！
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    为此，一个稍微经过修改的 Gecko (Firefox 背后的引擎) 被开发出来，引入&lt;a href=&#34;https://wiki.mozilla.org/WebAPI#APIs&#34;&gt;新的 JavScript APIs&lt;/a&gt;，可以创造出近于手机的体验。这包括 WebTelephony，用于拨打电话；WebSMS，用于发送信息；以及振动 API，显然，用于振动。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    但是 Firefox OS 又不仅仅只是一些前端科技的疯狂应用，它同时也将 Mozilla 的其他项目统合入一个视界(vision) &amp;#8211; 作为平台的 Web。这些其他项目包括我们的 &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Apps&#34;&gt;Open Web Aps initiative&lt;/a&gt; 及 &lt;a href=&#34;https://login.persona.org/about&#34;&gt;Persona&lt;/a&gt;，Persona 项目是我们用于确认身份及登入 Web 的解决办法，早期称为 BrowserID。能看到 Mozilla 的这许多不同项目并入一个浑然的愿景(vision)里绝对是让人着迷的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    更多描述在这儿我就略过不说，毕竟这一篇并非要解释该项目的详细内容，不过更多细节可以在 MDN 的 &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Mozilla/Firefox_OS&#34;&gt;Firefox OS 页面&lt;/a&gt;找到。我强烈建议大家阅读它们。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;_Firefox_OS&#34;&gt;为什么要 Firefox OS&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;hey_Firefox_OS&#34; href=&#34;#_Firefox_OS&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    你可能在想，“这听起来不错，可为什么要用 JavaScript 来开发手机呢？“你是对的，这是个非常重要的问题。幸运的是，我们已经有许多答案来解释为什么这是个好主意，除了这会让 Web 开发者的膝盖变得更加虚弱外。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    两个主要的原因是，Firefox OS 填补了移动市场上的空白，另外它给当前的专利保护、限制性的手机环境提供另一种选择。
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    填补移动市场上的空白
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    对很多人来说，智能手机经常都出奇地贵，哪怕是在那些被认为高收入水平的地区，人们也不觉得便宜。但如果你认为它们只是在那些有足够可支配收入支付它们的国家显贵的话，则请想一下，16GB 的 iPhone 4S 在发展中国家如巴西要价相当于 615 英磅，这要比同样的手机在英国的价格贵出 100 英磅。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    在巴西，这些飞涨的价格主要是因为高额进口税。苹果公司显然正在通过在该国建立本地生产线来避免这些，但不管怎么说，这都说明了一个重要的问题，就是高端设备在全球所有地区并不总是个可选项。更不用说，在某些如&lt;a href=&#34;http://en.wikipedia.org/wiki/Crime_in_Brazil&#34;&gt;巴西这种犯罪率奇高的国家&lt;/a&gt;，你手里挥舞的一台手机价格相当于一辆小型汽车时会发生什么。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    那么，如果你想拥有一部智能手机，又不想支付一大笔钱时该怎样？你可以买台便宜的 Android 手机，不过它们多数表现糟糕。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    幸运的是，Firefox OS 来填空了&amp;#8230;
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      Firefox 的目的不是要与高端机竞争，它是要在合适的价格上提供入门到中端级别的智能手机。
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      &amp;#8212;&lt;a href=&#34;http://allthingsd.com/20120906/mozilla-makes-a-mobile-web-browser-feel-like-a-smartphone&#34;&gt;Bonnie Cha&lt;/a&gt;
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    Firefox OS 非常完美地填补了这个市场空白。它在廉价、低端的硬件上提供了可以与 Android 中端水平硬件相媲美的智能机体验。这并非玩笑。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    举个例子，我现在在测试 JavaScript 游戏的 Firefox OS 设备值 50 英磅 （可以说，非常低端的一个手机）。你可能会觉得它应该运行得很糟糕，但实际上，它不仅比运行在同一设备上的 Android 浏览器（Firefox 或 Chrome）要快，甚至能跟价格是它的 4-5倍多的更好设备里运行的情况一样好。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    为什么在同样的设备上，跟 Android 的浏览器相比，它会有如此巨大的性能改进？这是因为 Gecko 与硬件之间没有太多东西，这意味着像 JavaScript 这样的可以全速运行。太多才导致 JavaScipt 跑得那么慢！（ So much for JavaScript being slow!）
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这低廉设备上 JavaScript 的性能表现促使我相信， Firefox OS 意味着某些大事件的开始。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;strong&gt;我需要说明的是，Mozilla 不一定要发布一个价值 50 英磅的设备，这只是目前我们用于开发与测试的一个。&lt;/strong&gt;
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    提供一个可选的，开放平台
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    “为什么要 Firefox OS“ 的第二个理由是，它不仅尝试提供一个开放的可选移动平台，也同时挺身而出，希望影响那些强大的闭源移动手机系统玩家做出改变。
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      Mozilla 自它 1998 年开始，最初是一个软件项目，之后作为一个基金会及公司，它的使命一直都是提供开放技术，挑战市场支配者的产品。
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      &amp;#8212;&lt;a href=&#34;http://bits.blogs.nytimes.com/2012/02/23/why-mozilla-is-entering-the-smartphone-war/&#34;&gt;Steve Lohr&lt;/a&gt;
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    Mozilla 希望复制它在 Firefox 上的成功，Firefox 冲击了浏览器市场，告诉了用户，他们可以别有选择，一个让他们掌控如何使用 Web 的选择。
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      这一次，被威胁的是移动互联网，但不是微软干的，而是苹果及 Google 公司，两个主要的智能手机平台。它们的原生 apps，封闭平台，专有软件商店，以及反复无常的开发者规则，正在使得 Web 技术变得无足轻重。
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      &amp;#8212;&lt;a href=&#34;http://www.informationweek.com/development/mobility/mozillas-firefox-os-seeks-innovation-wit/240007065&#34;&gt;Thomas Claburn&lt;/a&gt;
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    在手机上，一个很需要改进的是应用的可移植性&amp;#8230;
+  &lt;/p&gt;
+  
+  &lt;blockquote&gt;
+    &lt;p&gt;
+      除开移动 apps 让人激动的方面外，他们在某一方面来看是在退步：它们将用户捆绑到某一个支持它们的操作系统及设备上。Web 则相反，它允许在任何硬件上得到近似的体验。
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      Mozilla，Firefox web 浏览器的创造者，正决定为智能手机做同样的事。
+    &lt;/p&gt;
+    
+    &lt;p&gt;
+      &amp;#8212;&lt;a href=&#34;http://blogs.wsj.com/digits/2012/09/06/backers-tout-firefox-os-as-open-mobile-option/&#34;&gt;Don Clark&lt;/a&gt;
+    &lt;/p&gt;
+  &lt;/blockquote&gt;
+  
+  &lt;p&gt;
+    Firefox OS 希望利用 Web 天生的跨平台性来提供一个平台，允许应用可以在移动设备，桌面电脑，平板电脑，又或其他任何可以访问到浏览器的地方使用。你想不想在你的手机上继续玩你电脑上玩的《愤怒的小鸟》游戏？我是非常想的！
+  &lt;/p&gt;
+  
+  &lt;h3&gt;
+    开发者的 hackable 梦想
+  &lt;/h3&gt;
+  
+  &lt;p&gt;
+    最后一个，为什么需要 Firefox OS 的原因是，目前我们还不真正有一个可 hackable 的移动平台（你可以某种程度上地自定义 Android，但它并不容易）。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    因为 Firefox OS 基于 HTML，JavaScript 和 CSS，这意味着只要你有基本的 Web 开发技能，就可以开动修改设备体验了。你可以改一行 CSS，然后完全改变桌面上的图标样子，又或者重写一些处理拨打电话功能的核心 JavaScript 文件。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    这是一个为开发者打造的平台，我也非常期待，想知道开发者他们能把它带到哪儿。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i&#34;&gt;绝好的时机&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi&#34; href=&#34;#i&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    在我在 Mozilla 的一年半时间里，我一直觉得我非常幸运，因为一来就赶上 Firefox OS 项目的开始。如果我没有记错，那是我开始这份工作后几周内在内部宣布的这个项目（当时叫 Boot to Gecko）。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    当时事情就非常让人兴奋，而现在随着时间它们变得更加有意思了。Firefox OS 可以说是我当时第一个接触的工作内容，老实说我爱它，我也非常荣幸能成为其中一份。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    很经常地，我都在想，Firefox 开始发布时，在 Mozilla 工作的人们是不是也是这样的感受，兴奋，激情，紧张，然后又无法解释它怎样地惊人以及人们为什么应该关注它。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    老实说，我不认为很多人会真正明白 Firefox OS 所带来的变化，以及为什么它真的重要，但这一切都会改变，等到它发布的时候。就有点像 Firefox，我想。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    至于现在，我非常高兴自己在 Mozilla 的时间线上的一个有意思的时间点里加入进来。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;Blown_minds&#34;&gt;炸开的大脑（Blown minds）&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyBlown_minds&#34; href=&#34;#Blown_minds&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    目前能理解它的，是那些偶然跟着 Mozillian 参加会议的开发者们，他们有亲手操作过 demo 设备。对我来说，最让我享受的，是看着他们在摆弄手机时情绪所经历的不同变化&amp;#8230;
+  &lt;/p&gt;
+  
+  &lt;ol&gt;
+    &lt;li&gt;
+      刚开始总是很迷茫 &amp;#8211; 一种“呃你给我个 Android 手机搞什么”的表情
+    &lt;/li&gt;
+    &lt;li&gt;
+      然后突然地意识到这不是 Android，这是用 JavaScript 开发的
+    &lt;/li&gt;
+    &lt;li&gt;
+      再不一会儿，兴奋劲开始了，类似于“我操”这样的心理感受
+    &lt;/li&gt;
+    &lt;li&gt;
+      再久一点，他们就非常集中精神了，摸索设备的方方面面，问许多问题
+    &lt;/li&gt;
+    &lt;li&gt;
+      最后，在我要求还回设备时多少有些不太情愿，但在交还时他们说，“这一点不会差，真的惊到我了！”。
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p&gt;
+    你可能觉得我粉饰过这些以让事情看起来更加美好与惊人，但我只是真实地描绘人们在我展示设备给他们时的反应。真的很好玩。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我越多见别人在 Firefox OS 设备上玩我越确信，这是一个真正的游戏改变者。它看起来就是那种要炸开大脑的，基本不需要我解释什么。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-2&#34;&gt;许多的挑战&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-2&#34; href=&#34;#i-2&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    如果光谈 Firefox 的好处及我所做的事，而不聊聊一些我们需要解决的挑战，那就显得不太公正。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    一方面，我们有很多的常见问题，比如如何管理一个开放而无限制的 apps 生态系统，又或者是可能带来的类似于 Android 上的设备碎片情况。这些都是重要的问题，不过对我来说一点也没兴趣。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我最感兴趣的是移动设备上 HTML5 游戏所带来的挑战 &amp;#8211; 可预见的及开发者经常抱怨的真正的性能问题。这决非 Firefox OS 仅有的问题（Android 与 iOS 也一样糟糕），不过现在我主要是关注 Firefox OS 以及怎样我们才能改进它。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    照目前来看，大部分已有的 HTML5 手机游戏要么跑得很糟糕（0-20FPS），要么跑得恰恰好（20-30FPS）。大部分时候，这些游戏都不会稳定地跑在某一帧速率上，这就导致体验不是那么好。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    有趣的是，大部分的这类问题似乎与设备或 JavaScript 无关。有些 intense 游戏，比如 &lt;a href=&#34;http://playbiolab.com/&#34;&gt;Biolab Disaster&lt;/a&gt;，即便在我所测试的 50 英磅低端机上也跑得非常不错，我们说的是 40 到 60FPS。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    对我来说，这很清楚，虽然某些时候，应该指责一下设备与平台，我们也可以从那些低端机上表现不错的游戏中学习它们所应用的技术，以及如何更好地教导其他打算在手机设备上开发 HTML5 的开发者们。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我真心相信，即使是高精度游戏也可以在手机设备上跑得很好，哪怕是低端设备。为什么我如此自信？因为人们现在已经在制作这些游戏了。有两件东西，是我一生中最信任的&amp;#8230;眼睛。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我们会到那儿的。
+  &lt;/p&gt;
+  
+  &lt;h2 class=&#34;storycontent-h2&#34;&gt;
+    &lt;span id=&#34;i-3&#34;&gt;在移动手机之外&lt;/span&gt;&lt;a title=&#34;标题链接地址&#34; class=&#34;u-floatRight hidden&#34; id=&#34;heyi-3&#34; href=&#34;#i-3&#34;&gt;&lt;span class=&#34;&#34; aria-hidden=&#34;true&#34;&gt;#&lt;/span&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  
+  &lt;p&gt;
+    Firefox OS 让我最激动的其实与明年我们将要发布的手机无关，而是在于它所把握的未来。在之前谈 Firefox 如何成为一个 hackable 梦想乐园时我说过，即其他人会怎样运用它并将其带出 Mozilla 所不能预见之地。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    好消息是，这些在今天正在发生着。我们已经有 &lt;a href=&#34;http://www.youtube.com/watch?v=rk1oTO6cYH0&#34;&gt;Firefox OS for Raspberry Pi&lt;/a&gt; 的移植版，以及一个 &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Mozilla/Boot_to_Gecko/Pandaboard&#34;&gt;Pandaboard 的移植版&lt;/a&gt;。它们不完美，但妙在（抱歉，我已经很努力地避免用这个词了）这全部发生在 Firefox OS 的首次发布之前。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    你也可以通过一个桌面客户端在 Mac，Windows 和 Linux 上运行 Firefox OS。虽然不能给你与在手机上一样的硬件访问能力，桌面客户端允许你利用一些其他 OS 的特性，而且设置简单。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我甚至可以想像，在不久后的一天，Gamepad API 在 Gecko 上出现，然后可以通过 Firefox OS 桌面客户端访问到。有什么酷的地方吗？好吧，并非我异想天开的是，我们可能看到桌面客户端运行在一个设备上，设备联接到 TV，然后跑的系统是定制的 OS，可以使用 gamepad 输入替换鼠标与触摸（记住，这全部只是 JavaScript）。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    你将会有的，是一个 HTML5 游戏控制台的开始，实际上，这也是我在 Mozilla 上的业余时间里积极探索的。
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我的观点是，我们已经到了这个点上，移动设备完全可以由那些建设网站的同样的技术来驱动。在一个满是这些技术驱动的，可以通过相同 APIs 访问、交流的设备的世界里我们能做什么？
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    我真是太紧切想看看这样的世界是怎么个样子！
+  &lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu 安装 Firefox.tar.bz2</title>
+      <link>https://www.zfanw.com/blog/ubuntu-firefox-tar-bz2.html</link>
+      <pubDate>Mon, 16 Jul 2012 03:00:36 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/ubuntu-firefox-tar-bz2.html</guid>
+      <description>&lt;p&gt;&lt;strong&gt;2013.5.8 更新&lt;/strong&gt; firefox 现在版本已经持后台自动更新，所以本篇介绍的仅限在 Ubuntu 上初次安装 firefox。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;到 Mozilla 网站&lt;a href=&#34;http://www.mozilla.org/en-US/firefox/new/&#34;&gt;下载 firefox&lt;/a&gt;，假设保存到 ~/Downloads 目录。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;将 Downloads 下的 firefox-13.0.1.tar.bz2 拷贝到 /opt 文件夹（这个安装位置可选），然后解压：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% cd ~/Downloads
+% sudo cp firefox-13.0.1.tar.bz2 /opt
+% cd /opt
+% sudo tar -xvjf firefox-13.0.1.tar.bz2
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;解压后，/opt 下会出现一个 firefox 文件夹，在 /usr/bin/ 下重建软链接(soft link)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;% sudo ln -sf /opt/firefox/firefox /usr/bin/firefox
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中 -f 表示强制覆盖原有的软链接。&lt;/p&gt;
+
+&lt;p&gt;之后，就可以在命令行中使用 &amp;#8220;firefox&amp;#8221; 调用浏览器，如果使用 Unity 桌面系统，按 Alt-F2 输入 &amp;#8220;firefox&amp;#8221; 调用。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox 移动端的阅读模式</title>
+      <link>https://www.zfanw.com/blog/firefox-mobile-reader-mode.html</link>
+      <pubDate>Tue, 26 Jun 2012 03:41:46 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-mobile-reader-mode.html</guid>
+      <description>&lt;p&gt;Firefox Mobile 将引入「阅读模式」。效果跟 Readability、Clearly 类似。&lt;/p&gt;
+
+&lt;p&gt;在 Firefox Mobile 中打开一个网页，可以看到，如果网页不曾针对移动设备优化，它的显示效果与桌面版一样：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/06/open-regular-web-page.jpg&#34; alt=&#34;firefox for android 打开正常网页&#34; width=&#34;480&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如果网页可以进入「阅读模式」，则地址栏右侧会有个翻开的书一样的小图标，点击即可进入「阅读模式」，效果如下图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/06/convert-to-reader-mode.jpg&#34; alt=&#34;点击进入 firefox 阅读模式&#34; width=&#34;480&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;进入「阅读模式」后，还能点按页面调出设置菜单：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.zfanw.com/blog/wp-content/uploads/2012/06/customer.jpg&#34; alt=&#34;唤出自定义菜单&#34; width=&#34;480&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;除开「阅读模式」，未来版本的 Firefox Mobile 还将引入「阅读列表」，可以将网页暂时加入该列表，方便以后调出，最重要的，加入「阅读列表」的网页可离线使用，还能多平台同步。&lt;/p&gt;
+
+&lt;p&gt;扩展阅读：&lt;a href=&#34;http://lucasr.org/2012/06/21/reader-mode-in-firefox-mobile/&#34;&gt;http://lucasr.org/2012/06/21/reader-mode-in-firefox-mobile/&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vimperator 里保存网页到 Pocket</title>
+      <link>https://www.zfanw.com/blog/vimperator-add-page-to-pocket.html</link>
+      <pubDate>Thu, 14 Jun 2012 07:03:24 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/vimperator-add-page-to-pocket.html</guid>
+      <description>&lt;p&gt;&lt;strong&gt;2015.05.24&lt;/strong&gt; 推荐一个&lt;a href=&#34;https://github.com/chenxsan/report/issues/2#issuecomment-104982715&#34;&gt;新方法&lt;/a&gt;，以下不再推荐使用。&lt;/p&gt;
+
+&lt;p&gt;以前 &lt;a href=&#34;https://github.com/to/tombloo/wiki/&#34;&gt;tombloo&lt;/a&gt; 还能用的时候，就直接用它保存链接到 Pocket 里，但现在不知道什么原因无法保存（可能因为从 Read it later 改名为 Pocket？），就只好另寻方法。&lt;/p&gt;
+
+&lt;p&gt;还好 Pocket 针对 Firefox 提供一个&lt;a href=&#34;https://getpocket.com/add?sb=1&#34;&gt;书签小程式 bookmarklet&lt;/a&gt;，你只要拖动保存它到浏览器的书签栏上，在需要保存的页面按下该按钮即可保存网页到 Pocket 里。&lt;/p&gt;
+
+&lt;p&gt;但作为 Vimperator 用户，用鼠标显然不合习惯，所以需要找个办法，可以通过键盘完成上面需要通过鼠标完成的任务。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;通过 &lt;code&gt;:qmark&lt;/code&gt; 命令给 Vimperator 添加快速书签 p &amp;#8211; Javascript 代码拷自小书签程式的链接&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3955-1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:3955-1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:qmark p javascript:(function(){var%20e=function(t,n,r,i,s){var%20o=[6087319,5700434,1277186,3061050,5288415,3121548,4527391,4232602,2376464,5969755];var%20i=i||0,u=0,n=n||[],r=r||0,s=s||0;var%20a={&#39;a&#39;:97,&#39;b&#39;:98,&#39;c&#39;:99,&#39;d&#39;:100,&#39;e&#39;:101,&#39;f&#39;:102,&#39;g&#39;:103,&#39;h&#39;:104,&#39;i&#39;:105,&#39;j&#39;:106,&#39;k&#39;:107,&#39;l&#39;:108,&#39;m&#39;:109,&#39;n&#39;:110,&#39;o&#39;:111,&#39;p&#39;:112,&#39;q&#39;:113,&#39;r&#39;:114,&#39;s&#39;:115,&#39;t&#39;:116,&#39;u&#39;:117,&#39;v&#39;:118,&#39;w&#39;:119,&#39;x&#39;:120,&#39;y&#39;:121,&#39;z&#39;:122,&#39;A&#39;:65,&#39;B&#39;:66,&#39;C&#39;:67,&#39;D&#39;:68,&#39;E&#39;:69,&#39;F&#39;:70,&#39;G&#39;:71,&#39;H&#39;:72,&#39;I&#39;:73,&#39;J&#39;:74,&#39;K&#39;:75,&#39;L&#39;:76,&#39;M&#39;:77,&#39;N&#39;:78,&#39;O&#39;:79,&#39;P&#39;:80,&#39;Q&#39;:81,&#39;R&#39;:82,&#39;S&#39;:83,&#39;T&#39;:84,&#39;U&#39;:85,&#39;V&#39;:86,&#39;W&#39;:87,&#39;X&#39;:88,&#39;Y&#39;:89,&#39;Z&#39;:90,&#39;0&#39;:48,&#39;1&#39;:49,&#39;2&#39;:50,&#39;3&#39;:51,&#39;4&#39;:52,&#39;5&#39;:53,&#39;6&#39;:54,&#39;7&#39;:55,&#39;8&#39;:56,&#39;9&#39;:57,&#39;\/&#39;:47,&#39;:&#39;:58,&#39;?&#39;:63,&#39;=&#39;:61,&#39;-&#39;:45,&#39;_&#39;:95,&#39;&amp;amp;&#39;:38,&#39;$&#39;:36,&#39;!&#39;:33,&#39;.&#39;:46};if(!s||s==0){t=o[0]+t}for(var%20f=0;f&amp;lt;t.length;f++){var%20l=function(e,t){return%20a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var%20c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var%20p=c%(50*1);if(n[p]){var%20d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==344){var%20v=&#39;&#39;;for(var%20f=0;f&amp;lt;n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return%20v+&#39;a3dcd699e5&#39;}else{return%20e(u+&#39;&#39;,n,r,i,s+1)}};var%20t=document,n=t.location.href,r=t.title;var%20i=e(n);var%20s=t.createElement(&#39;script&#39;);s.type=&#39;text/javascript&#39;;s.src=&#39;https://getpocket.com/b/r4.js?h=&#39;+i+&#39;&amp;amp;u=&#39;+encodeURIComponent(n)+&#39;&amp;amp;t=&#39;+encodeURIComponent(r);e=i=function(){};var%20o=t.getElementsByTagName(&#39;head&#39;)[0]||t.documentElement;o.appendChild(s)})()
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Vimperator 会自动将上述设置保存到 quickmarks 文件中&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;正常模式下键入 &lt;kbd&gt;gop&lt;/kbd&gt; 即可保存你要保存的网页到 Pocket&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;另一种办法，可以使用 vimperator &lt;a href=&#34;https://github.com/vimpr/vimperator-plugins/blob/a5a7259a23509164e7ca3bf92deff6aa23209538/readitlater.js&#34;&gt;readitlater.js 插件&lt;/a&gt;，由 &lt;a href=&#34;http://twitter.com/dunkelsvL&#34;&gt;@dunkelsvL&lt;/a&gt; 君提供地址，由热情的岛国人民开发。&lt;/p&gt;
+
+&lt;p&gt;参考链接：&lt;a href=&#34;http://subtech.g.hatena.ne.jp/secondlife/20080919/1221795410&#34;&gt;second life&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:3955-1&#34;&gt;2015.05.24 订正 bookmarklet 代码，多谢 Geng-G-Razor 在 Github report 库上帮忙报告错误
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:3955-1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Firefox 打开新标签</title>
+      <link>https://www.zfanw.com/blog/firefox-open-new-tab-after-current.html</link>
+      <pubDate>Mon, 11 Jun 2012 03:43:04 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/firefox-open-new-tab-after-current.html</guid>
+      <description>&lt;p&gt;Firefox 有两种形式的新标签页，一种全新打开的，比如按 ctrl-t，一种从页面链接打开的，全新打开的标签页是插入到标签栏最右侧，而如果是当前页面链接打开的新标签页，则有两种可选方式：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;插入到标签栏最右边&lt;/li&gt;
+&lt;li&gt;插入到当前标签页右边&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这个可以通过 about:config 中的选项调整：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;在地址栏打开 about:config&lt;/li&gt;
+&lt;li&gt;搜索 browser.tabs.insertRelatedAfterCurrent&lt;/li&gt;
+&lt;li&gt;双击该设置项，值在 true/false 间切换，true 表示插入到当前页右边，false 表示插入到标签栏最后。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;一般来说，我会更喜欢插入到当前分页后，这也是 Firefox 自 3.6 版本起的默认设置。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

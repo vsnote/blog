@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>jQuery 动画 Promise - 陈三</title>
+<meta property="og:title" content="jQuery 动画 Promise - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">jQuery 动画 Promise</h1>
+
+    
+    <span class="article-date">April 4, 2015</span>
+    
+
+    <div class="article-content">
+      <p>jQuery 的 <code>show</code>、<code>hide</code> 方法大家都好熟悉的，也知道它可以接受一个回调函数，用于动画完成后执行。比如：</p>
+
+<pre><code>$('.js-sam').hide('slow', function() {
+    alert('你刚刚隐藏了 sam');
+});
+</code></pre>
+
+<p>但是，jQuery 1.8 以后版本还提供了另一种书写风格，即 Promise &#8211; 这个中文翻译好难，目前看到有叫<strong>承诺</strong>的 &#8211; 我还是继续用 Promise 的叫法。譬如上面的示例代码，我们可以改成这样：</p>
+
+<pre><code>var promiseMeHideSam = $('.js-sam').hide('slow').promise();
+
+function whenDone() {
+    alert('你刚刚隐藏了 sam');
+}
+
+promiseMeHideSam.done(whenDone);
+</code></pre>
+
+<p>这里，<code>promise()</code> 方法未传递参数，则默认为 <code>fx</code>，表示动画效果。</p>
+
+<p><a href="https://promisesaplus.com/">Promise</a> 比起回调（callback），有非常多好处，最明显的一个，我们可以把动画完成后要执行的所有回调动作解构。因为给 <code>hide</code> 函数传递回调的话，我们只能把所有动作写入该回调中，比如：</p>
+
+<pre><code>$('.js-sam').hide('slow', function() {
+
+  // 触发一
+
+  // 触发二
+
+  // 触发三
+
+});
+</code></pre>
+
+<p>但如果是 Promise 的写法：</p>
+
+<pre><code>func1() {}
+func2() {}
+func3() {}
+promiseMehideSam.done(func1);
+promiseMehideSam.done(func2);
+promiseMehideSam.done(func3);
+</code></pre>
+
+<p>我们可以把三个触发结果分解到三个函数中，而不必写入一个庞大的回调函数里，一来不便维护代码，二来也不易阅读。</p>
+
+<p>另外一种常见情形，比如我们要在动画 A 与动画 B 都结束后执行某个回调。如果照第一种传递回调函数的方法 &#8211; 就我所知，没法写。但 Promise 就可以：</p>
+
+<pre><code>var animate1 = $('.js-sam').hide().promise();
+var animate2 = $('.js-hi').show().promise();
+
+function whenBothEnd() {
+
+  // animate1 与 animate2 结束后执行
+  console.log('动画全部结束');
+}
+
+$.when(animate1, animate2).done(whenBothEnd);
+</code></pre>
+
+<p>非常优雅。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

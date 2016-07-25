@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>PHP 中构建查询语句 - 陈三</title>
+<meta property="og:title" content="PHP 中构建查询语句 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">PHP 中构建查询语句</h1>
+
+    
+    <span class="article-date">January 1, 2013</span>
+    
+
+    <div class="article-content">
+      <p>如果是很直白的一条 SQL 查询语句：</p>
+
+<pre><code>SELECT * FROM `SAM`;
+</code></pre>
+
+<p>这就没什么好说的。但是，更多时候需要从用户返回的变量中构建查询语句。比如，一个表单，提交给服务器上的 PHP 文件 <code>$_POST['when']</code>，<code>$_POST['why']</code> 两个变量。常见的构建查询语句方法如下：</p>
+
+<pre><code>$sql = &quot;SELECT * FROM `SAM` WHERE Reason ='&quot; . $_POST['why'] . &quot;' AND WHERE Time = '&quot;. $_POST['when'] . &quot;'&quot;;
+</code></pre>
+
+<p>如果是上述写法，则不仅易出错，而且让人头大，也很难看出它表达了什么。</p>
+
+<p>更快捷、直观的方法，是使用 sprintf() 函数：</p>
+
+<pre><code>$sql = sprintf(&quot;SELECT * FROM `SAM` WHERE Reason = '%s' AND WHERE Time = '%s'&quot;,%_POST['why'],%_POST['when'];
+</code></pre>
+
+<p>这样我们就将变量从中区别开来，传递给 sprintf 函数的第一个参数即我们的 SQL 语句，只是用类似占位符的东西替代变量，这样的句子接近自然语言，很容易知道它是做什么，之后我们再将变量传入，函数将其替代后再返回字符串。</p>
+
+<p>换一个角度说，其实许多模板语言比如 Smarty 也是接近这样的思路，把变量与结构区别开来，一来有助于理解，二来也便于修改。</p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

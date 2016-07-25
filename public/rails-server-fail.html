@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.16" />
+
+
+<title>rails server 错误 - 陈三</title>
+<meta property="og:title" content="rails server 错误 - 陈三">
+
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://www.zfanw.com/blog/css/main.css" media="all">
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="https://www.zfanw.com/blog/" class="nav-logo">陈三</a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/blog/">Home</a></li>
+    
+    <li><a href="/blog/about/">关于</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">rails server 错误</h1>
+
+    
+    <span class="article-date">November 11, 2014</span>
+    
+
+    <div class="article-content">
+      
+
+<p>在我安装好 Ruby on Rails 后，使用 <code>rails new</code> 命令新建一个项目，然后切换到项目下执行 <code>rails server</code>，出现如下错误：</p>
+
+<pre><code>sam@linux-qo4p:~/front/ror|master⚡⇒  rails server
+Ignoring RedCloth-4.2.9 because its extensions are not built.  Try: gem pristine RedCloth-4.2.9
+Ignoring posix-spawn-0.3.9 because its extensions are not built.  Try: gem pristine posix-spawn-0.3.9
+Ignoring rdiscount-2.1.7.1 because its extensions are not built.  Try: gem pristine rdiscount-2.1.7.1
+/usr/lib/ruby/site_ruby/2.0.0/rubygems/core_ext/kernel_require.rb:54:in `require': cannot load such file -- bundler/setup (LoadError)
+        from /usr/lib/ruby/site_ruby/2.0.0/rubygems/core_ext/kernel_require.rb:54:in `require'
+        from /home/sam/front/ror/config/boot.rb:4:in `&lt;top (required)&gt;'
+        from bin/rails:3:in `require_relative'
+        from bin/rails:3:in `&lt;main&gt;'
+</code></pre>
+
+<p>这似乎是我把 openSUSE 系统从 13.1 升级到 13.2 后才出现的错误。</p>
+
+<p>我的情况里，尝试错误信息中的提示方法 <code>gem pristine RedCloth</code> 并不能消除以上错误。</p>
+
+<p>最后的解决办法是：</p>
+
+<ol>
+<li><code>gem pristine --all</code></li>
+<li>切换到项目根目录，<code>bundle install</code></li>
+</ol>
+
+<p>再次跑 <code>rails server</code>，可以正常启动不报错。此后，<code>rails new</code> 新建的项目也不再报错。</p>
+
+<h2 id="参考">参考</h2>
+
+<p><a href="https://jeremy.wordpress.com/2014/03/14/how-to-rebuild-native-ruby-gems-after-a-libsystem-upgrade/">How to rebuild native Ruby gems after a lib/system upgrade? | Jérémy Lecour</a></p>
+
+    </div>
+  </article>
+
+  
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="https://www.zfanw.com/blog/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with Hugo</a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

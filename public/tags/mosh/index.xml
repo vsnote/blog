@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mosh on 陈三</title>
+    <link>https://www.zfanw.com/blog/tags/mosh/</link>
+    <description>Recent content in Mosh on 陈三</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 02 Nov 2012 13:50:15 +0000</lastBuildDate>
+    <atom:link href="https://www.zfanw.com/blog/tags/mosh/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Mosh 安装使用</title>
+      <link>https://www.zfanw.com/blog/mosh.html</link>
+      <pubDate>Fri, 02 Nov 2012 13:50:15 +0000</pubDate>
+      
+      <guid>https://www.zfanw.com/blog/mosh.html</guid>
+      <description>&lt;p&gt;如果用过 ssh 连接远程电脑，就会发现，无论是哪个系统，Ubuntu，或者 Windows，输入都会有很大的延迟。你输入了好多文字，它却要缓上好一会儿才显示得出来。&lt;/p&gt;
+
+&lt;p&gt;这是折腾 &lt;a href=&#34;http://mosh.mit.edu/&#34;&gt;Mosh&lt;/a&gt;(Mobile shell) 的初衷。&lt;/p&gt;
+
+&lt;p&gt;首先，要使用 Mosh，需要在客户端及服务器端都安装它，或者在服务器端至少安装 mosh-server。Ubuntu 下可以通过 ppa 安装的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo apt-get install python-software-properties
+$ sudo add-apt-repository ppa:keithw/mosh
+$ sudo apt-get update
+$ sudo apt-get install mosh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;因为 Mosh 使用的是 UDP 端口，所以服务器上需要打开某 UDP 端口。&lt;/p&gt;
+
+&lt;p&gt;假设 Mosh 使用 60001 UDP 端口，则在服务器上运行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo iptables -I INPUT -p udp --dport 60001 -j ACCEPT
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样就在服务器上打开 60001 UDP 端口。当然，最好是把上一条命令写入服务器 firewall 的规则中，这样不必要每次都手动打开这个端口。&lt;/p&gt;
+
+&lt;p&gt;接下来就是从客户端连接：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ mosh -p 60001 sam@zfanw.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;p&lt;/code&gt; 参数用于指定 UDP 端口。&lt;/p&gt;
+
+&lt;p&gt;假如你的 &lt;a href=&#34;http://www.zfanw.com/blog/ssh-usage.html&#34;&gt;SSH 连接&lt;/a&gt; 设置公钥/私钥连接，比如 &lt;code&gt;ssh zfanw&lt;/code&gt; 即可直接连接服务器而无需输入密码，则 mosh 命令也可以以 &lt;code&gt;mosh zfanw&lt;/code&gt; 的形式连接，基本上，可以把它当作 ssh 命令的替换，只不过 ssh 开的是 TCP 口，mosh 开的是 UDP 口。&lt;/p&gt;
+
+&lt;p&gt;效果如何？开两个窗口，一个直接 ssh 登录，一个通过 mosh 登录，对比输入一下就知道了 &amp;#8211; 当然是 mosh 的输入流畅。&lt;/p&gt;
+
+&lt;p&gt;Mosh 有很多强于 ssh 的特性，比如连接不会掉，你可以盖上笔记本电脑让它休眠，然后再打开，mosh 的连接还在，而如果是 ssh 的话，直接就断掉。&lt;/p&gt;
+
+&lt;p&gt;不过折腾过程中真是碰上不少问题，比如 locale 问题，后来莫名地就折腾好了 &amp;#8211; 本来还想写一篇关于 Locale 的内容，现在省了。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
