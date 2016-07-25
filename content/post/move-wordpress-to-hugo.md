@@ -28,4 +28,10 @@ url = "/move-wordpress-to-hugo.html"
 
 1. 代码高亮 - 多数需要修订
 2. 图片的显示问题
+  1. 限定最大宽度 [x]
+  2. 响应式 [ ]
+  3. 点击查看大图 [ ]
 3. 评论系统？
+4. service worker
+5. AutoPrefixer
+
