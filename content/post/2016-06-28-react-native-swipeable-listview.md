@@ -12,15 +12,13 @@ tags:
   - react-native
 
 ---
-**说明**：本文基于 react-native 0.29.0-rc.0，仅针对 iOS 平台。
+**说明**：本文基于 react-native 0.31.0-rc.0，仅针对 iOS 平台。
 
 iOS 下的列表，通常都可以往左滑动，显示快捷菜单 &#8211; 比如删除。
 
-只是 react-native 下的 ListView 不具备这种功能。
+虽然 react-native 下的 ListView 不具备这种功能，但官方库里，其实有一个 [SwipeableListView][1]，只不过是放在 `Experimental` 目录下，表示还不成熟 &#8211; 目前也是没什么文档的，只能自己阅读源代码。
 
-但实际上，react-native 官方库里，就有一个 [SwipeableListView][1]，只不过是放在 `Experimental` 目录下，表示还不成熟 &#8211; 目前也是没有文档的，只能自己阅读源代码。
-
-其实用法非常简单，大部分跟 ListView 是一致的，只是多了些 prop。
+其实用法非常简单，大部分跟 ListView 是一样的，只是多了些 prop。
 
 来看一个示例：
 
@@ -113,50 +111,50 @@ export default connect(mapStateToProps)(WantHome)
     
     通常我们会有一个数组，比如 `['咸饭', '粥']`，数据需要处理成 `SwipeableListView` 需要的格式，比如：
     
-        {
+    ```javascript
+    {
         's1': '标题',
-        'r1': '咸饭',
-        'r2': '粥'
-        }
-        
+        'r1': {id: 'r1', text: '咸饭'},
+        'r2': {id: 'r2', text: '粥'}
+    }
+    ```
     
     这也是上面代码中 `formatListViewDataSource` 函数起到的作用：
     
-        /**
+    ```javascript
+      /**
         * @function formatListViewDataSource format data for ListView of react-native
         * @param {Array} data - data to be formatted
         * @return {Array}
         * @example
         *   let ds = formatListViewDataSource([1, 2, 3])
         *   xxx.cloneWithRowsAndSections(...ds)
-        */
-        export default function formatListViewDataSource (data) {
+      */
+      export default function formatListViewDataSource (data) {
         if (!Array.isArray(data)) {
         throw new Error('function only accept Array')
-        }
-        var dataBlob = {}
-        var sectionIDs = ['s1']
-        var rowIDs = [[]]
-        data.forEach(function (element, index) {
+      }
+      var dataBlob = {}
+      var sectionIDs = ['s1']
+      var rowIDs = [[]]
+      data.forEach(function (element, index) {
         dataBlob['r' + index] = {id: 'r' + index, text: element}
         rowIDs[0].push('r' + index)
-        })
-        dataBlob['s1'] = ''
-        return [
+      })
+      dataBlob['s1'] = ''
+      return [
         dataBlob,
         sectionIDs,
         rowIDs
         ]
-        }
-        
-        
+      }
+    ```
+  2. `maxSwipeDistance` &#8211; 表示滑动的最大距离，必须设置，否则默认为 0，我们就滑不出菜单
+  3. `renderQuickActions` &#8211; 这就是我们滑动后要显示的快捷动作，上面的示例代码中显示了一个“删除”按钮
 
-  2. `maxSwipeDistance` &#8211; 表示滑动的最大距离，必须设置，否则默认为 0
-  3. `renderQuickActions` &#8211; 这就是我们滑动后显示的快捷动作了
+最终效果见下图：
 
-效果如下图：
-
-[<img src="https://www.zfanw.com/blog/wp-content/uploads/2016/06/react-native-swipeablelist.gif" alt="react native swipeableListView" width="372" class="alignnone size-full wp-image-18623" />][2]
+  [<img src="https://www.zfanw.com/blog/wp-content/uploads/2016/06/react-native-swipeablelist.gif" alt="react native swipeableListView" width="372" class="alignnone size-full wp-image-18623" />][2]
 
  [1]: https://github.com/facebook/react-native/tree/master/Libraries/Experimental/SwipeableRow
  [2]: https://www.zfanw.com/blog/wp-content/uploads/2016/06/react-native-swipeablelist.gif

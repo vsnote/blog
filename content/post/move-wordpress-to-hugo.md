@@ -1,10 +1,10 @@
 +++
 date = "2016-07-25T18:28:49+08:00"
-title = "从 WordPress 到 Hugo，这一次迁移"
+title = "从 WordPress 到 Hugo"
 url = "/move-wordpress-to-hugo.html"
 +++
 
-我还记得，我是在 2009 年的 5.4 注册的这个域名。起初的目的，并不是写 blog，只是后来只有 blog 活下来了。
+我还记得，我是在 2009 年的 5.4 注册的这个域名。起初的目的，并不是写 blog，只是后来只有 blog 活了下来。
 
 当时 WordPress 风头正劲，我虽然不懂 PHP，也还是靠着文档，把这个 blog 搭了起来。也感谢 WordPress，否则现在对 Linux/Unix 环境可能还是一无所知。
 
@@ -20,7 +20,7 @@ url = "/move-wordpress-to-hugo.html"
 
 当然，WP 也有擅长的，比如[响应式图片](https://make.wordpress.org/core/2015/11/10/responsive-images-in-wordpress-4-4/)，目前在 [Hugo](https://gohugo.io/) 下我还不知道如何弄。但这是后话 - 迁了再说。
 
-至于为什么用 Hugo - 它是基于 golang 搭建的，而不是用 Hexo 这些基于 Node.js 搭建的，大概要归结于缘份，因为曾在 twitter 上看过我 follow 的一个人用了 Hugo - 就这样。
+至于为什么用 Hugo - 它是基于 golang 搭建的，而不是用 Hexo 这些基于 Node.js 搭建的，大概要说是缘份，因为曾在 twitter 上看过我 follow 的一个人用了 Hugo - 就这样。
 
 不过，目前使用 [wordpress to hugo exporter 做的迁移](https://github.com/SchumacherFM/wordpress-to-hugo-exporter)并不完整，还有许多要做的。
 
@@ -34,4 +34,5 @@ url = "/move-wordpress-to-hugo.html"
 3. 评论系统？
 4. service worker
 5. AutoPrefixer
+6. fix rss
 

@@ -3,7 +3,7 @@ languageCode = "zh"
 title = "陈三"
 theme = "hugo-lithium-theme"
 PygmentsCodeFences = true
-pygmentsstyle = "xcode"
+pygmentsstyle = "friendly"
 [permalinks]
   page = "/:title"
 [menu]
