@@ -18,11 +18,11 @@ url = "/move-wordpress-to-hugo.html"
 
     ![babel 6](img/babel-6-comment.png)
 
-当然，WP 也有擅长的，比如 4.4 里推出的[响应式图片](https://make.wordpress.org/core/2015/11/10/responsive-images-in-wordpress-4-4/)，目前在 [Hugo](https://gohugo.io/) 下我还不知道如何弄。但这是后话 - 迁了再说。
+当然，WordPress 也有擅长的，比如 4.4 里推出的[响应式图片](https://make.wordpress.org/core/2015/11/10/responsive-images-in-wordpress-4-4/)，目前在 [Hugo](https://gohugo.io/) 下我还不知道如何弄。
 
-至于为什么用 Hugo - 它是基于 golang 搭建的，而不是用 Hexo 这些基于 Node.js 搭建的，大概要说是缘份，因为曾在 twitter 上看过我 follow 的一个人用了 Hugo - 就这样。
+至于为什么用基于 golang 搭建的 Hugo，而不是用 Hexo 这些基于 Node.js 搭建的，大概要说是缘份，因为曾在 twitter 上看过我 follow 的一个人用了 Hugo - 就这样。
 
-不过，目前使用 [wordpress to hugo exporter 做的迁移](https://github.com/SchumacherFM/wordpress-to-hugo-exporter)并不完整，还有许多要手动处理的。
+迁移时，我用了 [wordpress to hugo exporter 插件](https://github.com/SchumacherFM/wordpress-to-hugo-exporter)，效果不错，但还不完美，还有不少需要我手动处理的地方。
 
 ## TODO
 
