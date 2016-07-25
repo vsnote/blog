@@ -16,34 +16,36 @@ react-native 的 navigation experimental 是 [navigator][1] 的继任，但因�
 
 在 navigation experimental 下，[路由只是些对象][2]：
 
-    function createAppNavigationState(): Object {
-      return  {
-        // Three tabs.
-        tabs: {
-          index: 0,
-          routes: [
-            {key: 'apple'},
-            {key: 'banana'},
-            {key: 'orange'},
-          ],
-        },
-        // Scenes for the `apple` tab.
-        apple: {
-          index: 0,
-          routes: [{key: 'Apple Home'}],
-        },
-        // Scenes for the `banana` tab.
-        banana: {
-          index: 0,
-          routes: [{key: 'Banana Home'}],
-        },
-        // Scenes for the `orange` tab.
-        orange: {
-          index: 0,
-          routes: [{key: 'Orange Home'}],
-        },
-      };
-    }
+  ```javascript
+  function createAppNavigationState(): Object {
+    return  {
+      // Three tabs.
+      tabs: {
+        index: 0,
+        routes: [
+          {key: 'apple'},
+          {key: 'banana'},
+          {key: 'orange'},
+        ],
+      },
+      // Scenes for the `apple` tab.
+      apple: {
+        index: 0,
+        routes: [{key: 'Apple Home'}],
+      },
+      // Scenes for the `banana` tab.
+      banana: {
+        index: 0,
+        routes: [{key: 'Banana Home'}],
+      },
+      // Scenes for the `orange` tab.
+      orange: {
+        index: 0,
+        routes: [{key: 'Orange Home'}],
+      },
+    };
+  }
+  ```
     
 
 上面的路由表示 app 有三个标签页，每个标签页各有各的子路由。
@@ -53,18 +55,20 @@ react-native 的 navigation experimental 是 [navigator][1] 的继任，但因�
 有了路由数据，就可以渲染对应的 scene 了，怎么做？
 
 我们来写一个简单页面，它的路由数据是这样：
-
+  ```javascript
     {
       index: 0,
       routes: [{
         key: 'Want Home'
       }]
     }
-    
+  ```   
 
 我们只有一个页面，`index` 值表示这个页面处于激活状态中。
 
 页面组件如下：
+
+  ```javascript
 
     'use strict'
     import React from 'react'
@@ -99,7 +103,7 @@ react-native 的 navigation experimental 是 [navigator][1] 的继任，但因�
       }
     }
     export default Want
-    
+  ```   
     
 
 刷新 Simulator，我们能看到 `haha` 文本，如果你用的是 react-native 0.28 版本，还会看到如下的错误：
@@ -110,6 +114,7 @@ react-native 的 navigation experimental 是 [navigator][1] 的继任，但因�
 
 如果想给页面定义个 navigationBar，我们可以添加一个 `renderOverlay`：
 
+  ```javascript
       renderOverlay = (sceneProps) => {
         return (
           <NavigationHeader
@@ -137,7 +142,7 @@ react-native 的 navigation experimental 是 [navigator][1] 的继任，但因�
             />
         )
       }
-    
+   ```   
 
 刷新 simulator，我们能看到这样的界面：
 
@@ -153,6 +158,7 @@ react-native 的 navigation experimental 是 [navigator][1] 的继任，但因�
 
 先创建一个 `navigation.js` 的 reducer 文件，把上面的路由数据迁移过来：
 
+  ```javascript
     import { PUSH_ROUTE, POP_ROUTE } from '../actionTypes'
     import { NavigationExperimental } from 'react-native'
     const {StateUtils: NavigationStateUtils} = NavigationExperimental
@@ -181,11 +187,12 @@ react-native 的 navigation experimental 是 [navigator][1] 的继任，但因�
     }
     
     export default navigationState
-    
+   ```   
     
 
 再添加一个 `navigation.js` 的 action 文件：
 
+  ```javascript
     import { PUSH_ROUTE, POP_ROUTE } from '../actionTypes'
     
     export function push (route) {
@@ -200,10 +207,11 @@ react-native 的 navigation experimental 是 [navigator][1] 的继任，但因�
         type: POP_ROUTE
       }
     }
-    
+  ```    
 
 在 `Want` 组件中，我们通过 react-redux 提供的 `connect` 绑定 store 里的数据：
 
+  ```javascript
     'use strict'
     import React from 'react'
     import { View, Text, NavigationExperimental, TouchableHighlight } from 'react-native'
@@ -258,7 +266,7 @@ react-native 的 navigation experimental 是 [navigator][1] 的继任，但因�
       navigation: state.navigation
     })
     export default connect(mapStateToProps)(Want)
-    
+   ```   
     
 
 这样，我们就有了一个简陋的页面切换：
@@ -273,18 +281,19 @@ Chrome 控制台中的 log 如下：
 
 我们需要给 `NavigationHeader` 添加一个 `onNavigateBack`，它定义了用户点击返回键时的效果：
 
-          <NavigationHeader
-            {...sceneProps}
-            onNavigateBack={
-              () => this.props.dispatch(pop())
-            }
-            renderTitleComponent={() => (
-              <NavigationHeader.Title>
-                想吃
-              </NavigationHeader.Title>
-            )}
-            />
-    
+  ```javascript
+<NavigationHeader
+  {...sceneProps}
+  onNavigateBack={
+    () => this.props.dispatch(pop())
+  }
+  renderTitleComponent={() => (
+    <NavigationHeader.Title>
+      想吃
+    </NavigationHeader.Title>
+  )}
+  />
+  ```  
 
 结果如下图：
 
