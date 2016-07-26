@@ -42,11 +42,11 @@ tags:
 
 <div class="">
   <p>
-    Emmet 项目原来叫 Zen Coding。由俄罗斯前端开发工程师 Sergey Chikuyonok 开发，后来在 Google Code 上释出 <a href="http://code.google.com/p/zen-coding/">Zen Coding 项目</a>。2012年的时候，项目启用新名称 <a href="http://emmet.io/">Emmet</a>。
+    Emmet 项目原先叫 Zen Coding，2012年的时候，项目启用新名称 <a href="http://emmet.io/">Emmet</a>。
   </p>
   
   <p>
-    Emmet 官方支持<a href="http://emmet.io/download/">很多软件</a>，比如 Sublime Text、Notepad++、Dreamweaver、Eclipse、Adobe Brackets 等。<a href="https://github.com/mattn/emmet-vim/">Emmet.vim</a> 并非 Emmet 亲生，它由日本 <a href="http://mattn.kaoriya.net/">Yasuhiro Matsumoto</a> 开发。
+    Emmet 官方支持<a href="http://emmet.io/download/">很多文本编辑器/IDE</a>，但 <a href="https://github.com/mattn/emmet-vim/">Emmet.vim</a> 并非 Emmet 亲生，它是由日本 <a href="http://mattn.kaoriya.net/">Yasuhiro Matsumoto</a> 开发。
   </p>
   
   <h2 class="storycontent-h2">
@@ -64,29 +64,30 @@ tags:
   <p>
     将下载的压缩包解压到 .vim 目录下：
   </p>
-  
-  <pre><code>cd ~/.vim
-unzip emmet-vim.zip
-</code></pre>
-  
+{{< highlight bash >}}
+  cd ~/.vim
+  unzip emmet-vim.zip
+{{</ highlight >}}
   <p>
     如果你使用 <a href="http://www.vim.org/scripts/script.php?script_id=2332">pathogen.vim</a> 管理 Vim 插件：
   </p>
   
-  <pre><code>cd ~/.vim/bundle
-unzip /path/to/emmet-vim.zip
-</code></pre>
+{{< highlight bash >}}
+  cd ~/.vim/bundle
+  unzip /path/to/emmet-vim.zip
+{{</ highlight >}}
   
   <p>
     或者直接从 Github 库克隆一份：
   </p>
-  
-  <pre><code>cd ~/.vim/bundle
-git clone http://github.com/mattn/emmet-vim.git
-</code></pre>
+
+{{< highlight bash >}}
+  cd ~/.vim/bundle
+  git clone http://github.com/mattn/emmet-vim.git
+{{</ highlight >}}
   
   <p>
-    个人建议通过 Pathogen 或 <a href="http://www.zfanw.com/blog/vundle-vim-plugin-management.html">Vundle</a> 来安装管理 Vim 插件。
+    个人建议通过 Pathogen 或 <a href="http://www.zfanw.com/blog/vundle-vim-plugin-management.html">Vundle</a> 来安装。
   </p>
   
   <h2 class="storycontent-h2">
@@ -94,18 +95,19 @@ git clone http://github.com/mattn/emmet-vim.git
   </h2>
   
   <p>
-    以下内容译自 <a href="https://github.com/mattn/emmet-vim/blob/master/TUTORIAL">Emmet.vim tutorial</a>，感谢<a href="http://twitter.com/mattn_jp">作者</a>。
+    以下内容译自 <a href="https://github.com/mattn/emmet-vim/blob/master/TUTORIAL">Emmet.vim tutorial（Aug 6, 2013）</a>，感谢<a href="http://twitter.com/mattn_jp">作者</a>。
   </p>
   
   <h3>
-    1. 展开缩略词
+    1. 展开
   </h3>
   
   <p>
-    键入缩略词组 <code>div&gt;p#foo$*3&gt;a</code> 然后按快捷键 <kbd><c-y>,</kbd> &#8211; 指按 <<strong>Ctrl-y</strong>> 后再按<strong>逗号</strong>。
+    键入 <code>div&gt;p#foo$*3&gt;a</code> 然后按快捷键 <kbd>&lt;c-y&gt;,</kbd> &#8211; 表示 <<strong>Ctrl-y</strong>> 后再按<strong>逗号</strong>，不妨把 <kbd>Ctrl-y</kbd> 看成 emmet 指令的启动，就像 Vim 的 <kbd>:</kbd> 表示进入命令行模式。
   </p>
   
-  <pre><code>&lt;div&gt;
+{{< highlight html >}}
+&lt;div&gt;
     &lt;p id="foo1"&gt;
         &lt;a href=""&gt;&lt;/a&gt;
     &lt;/p&gt;
@@ -116,49 +118,52 @@ git clone http://github.com/mattn/emmet-vim.git
         &lt;a href=""&gt;&lt;/a&gt;
     &lt;/p&gt;
 &lt;/div&gt;
-</code></pre>
+{{< /highlight >}}
   
   <h3>
-    2. 包入
+    2. 外部包住
   </h3>
   
   <p>
     如下内容：
   </p>
   
-  <pre><code>test1
-test2
-test3
-</code></pre>
+{{< highlight text >}}
+  test1
+  test2
+  test3
+{{< /highlight >}}
   
   <p>
-    按大写的 <code>V</code> 进入 Vim 可视模式，“行选取”上面三行内容，然后按键 &#8216;<kbd><c-y>,</kbd>&#8216;，这时 Vim 的命令行会提示 <code>Tags:</code>，键入<code>ul&gt;li*</code>，然后按 <kbd>Enter</kbd>。
+    按大写的 <code>V</code> 进入 Vim 可视模式，“行选取”上面三行内容，然后按键 <kbd>&lt;c-y&gt;,</kbd>，这时 Vim 的命令行会提示 `Tags:`，键入 `ul&gt;li*`，然后按 <kbd>Enter</kbd>，结果如下：
   </p>
-  
-  <pre><code>&lt;ul&gt;
+
+{{< highlight html >}}
+&lt;ul&gt;
     &lt;li&gt;test1&lt;/li&gt;
     &lt;li&gt;test2&lt;/li&gt;
     &lt;li&gt;test3&lt;/li&gt;
 &lt;/ul&gt;
-</code></pre>
+{{</ highlight >}}
   
   <p>
-    而假如输入的 tag 是 &#8216;blockquote&#8217;，则结果会变成下面这样。
+    而假如输入的 tag 是 blockquote&#8217;，则结果会变成下面这样：
   </p>
   
-  <pre><code>&lt;blockquote&gt;
+{{< highlight html >}}
+&lt;blockquote&gt;
     test1
     test2
     test3
 &lt;/blockquote&gt;
-</code></pre>
+{{</ highlight >}}
   
   <h3>
     3.插入模式下根据光标位置选中整个标签
   </h3>
   
   <p>
-    按 &#8216;<kbd><c-y>d</kbd>&#8216;
+    按 <kbd>&lt;c-y&gt;d</kbd>
   </p>
   
   <h3>
@@ -166,7 +171,7 @@ test3
   </h3>
   
   <p>
-    按 &#8216;<kbd><c-y>D</kbd>&#8216;
+    按 <kbd>&lt;c-y&gt;D</kbd>
   </p>
   
   <h3>
@@ -174,7 +179,7 @@ test3
   </h3>
   
   <p>
-    插入模式下按 &#8216;<kbd><c-y>n</kbd>&#8216;
+    插入模式下按 <kbd>&lt;c-y&gt;n</kbd>
   </p>
   
   <h3>
@@ -182,7 +187,7 @@ test3
   </h3>
   
   <p>
-    插入模式下按 &#8216;<kbd><c-y>N</kbd>&#8216;
+    插入模式下按 <kbd>&lt;c-y&gt;N</kbd>
   </p>
   
   <h3>
@@ -193,18 +198,19 @@ test3
     移动光标到 img 标签。
   </p>
   
-  <pre><code>&lt;img src="foo.png" /&gt;
-</code></pre>
+  {{< highlight html >}}
+  &lt;img src="foo.png" /&gt;
+  {{</ highlight >}}
   
   <p>
-    然后按 &#8216;<kbd><c-y>i</kbd>&#8216;
+    然后按 <kbd>&lt;c-y&gt;i</kbd>，结果如下：
   </p>
   
-  <pre><code>&lt;img src="foo.png" width="32" height="48" /&gt;
-</code></pre>
+  {{< highlight html >}}&lt;img src="foo.png" width="32" height="48" /&gt;
+{{</ highlight >}}
   
   <p>
-    注：这个据个人使用经历，仅适用本地图片，互联网上的图片并无法取得其大小。
+    注：仅适用本地图片，互联网上的图片并无法取得其大小。
   </p>
   
   <h3>
@@ -212,49 +218,49 @@ test3
   </h3>
   
   <p>
-    选择包含 &#8216;<li>&#8217; 的行
+    选择下面的所有 `&ltli&gt;` 行
   </p>
   
-  <pre><code>&lt;ul&gt;
+{{< highlight html >}}
+&lt;ul&gt;
     &lt;li class="list1"&gt;&lt;/li&gt;
     &lt;li class="list2"&gt;&lt;/li&gt;
     &lt;li class="list3"&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</code></pre>
+{{</ highlight >}}
   
   <p>
-    然后按 &#8216;<kbd><c-y>m</kbd>&#8216;
+    然后按 <kbd>&lt;c-y&gt;m</kbd>，结果如下：
   </p>
   
-  <pre><code>&lt;ul&gt;
+{{< highlight html >}}&lt;ul&gt;
     &lt;li class="list1"&gt;&lt;/li&gt;&lt;li class="list2"&gt;&lt;/li&gt;&lt;li class="list3"&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</code></pre>
+{{</ highlight >}}
   
   <h3>
     9.移除标签对
   </h3>
   
   <p>
-    移动光标到块中
+    首先，移动光标到块中
   </p>
   
-  <pre><code>&lt;div class="foo"&gt;
+{{< highlight html >}}&lt;div class="foo"&gt;
     &lt;a&gt;cursor is here&lt;/a&gt;
 &lt;/div&gt;
-</code></pre>
+{{</ highlight >}}
   
   <p>
-    在插入模式下按 &#8216;<kbd><c-y>k</kbd>&#8216;。
+    然后在插入模式下按 <kbd>&lt;c-y&gt;k</kbd>，结果如下：
   </p>
-  
-  <pre><code>&lt;div class="foo"&gt;
 
+{{< highlight html >}}&lt;div class="foo"&gt;
 &lt;/div&gt; 
-</code></pre>
+{{</ highlight >}}
   
   <p>
-    再次按 &#8216;<kbd><c-y>k</kbd>&#8216; 则上述连 div 标签块都没了。
+    再次按 <kbd>&lt;c-y&gt;k</kbd> 则上面代码块中连 div 标签块都会被移除。
   </p>
   
   <h3>
@@ -262,60 +268,60 @@ test3
   </h3>
   
   <p>
-    移动光标到块中
+    首先，移动光标到块中
   </p>
   
-  <pre><code>&lt;div class="foo"&gt;
+  {{< highlight html >}}&lt;div class="foo"&gt;
     cursor is here
 &lt;/div&gt;
-</code></pre>
+{{</ highlight >}}
   
   <p>
-    在插入模式下按 &#8216;<kbd><c-y>j</kbd>&#8216;。
+    在插入模式下按 <kbd>&lt;c-y&gt;j</kbd>：
   </p>
   
-  <pre><code>&lt;div class="foo"/&gt;
-</code></pre>
+  {{< highlight html >}}&lt;div class="foo"/&gt;
+{{</ highlight >}}
   
   <p>
-    再次按 &#8216;<kbd><c-y>j</kbd>&#8216;。
+    再次按 <kbd>&lt;c-y&gt;j</kbd>：
   </p>
   
-  <pre><code>&lt;div class="foo"&gt;
+  {{< highlight html >}}&lt;div class="foo"&gt;
 
 &lt;/div&gt;
-</code></pre>
+{{</ highlight >}}
   
   <h3>
     11.切换注释
   </h3>
   
   <p>
-    移动光标到块中
+    首先，移动光标到块中
   </p>
   
-  <pre><code>&lt;div&gt;
+  {{< highlight html >}}&lt;div&gt;
     hello world
 &lt;/div&gt;
-</code></pre>
+{{</ highlight >}}
   
   <p>
-    插入模式中按 &#8216;<kbd><c-y>/</kbd>&#8216;。
+    插入模式中按 <kbd>&lt;c-y&gt;/</kbd>：
   </p>
   
-  <pre><code>&lt;!-- &lt;div&gt;
+  {{< highlight html >}}&lt;!-- &lt;div&gt;
     hello world
 &lt;/div&gt; --&gt;
-</code></pre>
+{{</ highlight >}}
   
   <p>
-    再按 &#8216;<kbd><c-y>/</kbd>&#8216;。
+    再按 <kbd>&lt;c-y&gt;/</kbd> 则恢复：
   </p>
   
-  <pre><code>&lt;div&gt;
+  {{< highlight html >}}&lt;div&gt;
     hello world
 &lt;/div&gt;
-</code></pre>
+{{</ highlight >}}
   
   <h3>
     12.从 URL 地址生成锚
@@ -325,15 +331,15 @@ test3
     将光标移至 URL
   </p>
   
-  <pre><code>http://www.google.com/
-</code></pre>
+  {{< highlight html >}}http://www.google.com/
+{{</ highlight >}}
   
   <p>
-    按 &#8216;<kbd><c-y>a</kbd>&#8216;
+    按 <kbd>&lt;c-y&gt;a</kbd>
   </p>
   
-  <pre><code>&lt;a href="http://www.google.com"&gt;&lt;/a&gt;
-</code></pre>
+  {{< highlight html >}}&lt;a href="http://www.google.com"&gt;&lt;/a&gt;
+{{</ highlight >}}
   
   <h3>
     13.从 URL 地址生成引用文本
@@ -343,19 +349,19 @@ test3
     移动光标到 URL
   </p>
   
-  <pre><code>http://github.com/
-</code></pre>
+  {{< highlight html >}}http://github.com/
+{{</ highlight >}}
   
   <p>
-    按 &#8216;<kbd><c-y>A</kbd>&#8216;
+    按 <kbd>&lt;c-y&gt;A</kbd>
   </p>
   
-  <pre><code>&lt;blockquote class="quote"&gt;
+  {{< highlight html >}}&lt;blockquote class="quote"&gt;
     &lt;a href="http://github.com/"&gt;&lt;/a&gt;&lt;br /&gt;
     &lt;p&gt;...&lt;/p&gt;
     &lt;cite&gt;http://github.com/&lt;/cite&gt;
 &lt;/blockquote&gt;
-</code></pre>
+{{</ highlight >}}
   
   <h3>
     14.安装 Emmet.vim
@@ -373,7 +379,7 @@ test3
     你可以为你用的语言自定义行为。
   </p>
   
-  <pre><code># cat &gt;&gt; ~/.vimrc
+  {{< highlight html >}}# cat &gt;&gt; ~/.vimrc
 let g:user_emmet_settings = {
 \ 'php' : {
 \ 'extends' : 'html',
@@ -386,22 +392,22 @@ let g:user_emmet_settings = {
 \ 'extends' : 'html',
 \ },
 \}
-</code></pre>
+{{</ highlight >}}
   
   <h2 class="storycontent-h2">
     <span id="i">余话</span><a title="标题链接地址" class="u-floatRight hidden" id="heyi" href="#i"><span class="" aria-hidden="true">#</span></a>
   </h2>
   
   <p>
-    除开以上帮助，你还可以按<strong>冒号</strong>进入 Vim 命令行模式，然后输入 <code>help emmet</code> 在新窗口中调用 Emmet 的帮助内容。
+    除了以上帮助，你还可以按<strong>:</strong>进入 Vim 命令行模式，然后输入 <code>help emmet</code> 在新窗口中调用 Emmet 的帮助内容。
   </p>
   
   <p>
     Emmet 在其他编辑器的触发快捷键一般是 <kbd>Tab</kbd> 或 <kbd>Ctrl+e</kbd>，如果你更习惯它们，也可以在 .vimrc 文件中加入下一行命令来修改它的触发快捷键：
   </p>
   
-  <pre><code>let g:user_emmet_expandabbr_key = '&lt;Tab&gt;'
-</code></pre>
+  {{< highlight html >}}let g:user_emmet_expandabbr_key = '&lt;Tab&gt;'
+{{</ highlight >}}
   
   <p>
     这样就可以按 <kbd>Tab</kbd> 来扩展了。
