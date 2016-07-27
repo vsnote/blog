@@ -1,5 +1,5 @@
 ---
-title: webpack 使用教程
+title: webpack 教程
 author: 陈 三
 layout: post
 date: 2015-08-28T13:19:03+00:00
@@ -22,7 +22,7 @@ tags:
   
   <ul class="toc-list nav" role="menu">
     <li class="toc-list__item" role="menuitem">
-      <a href="#_8211_webpack"><span class="toc_number toc_depth_1">1</span> 起手式 &#8211; 安装 webpack</a>
+      <a href="#_8211_webpack"><span class="toc_number toc_depth_1">1</span> 安装 webpack</a>
     </li>
     <li class="toc-list__item" role="menuitem">
       <a href="#i"><span class="toc_number toc_depth_1">2</span> 初始化项目</a>
@@ -46,16 +46,13 @@ tags:
 </div>
 
 <div class="">
+  
   <p>
-    我最近大量使用 <a href="https://www.zfanw.com/blog/tag/jspm">jspm</a>，但因为它搭建的环境里，测试代码不好写，而项目又有写测试的计划，所以决定改用 <a href="http://webpack.github.io/">webpack</a>。
+    我还记得我刚接触 webpack 时的感受：一头雾水。
   </p>
   
   <p>
-    我还记得我刚接触 webpack 时的心情：零零碎碎。
-  </p>
-  
-  <p>
-    就没个简单、现成、完整的方案？我是说，我真的不太关心 js 文件要配什么加载器。我只想快一点把开发环境搭起来好干活。总之，几经折腾，我嫌麻烦放弃了 webpack 这个方案。
+    我是说，我真的不太关心 js 文件要配哪些加载器。我只想快一点把开发环境搭起来干活。总之，几经折腾，我嫌麻烦放弃了 webpack 这个方案。
   </p>
   
   <p>
@@ -77,25 +74,27 @@ tags:
   </p>
   
   <p>
-    在 webpack 里，所有类型的文件都可以是模块，包含我们最常见的 JavaScript，以及 css 文件、图片、json 文件等等。通过 webpack 的各种加载器，我们可以更有效地管理这些文件。
+    在 webpack 里，所有类型的文件都可以是模块，包括我们最常见的 JavaScript，及 CSS 文件、图片、json 文件等等。通过 webpack 的各种加载器，我们可以<strong>更高效地管理这些文件</strong>。
   </p>
   
   <h2 class="storycontent-h2">
-    <span id="_8211_webpack">起手式 &#8211; 安装 webpack</span><a title="标题链接地址" class="u-floatRight hidden" id="hey_8211_webpack" href="#_8211_webpack"><span class="" aria-hidden="true">#</span></a>
+    <span id="_8211_webpack">安装 webpack</span><a title="标题链接地址" class="u-floatRight hidden" id="hey_8211_webpack" href="#_8211_webpack"><span class="" aria-hidden="true">#</span></a>
   </h2>
   
   <p>
-    我们通过 <code>npm</code> 全局安装 webpack：
+    我们通过 <code>npm</code> 在全局环境下安装 webpack：
   </p>
-  
-  <pre><code>npm install webpack -g
+  {{< highlight bash >}}
+    npm install webpack -g
+  {{< /highlight >}}
 </code></pre>
   
   <p>
     安装完成后，我们可以使用 <code>webpack</code> 命令，执行
   </p>
-  
-  <pre><code>webpack --help
+  {{< highlight bash >}}
+    webpack --help
+  {{< /highlight >}}
 </code></pre>
   
   <p>
@@ -103,10 +102,11 @@ tags:
   </p>
   
   <p>
-    <strong>不过，通常建议在项目目录中安装一份本地的 webpack：</strong>
+    <strong>不过，建议在项目下安装一份局域的 webpack：</strong>
   </p>
-  
-  <pre><code>npm install webpack --save-dev
+  {{< highlight bash >}}
+    npm install webpack --save-dev
+  {{< /highlight >}}
 </code></pre>
   
   <p>
@@ -134,8 +134,10 @@ tags:
       <p>
         创建一个 package.json 文件，用于保存项目版本、依赖关系等
       </p>
+      {{< highlight bash >}}
+  npm init -y
+      {{< /highlight >}}
       
-      <pre><code>npm init
 </code></pre>
     </li>
     
@@ -143,14 +145,15 @@ tags:
       <p>
         在当前目录下安装 webpack
       </p>
-      
-      <pre><code>npm install webpack --save-dev
+      {{< highlight bash >}}
+  npm install webpack --save-dev
+      {{< /highlight >}}
 </code></pre>
     </li>
   </ol>
   
   <p>
-    之后，我们的项目下有两个内容：
+    这时，我们的项目下有两个内容：
   </p>
   
   <ol>
@@ -166,16 +169,17 @@ tags:
     我们还需要一个 <code>index.html</code> 文件，示例如下：
   </p>
   
-  <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;title&gt;webpack 教程&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+{{< highlight html >}}
+  &lt;!DOCTYPE html&gt;
+  &lt;html lang="en"&gt;
+  &lt;head&gt;
+      &lt;meta charset="UTF-8"&gt;
+      &lt;title&gt;webpack 教程&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;
+{{< /highlight >}}
   
   <p>
     现在，我们可以通过 <a href="https://github.com/tapio/live-server">live-server</a> 等访问到 index.html 页面。
@@ -190,20 +194,21 @@ tags:
   </h2>
   
   <p>
-    在单页面应用里，项目通常会有一个入口（entry）文件，假设是 <code>main.js</code>，我们通过配置 webpack 来指明它的位置。
+    单页面应用里，项目通常会有一个入口（entry）文件，假设是 <code>main.js</code>，我们通过配置 webpack 来指明它的位置。
   </p>
   
   <p>
     首先，在项目根目录新建一个 <code>webpack.config.js</code>，这是 webpack 默认的配置文件名称，添加以下内容：
   </p>
   
-  <pre><code>module.exports = {
-  entry: './main.js'
-};
-</code></pre>
+  {{< highlight javascript >}}
+  module.exports = {
+    entry: './main.js'
+  };
+  {{< /highlight >}}
   
   <p>
-    这时在项目根目录执行 <code>webpack</code>，会提示我们，
+    尝试在项目根目录执行 <code>webpack</code>，会提示我们，
   </p>
   
   <blockquote>
@@ -213,22 +218,23 @@ tags:
   </blockquote>
   
   <p>
-    因为我们只是设定了入口（entry），还没有设定一个输出文件的路径与名称。
+    因为我们只是设定了入口（entry），还没有指定一个输出文件的路径与名称。
   </p>
   
   <p>
     在 <code>webpack.config.js</code> 中添加一个 <code>output</code>：
   </p>
   
-  <pre><code>module.exports = {
-    entry: './main.js',
-    output: {
-        path: __dirname, // 输出文件的保存路径
-        filename: 'bundle.js' // 输出文件的名称
-    }
-}
-</code></pre>
-  
+  {{< highlight javascript >}}
+  module.exports = {
+      entry: './main.js',
+      output: {
+          path: __dirname, // 输出文件的保存路径
+          filename: 'bundle.js' // 输出文件的名称
+      }
+  }
+  {{< /highlight >}}
+
   <p>
     现在在项目里执行 <code>webpack</code> 命令，我们的根目录下会多出一个 <code>bundle.js</code> 文件：
   </p>
@@ -240,8 +246,8 @@ tags:
   <p>
     接下来，在 index.html 中引用 bundle.js 文件：
   </p>
-  
-  <pre><code>&lt;!DOCTYPE html&gt;
+  {{< highlight html >}}
+ &lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -250,19 +256,19 @@ tags:
 &lt;body&gt;
   &lt;script src="./bundle.js"&gt;&lt;/script&gt; &lt;!-- 在 index.html 文件中添加这一行代码 --&gt;
 &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+&lt;/html&gt; 
+  {{< /highlight >}}
   
   <p>
     大功告成。
   </p>
   
   <p>
-    这是 webpack 与 browserify 一类工具的特点，它们在 HTML 文件中直接引用构建后的 js 文件，而不是源文件。
+    这是 webpack 一类工具的特点，它们在 HTML 文件直接引用构建后的 js 文件，而不是源文件。
   </p>
   
   <p>
-    当然，这可能会引发性能问题，毕竟，如果每一点文件修改都会导致整个 bundle.js 文件重新构建的话，碰上大一点的项目，有几千个源文件要编译，编译速度降下来是必然的。webpack 有它的解决办法，具体参见<a href="https://webpack.github.io/docs/build-performance.html">它的文档</a>。
+    当然，这可能会引发性能问题，毕竟，如果每一点文件修改都会导致整个 bundle.js 文件重新构建的话，碰上大一点的项目，有几千个源文件要编译，编译速度可能很慢。webpack 有它的解决办法，具体参见<a href="https://webpack.github.io/docs/build-performance.html">它的文档</a>。
   </p>
   
   <h2 class="storycontent-h2">
@@ -309,8 +315,9 @@ tags:
         在全局环境中安装 webpack-dev-server：
       </p>
       
-      <pre><code>npm install webpack-dev-server -g
-</code></pre>
+{{< highlight bash >}}
+  npm install webpack-dev-server -g
+{{< /highlight >}}
     </li>
     
     <li>
@@ -318,7 +325,10 @@ tags:
         在项目根目录下执行命令：
       </p>
       
-      <pre><code>$ webpack-dev-server
+  {{< highlight bash >}}
+    $ webpack-dev-server
+  {{< /highlight >}}
+
 </code></pre>
       
       <p>
@@ -391,12 +401,12 @@ tags:
   <p>
     webpack 并不是包管理器，所以如果我们要使用第三方库，需要借助 npm。比如，在项目里安装 <code>jQuery</code>：
   </p>
-  
-  <pre><code>npm install jquery --save
-</code></pre>
+  {{< highlight bash >}}
+  npm install jquery --save
+  {{< /highlight >}}
   
   <p>
-    这样我们在当前项目目录下安装了 jquery，并将它写入 package.json 里的依赖里。
+    这样我们在当前项目目录下安装了 jQuery，并将它写入 package.json 里的依赖里。
   </p>
   
   <h2 class="storycontent-h2">
@@ -408,10 +418,11 @@ tags:
   </h3>
   
   <p>
-    如果我想用 ES6 的方式引入某个 es6 模块，比如：
+    如果我想用 ES6 的方式引入 jQuery 模块，比如：
   </p>
-  
-  <pre><code>import $ from 'whatever';
+  {{< highlight bash >}}
+    import $ from 'jquery'
+  {{< /highlight >}}
 </code></pre>
   
   <p>
@@ -423,8 +434,9 @@ tags:
       <p>
         安装 babel-loader
       </p>
-      
-      <pre><code>npm install babel-loader babel-core babel-preset-es2015 --save-dev
+  {{< highlight bash >}}
+   npm install babel-loader babel-core babel-preset-es2015 --save-dev 
+  {{< /highlight >}}
 </code></pre>
     </li>
     
@@ -437,39 +449,29 @@ tags:
         在 <code>module.exports</code> 值中添加 <code>module</code>：
       </p>
       
-      <pre><code>module.exports = {
-entry: {
-    app: ['./main.js']
-},
-output: {
-    filename: 'bundle.js'
-},
-module: {
-    loaders: [{
-        test: /\.js$/,
-        loaders: ['babel?presets[]=es2015'],
-        exclude: /node_modules/
-    }]
+{{< highlight javascript >}}
+module.exports = {
+  entry: {
+      app: ['./main.js']
+  },
+  output: {
+      filename: 'bundle.js'
+  },
+  module: {
+      loaders: [{
+          test: /\.js$/,
+          loaders: ['babel?presets[]=es2015'],
+          exclude: /node_modules/
+      }]
+  }
 }
-}
-</code></pre>
+{{< /highlight >}}
       
       <p>
-        这样我们就可以在我们的 js 文件中使用 ES6 语法，babel-loader 负责翻译。
+        这样我们就可以在我们的 js 文件中使用 ES6 语法，babel-loader 会负责编译成浏览器可以识别的格式。
       </p>
     </li>
   </ol>
-  
-  <p>
-    上面的方法，是在 webpack.config.js 文件中给某一类型文件定义加载器，我们还可以在代码中直接指定：
-  </p>
-  
-  <pre><code>import $ from 'babel!whatever'
-</code></pre>
-  
-  <p>
-    当然，前一种方法会更优雅。
-  </p>
   
   <h3>
     CSS 加载器
@@ -479,8 +481,9 @@ module: {
     我们可以按传统方法使用 CSS，即在 HTML 文件中添加：
   </p>
   
-  <pre><code>&lt;link rel="stylesheet" href="style/app.css"&gt;
-</code></pre>
+  {{< highlight html >}}
+  &lt;link rel="stylesheet" href="style/app.css"&gt;
+  {{< /highlight >}}
   
   <p>
     但 webpack 里，CSS 同样可以模块化，使用 <code>import</code> 导入。
@@ -496,8 +499,9 @@ module: {
         安装 CSS 相关的加载器
       </p>
       
-      <pre><code>npm install style-loader css-loader --save-dev
-</code></pre>
+  {{< highlight bash >}}
+  npm install style-loader css-loader --save-dev
+  {{< /highlight >}}
     </li>
     
     <li>
@@ -505,15 +509,15 @@ module: {
         配置 webpack.config.js 文件
       </p>
       
-      <pre><code>{
-// ...
-module: {
-    loaders: [
-        { test: /\.css$/, loaders: ['style', 'css'] }
-    ]
-}
-}
-</code></pre>
+  {{< highlight javascript >}}
+  {
+    module: {
+        loaders: [
+            { test: /\.css$/, loaders: ['style', 'css'] }
+        ]
+    }
+  } 
+  {{< /highlight >}}
     </li>
     
     <li>
@@ -521,20 +525,15 @@ module: {
         在 main.js 文件中引入 css
       </p>
       
-      <pre><code>import'./style/app.css';
-</code></pre>
+{{< highlight javascript >}}
+   import'./style/app.css';
+{{< /highlight >}}
     </li>
   </ol>
   
   <p>
     这样，在执行 <code>webpack</code> 后，我们的 CSS 文件就会被打包进 bundle.js 文件中，如果不想它们被打包进去，可以使用 <a href="https://github.com/webpack/extract-text-webpack-plugin">extract text 扩展</a>。
   </p>
-  
-  <ol>
-    <li>
-      重启 webpack-dev-server
-    </li>
-  </ol>
   
   <h3>
     模块化 CSS
@@ -562,8 +561,10 @@ module: {
         安装 autoprefixer-loader
       </p>
       
-      <pre><code>npm install autoprefixer-loader --save-dev
-</code></pre>
+{{< highlight bash >}}
+npm install autoprefixer-loader --save-dev
+{{< /highlight >}}
+
     </li>
     
     <li>
@@ -571,12 +572,12 @@ module: {
         配置 webpack.config.js
       </p>
       
-      <pre><code>loaders: [{
-test: /\.css$/,
-loader: 'style!css!autoprefixer?{browsers:["last 2 version", "&gt; 1%"]}',
-//...
-}]
-</code></pre>
+{{< highlight javascript >}}
+  loaders: [{
+    test: /\.css$/,
+    loader: 'style!css!autoprefixer?{browsers:["last 2 version", "&gt; 1%"]}',
+  }]
+{{< /highlight >}}
     </li>
     
     <li>
@@ -588,8 +589,9 @@ loader: 'style!css!autoprefixer?{browsers:["last 2 version", "&gt; 1%"]}',
         假如我们在 CSS 中写了 <code>body { display: flex; }</code> 规则，再查看 <code>bundle.js</code> 文件的话，我们能看到类似如下的代码：
       </p>
       
-      <pre><code>body {\n\tdisplay: -webkit-box;\n\tdisplay: -webkit-flex;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n}
-</code></pre>
+{{< highlight css >}}
+body {\n\tdisplay: -webkit-box;\n\tdisplay: -webkit-flex;\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n}
+{{< /highlight >}}
     </li>
   </ol>
   
@@ -601,11 +603,12 @@ loader: 'style!css!autoprefixer?{browsers:["last 2 version", "&gt; 1%"]}',
     图片同样可以是模块，但使用的是 <a href="https://github.com/webpack/file-loader">file loader</a> 或者 <a href="https://github.com/webpack/url-loader">url loader</a>，后者会根据定义的大小范围来判断是否使用 data url。
   </p>
   
-  <pre><code>import loadingIMG from 'file!../img/loading.gif'
+{{< highlight javascript >}}
+  import loadingIMG from 'file!../img/loading.gif'
 
-React.render(&lt;img src={loadingIMG} /&gt;, document.getElementById('app'));
-</code></pre>
-  
+  React.render(&lt;img src={loadingIMG} /&gt;, document.getElementById('app'));
+{{< /highlight >}}
+
   <h2 class="storycontent-h2">
     <span id="i-5">打包、构建</span><a title="标题链接地址" class="u-floatRight hidden" id="heyi-5" href="#i-5"><span class="" aria-hidden="true">#</span></a>
   </h2>
@@ -613,9 +616,9 @@ React.render(&lt;img src={loadingIMG} /&gt;, document.getElementById('app'));
   <p>
     项目结束后，代码要压缩、混淆、合并等，只需要在命令行执行：
   </p>
-  
-  <pre><code>webpack
-</code></pre>
+  {{< highlight bash >}}
+    $ webpack
+  {{< /highlight >}}
   
   <p>
     即可，webpack 根据 webpack.config.js 文件中的配置路径、构建文件名生成相应的文件。通常，我们会额外定义一个专门用于生产环境的配置文件，比如 <strong>webpack.production.config.js</strong>，其中可以做许多代码优化。
