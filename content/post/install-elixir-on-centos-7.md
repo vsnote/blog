@@ -44,6 +44,14 @@ Elixir 在 github 上有提供[预编译包](https://github.com/elixir-lang/elix
   export PATH="$PATH:/home/sam/elixir-1.3.2/bin"
 {{< /highlight >}}
 
+命令行下敲入：
+
+{{< highlight bash >}}
+  $ elixir -v
+{{< /highlight >}}
+
+即可查看 elixir 是否安装成功，及成功安装的版本。
+
 这里，我把 elixir 安装在用户主目录下。
 
 此后要升级 elixir，也是按照一样的步骤操作。
