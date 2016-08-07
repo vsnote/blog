@@ -19,6 +19,7 @@
   </article>
   <div>
     <a href="https://github.com/chenxsan/blog/issues/new?title={{ .Title }}&body={{ .Permalink }}">报告问题</a>
+    <a href="https://github.com/chenxsan/blog/edit/master/content/post/{{ substr .URL 0 -5}}.md" title="修订原文">修订</a>
   </div>
 
   {{ template "_internal/disqus.html" . }}
