@@ -298,6 +298,12 @@ a {
   .article-item {
     margin-bottom: 35px;
   }
+  #TableOfContents > ul {
+    list-style-type: none;
+    padding-left: 0;
+    background: #eee;
+    padding: 20px;
+  }
 }
 /**
  * 旧有 wordpress 样式

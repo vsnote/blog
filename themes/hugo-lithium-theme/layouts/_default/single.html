@@ -13,6 +13,8 @@
     <span class="article-date">{{ .Date.Format "January 1, 2006" }}</span>
     {{ end }}
 
+      {{ .TableOfContents }}
+
     <div class="article-content">
       {{ .Content }}
     </div>
