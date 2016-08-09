@@ -304,6 +304,9 @@ a {
     background: #eee;
     padding: 20px;
   }
+  #TableOfContents > ul a {
+    text-decoration: none;
+  }
 }
 /**
  * 旧有 wordpress 样式
