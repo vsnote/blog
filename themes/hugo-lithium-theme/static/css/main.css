@@ -38,7 +38,17 @@ a {
   background: #f5f5f5;
   border-bottom: 1px solid #eaeaea;
 }
-
+#TableOfContents > ul {
+  list-style-type: none;
+  padding-left: 0;
+  background: #eee;
+  padding: 20px;
+}
+#TableOfContents li a {
+  text-decoration: none;
+  color: rgb(0, 0, 238);
+  border-bottom: none;
+}
 .nav {
   max-width: 800px;
   margin: 0 auto;
@@ -297,15 +307,6 @@ a {
   }
   .article-item {
     margin-bottom: 35px;
-  }
-  #TableOfContents > ul {
-    list-style-type: none;
-    padding-left: 0;
-    background: #eee;
-    padding: 20px;
-  }
-  #TableOfContents > ul a {
-    text-decoration: none;
   }
 }
 /**
