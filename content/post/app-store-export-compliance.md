@@ -25,3 +25,5 @@ url = "app-store-export-compliance.html"
 3. French import declaration
 
 我想了想，这三样我肯定是一样都拿不出，那还是选 `false` 吧。
+
+2016-08-13 更新：实践证明，选 `false` 也是可以通过 App Store 审核的。
